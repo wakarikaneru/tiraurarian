@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Target:</strong>
+  <%= @good.target_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @good.user_id %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @good.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_admin_good_path(@good) %> |
+<%= link_to 'Back', admin_goods_path %>

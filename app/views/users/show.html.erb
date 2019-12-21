@@ -1,0 +1,94 @@
+<div id="notice" class="notice"><%= notice %></div>
+
+<div class="user-container">
+
+  <div class="user">
+
+    <div>
+      <%= image_tag @user.avatar.url(:thumb_large), class: "user-img-xlarge" %>
+    </div>
+
+    <div class="user-info">
+
+      <div class="user-control">
+        <% if @followed.nil? %>
+          <%= form_for(@follow) do |form| %>
+            <%= form.hidden_field :target_id %>
+            <%= form.submit "フォロー", class: "btn btn-primary" %>
+          <% end %>
+        <% else %>
+          <%= form_for(@followed, method: :delete) do |form| %>
+            <%= form.hidden_field :target_id %>
+            <%= form.submit "フォロー解除", class: "btn btn-danger" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="user-name">
+        <div>[<%= @user.id %>] <%= @user.name %></div>
+      </div>
+
+      <div class="user-desc">
+        <div><%= @user.description %></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="tweet-container">
+
+  <% @user_tweets.each do |tweet| %>
+    <div class="tweet">
+
+      <%= link_to tweet.user, class: "link-item" do %>
+        <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+      <% end %>
+
+      <%= link_to tweet, class: "link-item" do %>
+        <div class="hukidasi">
+
+          <% if tweet.parent_id? && tweet.parent_id != 0 %>
+            <div class="content-desc">
+              <% if !Tweet.find_by(id: tweet.parent_id).nil? %>
+                <div class="parent">
+                  <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <%= Tweet.find(tweet.parent_id).content %>
+                </div>
+              <% else %>
+                <div class="parent">
+                  <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 削除されました
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="content">
+            <% if tweet.image? %>
+              <div class="content-image">
+                <%= image_tag tweet.image.url(:thumb) %>
+              </div>
+            <% end %>
+            <div class="content-text">
+              <%= tweet.content %>
+            </div>
+          </div>
+          <div class="content-desc">
+            <div class="name"><%= tweet.user.name %></div>
+            <!--<div class="datetime"><%= tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>-->
+          </div>
+          <div class="content-desc right">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= Tweet.where(parent_id: tweet.id).size %> |
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= Good.where(target_id: tweet.id).size %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
+
+</div>
+
+<%= link_to "Back", root_path %>

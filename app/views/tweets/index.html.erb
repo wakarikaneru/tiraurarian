@@ -1,0 +1,8 @@
+<div id="notice" class="notice"><%= notice %></div>
+
+<div class="tweet-form">
+  <p class="prompt">今なにしてる？………ごめん。</p>
+  <%= render "form", tweet: @new_tweet %>
+</div>
+
+<%= render "tweets", tweets: @tweets %>

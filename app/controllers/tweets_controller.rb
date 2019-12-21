@@ -1,0 +1,120 @@
+class TweetsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+
+  # GET /tweets
+  # GET /tweets.json
+  def index
+
+    case params[:mode]
+      when "root" then
+        @tweets = Tweet.where(parent_id: 0).limit(100).order(id: "DESC")
+      when "mypage" then
+        @tweets = Tweet.where(user_id: current_user.id).limit(100).order(id: "DESC")
+      when "new" then
+        @tweets = Tweet.limit(100).order(id: "DESC")
+      when "follow" then
+        @tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).limit(100).order(id: "DESC")
+      when "good" then
+        @tweets = Tweet.limit(100).order(id: "DESC")
+      else
+        @tweets = Tweet.where(parent_id: 0).limit(100).order(id: "DESC")
+    end
+
+    @new_tweet = Tweet.new
+    @new_tweet.parent_id = 0
+  end
+
+  # GET /tweets/1
+  # GET /tweets/1.json
+  def show
+    @root_tweets = []
+
+    t = Tweet.find_by(id: @tweet.parent_id)
+    while !t.nil? && !t.parent_id.nil? && t.id != 0 do
+      @root_tweets.unshift(t)
+      t = Tweet.find_by(id: t.parent_id)
+    end
+
+    @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC")
+    @new_tweet = Tweet.new
+    @new_tweet.parent_id = @tweet.id
+
+    @good = Good.new
+    @good.target_id = @tweet.id
+
+    @gooded = Good.find_by(user_id: current_user.id, target_id: @tweet.id)
+  end
+
+  # GET /tweets/new
+  def new
+    @tweet = Tweet.new
+  end
+
+  # GET /tweets/1/edit
+  def edit
+  end
+
+  # POST /tweets
+  # POST /tweets.json
+  def create
+    @tweet = Tweet.new(tweet_params)
+
+    @tweet.user_id = current_user.id
+    @tweet.create_datetime = Time.current
+
+    respond_to do |format|
+      if @tweet.save
+        format.html { redirect_to :back, notice: 'Tweet was successfully created.' }
+        format.json { render :show, status: :created, location: @tweet }
+      else
+        format.html { render :new }
+        format.json { render json: @tweet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /tweets/1
+  # PATCH/PUT /tweets/1.json
+  def update
+    if @tweet.user_id == current_user.id
+      respond_to do |format|
+        if @tweet.update(tweet_params)
+          format.html { redirect_to  @tweet, notice: 'Tweet was successfully updated.' }
+          format.json { render :show, status: :ok, location: @tweet }
+        else
+          format.html { render :edit }
+          format.json { render json: @tweet.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to @tweet, notice: "You don't have permission."
+    end
+  end
+
+  # DELETE /tweets/1
+  # DELETE /tweets/1.json
+  def destroy
+    if @tweet.user_id == current_user.id
+      @tweet.destroy
+      msg = "Tweet was successfully destroyed."
+    else
+      msg = "You don't have permission."
+    end
+    respond_to do |format|
+      format.html { redirect_to :back, notice: msg }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_tweet
+      @tweet = Tweet.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def tweet_params
+      params.require(:tweet).permit(:id, :user_id, :parent_id, :content, :create_datetime, :image)
+    end
+end

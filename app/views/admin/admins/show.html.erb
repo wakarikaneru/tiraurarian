@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @admin.user_id %>
+</p>
+
+<p>
+  <strong>Permission:</strong>
+  <%= @admin.permission %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @admin.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_admin_admin_path(@admin) %> |
+<%= link_to 'Back', admin_admins_path %>

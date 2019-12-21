@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @tweet.id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @tweet.user_id %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @tweet.parent_id %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @tweet.content %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @tweet.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_admin_tweet_path(@tweet) %> |
+<%= link_to 'Back', admin_tweets_path %>

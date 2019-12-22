@@ -1,8 +1,6 @@
-<div id="notice" class="notice"><%= notice %></div>
-
-<div class="tweet-form">
+<div id="tweet-form" class="tweet-form">
   <p class="prompt">今なにしてる？………ごめん。</p>
   <%= render "form", tweet: @new_tweet %>
 </div>
 
-<%= render "tweets", tweets: @tweets %>
+<%= render partial: "/layouts/tweets", locals: { tweets: @tweets, show_list: false, show_parent: true } %>

@@ -1,41 +1,4 @@
-<div id="notice" class="notice"><%= notice %></div>
-
-<div class="root-tweet-container">
-
-  <% @root_tweets.each do |tweet| %>
-    <div class="tweet">
-
-      <%= link_to tweet.user, class: "link-item" do %>
-        <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
-      <% end %>
-
-      <%= link_to tweet, class: "link-item" do %>
-        <div class="hukidasi">
-          <div class="content">
-            <% if tweet.image? %>
-              <div class="content-image">
-                <%= image_tag tweet.image.url(:thumb) %>
-              </div>
-            <% end %>
-            <div class="content-text">
-              <%= tweet.content %>
-            </div>
-          </div>
-          <div class="content-desc">
-            <div class="name"><%= tweet.user.name %></div>
-            <!--<div class="datetime"><%= tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>-->
-          </div>
-          <div class="content-desc right">
-            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= Tweet.where(parent_id: tweet.id).size %> |
-            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= Good.where(target_id: tweet.id).size %>
-          </div>
-        </div>
-      <% end %>
-
-    </div>
-  <% end %>
-
-</div>
+<%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
 
 <div class="tweet-container">
 
@@ -46,36 +9,51 @@
     <% end %>
 
     <div class="hukidasi-large">
-      <div class="content-control">
-        <% if @gooded.nil? %>
-          <%= form_for(@good) do |form| %>
-            <%= form.hidden_field :target_id %>
-            <%= form.submit "Good!", class: "btn btn-primary" %>
+
+      <% if user_signed_in? %>
+        <div class="content-control">
+          <% if @gooded.nil? %>
+            <%= form_for(@good) do |form| %>
+              <%= form.hidden_field :tweet_id %>
+              <%= form.submit "Good!", class: "btn btn-primary" %>
+            <% end %>
+          <% else %>
+            <%= form_for(@gooded, method: :delete) do |form| %>
+              <%= form.hidden_field :tweet_id %>
+              <%= form.submit "Good!解除", class: "btn btn-danger" %>
+            <% end %>
           <% end %>
-        <% else %>
-          <%= form_for(@gooded, method: :delete) do |form| %>
-            <%= form.hidden_field :target_id %>
-            <%= form.submit "Good!解除", class: "btn btn-danger" %>
-          <% end %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
+
       <div class="content text-big">
+
         <% if @tweet.image? %>
           <div class="content-image">
-            <%= image_tag @tweet.image.url(:thumb_large) %>
+            <%= link_to @tweet.image.url(:large), class: "link-item" do %>
+              <%= image_tag @tweet.image.url(:thumb_large) %>
+            <% end %>
           </div>
         <% end %>
-        <div class="content-text">
+
+        <div class="content-text word-break">
           <%= @tweet.content %>
         </div>
       </div>
+
       <div class="content-desc">
-        <div class="name text-big"><%= @tweet.user.name %></div>
-        <div class="datetime text-big"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
+        <div class="content-desc-name text-big"><%= @tweet.user.name %></div>
+        <div class="content-desc-datetime text-big"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
+      </div>
+
+      <div class="content-desc content-desc-flex-row-right">
+        <div class="count-comment text-big"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
+        <div class="space text-big"> | </div>
+        <div class="count-good text-big"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
       </div>
 
       <div class="good-list">
-        <% Good.where(target_id: @tweet.id).each do |good| %>
+        <% Good.where(tweet_id: @tweet.id).each do |good| %>
 
           <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
 
@@ -88,13 +66,20 @@
 
 </div>
 
-
-<%= render "tweets", tweets: @res_tweets %>
-
-<div class="tweet-form">
+<div id="tweet-form" class="tweet-form">
   <p class="prompt">このつぶやきにレス</p>
   <%= render "form", tweet: @new_tweet %>
 </div>
 
+<%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false } %>
+
 <%= link_to "Edit", edit_tweet_path(@tweet) %> |
 <%= link_to "Back", tweets_path %>
+
+<div class="popup">
+  <% if @tweet.image? %>
+    <div class="content-image">
+      <%= image_tag @tweet.image.url(:large) %>
+    </div>
+  <% end %>
+</div>

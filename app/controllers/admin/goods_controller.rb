@@ -69,6 +69,6 @@ class Admin::GoodsController < AdministrationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def good_params
-      params.require(:good).permit(:target_id, :user_id, :create_datetime)
+      params.require(:good).permit(:tweet_id, :user_id, :create_datetime)
     end
 end

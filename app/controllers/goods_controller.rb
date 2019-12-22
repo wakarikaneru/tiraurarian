@@ -21,7 +21,7 @@ class GoodsController < ApplicationController
 
     respond_to do |format|
       if @good.save
-        format.html { redirect_to :back, notice: 'Good was successfully created.' }
+        format.html { redirect_to :back, notice: "Good was successfully created." }
         format.json { render :show, status: :created, location: @good }
       else
         format.html { render :new }
@@ -35,13 +35,15 @@ class GoodsController < ApplicationController
   def destroy
     if @good.user_id == current_user.id
       @good.destroy
-      msg = "Good was successfully destroyed."
+      respond_to do |format|
+        format.html { redirect_to :back, notice: "Good was successfully destroyed." }
+        format.json { head :no_content }
+      end
     else
-      msg = "You don't have permission."
-    end
-    respond_to do |format|
-      format.html { redirect_to :back, notice: 'Good was successfully destroyed.' }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -53,6 +55,6 @@ class GoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def good_params
-      params.require(:good).permit(:target_id, :user_id, :create_datetime)
+      params.require(:good).permit(:tweet_id, :user_id, :create_datetime)
     end
 end

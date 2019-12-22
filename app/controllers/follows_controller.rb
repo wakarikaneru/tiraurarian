@@ -16,7 +16,7 @@ class FollowsController < ApplicationController
 
     respond_to do |format|
       if @follow.save
-        format.html { redirect_to :back, notice: 'Follow was successfully created.' }
+        format.html { redirect_to :back, notice: "Follow was successfully created." }
         format.json { render :show, status: :created, location: @follow }
       else
         format.html { render :new }
@@ -30,15 +30,17 @@ class FollowsController < ApplicationController
   def destroy
     if @follow.user_id == current_user.id
       @follow.destroy
-      msg = "Follow was successfully destroyed."
+      respond_to do |format|
+        format.html { redirect_to :back, notice: "Follow was successfully destroyed." }
+        format.json { head :no_content }
+      end
     else
-      msg = "You don't have permission."
+      respond_to do |format|
+        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.json { head :no_content }
+      end
     end
 
-    respond_to do |format|
-      format.html { redirect_to :back, notice: msg }
-      format.json { head :no_content }
-    end
   end
 
   private

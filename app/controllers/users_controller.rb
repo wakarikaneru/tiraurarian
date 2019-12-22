@@ -15,7 +15,11 @@ class UsersController < ApplicationController
     @follow = Follow.new
     @follow.target_id = @user.id
 
-    @followed = Follow.find_by(user_id: current_user.id, target_id: @user.id)
+    if user_signed_in? then
+      @followed = Follow.find_by(user_id: current_user.id, target_id: @user.id)
+    else
+      @followed = nil
+    end
   end
 
   private

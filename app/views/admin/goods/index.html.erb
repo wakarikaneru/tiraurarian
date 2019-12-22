@@ -15,7 +15,7 @@
   <tbody>
     <% @goods.each do |good| %>
       <tr>
-        <td><%= good.target_id %></td>
+        <td><%= good.tweet_id %></td>
         <td><%= good.user_id %></td>
         <td><%= good.create_datetime %></td>
         <td><%= link_to 'Show', [:admin, good] %></td>

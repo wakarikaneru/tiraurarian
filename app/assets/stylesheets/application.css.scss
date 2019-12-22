@@ -9,6 +9,8 @@
 body {
   padding: 60px 15px 0;
 
+  font-size: 16px;
+
   background-color: #dddddd;
 }
 
@@ -46,7 +48,7 @@ body {
 }
 
 .text-big{
-  font-size: 200%;
+  font-size: 150%;
 }
 
 .left{
@@ -57,8 +59,28 @@ body {
   text-align: right;
 }
 
+.space{
+  margin: 0em 1em;
+}
+
+.word-break{
+  max-width: 100%;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+
+  overflow: hidden;
+}
+
 .width-full{
   width: 100%;
+}
+
+.popup{
+  display: none;
+
+  max-width: 90%;
 }
 
 .link-item:link{

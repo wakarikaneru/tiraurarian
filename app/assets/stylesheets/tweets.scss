@@ -3,10 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tweet-form{
+  width: 100%;
+
   margin:  8px auto;
   padding: 16px;
-
-  width: 100%;
 
   border-radius: 16px 16px 0px 16px;
   box-shadow: 0px 4px 8px;
@@ -15,14 +15,14 @@
 }
 
 .prompt{
-  font-size: 200%;
+  font-size: 150%;
 }
 
 .tweet-container{
+  width: 100%;
+
   margin: 0px;
   padding: 0px;
-
-  width: 100%;
 
   display: flex;
   flex-flow: row wrap;
@@ -31,11 +31,11 @@
   justify-content: center;
 }
 
-.root-tweet-container{
+.tweet-container-list{
+  width: 100%;
+
   margin: 0px;
   padding: 0px;
-
-  width: 100%;
 
   display: flex;
   flex-flow: column wrap;
@@ -45,8 +45,11 @@
 }
 
 .tweet{
+  max-width: 100%;
+
   margin: 8px;
   padding: 0px;
+
 
   flex: 0 1 auto;
 
@@ -67,7 +70,6 @@
 }
 
 .hukidasi{
-  min-width: 0px;
   max-width: 100%;
 
   margin: 4px;
@@ -80,6 +82,8 @@
 }
 
 .tweet-large{
+  max-width: 100%;
+
   margin: 8px;
   padding: 0px;
 
@@ -120,32 +124,21 @@
   padding: 0px;
 
   display: flex;
+
   flex-flow: row;
   align-items: flex-end;
   justify-content: flex-end;
 }
 
-.content-control-button{
-  width: 48px;
-  height: 48px;
-
-  margin: 8px;
-  padding: 0px;
-
-  border-radius: 48px 48px 48px 48px;
-  box-shadow: 0px 4px 8px;
-}
-
 .content{
-  font-size: 100%;
+  width: 100%;
 
   display: flex;
 
   flex-flow: row;
-  align-items: flex-end;
+  align-items: center;
   align-content: flex-start;
 
-  word-break: break-all;
   overflow:hidden;
 }
 
@@ -156,14 +149,60 @@
 }
 
 .content-text{
+  width: 100%;
+
   flex: 1 1 auto;
+
+  overflow: hidden;
 }
 
 .content-desc{
+  width: 100%;
+
   font-size: 50%;
 
   overflow:hidden;
 }
+
+.content-desc-parent {
+  width: 100%;
+
+  display: flex;
+
+  flex-flow: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  overflow:hidden;
+}
+
+.content-parent-text {
+  width: 100%;
+
+  margin: 4px;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+}
+
+.content-desc-name {
+  float: left;
+}
+
+.content-desc-datetime{
+  float: right;
+}
+
+.content-desc-flex-row-right{
+  display: flex;
+
+  flex-flow: row;
+  align-items: flex-end;
+  align-content: flex-end;
+  justify-content: flex-end;
+}
+
 
 .good-list{
     margin: 8px;
@@ -186,20 +225,4 @@
 
   border-radius: 32px 32px 32px 32px;
   box-shadow: 0px 4px 8px;
-}
-
-.parent {
-  max-width: 14em;
-
-  overflow:hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.name {
-  float: left;
-}
-
-.datetime{
-  float: right;
 }

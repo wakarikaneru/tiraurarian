@@ -1,9 +1,9 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form-horizontal", role: "form", method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
@@ -12,12 +12,16 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name, maxlength: 16 %>
+    <% if @maximum_name_length %>
+      <br />
+      <em>(<%= @maximum_name_length %> characters maximum)</em>
+    <% end %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
@@ -26,28 +30,34 @@
     <% end %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :avatar %><br />
     <%= f.file_field :avatar %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.text_area :description, maxlength: 140 %>
+    <% if @maximum_description_length %>
+      <br />
+      <em>(<%= @maximum_description_length %> characters maximum)</em>
+    <% end %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <div class="form-group">
+      <%= f.submit "Update" %>
+    </div>
   </div>
 <% end %>
 

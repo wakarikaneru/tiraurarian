@@ -8,17 +8,33 @@ class TweetsController < ApplicationController
 
     case params[:mode]
       when "root" then
-        @tweets = Tweet.where(parent_id: 0).limit(100).order(id: "DESC")
+        @tweets = Tweet.where(parent_id: 0).limit(100).order(id: :desc)
       when "mypage" then
-        @tweets = Tweet.where(user_id: current_user.id).limit(100).order(id: "DESC")
+        if user_signed_in? then
+          myTweets = Tweet.where(user_id: current_user.id)
+          @tweets = Tweet.where(parent_id: myTweets).or(Tweet.where(user_id: current_user.id)).limit(100).order(id: :desc)
+        else
+          redirect_to new_user_session_path
+        end
       when "new" then
-        @tweets = Tweet.limit(100).order(id: "DESC")
+        @tweets = Tweet.limit(100).order(id: :desc)
       when "follow" then
-        @tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).limit(100).order(id: "DESC")
+        if user_signed_in? then
+          follows = Follow.where(user_id: current_user.id).select(:target_id)
+          @tweets = Tweet.where(user_id: follows).limit(100).order(id: :desc)
+        else
+          redirect_to new_user_session_path
+        end
       when "good" then
-        @tweets = Tweet.limit(100).order(id: "DESC")
+        @tweets = Tweet.joins(:goods).group(:id).limit(100).order("max(goods.create_datetime) DESC")
+      when "bookmark" then
+        if user_signed_in? then
+          @tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).limit(100).order(id: :desc)
+        else
+          redirect_to new_user_session_path
+        end
       else
-        @tweets = Tweet.where(parent_id: 0).limit(100).order(id: "DESC")
+        @tweets = Tweet.limit(100).order(id: :desc)
     end
 
     @new_tweet = Tweet.new
@@ -29,21 +45,21 @@ class TweetsController < ApplicationController
   # GET /tweets/1.json
   def show
     @root_tweets = []
-
     t = Tweet.find_by(id: @tweet.parent_id)
     while !t.nil? && !t.parent_id.nil? && t.id != 0 do
-      @root_tweets.unshift(t)
+      @root_tweets.push(t)
       t = Tweet.find_by(id: t.parent_id)
     end
+    @root_tweets.reverse!
 
     @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC")
     @new_tweet = Tweet.new
     @new_tweet.parent_id = @tweet.id
 
     @good = Good.new
-    @good.target_id = @tweet.id
+    @good.tweet_id = @tweet.id
 
-    @gooded = Good.find_by(user_id: current_user.id, target_id: @tweet.id)
+    @gooded = Good.find_by(user_id: current_user.id, tweet_id: @tweet.id)
   end
 
   # GET /tweets/new
@@ -80,7 +96,7 @@ class TweetsController < ApplicationController
     if @tweet.user_id == current_user.id
       respond_to do |format|
         if @tweet.update(tweet_params)
-          format.html { redirect_to  @tweet, notice: 'Tweet was successfully updated.' }
+          format.html { redirect_to  @tweet, notice: "Tweet was successfully updated." }
           format.json { render :show, status: :ok, location: @tweet }
         else
           format.html { render :edit }
@@ -88,7 +104,7 @@ class TweetsController < ApplicationController
         end
       end
     else
-      redirect_to @tweet, notice: "You don't have permission."
+      redirect_to @tweet, alert: "You don't have permission."
     end
   end
 
@@ -97,13 +113,15 @@ class TweetsController < ApplicationController
   def destroy
     if @tweet.user_id == current_user.id
       @tweet.destroy
-      msg = "Tweet was successfully destroyed."
+      respond_to do |format|
+        format.html { redirect_to :back, notice: "Tweet was successfully destroyed." }
+        format.json { head :no_content }
+      end
     else
-      msg = "You don't have permission."
-    end
-    respond_to do |format|
-      format.html { redirect_to :back, notice: msg }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.json { head :no_content }
+      end
     end
   end
 

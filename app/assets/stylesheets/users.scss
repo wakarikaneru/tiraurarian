@@ -16,6 +16,8 @@
 }
 
 .user{
+  max-width:100%;
+
   margin: 0px;
   padding: 16px;
 
@@ -23,7 +25,7 @@
 
   display: flex;
   flex-flow: row;
-  align-items: flex-start;
+  align-items: center;
   align-content: flex-start;
 
   border-radius: 16px 16px 16px 16px;
@@ -31,19 +33,29 @@
 }
 
 .user-img-xlarge{
-  width: 128px;
-  height: 128px;
+  width: 64px;
+  height: 64px;
+
+  margin: 8px;
+  padding: 0px;
+
+
+  border-radius: 64px 64px 64px 64px;
+  box-shadow: 0px 4px 8px;
+}
+
+.user-info-left{
+  max-width: 100%;
 
   margin: 8px;
   padding: 0px;
 
   flex: 0 0 auto;
-
-  border-radius: 128px 128px 128px 128px;
-  box-shadow: 0px 4px 8px;
 }
 
-.user-info{
+.user-info-right{
+  max-width: 100%;
+
   margin: 8px;
   padding: 0px;
 
@@ -51,6 +63,8 @@
 }
 
 .user-control{
+  max-width: 100%;
+
   margin: 8px;
   padding: 0px;
 
@@ -72,13 +86,15 @@
 }
 
 .user-name{
+  max-width: 100%;
+
   margin: 8px;
   padding: 0px;
-
-  font-size: 200%;
 }
 
 .user-desc{
-    margin: 8px;
-    padding: 0px;
+  max-width: 100%;
+
+  margin: 8px;
+  padding: 0px;
 }

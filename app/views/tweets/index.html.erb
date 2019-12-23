@@ -1,3 +1,12 @@
+<% if params[:mode] == "hash" %>
+  <%= form_tag("/tweets", method: "get") do %>
+    <%= hidden_field_tag :mode, "hash" %>
+    <%= label_tag :name_key, "Search:" %>
+    <%= text_field_tag :hash, params[:hash] %>
+    <%= submit_tag "Search" %>
+  <% end %>
+<% end %>
+
 <div id="tweet-form" class="tweet-form">
   <p class="prompt">今なにしてる？………ごめん。</p>
   <%= render "form", tweet: @new_tweet %>

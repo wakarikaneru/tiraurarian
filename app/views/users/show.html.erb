@@ -29,6 +29,24 @@
       </div>
 
       <div class="user-desc">
+        <div>
+          [接続]
+          <%= Follow.where(user_id: @user.id).size %> フォロー |
+          <%= Follow.where(target_id: @user.id).size %> フォロワー
+        </div>
+        <div>
+          [発信]
+          <%= Tweet.where(user_id: @user.id).size %> ツイート |
+          <%= Good.where(user_id: @user.id).size %> グッド
+        </div>
+        <div>
+          [受信] 
+          <%= Tweet.where(user_id: @user.id).sum(:res_count) %> レス |
+          <%= Tweet.where(user_id: @user.id).sum(:good_count) %> グッド
+        </div>
+      </div>
+
+      <div class="user-desc">
         <div class="word-break"><%= @user.description %></div>
       </div>
 

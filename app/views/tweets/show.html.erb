@@ -12,17 +12,33 @@
 
       <% if user_signed_in? %>
         <div class="content-control">
-          <% if @gooded.nil? %>
-            <%= form_for(@good) do |form| %>
-              <%= form.hidden_field :tweet_id %>
-              <%= form.submit "Good!", class: "btn btn-primary" %>
+          <div>
+            <% if @gooded.nil? %>
+              <%= form_for(@good) do |form| %>
+                <%= form.hidden_field :tweet_id %>
+                <%= form.submit "Good!", class: "btn btn-primary" %>
+              <% end %>
+            <% else %>
+              <%= form_for(@gooded, method: :delete) do |form| %>
+                <%= form.hidden_field :tweet_id %>
+                <%= form.submit "Good!解除", class: "btn btn-danger" %>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= form_for(@gooded, method: :delete) do |form| %>
-              <%= form.hidden_field :tweet_id %>
-              <%= form.submit "Good!解除", class: "btn btn-danger" %>
+          </div>
+
+          <div>
+            <% if @bookmarked.nil? %>
+              <%= form_for(@bookmark) do |form| %>
+                <%= form.hidden_field :tweet_id %>
+                <%= form.submit "ブックマーク", class: "btn btn-primary" %>
+              <% end %>
+            <% else %>
+              <%= form_for(@bookmarked, method: :delete) do |form| %>
+                <%= form.hidden_field :tweet_id %>
+                <%= form.submit "ブックマーク解除", class: "btn btn-danger" %>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
       <% end %>
 

@@ -27,9 +27,11 @@
         <div id='navbar' class='collapse navbar-collapse'>
           <ul class='nav navbar-nav'>
             <li><%= link_to "MyPage", tweets_path(mode: "mypage") %></li>
-            <li><%= link_to "Root", tweets_path(mode: "root") %></li>
+            <li><%= link_to "Bookmark", tweets_path(mode: "bookmark") %></li>
             <li><%= link_to "Follow", tweets_path(mode: "follow") %></li>
+            <li><%= link_to "Hash", tweets_path(mode: "hash") %></li>
             <li><%= link_to "Good", tweets_path(mode: "good") %></li>
+            <li><%= link_to "Root", tweets_path(mode: "root") %></li>
             <% if user_signed_in? && 1 <= Admin.where(user_id: current_user.id).size %>
               <li><%= link_to "Admin", admin_index_path %></li>
             <% end %>

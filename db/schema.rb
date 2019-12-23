@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191222135345) do
+ActiveRecord::Schema.define(version: 20191222163246) do
 
-  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
     t.integer  "permission"
     t.datetime "create_datetime"
@@ -20,15 +20,7 @@ ActiveRecord::Schema.define(version: 20191222135345) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "follows", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "target_id"
-    t.datetime "create_datetime"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  create_table "goods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "bookmarks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "tweet_id"
     t.integer  "user_id"
     t.datetime "create_datetime"
@@ -36,7 +28,23 @@ ActiveRecord::Schema.define(version: 20191222135345) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "follows", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "user_id"
+    t.integer  "target_id"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "goods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "tweet_id"
+    t.integer  "user_id"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
     t.integer  "parent_id"
     t.text     "content",            limit: 65535
@@ -51,7 +59,7 @@ ActiveRecord::Schema.define(version: 20191222135345) do
     t.integer  "good_count",                       default: 0
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string   "email",                                default: "", null: false
     t.string   "encrypted_password",                   default: "", null: false
     t.string   "reset_password_token"
@@ -60,10 +68,6 @@ ActiveRecord::Schema.define(version: 20191222135345) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.string   "name"
-    t.string   "avater_file_name"
-    t.string   "avater_content_type"
-    t.bigint   "avater_file_size"
-    t.datetime "avater_updated_at"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.bigint   "avatar_file_size"

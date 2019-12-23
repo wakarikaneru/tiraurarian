@@ -29,9 +29,17 @@ class TweetsController < ApplicationController
         @tweets = Tweet.joins(:goods).group(:id).limit(100).order("max(goods.create_datetime) DESC")
       when "bookmark" then
         if user_signed_in? then
-          @tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).limit(100).order(id: :desc)
+          bookmarkTweets = Bookmark.where(user_id: current_user.id).select(:tweet_id, :create_datetime)
+          @tweets = Tweet.where(id: bookmarkTweets).limit(100).order(id: :desc)
         else
           redirect_to new_user_session_path
+        end
+      when "hash" then
+        if params[:hash].blank?
+          @tweets = Tweet.limit(100).order(id: :desc)
+        else
+          hash = params[:hash]
+          @tweets = Tweet.where("content like ?","% ##{hash}%").limit(100).order(id: :desc)
         end
       else
         @tweets = Tweet.limit(100).order(id: :desc)
@@ -59,7 +67,20 @@ class TweetsController < ApplicationController
     @good = Good.new
     @good.tweet_id = @tweet.id
 
-    @gooded = Good.find_by(user_id: current_user.id, tweet_id: @tweet.id)
+    if user_signed_in? then
+      @gooded = Good.find_by(user_id: current_user.id, tweet_id: @tweet.id)
+    else
+      @gooded = nil
+    end
+
+    @bookmark = Bookmark.new
+    @bookmark.tweet_id = @tweet.id
+
+    if user_signed_in? then
+      @bookmarked = Bookmark.find_by(user_id: current_user.id, tweet_id: @tweet.id)
+    else
+      @bookmarked = nil
+    end
   end
 
   # GET /tweets/new
@@ -124,6 +145,14 @@ class TweetsController < ApplicationController
       end
     end
   end
+
+  def to_link(text)
+    URI.extract(text, ["http", "https"]).uniq.each do |url|
+      text.gsub!(url, "#{url}")
+    end
+  end
+
+  helper_method :to_link
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -21,7 +21,11 @@
 
   <div class="form-group">
     <div class="col-sm-12">
-      <%= f.text_area :content, class: "width-full", maxlength: 140 %>
+      <% if params[:mode] == "hash" %>
+        <%= f.text_area :content, class: "width-full", maxlength: 140, value: " ##{params[:hash]}" %>
+      <% else %>
+        <%= f.text_area :content, class: "width-full", maxlength: 140 %>
+      <% end %>
     </div>
   </div>
 

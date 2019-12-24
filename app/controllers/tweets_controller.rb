@@ -11,8 +11,8 @@ class TweetsController < ApplicationController
         @tweets = Tweet.where(parent_id: 0).limit(100).order(id: :desc)
       when "mypage" then
         if user_signed_in? then
-          myTweets = Tweet.where(user_id: current_user.id)
-          @tweets = Tweet.where(parent_id: myTweets).or(Tweet.where(user_id: current_user.id)).limit(100).order(id: :desc)
+          my_tweets = Tweet.where(user_id: current_user.id)
+          @tweets = Tweet.where(parent_id: my_tweets).or(Tweet.where(user_id: current_user.id)).limit(100).order(id: :desc)
         else
           redirect_to new_user_session_path
         end
@@ -20,29 +20,29 @@ class TweetsController < ApplicationController
         @tweets = Tweet.limit(100).order(id: :desc)
       when "follow" then
         if user_signed_in? then
-          follows = Follow.where(user_id: current_user.id).select(:target_id)
-          @tweets = Tweet.where(user_id: follows).limit(100).order(id: :desc)
+          my_follows = Follow.where(user_id: current_user.id).select(:target_id)
+          @tweets = Tweet.where(user_id: my_follows).order(id: :desc).limit(100)
         else
           redirect_to new_user_session_path
         end
       when "good" then
-        @tweets = Tweet.joins(:goods).group(:id).limit(100).order("max(goods.create_datetime) DESC")
+        #new_goods =
+        @tweets = Tweet.select("tweets.*, max(goods.create_datetime)").joins(:goods).group(:id).order("max(goods.create_datetime) desc").limit(100)
       when "bookmark" then
         if user_signed_in? then
-          bookmarkTweets = Bookmark.where(user_id: current_user.id).select(:tweet_id, :create_datetime)
-          @tweets = Tweet.where(id: bookmarkTweets).limit(100).order(id: :desc)
+          @tweets = Tweet.joins(:bookmarks).where(bookmarks: { user_id: current_user.id }).merge(Bookmark.order(create_datetime: :desc)).limit(100)
         else
           redirect_to new_user_session_path
         end
       when "hash" then
         if params[:hash].blank?
-          @tweets = Tweet.limit(100).order(id: :desc)
+          @tweets = Tweet.order(id: :desc).limit(100)
         else
           hash = params[:hash]
-          @tweets = Tweet.where("content like ?","% ##{hash}%").limit(100).order(id: :desc)
+          @tweets = Tweet.where("content like ?","% ##{hash}%").order(id: :desc).limit(100)
         end
       else
-        @tweets = Tweet.limit(100).order(id: :desc)
+        @tweets = Tweet.order(id: :desc).limit(100)
     end
 
     @new_tweet = Tweet.new
@@ -145,14 +145,6 @@ class TweetsController < ApplicationController
       end
     end
   end
-
-  def to_link(text)
-    URI.extract(text, ["http", "https"]).uniq.each do |url|
-      text.gsub!(url, "#{url}")
-    end
-  end
-
-  helper_method :to_link
 
   private
     # Use callbacks to share common setup or constraints between actions.

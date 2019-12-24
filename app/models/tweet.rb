@@ -3,6 +3,7 @@ class Tweet < ApplicationRecord
   belongs_to :tweet, foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
   has_many :tweets
   has_many :goods
+  has_many :bookmarks
 
   validates :content, length: { in: 1..140 }
 

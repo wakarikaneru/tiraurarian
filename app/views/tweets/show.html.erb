@@ -53,7 +53,7 @@
         <% end %>
 
         <div class="content-text word-break">
-          <%= @tweet.content %>
+          <%= to_link(@tweet.content).html_safe %>
         </div>
       </div>
 

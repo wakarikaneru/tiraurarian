@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>チラウラリア</title>
+    <title>チラウラリア(α)</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,7 +22,7 @@
             <span class='icon-bar'></span>
             <span class='icon-bar'></span>
           </button>
-          <%= link_to 'チラウラリア', root_path, class: 'navbar-brand' %>
+          <%= link_to 'チラウラリア(α)', root_path, class: 'navbar-brand' %>
         </div>
         <div id='navbar' class='collapse navbar-collapse'>
           <ul class='nav navbar-nav'>
@@ -43,12 +43,14 @@
     <div class='login-user-info-container'>
       <div class='login-user-info'>
         <% if user_signed_in? %>
-          <span>Logged in as <strong><%= current_user.name %></strong>.</span>
-          <span><%= link_to "Settings", edit_user_registration_path, :class => "navbar-link" %></span> |
-          <span><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "navbar-link" %></span>
+          <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img" %>
+          <span><%= link_to "Settings", edit_user_registration_path %></span>
+          <span> | </span>
+          <span><%= link_to "Logout", destroy_user_session_path, method: :delete %></span>
         <% else %>
-          <span><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %></span> |
-          <span><%= link_to "Login", new_user_session_path, :class => 'navbar-link' %></span>
+          <span><%= link_to "Sign up", new_user_registration_path %></span>
+          <span> | </span>
+          <span><%= link_to "Login", new_user_session_path %></span>
         <% end %>
       </div>
     </div>

@@ -40,7 +40,7 @@
           <%= Good.where(user_id: @user.id).size %> グッド
         </div>
         <div>
-          [受信] 
+          [受信]
           <%= Tweet.where(user_id: @user.id).sum(:res_count) %> レス |
           <%= Tweet.where(user_id: @user.id).sum(:good_count) %> グッド
         </div>

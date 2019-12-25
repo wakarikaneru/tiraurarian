@@ -3,10 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .user-container{
-  margin: 8px;
+  margin: 8px auto;
   padding: 0px;
-
-  width: 100%;
 
   display: flex;
   flex-flow: row wrap;
@@ -16,8 +14,6 @@
 }
 
 .user{
-  max-width:100%;
-
   margin: 0px;
   padding: 16px;
 
@@ -29,7 +25,10 @@
   align-content: flex-start;
 
   border-radius: 16px 16px 16px 16px;
-  box-shadow: 0px 4px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-4r);
+  background-color: var(--color-4);
 }
 
 .user-img-xlarge{
@@ -39,37 +38,30 @@
   margin: 8px;
   padding: 0px;
 
-
-  border-radius: 64px 64px 64px 64px;
-  box-shadow: 0px 4px 8px;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
 .user-info-left{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 0px;
   padding: 0px;
 
   flex: 0 0 auto;
 }
 
 .user-info-right{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 0px;
   padding: 0px;
 
   flex: 1 1 auto;
 }
 
 .user-control{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 0px;
   padding: 0px;
 
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   align-items: flex-end;
   justify-content: flex-end;
 }
@@ -81,20 +73,16 @@
   margin: 8px;
   padding: 0px;
 
-  border-radius: 48px 48px 48px 48px;
-  box-shadow: 0px 4px 8px;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
 .user-name{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 0px;
   padding: 0px;
 }
 
 .user-desc{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 0px;
   padding: 0px;
 }

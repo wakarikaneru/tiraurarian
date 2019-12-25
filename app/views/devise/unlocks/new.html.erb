@@ -4,13 +4,15 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="form-group">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <div class="col-sm-2 control-label"><%= f.label :email %></div>
+    <div class="col-sm-10"><%= f.email_field :email, autofocus: true, autocomplete: "email" %></div>
   </div>
 
   <div class="actions">
     <div class="form-group">
-      <%= f.submit "Resend unlock instructions" %>
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit "Resend unlock instructions", class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 <% end %>

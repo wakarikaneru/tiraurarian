@@ -21,11 +21,11 @@
                 <% if !Tweet.find_by(id: tweet.parent_id).nil? %>
                   <div class="glyphicon glyphicon-share-alt" aria-hidden="true"></div>
                   <div class="content-parent-text word-break">
-                    <%= Tweet.find(tweet.parent_id).content %>
+                    <%= omit_word(Tweet.find(tweet.parent_id).content) %>
                   </div>
                 <% else %>
                   <div class="glyphicon glyphicon-share-alt" aria-hidden="true"></div>
-                  <div class="content-parent-text word-break">
+                  <div class="content-parent-text">
                     削除されました
                   </div>
                 <% end %>
@@ -40,17 +40,19 @@
               </div>
             <% end %>
             <div class="content-text word-break">
-              <%= tweet.content %>
+              <%= omit_word(tweet.content) %>
             </div>
           </div>
           <div class="content-desc">
             <div class="name"><%= tweet.user.name %></div>
-            
+
           </div>
           <div class="content-desc content-desc-flex-row-right">
             <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= tweet.res_count %></div>
             <div class="space"> | </div>
             <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= tweet.good_count %></div>
+            <div class="space"> | </div>
+            <div class="count-good"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= tweet.bookmark_count %></div>
           </div>
         </div>
       <% end %>

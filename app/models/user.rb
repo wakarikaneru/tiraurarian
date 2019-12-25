@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_create :format_description
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -13,4 +15,9 @@ class User < ApplicationRecord
 
   has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024", medium: "512x512", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/noimage.png"
   do_not_validate_attachment_file_type :avatar
+
+  private
+    def format_description
+      self.description.gsub!(/[\r\n|\r|\n]/, " ")
+    end
 end

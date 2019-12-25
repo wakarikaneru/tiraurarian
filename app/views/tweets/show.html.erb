@@ -5,23 +5,23 @@
   <div class="tweet-large">
 
     <%= link_to @tweet.user, class: "link-item" do %>
-      <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img-large" %>
+      <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
     <% end %>
 
-    <div class="hukidasi-large">
+    <div class="hukidasi-large text-big">
 
       <% if user_signed_in? %>
         <div class="content-control">
           <div>
             <% if @gooded.nil? %>
               <%= form_for(@good) do |form| %>
-                <%= form.hidden_field :tweet_id %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.submit "Good!", class: "btn btn-primary" %>
               <% end %>
             <% else %>
               <%= form_for(@gooded, method: :delete) do |form| %>
-                <%= form.hidden_field :tweet_id %>
-                <%= form.submit "Good!解除", class: "btn btn-danger" %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.submit "Good!解除", class: "btn btn-warning" %>
               <% end %>
             <% end %>
           </div>
@@ -29,50 +29,56 @@
           <div>
             <% if @bookmarked.nil? %>
               <%= form_for(@bookmark) do |form| %>
-                <%= form.hidden_field :tweet_id %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.submit "ブックマーク", class: "btn btn-primary" %>
               <% end %>
             <% else %>
               <%= form_for(@bookmarked, method: :delete) do |form| %>
-                <%= form.hidden_field :tweet_id %>
-                <%= form.submit "ブックマーク解除", class: "btn btn-danger" %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.submit "ブックマーク解除", class: "btn btn-warning" %>
               <% end %>
+            <% end %>
+          </div>
+
+          <div>
+            <% if @tweet.user_id == current_user.id %>
+              <%= link_to "削除", @tweet, method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
             <% end %>
           </div>
         </div>
       <% end %>
 
-      <div class="content text-big">
+      <div class="content">
 
         <% if @tweet.image? %>
           <div class="content-image">
             <%= link_to @tweet.image.url(:large), class: "link-item" do %>
-              <%= image_tag @tweet.image.url(:thumb_large) %>
+              <%= image_tag @tweet.image.url(:thumb_large), class: "shrinkable" %>
             <% end %>
           </div>
         <% end %>
 
         <div class="content-text word-break">
-          <%= to_link(@tweet.content).html_safe %>
+          <%= to_link(omit_word(@tweet.content)).html_safe %>
         </div>
       </div>
 
       <div class="content-desc">
-        <div class="content-desc-name text-big"><%= @tweet.user.name %></div>
-        <div class="content-desc-datetime text-big"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
+        <div class="content-desc-name"><%= @tweet.user.name %></div>
+        <div class="content-desc-datetime"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
       </div>
 
       <div class="content-desc content-desc-flex-row-right">
-        <div class="count-comment text-big"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
-        <div class="space text-big"> | </div>
-        <div class="count-good text-big"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
+        <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
+        <div class="space"> | </div>
+        <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
+        <div class="space"> | </div>
+        <div class="count-good"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
       </div>
 
       <div class="good-list">
-        <% Good.where(tweet_id: @tweet.id).each do |good| %>
-
+        <% Good.where(tweet_id: @tweet.id).order(id: :desc).each do |good| %>
           <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
-
         <% end %>
       </div>
 
@@ -89,13 +95,5 @@
 
 <%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false } %>
 
-<%= link_to "Edit", edit_tweet_path(@tweet) %> |
 <%= link_to "Back", tweets_path %>
-
-<div class="popup">
-  <% if @tweet.image? %>
-    <div class="content-image">
-      <%= image_tag @tweet.image.url(:large) %>
-    </div>
-  <% end %>
 </div>

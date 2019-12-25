@@ -3,15 +3,16 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tweet-form{
-  width: 100%;
-
   margin:  8px auto;
   padding: 16px;
 
   border-radius: 16px 16px 0px 16px;
-  box-shadow: 0px 4px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 
   overflow: hidden;
+
+  color: var(--color-1r);
+  background-color: var(--color-1);
 }
 
 .prompt{
@@ -19,9 +20,7 @@
 }
 
 .tweet-container{
-  width: 100%;
-
-  margin: 0px;
+  margin: 8px 0px;
   padding: 0px;
 
   display: flex;
@@ -32,9 +31,7 @@
 }
 
 .tweet-container-list{
-  width: 100%;
-
-  margin: 0px;
+  margin: 8px 0px;
   padding: 0px;
 
   display: flex;
@@ -45,11 +42,8 @@
 }
 
 .tweet{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 4px;
   padding: 0px;
-
 
   flex: 0 1 auto;
 
@@ -59,32 +53,31 @@
 }
 
 .user-img{
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
 
   margin: 4px;
   padding: 0px;
 
-  border-radius: 48px 48px 48px 48px;
-  box-shadow: 0px 4px 8px;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
 .hukidasi{
-  max-width: 100%;
-
   margin: 4px;
   padding: 16px;
 
   border-radius: 16px 16px 16px 0px;
-  box-shadow: 0px 4px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 
   overflow: hidden;
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
 }
 
 .tweet-large{
-  max-width: 100%;
-
-  margin: 8px;
+  margin: 4px;
   padding: 0px;
 
   flex: 1 1 auto;
@@ -95,28 +88,29 @@
 }
 
 .user-img-large{
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
 
   margin: 4px;
   padding: 0px;
 
-  border-radius: 64px 64px 64px 64px;
-  box-shadow: 0px 4px 8px;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
 .hukidasi-large{
-  width: 100%;
-
   margin: 4px;
   padding: 16px;
 
   flex: 1 1 auto;
 
   border-radius: 16px 16px 16px 0px;
-  box-shadow: 0px 4px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 
   overflow: hidden;
+
+  color: var(--color-4r);
+  background-color: var(--color-4);
 }
 
 .content-control{
@@ -125,14 +119,12 @@
 
   display: flex;
 
-  flex-flow: row;
+  flex-flow: row wrap;
   align-items: flex-end;
   justify-content: flex-end;
 }
 
 .content{
-  width: 100%;
-
   display: flex;
 
   flex-flow: row;
@@ -145,28 +137,23 @@
 .content-image{
   margin: 8px;
 
-  flex: 0 0 auto;
+  flex: 0 1 auto;
 }
 
 .content-text{
-  width: 100%;
-
   flex: 1 1 auto;
 
   overflow: hidden;
 }
 
 .content-desc{
-  width: 100%;
-
-  font-size: 50%;
+  font-size: 75%;
+  opacity: 0.75;
 
   overflow:hidden;
 }
 
 .content-desc-parent {
-  width: 100%;
-
   display: flex;
 
   flex-flow: row;
@@ -177,8 +164,6 @@
 }
 
 .content-parent-text {
-  width: 100%;
-
   margin: 4px;
 
   flex: 1 1 auto;
@@ -223,6 +208,6 @@
   margin: 4px;
   padding: 0px;
 
-  border-radius: 32px 32px 32px 32px;
-  box-shadow: 0px 4px 8px;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }

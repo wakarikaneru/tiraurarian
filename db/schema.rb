@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191224133804) do
+ActiveRecord::Schema.define(version: 20191225035418) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20191224133804) do
     t.datetime "image_updated_at"
     t.integer  "res_count",          default: 0
     t.integer  "good_count",         default: 0
+    t.integer  "bookmark_count",     default: 0
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

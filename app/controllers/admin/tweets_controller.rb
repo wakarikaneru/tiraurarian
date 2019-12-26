@@ -4,7 +4,7 @@ class Admin::TweetsController < AdministrationController
   # GET /tweets
   # GET /tweets.json
   def index
-    @tweets = Tweet.all
+    @tweets = Tweet.all.order(id: :desc)
   end
 
   # GET /tweets/1

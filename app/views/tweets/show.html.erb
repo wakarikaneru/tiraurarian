@@ -5,7 +5,11 @@
   <div class="tweet-large">
 
     <%= link_to @tweet.user, class: "link-item" do %>
-      <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
+      <% if @tweet.user.present? %>
+        <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
+      <% else %>
+        <%= image_tag "/images/noimage.png", class: "user-img" %>
+      <% end %>
     <% end %>
 
     <div class="hukidasi-large text-big">
@@ -13,29 +17,29 @@
       <% if user_signed_in? %>
         <div class="content-control">
           <div>
-            <% if @gooded.nil? %>
-              <%= form_for(@good) do |form| %>
-                <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.submit "Good!", class: "btn btn-primary" %>
-              <% end %>
-            <% else %>
+            <% if @gooded.present? %>
               <%= form_for(@gooded, method: :delete) do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.submit "Good!解除", class: "btn btn-warning" %>
               <% end %>
+            <% else %>
+            <%= form_for(@good) do |form| %>
+              <%= form.hidden_field :tweet_id, value: @tweet.id %>
+              <%= form.submit "Good!", class: "btn btn-primary" %>
+            <% end %>
             <% end %>
           </div>
 
           <div>
-            <% if @bookmarked.nil? %>
+            <% if @bookmarked.present? %>
+            <%= form_for(@bookmarked, method: :delete) do |form| %>
+              <%= form.hidden_field :tweet_id, value: @tweet.id %>
+              <%= form.submit "ブックマーク解除", class: "btn btn-warning" %>
+            <% end %>
+            <% else %>
               <%= form_for(@bookmark) do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.submit "ブックマーク", class: "btn btn-primary" %>
-              <% end %>
-            <% else %>
-              <%= form_for(@bookmarked, method: :delete) do |form| %>
-                <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.submit "ブックマーク解除", class: "btn btn-warning" %>
               <% end %>
             <% end %>
           </div>
@@ -49,22 +53,25 @@
       <% end %>
 
       <div class="content">
-
-        <% if @tweet.image? %>
-          <div class="content-image">
-            <%= link_to @tweet.image.url(:large), class: "link-item" do %>
-              <%= image_tag @tweet.image.url(:thumb_large), class: "shrinkable" %>
-            <% end %>
-          </div>
-        <% end %>
-
         <div class="content-text word-break">
           <%= to_link(omit_word(@tweet.content)).html_safe %>
         </div>
       </div>
 
+      <% if @tweet.image? %>
+        <div class="content-image">
+          <%= link_to @tweet.image.url(:large), class: "link-item" do %>
+            <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="content-desc">
-        <div class="content-desc-name"><%= @tweet.user.name %></div>
+        <% if @tweet.user.present? %>
+          <div class="content-desc-name"><%= @tweet.user.name %></div>
+        <% else %>
+          <div class="content-desc-name">削除されたユーザー</div>
+        <% end %>
         <div class="content-desc-datetime"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
       </div>
 
@@ -90,7 +97,7 @@
 
 <div id="tweet-form" class="tweet-form">
   <p class="prompt">このつぶやきにレス</p>
-  <%= render "form", tweet: @new_tweet %>
+  <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 
 <%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false } %>

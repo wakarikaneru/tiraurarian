@@ -4,7 +4,7 @@ class Admin::AdminsController < AdministrationController
   # GET /admins
   # GET /admins.json
   def index
-    @admins = Admin.all
+    @admins = Admin.all.order(id: :desc)
   end
 
   # GET /admins/1

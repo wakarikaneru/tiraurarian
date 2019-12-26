@@ -11,12 +11,30 @@
 
   overflow: hidden;
 
-  color: var(--color-1r);
-  background-color: var(--color-1);
+  color: var(--color-2r);
+  background-color: var(--color-2);
 }
 
 .prompt{
   font-size: 150%;
+}
+
+.tag-container{
+  margin: 8px 0px;
+  padding: 0px;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  align-content: flex-start;
+  justify-content: center;
+}
+
+.tag{
+  margin: 4px;
+  padding: 0px;
+
+  flex: 0 1 auto;
 }
 
 .tweet-container{
@@ -53,8 +71,8 @@
 }
 
 .user-img{
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
 
   margin: 4px;
   padding: 0px;
@@ -109,8 +127,8 @@
 
   overflow: hidden;
 
-  color: var(--color-4r);
-  background-color: var(--color-4);
+  color: var(--color-5r);
+  background-color: var(--color-5);
 }
 
 .content-control{
@@ -146,13 +164,6 @@
   overflow: hidden;
 }
 
-.content-desc{
-  font-size: 75%;
-  opacity: 0.75;
-
-  overflow:hidden;
-}
-
 .content-desc-parent {
   display: flex;
 
@@ -169,6 +180,13 @@
   flex: 1 1 auto;
 
   overflow: hidden;
+}
+
+.content-desc{
+  font-size: 75%;
+  opacity: 0.75;
+
+  overflow:hidden;
 }
 
 .content-desc-name {

@@ -9,7 +9,11 @@
     <div class="tweet">
 
       <%= link_to tweet.user, class: "link-item" do %>
-        <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+        <% if tweet.user.present? %>
+          <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+        <% else %>
+          <%= image_tag "/images/noimage.png", class: "user-img" %>
+        <% end %>
       <% end %>
 
       <%= link_to tweet, class: "link-item" do %>
@@ -18,7 +22,7 @@
           <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
             <div class="content-desc">
               <div class="content-desc-parent">
-                <% if !Tweet.find_by(id: tweet.parent_id).nil? %>
+                <% if Tweet.find_by(id: tweet.parent_id).present? %>
                   <div class="glyphicon glyphicon-share-alt" aria-hidden="true"></div>
                   <div class="content-parent-text word-break">
                     <%= omit_word(Tweet.find(tweet.parent_id).content) %>
@@ -36,7 +40,7 @@
           <div class="content">
             <% if tweet.image? %>
               <div class="content-image">
-                <%= image_tag tweet.image.url(:thumb) %>
+                <%= image_tag tweet.image.url(:thumb), class: "fit" %>
               </div>
             <% end %>
             <div class="content-text word-break">
@@ -44,8 +48,11 @@
             </div>
           </div>
           <div class="content-desc">
-            <div class="name"><%= tweet.user.name %></div>
-
+            <% if tweet.user.present? %>
+              <div class="content-desc-name"><%= tweet.user.name %></div>
+            <% else %>
+              <div class="content-desc-name">削除されたユーザー</div>
+            <% end %>
           </div>
           <div class="content-desc content-desc-flex-row-right">
             <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= tweet.res_count %></div>

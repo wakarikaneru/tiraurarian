@@ -5,9 +5,9 @@ module TweetsHelper
     URI.extract(text, ["http", "https"]).uniq.each do |url|
       text.gsub!(url, "<a href=\"#{url}\"target=\"_blank\">#{url}</a>")
     end
-    text.scan(/\s#\S+/).each do |hash|
-      hashstr = hash.gsub(/ #/, "")
-      text.gsub!(hash, "<a href=\"/tweets?mode=hash&hash=#{hashstr}\">#{hash}</a>")
+    text.scan(/\s#\S+/).each do |tag|
+      tagstr = tag.gsub(/ #/, "")
+      text.gsub!(tag, " <a href=\"/tweets?mode=tag&tag=#{tagstr}\">##{tagstr}</a>")
     end
     text
   end

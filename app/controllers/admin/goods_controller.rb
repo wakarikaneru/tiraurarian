@@ -4,7 +4,7 @@ class Admin::GoodsController < AdministrationController
   # GET /goods
   # GET /goods.json
   def index
-    @goods = Good.all
+    @goods = Good.all.order(id: :desc)
   end
 
   # GET /goods/1

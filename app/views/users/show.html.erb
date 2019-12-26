@@ -10,15 +10,15 @@
 
       <% if user_signed_in? %>
         <div class="user-control">
-          <% if @followed.nil? %>
-            <%= form_for(@follow) do |form| %>
-              <%= form.hidden_field :target_id %>
-              <%= form.submit "フォロー", class: "btn btn-primary" %>
-            <% end %>
-          <% else %>
+          <% if @followed.present? %>
             <%= form_for(@followed, method: :delete) do |form| %>
               <%= form.hidden_field :target_id %>
               <%= form.submit "フォロー解除", class: "btn btn-danger" %>
+            <% end %>
+          <% else %>
+            <%= form_for(@follow) do |form| %>
+              <%= form.hidden_field :target_id %>
+              <%= form.submit "フォロー", class: "btn btn-primary" %>
             <% end %>
           <% end %>
         </div>

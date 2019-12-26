@@ -6,13 +6,22 @@ class Tweet < ApplicationRecord
   has_many :tweets
   has_many :goods
   has_many :bookmarks
+  has_many :tags
 
   validates :content, length: { in: 1..140 }
 
-  has_attached_file :image, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/null.png"
+  has_attached_file :image, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "640x360#", thumb: "64x64#" }, default_url: "/images/null.png"
   do_not_validate_attachment_file_type :image
 
-  def format_content
-    self.content.gsub!(/[\r\n|\r|\n]/, " ")
+  after_create do
+    self.content.scan(/\s#\S+/).each do |tag|
+      tagstr = tag.gsub(/ #/, "")
+      Tag.find_or_create_by(user_id: self.user_id, tweet_id: self.id, tag_string: tagstr, create_datetime: Time.current)
+    end
   end
+
+  private
+    def format_content
+      self.content.gsub!(/[\r\n|\r|\n]/, " ")
+    end
 end

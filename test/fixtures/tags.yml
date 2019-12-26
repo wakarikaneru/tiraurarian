@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tweet_id: 1
+  user_id: 1
+  tag_string: MyString
+  create_datetime: 2019-12-26 12:07:34
+
+two:
+  tweet_id: 1
+  user_id: 1
+  tag_string: MyString
+  create_datetime: 2019-12-26 12:07:34

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191225035418) do
+ActiveRecord::Schema.define(version: 20191226045222) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(version: 20191225035418) do
   create_table "goods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "tweet_id"
     t.integer  "user_id"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "tweet_id"
+    t.integer  "user_id"
+    t.string   "tag_string"
     t.datetime "create_datetime"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
@@ -78,7 +87,9 @@ ActiveRecord::Schema.define(version: 20191225035418) do
     t.bigint   "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.text     "description",            limit: 65535
+    t.string   "login_id",                             default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["login_id"], name: "index_users_on_login_id", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 

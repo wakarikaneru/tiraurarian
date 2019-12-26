@@ -4,7 +4,7 @@ class Admin::FollowsController < AdministrationController
   # GET /follows
   # GET /follows.json
   def index
-    @follows = Follow.all
+    @follows = Follow.all.order(id: :desc)
   end
 
   # GET /follows/1

@@ -3,7 +3,7 @@
   <head>
     <title>チラウラリア(α)</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
 
     <%= csrf_meta_tags %>
 
@@ -29,7 +29,7 @@
             <li><%= link_to "MyPage", tweets_path(mode: "mypage") %></li>
             <li><%= link_to "Bookmark", tweets_path(mode: "bookmark") %></li>
             <li><%= link_to "Follow", tweets_path(mode: "follow") %></li>
-            <li><%= link_to "Hash", tweets_path(mode: "hash") %></li>
+            <li><%= link_to "Tag", tweets_path(mode: "tag") %></li>
             <li><%= link_to "Good", tweets_path(mode: "good") %></li>
             <li><%= link_to "Root", tweets_path(mode: "root") %></li>
             <% if user_signed_in? && 1 <= Admin.where(user_id: current_user.id).size %>
@@ -59,13 +59,6 @@
     <div id="alert" class="notice alert alert-danger"><%= alert %></div>
 
     <%= yield %>
-
-    <% if true  %>
-      <script src='/js/snowfall.min.js'></script>
-      <script type='text/javascript'>
-        snowFall.snow(document.body, {image : "/images/flake.png", minSize: 10, maxSize:32});
-      </script>
-    <% end %>
 
   </body>
 </html>

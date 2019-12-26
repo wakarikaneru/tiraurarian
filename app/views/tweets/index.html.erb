@@ -1,19 +1,39 @@
+<div id="tweet-form" class="tweet-form">
+  <p class="prompt">今なにしてる？………ごめん。</p>
 
-<% if params[:mode] == "hash" %>
-  <div id="tweet-form" class="tweet-form">
-    <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
-      <%= hidden_field_tag :mode, "hash" %>
-      <div class="form-group">
-        <div class="col-sm-10"><%= text_field_tag :hash, params[:hash], class: "form-control", placeholder: "ハッシュ検索" %></div>
-        <div class="col-sm-2"><%= submit_tag "Search", class: "btn btn-primary width-full" %></div>
+  <% if params[:mode] == "tag" %>
+    <% default_value = " ##{params[:tag]}" %>
+  <% else %>
+    <% default_value = "" %>
+  <% end %>
+
+  <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: default_value } %>
+</div>
+
+<div class="tweet-form">
+
+  <div class="tag-container">
+    <% @tags.each do |tag| %>
+      <div class="tag">
+        <%= link_to "##{tag.tag_string}", tweets_path(mode: "tag", tag: tag.tag_string) %>
       </div>
     <% end %>
   </div>
-<% end %>
 
-<div id="tweet-form" class="tweet-form">
-  <p class="prompt">今なにしてる？………ごめん。</p>
-  <%= render "form", tweet: @new_tweet %>
+  <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
+    <%= hidden_field_tag :mode, "tag" %>
+    <div class="col-sm-12">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">#</span>
+          <%= text_field_tag :tag, params[:tag], class: "form-control", placeholder: "タグ" %>
+          <span class="input-group-btn">
+            <%= submit_tag "タグ検索", class: "btn btn-default" %>
+          </span>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <%= render partial: "/layouts/tweets", locals: { tweets: @tweets, show_list: false, show_parent: true } %>

@@ -26,7 +26,6 @@ class TweetsController < ApplicationController
           redirect_to new_user_session_path
         end
       when "good" then
-        #new_goods =
         @tweets = Tweet.select("tweets.*, max(goods.create_datetime)").joins(:goods).group(:id).order("max(goods.create_datetime) desc").limit(100)
       when "bookmark" then
         if user_signed_in? then
@@ -34,12 +33,12 @@ class TweetsController < ApplicationController
         else
           redirect_to new_user_session_path
         end
-      when "hash" then
-        if params[:hash].blank?
+      when "tag" then
+        if params[:tag].blank?
           @tweets = Tweet.order(id: :desc).limit(100)
         else
-          hash = params[:hash]
-          @tweets = Tweet.where("content like ?","% ##{hash}%").order(id: :desc).limit(100)
+          tag = params[:tag]
+          @tweets = Tweet.where("content like ?","% ##{tag}%").order(id: :desc).limit(100)
         end
       else
         @tweets = Tweet.order(id: :desc).limit(100)
@@ -47,6 +46,9 @@ class TweetsController < ApplicationController
 
     @new_tweet = Tweet.new
     @new_tweet.parent_id = 0
+
+    @tags = Tag.select("tags.*, count(id)").where("create_datetime > ?", 1.day.ago).group(:tag_string).order("count(id) desc").limit(30)
+
   end
 
   # GET /tweets/1
@@ -54,7 +56,7 @@ class TweetsController < ApplicationController
   def show
     @root_tweets = []
     t = Tweet.find_by(id: @tweet.parent_id)
-    while !t.nil? && !t.parent_id.nil? && t.id != 0 do
+    while t.present? && t.parent_id.present? && t.id != 0 do
       @root_tweets.push(t)
       t = Tweet.find_by(id: t.parent_id)
     end

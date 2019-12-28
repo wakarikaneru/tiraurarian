@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :authenticate_user!, only: [:destroy]
   before_action :set_tweet, only: [:show, :destroy]
 
   # GET /tweets
@@ -50,15 +50,19 @@ class TweetsController < ApplicationController
           redirect_to new_user_session_path
         end
       when "good" then
-        tweets = Tweet.select("tweets.*, max(goods.create_datetime)").joins(:goods).group(:id).order("max(goods.create_datetime) desc").limit(100)
-        @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
+        hot  = Good.where("goods.create_datetime > ?", 1.day.ago).group(:tweet_id).order("count(goods.id) desc")
+        hot_tweets = Tweet.joins(:goods).merge(hot)
+        tweets = Tweet.none.or(hot_tweets)
+        @tweets = Tweet.none.or(tweets).limit(100)
 
-        tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+        tags = Tweet.none.or(tweets)
         @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
       when "bookmark" then
         if user_signed_in? then
-          tweets = Tweet.joins(:bookmarks).where(bookmarks: { user_id: current_user.id })
-          @tweets = Tweet.joins(:bookmarks).none.or(tweets).merge(Bookmark.order(create_datetime: :desc)).limit(100)
+          bookmarked = Bookmark.where(user_id: current_user.id).order(create_datetime: :desc)
+          bookmarked_tweets  = Tweet.joins(:bookmarks).merge(bookmarked)
+          tweets = Tweet.none.or(bookmarked_tweets)
+          @tweets = Tweet.none.or(tweets).limit(100)
 
           tags = Tweet.none.or(tweets)
           @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
@@ -103,6 +107,7 @@ class TweetsController < ApplicationController
     @root_tweets.reverse!
 
     @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC")
+
     @new_tweet = Tweet.new
     @new_tweet.parent_id = @tweet.id
 
@@ -133,17 +138,34 @@ class TweetsController < ApplicationController
   # POST /tweets
   # POST /tweets.json
   def create
+    current_user_id = 0
+
+    if user_signed_in?
+      current_user_id = current_user.id
+    else
+      current_user_id = 2
+    end
+
     @tweet = Tweet.new(tweet_params)
 
-    @tweet.user_id = current_user.id
+    @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
-    respond_to do |format|
-      if @tweet.save
-        format.html { redirect_to :back, notice: 'Tweet was successfully created.' }
-        format.json { render :show, status: :created, location: @tweet }
-      else
-        format.html { render :new }
+    if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 1.day.ago).where(content: @tweet.content).size <= 0
+
+      respond_to do |format|
+        if @tweet.save
+          format.html { redirect_to :back, notice: "つぶやきました。" }
+          format.json { render :show, status: :created, location: @tweet }
+        else
+          format.html { render :new }
+          format.json { render json: @tweet.errors, status: :unprocessable_entity }
+        end
+      end
+
+    else
+      respond_to do |format|
+        format.html { redirect_to :back, notice: "同一内容の連続投稿は禁止です。" }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
     end
@@ -155,7 +177,7 @@ class TweetsController < ApplicationController
     if @tweet.user_id == current_user.id
       @tweet.destroy
       respond_to do |format|
-        format.html { redirect_to root_path, notice: "Tweet was successfully destroyed." }
+        format.html { redirect_to root_path, notice: "つぶやきを削除しました。" }
         format.json { head :no_content }
       end
     else

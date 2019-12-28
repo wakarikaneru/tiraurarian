@@ -55,7 +55,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'devise-i18n'
 
+gem 'paperclip'
+
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sass-rails', '~> 5.0'
 
-gem 'paperclip'
+gem 'jquery-rails'

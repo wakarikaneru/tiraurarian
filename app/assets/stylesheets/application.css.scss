@@ -1,6 +1,6 @@
 //= require_tree .
 //= require_self
-
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 
@@ -9,6 +9,7 @@
 body {
   padding: 60px 15px 0;
 
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 14px;
 
   color: var(--color-4r);
@@ -45,8 +46,8 @@ body {
   border-radius: 8px 8px 8px 8px;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 
-  color: var(--color-1r);
-  background-color: var(--color-1);
+  color: var(--color-2r);
+  background-color: var(--color-2);
 }
 
 .login-user-info-img{

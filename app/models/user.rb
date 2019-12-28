@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   before_create :format_description
+  before_update :format_description
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

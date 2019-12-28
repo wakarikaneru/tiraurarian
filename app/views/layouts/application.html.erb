@@ -26,14 +26,14 @@
         </div>
         <div id='navbar' class='collapse navbar-collapse'>
           <ul class='nav navbar-nav'>
-            <li><%= link_to "MyPage", tweets_path(mode: "mypage") %></li>
-            <li><%= link_to "Bookmark", tweets_path(mode: "bookmark") %></li>
-            <li><%= link_to "Follow", tweets_path(mode: "follow") %></li>
-            <li><%= link_to "Tag", tweets_path(mode: "tag") %></li>
+            <li><%= link_to "マイページ", tweets_path(mode: "mypage") %></li>
+            <li><%= link_to "ブックマーク", tweets_path(mode: "bookmark") %></li>
+            <li><%= link_to "フォロー", tweets_path(mode: "follow") %></li>
+            <li><%= link_to "タグ", tweets_path(mode: "tag") %></li>
             <li><%= link_to "Good", tweets_path(mode: "good") %></li>
             <li><%= link_to "Root", tweets_path(mode: "root") %></li>
             <% if user_signed_in? && 1 <= Admin.where(user_id: current_user.id).size %>
-              <li><%= link_to "Admin", admin_index_path %></li>
+              <li><%= link_to "管理", admin_index_path %></li>
             <% end %>
           </ul>
         </div><!--/.nav-collapse -->
@@ -44,13 +44,13 @@
       <div class='login-user-info'>
         <% if user_signed_in? %>
           <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img" %>
-          <span><%= link_to "Settings", edit_user_registration_path %></span>
+          <span><%= link_to "設定", edit_user_registration_path %></span>
           <span> | </span>
-          <span><%= link_to "Logout", destroy_user_session_path, method: :delete %></span>
+          <span><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></span>
         <% else %>
-          <span><%= link_to "Sign up", new_user_registration_path %></span>
+          <span><%= link_to "新規登録", new_user_registration_path %></span>
           <span> | </span>
-          <span><%= link_to "Login", new_user_session_path %></span>
+          <span><%= link_to "ログイン", new_user_session_path %></span>
         <% end %>
       </div>
     </div>

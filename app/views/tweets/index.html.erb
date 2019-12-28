@@ -1,5 +1,5 @@
 <div id="tweet-form" class="tweet-form">
-  <p class="prompt">今なにしてる？………ごめん。</p>
+  <h2>今なにしてる？………ごめん。</h2>
 
   <% if params[:mode] == "tag" %>
     <% default_value = " ##{params[:tag]}" %>
@@ -10,7 +10,7 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: default_value } %>
 </div>
 
-<div class="tweet-form">
+<div class="tag-form">
 
   <div class="tag-container">
     <% @tags.each do |tag| %>

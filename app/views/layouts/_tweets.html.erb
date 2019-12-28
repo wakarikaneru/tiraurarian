@@ -22,13 +22,12 @@
           <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
             <div class="content-desc">
               <div class="content-desc-parent">
+                <div class="content-parent-icon glyphicon glyphicon-share-alt" aria-hidden="true"></div>
                 <% if Tweet.find_by(id: tweet.parent_id).present? %>
-                  <div class="glyphicon glyphicon-share-alt" aria-hidden="true"></div>
                   <div class="content-parent-text word-break">
                     <%= omit_word(Tweet.find(tweet.parent_id).content) %>
                   </div>
                 <% else %>
-                  <div class="glyphicon glyphicon-share-alt" aria-hidden="true"></div>
                   <div class="content-parent-text">
                     削除されました
                   </div>

@@ -11,12 +11,25 @@
 
   overflow: hidden;
 
-  color: var(--color-2r);
-  background-color: var(--color-2);
+  color: var(--color-1r);
+  background-color: var(--color-1);
 }
 
 .prompt{
   font-size: 150%;
+}
+
+.tag-form{
+  margin:  8px auto;
+  padding: 16px;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  overflow: hidden;
+
+  color: var(--color-3r);
+  background-color: var(--color-3);
 }
 
 .tag-container{
@@ -127,8 +140,8 @@
 
   overflow: hidden;
 
-  color: var(--color-5r);
-  background-color: var(--color-5);
+  color: var(--color-3r);
+  background-color: var(--color-3);
 }
 
 .content-control{
@@ -153,12 +166,15 @@
 }
 
 .content-image{
-  margin: 8px;
+  margin: 4px;
 
   flex: 0 1 auto;
 }
 
 .content-text{
+  -max-width: 9em;
+  margin: 4px 0px;
+
   flex: 1 1 auto;
 
   overflow: hidden;
@@ -174,9 +190,14 @@
   overflow:hidden;
 }
 
-.content-parent-text {
-  margin: 4px;
+.content-parent-icon {
+  margin: 0px 4px;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
 
+.content-parent-text {
+  -max-width: 9em;
   flex: 1 1 auto;
 
   overflow: hidden;

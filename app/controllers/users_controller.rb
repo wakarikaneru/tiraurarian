@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     if user_signed_in? then
       @followed = Follow.find_by(user_id: current_user.id, target_id: @user.id)
     else
-      @followed = nil
+      @followed = Follow.none
     end
   end
 

@@ -6,7 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(id: 0, email: 'daemon@localhost', password: 'password', name: 'Daemon')
+daemon = User.new(id: 0, login_id: "daemon", password: 'password', name: 'Daemon', description: '')
+daemon.save!
+
 Admin.create(user_id: 0, permission: 15)
 
 Tweet.create(id: 0, user_id: 1, parent_id: 0, content: 'root')

@@ -6,7 +6,11 @@
 
     <%= link_to @tweet.user, class: "link-item" do %>
       <% if @tweet.user.present? %>
-        <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
+        <% if @tweet.avatar? %>
+          <%= image_tag @tweet.avatar.url(:thumb), class: "user-img" %>
+        <% else %>
+          <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
+        <% end %>
       <% else %>
         <%= image_tag "/images/noimage.png", class: "user-img" %>
       <% end %>
@@ -31,6 +35,20 @@
           </div>
 
           <div>
+            <% if @baded.present? %>
+            <%= form_for(@baded, method: :delete) do |form| %>
+              <%= form.hidden_field :tweet_id, value: @tweet.id %>
+              <%= form.submit "Bad!解除", class: "btn btn-warning" %>
+            <% end %>
+            <% else %>
+              <%= form_for(@bad) do |form| %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.submit "Bad!", class: "btn btn-primary" %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div>
             <% if @bookmarked.present? %>
             <%= form_for(@bookmarked, method: :delete) do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
@@ -46,7 +64,7 @@
 
           <div>
             <% if @tweet.user_id == current_user.id %>
-              <%= link_to "削除", @tweet, method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
+              <%= link_to "", @tweet, method: :delete, class: "btn btn-danger glyphicon glyphicon-trash", data: { confirm: "本当に削除しますか？" } %>
             <% end %>
           </div>
         </div>
@@ -54,7 +72,7 @@
 
       <div class="content">
         <div class="content-text word-break">
-          <%= to_link(omit_word(@tweet.content)).html_safe %>
+          <%= auto_link(@tweet.content.encode!(xml: :text), { url_target: :target_blank, hashtag_url_base: "/tweets?mode=tag&tag=" }).html_safe %>
         </div>
       </div>
 
@@ -72,7 +90,7 @@
         <% else %>
           <div class="content-desc-name">削除されたユーザー</div>
         <% end %>
-        <div class="content-desc-datetime"><%= @tweet.create_datetime.strftime("%Y/%m/%d %H:%M:%S") %></div>
+        <div class="content-desc-datetime"><%= time_ago_in_words(@tweet.create_datetime) %></div>
       </div>
 
       <div class="content-desc content-desc-flex-row-right">
@@ -80,12 +98,18 @@
         <div class="space"> | </div>
         <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
         <div class="space"> | </div>
-        <div class="count-good"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
+        <div class="count-bad"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= - @tweet.bad_count %></div>
+        <div class="space"> | </div>
+        <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
       </div>
 
       <div class="good-list">
         <% Good.where(tweet_id: @tweet.id).order(id: :desc).each do |good| %>
-          <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
+          <% if good.user.present? %>
+            <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
+          <% else %>
+            <%= image_tag "/images/noimage.png", class: "user-img" %>
+          <% end %>
         <% end %>
       </div>
 
@@ -96,7 +120,7 @@
 </div>
 
 <div id="tweet-form" class="tweet-form">
-  <p class="prompt">このつぶやきにレス</p>
+  <h2>このつぶやきにレス</h2>
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 

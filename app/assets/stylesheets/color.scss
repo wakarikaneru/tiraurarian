@@ -16,6 +16,7 @@
   --color-4r: #111111;
   --color-5: #F2F2F2;
   --color-5r: #111111;
+  --color-accent: #FF9D00;
 }
 
 /*
@@ -32,6 +33,7 @@
   --color-4r: #111111;
   --color-5: #E0FDCF;
   --color-5r: #111111;
+  --color-accent: #FF9D00;
 }
 */
 
@@ -49,5 +51,19 @@
   --color-4r: #ffffff;
   --color-5: #D55640;
   --color-5r: #111111;
+  --color-accent: #FF9D00;
 }
 */
+
+.accent{
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+}
+
+.accent-color{
+  color: var(--color-accent);
+}
+
+.accent-background{
+  background-color: var(--color-accent);
+}

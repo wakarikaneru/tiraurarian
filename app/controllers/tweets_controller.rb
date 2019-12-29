@@ -1,4 +1,5 @@
 class TweetsController < ApplicationController
+  require 'digest/md5'
   before_action :authenticate_user!, only: [:destroy]
   before_action :set_tweet, only: [:show, :destroy]
 
@@ -7,7 +8,8 @@ class TweetsController < ApplicationController
   def index
 
     @tweets = Tweet.none
-    @tags = Tag.none
+    @hot_tags = Tag.none
+    @recent_tags = Tag.none
 
     case params[:mode]
       when "root" then
@@ -17,7 +19,6 @@ class TweetsController < ApplicationController
         @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-        @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
       when "mypage" then
         if user_signed_in? then
           my_tweets = Tweet.where(user_id: current_user.id)
@@ -29,7 +30,6 @@ class TweetsController < ApplicationController
           @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-          @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
         else
           redirect_to new_user_session_path
         end
@@ -38,14 +38,12 @@ class TweetsController < ApplicationController
         @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-        @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
       when "follow" then
         if user_signed_in? then
           tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id))
           @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-          @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
         else
           redirect_to new_user_session_path
         end
@@ -56,7 +54,6 @@ class TweetsController < ApplicationController
         @tweets = Tweet.none.or(tweets).limit(100)
 
         tags = Tweet.none.or(tweets)
-        @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
       when "bookmark" then
         if user_signed_in? then
           bookmarked = Bookmark.where(user_id: current_user.id).order(create_datetime: :desc)
@@ -65,7 +62,6 @@ class TweetsController < ApplicationController
           @tweets = Tweet.none.or(tweets).limit(100)
 
           tags = Tweet.none.or(tweets)
-          @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
         else
           redirect_to new_user_session_path
         end
@@ -75,20 +71,25 @@ class TweetsController < ApplicationController
           @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
-          @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
         else
-          tweets = Tweet.where("content like ?","% ##{params[:tag]}%")
+          tagged = Tag.where(tag_string: params[:tag]).order(create_datetime: :desc)
+          tagged_tweets  = Tweet.joins(:tags).merge(tagged)
+          tweets = Tweet.none.or(tagged_tweets)
           @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
-          @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
         end
       else
         tweets = Tweet.all
         @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-        @tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").limit(10)
+    end
+
+    @hot_tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").order("max(create_datetime) desc").limit(15)
+
+    if user_signed_in? then
+      @recent_tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
     end
 
     @new_tweet = Tweet.new
@@ -113,20 +114,26 @@ class TweetsController < ApplicationController
 
     @good = Good.new
     @good.tweet_id = @tweet.id
-
     if user_signed_in? then
       @gooded = Good.find_by(user_id: current_user.id, tweet_id: @tweet.id)
     else
-      @gooded = nil
+      @gooded = Good.none
+    end
+
+    @bad = Bad.new
+    @bad.tweet_id = @tweet.id
+    if user_signed_in? then
+      @baded = Bad.find_by(user_id: current_user.id, tweet_id: @tweet.id)
+    else
+      @baded = Bad.none
     end
 
     @bookmark = Bookmark.new
     @bookmark.tweet_id = @tweet.id
-
     if user_signed_in? then
       @bookmarked = Bookmark.find_by(user_id: current_user.id, tweet_id: @tweet.id)
     else
-      @bookmarked = nil
+      @bookmarked = Bookmark.none
     end
   end
 
@@ -135,18 +142,22 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+
   # POST /tweets
   # POST /tweets.json
   def create
+
+    @tweet = Tweet.new(tweet_params)
+
     current_user_id = 0
 
     if user_signed_in?
       current_user_id = current_user.id
     else
       current_user_id = 2
+      hash = Digest::MD5.hexdigest(request.remote_ip)
+      @tweet.avatar_from_url("https://www.gravatar.com/avatar/#{hash}?rating=g&default=retro")
     end
-
-    @tweet = Tweet.new(tweet_params)
 
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current

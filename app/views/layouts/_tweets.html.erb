@@ -10,7 +10,11 @@
 
       <%= link_to tweet.user, class: "link-item" do %>
         <% if tweet.user.present? %>
-          <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+          <% if tweet.avatar? %>
+            <%= image_tag tweet.avatar.url(:thumb), class: "user-img" %>
+          <% else %>
+            <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+          <% end %>
         <% else %>
           <%= image_tag "/images/noimage.png", class: "user-img" %>
         <% end %>
@@ -56,9 +60,13 @@
           <div class="content-desc content-desc-flex-row-right">
             <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= tweet.res_count %></div>
             <div class="space"> | </div>
-            <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= tweet.good_count %></div>
+            <% if 0 <= tweet.good_count - tweet.bad_count %>
+              <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+            <% else %>
+              <div class="count-good"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+            <% end %>
             <div class="space"> | </div>
-            <div class="count-good"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= tweet.bookmark_count %></div>
+            <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= tweet.bookmark_count %></div>
           </div>
         </div>
       <% end %>

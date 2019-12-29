@@ -199,11 +199,11 @@ ja:
       two_words_connector: "、"
       words_connector: "、"
   time:
-    am: 午前
     formats:
-      default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      default: "%Y/%m/%d %H:%M:S.%z"
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
+    am: 午前
     pm: 午後
 
   attributes:

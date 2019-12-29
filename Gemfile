@@ -52,10 +52,15 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# for security
+gem 'rack-attack'
+
 gem 'devise'
 gem 'devise-i18n'
 
 gem 'paperclip'
+
+gem 'twitter-text', '~> 3.0'
 
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sass-rails', '~> 5.0'

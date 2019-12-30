@@ -162,7 +162,7 @@ class TweetsController < ApplicationController
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
-    if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 1.day.ago).where(content: @tweet.content).size <= 0
+    if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 1.hour.ago).where(content: @tweet.content).size <= 0
 
       respond_to do |format|
         if @tweet.save
@@ -176,7 +176,7 @@ class TweetsController < ApplicationController
 
     else
       respond_to do |format|
-        format.html { redirect_to :back, notice: "同一内容の連続投稿は禁止です。" }
+        format.html { redirect_to :back, notice: "短時間での同一内容の投稿は禁止です。" }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
     end

@@ -30,25 +30,12 @@
 
 <div id="tag-hot" class="tag-form">
   <h3>話題のタグ</h3>
-  <div class="tag-container">
-    <% @hot_tags.each do |tag| %>
-      <div class="tag">
-        <%= link_to "##{tag.tag_string}", tweets_path(mode: "tag", tag: tag.tag_string) %>
-      </div>
-    <% end %>
-  </div>
+  <%= render partial: "/layouts/tags", locals: { tags: @hot_tags } %>
 </div>
 
 <div id="tag-recent" class="tag-form">
   <h3>最近使ったタグ</h3>
-  <div class="tag-container">
-    <% @recent_tags.each do |tag| %>
-      <div class="tag">
-        <%= link_to "##{tag.tag_string}", tweets_path(mode: "tag", tag: tag.tag_string) %>
-      </div>
-    <% end %>
-  </div>
-
+  <%= render partial: "/layouts/tags", locals: { tags: @recent_tags } %>
 </div>
 
 <div id="tag-search" class="tag-form">
@@ -73,16 +60,36 @@
 
 <script>
   $(function () {
-      $("#btn-hot").click(function () {
-          $("#tag-hot").toggle();
-      });
+    $("#btn-hot").click(function () {
 
-      $("#btn-recent").click(function () {
-          $("#tag-recent").toggle();
-      });
+      if($("#tag-hot").is(':visible')){
+        $(".tag-form").hide();
+      }else{
+        $(".tag-form").hide();
+        $("#tag-hot").show();
+      }
+    });
 
-      $("#btn-search").click(function () {
-          $("#tag-search").toggle();
-      });
+    $("#btn-recent").click(function () {
+      if($("#tag-recent").is(':visible')){
+        $(".tag-form").hide();
+      }else{
+        $(".tag-form").hide();
+        $("#tag-recent").show();
+      }
+    });
+
+    $("#btn-search").click(function () {
+      if($("#tag-search").is(':visible')){
+        $(".tag-form").hide();
+      }else{
+        $(".tag-form").hide();
+        $("#tag-search").show();
+      }
+    });
+
+    $("#btn-close").click(function () {
+      $(".tag-form").hide();
+    });
   });
 </script>

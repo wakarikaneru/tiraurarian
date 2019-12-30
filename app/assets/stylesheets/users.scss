@@ -14,6 +14,8 @@
 }
 
 .user{
+  max-width: 100%;
+
   margin: 0px;
   padding: 16px;
 
@@ -27,8 +29,8 @@
   border-radius: 16px 16px 16px 16px;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 
-  color: var(--color-5r);
-  background-color: var(--color-5);
+  color: var(--color-3r);
+  background-color: var(--color-3);
 }
 
 .user-img-xlarge{
@@ -50,6 +52,8 @@
 }
 
 .user-info-right{
+  min-width: 0px;
+  
   margin: 0px;
   padding: 0px;
 
@@ -57,7 +61,7 @@
 }
 
 .user-control{
-  margin: 0px;
+  margin: 8px;
   padding: 0px;
 
   display: flex;
@@ -67,11 +71,47 @@
 }
 
 .user-name{
-  margin: 0px;
+  margin: 8px;
+  padding: 0px;
+}
+
+.user-status{
+  margin: 8px;
+  padding: 0px;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.user-status-category{
+  margin: 8px;
+  padding: 16px;
+
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.user-status-category-icon{
+  margin: 0px 8px;
+  padding: 0px;
+}
+
+.user-status-element{
+  margin: 0px 8px;
   padding: 0px;
 }
 
 .user-desc{
-  margin: 0px;
+  margin: 8px;
   padding: 0px;
 }

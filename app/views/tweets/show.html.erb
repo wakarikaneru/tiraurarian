@@ -85,22 +85,28 @@
       <% end %>
 
       <div class="content-desc">
-        <% if @tweet.user.present? %>
-          <div class="content-desc-name"><%= @tweet.user.name %></div>
-        <% else %>
-          <div class="content-desc-name">削除されたユーザー</div>
-        <% end %>
-        <div class="content-desc-datetime"><%= time_ago_in_words(@tweet.create_datetime) %></div>
+        <div class="content-desc-right"><%= time_ago_in_words(@tweet.create_datetime) %></div>
       </div>
 
-      <div class="content-desc content-desc-flex-row-right">
-        <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
-        <div class="space"> | </div>
-        <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
-        <div class="space"> | </div>
-        <div class="count-bad"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= - @tweet.bad_count %></div>
-        <div class="space"> | </div>
-        <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
+      <div class="content-desc">
+        <% if @tweet.user.present? %>
+          <div class="content-desc-left"><%= @tweet.user.name %></div>
+        <% else %>
+          <div class="content-desc-left">削除されたユーザー</div>
+        <% end %>
+
+        <div class="space"></div>
+        
+        <div class="content-desc-right content-desc-flex-row-right">
+          <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
+          <div class="space"> | </div>
+          <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
+          <div class="space"> | </div>
+          <div class="count-bad"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= - @tweet.bad_count %></div>
+          <div class="space"> | </div>
+          <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
+        </div>
+
       </div>
 
       <div class="good-list">

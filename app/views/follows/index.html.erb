@@ -1,4 +1,1 @@
-<div id="notice" class="notice"><%= notice %></div>
-
-<% @follows.each do |user| %>
-<% end %>
+<%= render partial: "/layouts/follows", locals: { follows: @follows, mode: params[:mode] } %>

@@ -4,7 +4,18 @@ class FollowsController < ApplicationController
   # GET /follows
   # GET /follows.json
   def index
-    @follows = Follow.where(user_id: current_user.id).order(id: "DESC")
+    if user_signed_in? then
+      case params[:mode]
+        when "follow" then
+          @follows = Follow.where(user_id: current_user.id).order(id: "DESC")
+        when "follower" then
+          @follows = Follow.where(target_id: current_user.id).order(id: "DESC")
+        else
+          @follows = Follow.where(user_id: current_user.id).order(id: "DESC")
+      end
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   # POST /follows

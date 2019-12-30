@@ -10,7 +10,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user_tweets = Tweet.where(user_id: @user.id).limit(100).order(id: "DESC")
+    user_tweets = Tweet.where(user_id: @user.id)
+
+    tweets = Tweet.none.or(user_tweets)
+    @user_tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
+
+    @tags = Tag.where(user_id: @user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
 
     @follow = Follow.new
     @follow.target_id = @user.id

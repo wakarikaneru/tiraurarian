@@ -42,6 +42,8 @@
 }
 
 .tweet{
+  max-width: 100%;
+
   margin: 4px;
   padding: 0px;
 
@@ -50,6 +52,17 @@
   display: flex;
   flex-flow: row;
   align-items: flex-end;
+}
+
+.tweet-left{
+  min-width: 0px;
+
+  flex: 0 0 auto;
+}
+.tweet-right{
+  min-width: 0px;
+
+  flex: 1 1 auto;
 }
 
 .user-img{
@@ -77,6 +90,8 @@
 }
 
 .tweet-large{
+  max-width: 100%;
+
   margin: 4px;
   padding: 0px;
 
@@ -179,11 +194,11 @@
   overflow:hidden;
 }
 
-.content-desc-name {
+.content-desc-left{
   float: left;
 }
 
-.content-desc-datetime{
+.content-desc-right{
   float: right;
 }
 
@@ -196,6 +211,13 @@
   justify-content: flex-end;
 }
 
+.content-desc-flex{
+  display: flex;
+
+  flex-flow: row wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+}
 
 .good-list{
     margin: 8px;

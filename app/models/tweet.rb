@@ -16,7 +16,7 @@ class Tweet < ApplicationRecord
   has_attached_file :image, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "640x360#", thumb: "64x64#" }, default_url: "/images/null.png"
   do_not_validate_attachment_file_type :image
 
-  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/noimage.png"
+  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { thumb: "64x64#" }, default_url: "/images/noimage.png"
   do_not_validate_attachment_file_type :avatar
 
   def image_from_url(url)

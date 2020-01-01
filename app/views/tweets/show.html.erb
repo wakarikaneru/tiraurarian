@@ -96,7 +96,7 @@
         <% end %>
 
         <div class="space"></div>
-        
+
         <div class="content-desc-right content-desc-flex-row-right">
           <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
           <div class="space"> | </div>
@@ -131,6 +131,3 @@
 </div>
 
 <%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false } %>
-
-<%= link_to "Back", tweets_path %>
-</div>

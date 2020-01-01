@@ -127,23 +127,51 @@ body {
   transition: all 0.25s ease;
 }
 
-.link-item:link{
+a.link-item-image{
+}
+a.link-item-image:link{
   color: inherit;
   text-decoration: none;
   transition: all 0.25s ease;
 }
-.link-item:visited{
+a.link-item-image:visited{
   color: inherit;
   text-decoration: none;
   transition: all 0.25s ease;
 }
-.link-item:hover{
+a.link-item-image:hover{
   color: inherit;
   text-decoration: none;
   opacity: 0.75;
   transition: all 0.25s ease;
 }
-.link-item:active{
+a.link-item-image:active{
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: all 0.25s ease;
+}
+
+a.link-item-hukidasi{
+}
+a.link-item-hukidasi:link{
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+a.link-item-hukidasi:visited{
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: all 0.25s ease;
+}
+a.link-item-hukidasi:hover{
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: all 0.25s ease;
+}
+a.link-item-hukidasi:active{
   color: inherit;
   text-decoration: none;
   opacity: 0.5;

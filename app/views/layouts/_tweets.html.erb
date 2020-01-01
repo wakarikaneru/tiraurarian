@@ -9,7 +9,7 @@
     <div class="tweet">
 
       <div  class="tweet-left">
-        <%= link_to tweet.user, class: "link-item" do %>
+        <%= link_to tweet.user, class: "link-item-image" do %>
           <% if tweet.user.present? %>
             <% if tweet.avatar? %>
               <%= image_tag tweet.avatar.url(:thumb), class: "user-img" %>
@@ -23,7 +23,7 @@
       </div>
 
       <div  class="tweet-right">
-        <%= link_to tweet, class: "link-item" do %>
+        <%= link_to tweet, class: "link-item-hukidasi" do %>
           <div class="hukidasi">
 
             <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
@@ -77,9 +77,8 @@
 
             </div>
           </div>
-        </div>
-      <% end %>
-
+        <% end %>
+      </div>
     </div>
   <% end %>
 

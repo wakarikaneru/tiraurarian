@@ -9,6 +9,12 @@
 daemon = User.new(id: 0, login_id: "daemon", password: 'password', name: 'Daemon', description: '')
 daemon.save!
 
+admin = User.new(id: 1, login_id: "admin", password: 'password', name: 'Admin', description: '')
+admin.save!
+
+anonym = User.new(id: 2, login_id: "anonym", password: 'password', name: '', description: '')
+anonym.save!
+
 Admin.create(user_id: 0, permission: 15)
 
-Tweet.create(id: 0, user_id: 1, parent_id: 0, content: 'root')
+Tweet.create(id: 0, user_id: 0, parent_id: 0, content: 'root')

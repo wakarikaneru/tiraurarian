@@ -6,7 +6,7 @@
 
 /* universal */
 
-body {
+body{
   padding: 60px 15px 0;
 
   font-family: 'Noto Sans JP', sans-serif;
@@ -15,8 +15,6 @@ body {
   color: var(--color-4r);
   background-color: var(--color-4);
 }
-
-/* navbar 全体の背景色とボーダーカラー */
 
 .notice{
   margin: 8px auto;
@@ -28,7 +26,7 @@ body {
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
-.notice:empty {
+.notice:empty{
   display: none;
 }
 

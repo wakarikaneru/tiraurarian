@@ -1,3 +1,7 @@
+<% if user_signed_in? && params[:mode] == "mypage" %>
+  <%= render partial: "/layouts/user", locals: { user: current_user, tags: Tag.none } %>
+<% end %>
+
 <div id="tweet-form" class="tweet-form">
   <h2>今なにしてる？………ごめん。</h2>
 

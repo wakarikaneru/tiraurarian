@@ -1,7 +1,0 @@
-<div class="tag-container">
-  <% tags.each do |tag| %>
-    <div class="tag">
-      <%= link_to "##{tag.tag_string}", tweets_path(mode: "tag", tag: tag.tag_string) %>
-    </div>
-  <% end %>
-</div>

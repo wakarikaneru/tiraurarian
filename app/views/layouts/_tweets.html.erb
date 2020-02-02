@@ -1,0 +1,85 @@
+<% if show_list %>
+  <div class="tweet-container-list">
+<% else %>
+  <div class="tweet-container">
+<% end %>
+
+
+  <% tweets.each do |tweet| %>
+    <div class="tweet">
+
+      <div  class="tweet-left">
+        <%= link_to tweet.user, class: "link-item-image" do %>
+          <% if tweet.user.present? %>
+            <% if tweet.avatar? %>
+              <%= image_tag tweet.avatar.url(:thumb), class: "user-img" %>
+            <% else %>
+              <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
+            <% end %>
+          <% else %>
+            <%= image_tag "/images/noimage.png", class: "user-img" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div  class="tweet-right">
+        <%= link_to tweet, class: "link-item-hukidasi" do %>
+          <div class="hukidasi">
+
+            <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
+              <div class="content-desc">
+                <div class="content-desc-parent">
+                  <div class="content-parent-icon glyphicon glyphicon-share-alt" aria-hidden="true"></div>
+                  <% if Tweet.find_by(id: tweet.parent_id).present? %>
+                    <div class="content-parent-text word-break">
+                      <%= Tweet.find(tweet.parent_id).content %>
+                    </div>
+                  <% else %>
+                    <div class="content-parent-text">
+                      削除されました
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="content">
+              <% if tweet.image? %>
+                <div class="content-image">
+                  <%= image_tag tweet.image.url(:thumb), class: "fit" %>
+                </div>
+              <% end %>
+              <div class="content-text word-break">
+                <%= tweet.content %>
+              </div>
+            </div>
+            <div class="content-desc">
+
+              <% if tweet.user.present? %>
+                <div class="content-desc-left"><%= tweet.user.name %></div>
+              <% else %>
+                <div class="content-desc-left">削除されたユーザー</div>
+              <% end %>
+
+              <div class="space"></div>
+
+              <div class="content-desc-right content-desc-flex-row-right">
+                <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= tweet.res_count %></div>
+                <div class="space"> | </div>
+                <% if 0 <= tweet.good_count - tweet.bad_count %>
+                  <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+                <% else %>
+                  <div class="count-good"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+                <% end %>
+                <div class="space"> | </div>
+                <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= tweet.bookmark_count %></div>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

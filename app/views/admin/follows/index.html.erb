@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Follows</h1>
+
+<table class='table table-striped table-hover'>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Target</th>
+      <th>Create datetime</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @follows.each do |follow| %>
+      <tr>
+        <td><%= follow.user_id %></td>
+        <td><%= follow.target_id %></td>
+        <td><%= follow.create_datetime %></td>
+        <td><%= link_to 'Show', [:admin, follow] %></td>
+        <td><%= link_to 'Edit', edit_admin_follow_path(follow) %></td>
+        <td><%= link_to 'Destroy', [:admin, follow], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Follow', new_admin_follow_path %>
+<%= link_to 'Return Administration', admin_index_path %>

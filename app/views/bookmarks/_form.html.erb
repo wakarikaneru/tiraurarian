@@ -1,0 +1,32 @@
+<%= form_for(bookmark) do |f| %>
+  <% if bookmark.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bookmark.errors.count, "error") %> prohibited this bookmark from being saved:</h2>
+
+      <ul>
+      <% bookmark.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tweet_id %>
+    <%= f.number_field :tweet_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :create_datetime %>
+    <%= f.datetime_select :create_datetime %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<%= form_for(tweet, html: {name:"form", class: "form-horizontal", role: "form"}) do |f| %>
+  <% if tweet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tweet.errors.count, "error") %> prohibited this tweet from being saved:</h2>
+
+      <ul>
+      <% tweet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :parent_id  %>
+
+  <div class="col-sm-12">
+    <div class="form-group">
+      <%= f.file_field :image %>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="form-group">
+      <div class="input-group">
+
+        <%= f.text_field :content, class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください" %>
+
+        <span class="input-group-btn">
+          <%= f.submit "つぶやく", class: "btn accent" %>
+        </span>
+
+      </div>
+    </div>
+  </div>
+
+
+<% end %>

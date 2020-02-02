@@ -1,0 +1,55 @@
+<div class="follow-container">
+
+  <% follows.each do |follow| %>
+
+    <% case mode %>
+      <% when "follow" then %>
+        <% target_id = follow.target_id %>
+      <% when "follower" then %>
+        <% target_id = follow.user_id %>
+      <% else %>
+        <% target_id = follow.user_id %>
+    <% end %>
+
+    <% user = User.find(target_id) %>
+
+    <div class="follow">
+      <div>
+        <%= link_to user, class: "link-item" do %>
+          <% if user.present? %>
+            <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="follow-info">
+        <div class="follow-name"><%= user.name %></div>
+        <div class="follow-desc"><%= user.description %></div>
+      </div>
+
+      <div class="follow-control">
+        <a class="link-item" id="btn-hot">
+          <% follow = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
+          <% if follow.present? %>
+            <%= link_to follow, method: :delete do %>
+              <div class="control-button followed-button">
+                <span class="glyphicon glyphicon-ok-sign full center" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove-sign full center" aria-hidden="true"></span>
+              </div>
+            <% end %>
+          <% else %>
+            <%= link_to follows_path(follow: {target_id: user.id}), method: :post do %>
+              <div class="control-button follow-button">
+                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
+              </div>
+            <% end %>
+          <% end %>
+
+        </a>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

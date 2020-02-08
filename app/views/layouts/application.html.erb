@@ -11,7 +11,12 @@
       gtag('config', 'UA-64446031-5');
     </script>
 
-    <title>チラウラリア(β)</title>
+
+    <% if Rails.env == 'development' %>
+      <title>チラウラリア(開発版)</title>
+    <% else %>
+      <title>チラウラリア</title>
+    <% end %>
 
     <meta name="description" content="ログイン不要で書き込める、あたらしいSNS。">
 

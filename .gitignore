@@ -21,3 +21,6 @@
 
 # Ignore all asset files
 /public/assets/
+
+# Ignore nohup
+nohup.out

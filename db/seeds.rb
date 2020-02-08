@@ -15,6 +15,6 @@ admin.save!
 anonym = User.new(id: 2, login_id: "anonym", password: 'password', name: '', description: '')
 anonym.save!
 
-Admin.create(user_id: 0, permission: 15)
+Admin.create(user_id: 1, permission: 15)
 
 Tweet.create(id: 0, user_id: 0, parent_id: 0, content: 'root')

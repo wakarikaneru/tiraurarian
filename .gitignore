@@ -19,5 +19,8 @@
 # Ignore all image files.
 /public/system/
 
+# Ignore all asset files
+/public/assets/
+
 # Ignore nohup
 nohup.out

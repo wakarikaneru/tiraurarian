@@ -96,3 +96,39 @@
 .followed-button:hover > span:nth-child(1){
   display: none;
 }
+
+
+.follow-mode-changer-container{
+  margin: 8px auto;
+  padding: 0px;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  align-content: flex-start;
+  justify-content: center;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.follow-mode-changer-item{
+  margin: 8px auto;
+  padding: 0px;
+
+  flex: 1 0 auto;
+
+  text-align: center;
+}
+
+.follow-mode-changer-item-separator{
+  margin: 8px auto;
+  padding: 0px;
+
+  flex: 0 0 auto;
+
+  text-align: center;
+}

@@ -1,20 +1,14 @@
 class MutesController < ApplicationController
-  before_action :set_mute, only: [:show, :edit, :update, :destroy]
+  before_action :set_mute, only: [:destroy]
 
   # GET /mutes
   # GET /mutes.json
   def index
-
     if user_signed_in? then
       @mutes = Mute.where(user_id: current_user.id).order(id: "DESC")
     else
       redirect_to new_user_session_path
     end
-  end
-
-  # GET /mutes/1
-  # GET /mutes/1.json
-  def show
   end
 
   # POST /mutes

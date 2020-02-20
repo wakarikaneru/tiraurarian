@@ -8,7 +8,7 @@
       <% when "follower" then %>
         <% target_id = follow.user_id %>
       <% else %>
-        <% target_id = follow.user_id %>
+        <% target_id = follow.target_id %>
     <% end %>
 
     <% user = User.find(target_id) %>

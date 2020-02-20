@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :bads
   resources :tags
   resources :bookmarks
+  resources :mutes
 
   namespace :admin do
     resources :users

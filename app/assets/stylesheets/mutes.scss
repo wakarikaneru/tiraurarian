@@ -1,0 +1,98 @@
+// Place all the styles related to the tiraurarian controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.mute-container{
+  margin: 8px auto;
+  padding: 0px;
+
+}
+
+.mute{
+  margin: 8px 0px;
+  padding: 16px;
+
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  align-content: flex-start;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.mute-info{
+  min-width: 0px;
+  margin: 0px 8px;
+  padding: 0px;
+
+  flex: 1 1 auto;
+}
+
+.mute-control{
+  margin: 0px 8px;
+  padding: 0px;
+
+  flex: 0 0 auto;
+}
+
+.mute-name{
+  font-size: 150%;
+}
+
+.mute-desc{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mute-button {
+  width: auto;
+
+  color: #007FFF;
+  background-color: #FFFFFF;
+  transition: all 0.25s ease;
+}
+
+.mute-button:hover{
+  color: #FFFFFF;
+  background-color: #007FFF;
+  transition: all 0.25s ease;
+}
+
+.mute-button > span:nth-child(2){
+  display: none;
+}
+.mute-button:hover > span:nth-child(2){
+  display: inline-block;
+}
+.mute-button:hover > span:nth-child(1){
+  display: none;
+}
+
+.muted-button {
+  width: auto;
+
+  color: #FFFFFF;
+  background-color: #007FFF;
+  transition: all 0.25s ease;
+}
+
+.muted-button:hover{
+  color: #FFFFFF;
+  background-color: #FF0000;
+  transition: all 0.25s ease;
+}
+
+.muted-button > span:nth-child(2){
+  display: none;
+}
+.muted-button:hover > span:nth-child(2){
+  display: inline-block;
+}
+.muted-button:hover > span:nth-child(1){
+  display: none;
+}

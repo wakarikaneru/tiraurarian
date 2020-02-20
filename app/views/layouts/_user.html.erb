@@ -32,6 +32,28 @@
 
           <% end %>
 
+
+          <% muted = Mute.find_by(user_id: current_user.id, target_id: user.id) %>
+
+          <% if muted.present? %>
+
+            <%= form_for(muted, method: :delete) do |form| %>
+              <%= form.hidden_field :target_id %>
+              <%= form.submit "ミュート解除", class: "btn btn-danger" %>
+            <% end %>
+
+          <% else %>
+
+            <% mute = Mute.new %>
+            <% mute.target_id = user.id %>
+
+            <%= form_for(mute) do |form| %>
+              <%= form.hidden_field :target_id %>
+              <%= form.submit "ミュート", class: "btn btn-primary" %>
+            <% end %>
+
+          <% end %>
+
         </div>
       <% end %>
 

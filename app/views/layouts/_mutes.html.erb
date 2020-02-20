@@ -1,0 +1,48 @@
+<div class="mute-container">
+
+  <% mutes.each do |mute| %>
+
+    <% target_id = mute.target_id %>
+
+    <% user = User.find(target_id) %>
+
+    <div class="mute">
+      <div>
+        <%= link_to user, class: "link-item" do %>
+          <% if user.present? %>
+            <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="mute-info">
+        <div class="mute-name"><%= user.name %></div>
+        <div class="mute-desc"><%= user.description %></div>
+      </div>
+
+      <div class="mute-control">
+        <a class="link-item" id="btn-hot">
+          <% mute = Mute.find_by(user_id: current_user.id, target_id: user.id) %>
+          <% if mute.present? %>
+            <%= link_to mute, method: :delete do %>
+              <div class="control-button muted-button">
+                <span class="glyphicon glyphicon-ok-sign full center" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove-sign full center" aria-hidden="true"></span>
+              </div>
+            <% end %>
+          <% else %>
+            <%= link_to mutes_path(mute: {target_id: user.id}), method: :post do %>
+              <div class="control-button mute-button">
+                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
+              </div>
+            <% end %>
+          <% end %>
+
+        </a>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

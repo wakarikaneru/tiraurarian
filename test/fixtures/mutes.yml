@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  target_id: 1
+  create_datetime: 2020-02-19 14:57:39
+
+two:
+  user_id: 1
+  target_id: 1
+  create_datetime: 2020-02-19 14:57:39

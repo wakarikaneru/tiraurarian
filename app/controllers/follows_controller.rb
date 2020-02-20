@@ -7,11 +7,11 @@ class FollowsController < ApplicationController
     if user_signed_in? then
       case params[:mode]
         when "follow" then
-          @follows = Follow.where(user_id: current_user.id).order(id: "DESC")
+          @follows = Follow.where(user_id: current_user.id).order(create_datetime: "DESC")
         when "follower" then
-          @follows = Follow.where(target_id: current_user.id).order(id: "DESC")
+          @follows = Follow.where(target_id: current_user.id).order(create_datetime: "DESC")
         else
-          @follows = Follow.where(user_id: current_user.id).order(id: "DESC")
+          @follows = Follow.where(user_id: current_user.id).order(create_datetime: "DESC")
       end
     else
       redirect_to new_user_session_path

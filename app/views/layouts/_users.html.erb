@@ -1,0 +1,25 @@
+<div class="follow-container">
+
+  <% users.each do |user| %>
+
+    <div class="follow">
+      <div>
+        <%= link_to user, class: "link-item" do %>
+          <% if user.present? %>
+            <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="follow-info">
+        <div class="follow-name"><%= user.name %></div>
+        <div class="follow-desc"><%= user.description %></div>
+      </div>
+
+      <div class="follow-control">
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

@@ -1,1 +1,24 @@
+<div class="follow-mode-changer-container">
+  <% case params[:mode] %>
+    <% when "follow" then %>
+      <div class="follow-mode-changer-item text-big">フォロー</div>
+      <div class="follow-mode-changer-item-separator text-big">|</div>
+      <div class="follow-mode-changer-item text-big">
+        <%= link_to "フォロワー", follows_path(mode: "follower") %>
+      </div>
+    <% when "follower" then %>
+      <div class="follow-mode-changer-item text-big">
+        <%= link_to "フォロー", follows_path(mode: "follow") %>
+      </div>
+      <div class="follow-mode-changer-item-separator text-big">|</div>
+      <div class="follow-mode-changer-item text-big">フォロワー</div>
+    <% else %>
+      <div class="follow-mode-changer-item text-big">フォロー</div>
+      <div class="follow-mode-changer-item-separator text-big">|</div>
+      <div class="follow-mode-changer-item text-big">
+        <%= link_to "フォロワー", follows_path(mode: "follower") %>
+      </div>
+  <% end %>
+</div>
+
 <%= render partial: "/layouts/follows", locals: { follows: @follows, mode: params[:mode] } %>

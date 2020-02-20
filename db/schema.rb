@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191229095311) do
+ActiveRecord::Schema.define(version: 20200219055739) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 20191229095311) do
   create_table "goods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "tweet_id"
     t.integer  "user_id"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "mutes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "user_id"
+    t.integer  "target_id"
     t.datetime "create_datetime"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false

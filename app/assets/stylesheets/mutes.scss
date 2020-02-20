@@ -2,13 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.follow-container{
+.mute-container{
   margin: 8px auto;
   padding: 0px;
 
 }
 
-.follow{
+.mute{
   margin: 8px 0px;
   padding: 16px;
 
@@ -24,7 +24,7 @@
   background-color: var(--color-5);
 }
 
-.follow-info{
+.mute-info{
   min-width: 0px;
   margin: 0px 8px;
   padding: 0px;
@@ -32,24 +32,24 @@
   flex: 1 1 auto;
 }
 
-.follow-control{
+.mute-control{
   margin: 0px 8px;
   padding: 0px;
 
   flex: 0 0 auto;
 }
 
-.follow-name{
+.mute-name{
   font-size: 150%;
 }
 
-.follow-desc{
+.mute-desc{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.follow-button {
+.mute-button {
   width: auto;
 
   color: #007FFF;
@@ -57,23 +57,23 @@
   transition: all 0.25s ease;
 }
 
-.follow-button:hover{
+.mute-button:hover{
   color: #FFFFFF;
   background-color: #007FFF;
   transition: all 0.25s ease;
 }
 
-.follow-button > span:nth-child(2){
+.mute-button > span:nth-child(2){
   display: none;
 }
-.follow-button:hover > span:nth-child(2){
+.mute-button:hover > span:nth-child(2){
   display: inline-block;
 }
-.follow-button:hover > span:nth-child(1){
+.mute-button:hover > span:nth-child(1){
   display: none;
 }
 
-.followed-button {
+.muted-button {
   width: auto;
 
   color: #FFFFFF;
@@ -81,54 +81,18 @@
   transition: all 0.25s ease;
 }
 
-.followed-button:hover{
+.muted-button:hover{
   color: #FFFFFF;
   background-color: #FF0000;
   transition: all 0.25s ease;
 }
 
-.followed-button > span:nth-child(2){
+.muted-button > span:nth-child(2){
   display: none;
 }
-.followed-button:hover > span:nth-child(2){
+.muted-button:hover > span:nth-child(2){
   display: inline-block;
 }
-.followed-button:hover > span:nth-child(1){
+.muted-button:hover > span:nth-child(1){
   display: none;
-}
-
-
-.follow-mode-changer-container{
-  margin: 8px auto;
-  padding: 0px;
-
-  display: flex;
-  flex-flow: row wrap;
-  align-items: flex-end;
-  align-content: flex-start;
-  justify-content: center;
-
-  border-radius: 16px 16px 16px 16px;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
-
-  color: var(--color-5r);
-  background-color: var(--color-5);
-}
-
-.follow-mode-changer-item{
-  margin: 8px auto;
-  padding: 0px;
-
-  flex: 1 0 auto;
-
-  text-align: center;
-}
-
-.follow-mode-changer-item-separator{
-  margin: 8px auto;
-  padding: 0px;
-
-  flex: 0 0 auto;
-
-  text-align: center;
 }

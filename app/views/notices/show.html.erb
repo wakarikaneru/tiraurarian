@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @notice.user_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @notice.title %>
+</p>
+
+<p>
+  <strong>Sender:</strong>
+  <%= @notice.sender %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @notice.content %>
+</p>
+
+<p>
+  <strong>Read flag:</strong>
+  <%= @notice.read_flag %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @notice.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_notice_path(@notice) %> |
+<%= link_to 'Back', notices_path %>

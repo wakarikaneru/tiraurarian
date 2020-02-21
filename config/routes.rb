@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   resources :tweets
+  resources :notices
   resources :users
   resources :follows
   resources :goods
@@ -12,15 +13,6 @@ Rails.application.routes.draw do
   resources :tags
   resources :bookmarks
   resources :mutes
-
-  namespace :admin do
-    resources :users
-    resources :follows
-    resources :admins
-    resources :tweets
-    resources :goods
-    resources :bads
-  end
 
   get 'admin/index'
 

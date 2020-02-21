@@ -55,6 +55,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
+gem "administrate"
+
 gem 'devise'
 gem 'devise-i18n'
 

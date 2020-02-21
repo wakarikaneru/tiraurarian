@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users
+    resources :admins
+    resources :bads
+    resources :tweets
+    resources :bookmarks
+    resources :follows
+    resources :goods
+    resources :mutes
+    resources :tags
+
+    root to: "users#index"
+  end
+
   devise_for :users
 
   root 'tweets#index'

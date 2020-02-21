@@ -58,6 +58,8 @@ gem 'rack-attack'
 gem 'devise'
 gem 'devise-i18n'
 
+gem "administrate"
+
 gem 'paperclip'
 
 gem 'twitter-text', '~> 3.0'

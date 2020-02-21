@@ -13,6 +13,19 @@ Rails.application.routes.draw do
   resources :bookmarks
   resources :mutes
 
+  namespace :admin do
+    resources :users
+    resources :bads
+    resources :tweets
+    resources :bookmarks
+    resources :follows
+    resources :goods
+    resources :mutes
+    resources :tags
+
+    root to: "users#index"
+  end
+
   get 'admin/index'
 
   get 'welcome/index'

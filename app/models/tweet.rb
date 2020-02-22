@@ -5,7 +5,7 @@ class Tweet < ApplicationRecord
 
   belongs_to :user, foreign_key: :user_id, primary_key: :id
   belongs_to :tweet, foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
-  has_many :tweets
+  has_many :tweets, foreign_key: :parent_id, primary_key: :id
   has_many :goods
   has_many :bads
   has_many :bookmarks

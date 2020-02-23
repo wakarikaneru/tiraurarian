@@ -17,7 +17,7 @@
               <%= image_tag tweet.user.avatar.url(:thumb), class: "user-img" %>
             <% end %>
           <% else %>
-            <%= image_tag "/images/mystery-person.png", class: "user-img" %>
+            <%= image_tag "/images/noimage.png", class: "user-img" %>
           <% end %>
         <% end %>
       </div>
@@ -46,7 +46,7 @@
             <div class="content">
               <% if tweet.image? %>
                 <div class="content-image">
-                  <%= image_tag tweet.image.url(:thumb), class: "fit", :size =>'64x64' %>
+                  <%= image_tag tweet.image.url(:thumb), class: "fit" %>
                 </div>
               <% end %>
               <div class="content-text word-break">

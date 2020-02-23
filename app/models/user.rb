@@ -11,12 +11,13 @@ class User < ApplicationRecord
   has_many :follows
   has_many :goods
   has_many :tags
+  has_one :point
 
   validates :login_id, presence: true, uniqueness: true, length: { in: 1..16 }, format: { with: /\A[a-zA-Z\d_]+\z/ }
   validates :name, length: { maximum: 16 }
   validates :description, length: { maximum: 140 }
 
-  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/noimage.png"
+  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/mystery-person.png"
   do_not_validate_attachment_file_type :avatar
 
   def avatar_from_url(url)
@@ -29,6 +30,59 @@ class User < ApplicationRecord
 
   def email_changed?
     false
+  end
+
+  def add_points(pt = 0)
+    points = Point.find_or_create_by(user_id: self.id)
+    points.increment!(:point, pt)
+  end
+
+  def sub_points?(pt = 0)
+    points = Point.find_or_create_by(user_id: self.id)
+    if points.point < pt
+      false
+    else
+      points.decrement!(:point, pt)
+      true
+    end
+  end
+
+  def send_points?(to = User.none, pt = 0)
+    if to.is_a?(User) && to.present?
+      if self.sub_points?(pt)
+        to.add_points(pt)
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
+  # ポイント配布
+  def self.distribute_points
+    max_pt = 1000000
+    all_pt = Point.all.sum(:point)
+    distribute_ratio = 0.01
+    distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
+
+    target_tweet = Tweet.where("create_datetime > ?", 1.hour.ago).select("user_id").distinct
+    target_user = User.where(id: target_tweet)
+    target_count = target_user.count
+    pt = [(distribute_pt / target_count).floor, 1].max
+
+    target_user.find_each do |user|
+      user.add_points(pt)
+    end
+  end
+
+  # 税金を徴収
+  def self.collect_points
+    tax_ratio = 0.01
+    User.all.find_each do |user|
+      user.sub_points?((user.point.point * tax_ratio).floor)
+    end
   end
 
   private

@@ -69,7 +69,11 @@
       <div class='login-user-info'>
         <% if user_signed_in? %>
           <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img" %>
-          <span><%= current_user.point.point %>pt</span>
+          <%= if current_user.point.present? %>
+            <span><%= current_user.point.point %> pt</span>
+          <% else %>
+            <span>0 pt</span>
+          <% end %>
           <span><%= link_to "設定", edit_user_registration_path %></span>
           <span> | </span>
           <span><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></span>

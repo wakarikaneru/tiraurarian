@@ -22,11 +22,8 @@
 set :output, 'log/crontab.log'
 set :runner_command, "rails runner"
 
-if Rails.env == 'development'
-  set :environment, :development
-else
-    set :environment, :production
-end
+rails_env = ENV['RAILS_ENV'] || :development
+set :environment, rails_env
 
 every 1.days, at: '23:59' do
   runner "User.collect_points"

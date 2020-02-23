@@ -22,8 +22,7 @@
 env :PATH, ENV['PATH']
 
 set :output, 'log/crontab.log'
-job_type :rbenv_rake, %Q!PATH="#{DIR_RBENV_BIN}:$PATH"; eval "$(rbenv init -)"; cd :path && :bundle_command rake :task --silent :output!
-
+job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variable=:environment bundle exec rake :task --silent :output!
 
 rails_env = ENV['RAILS_ENV'] || :development
 set :environment, rails_env

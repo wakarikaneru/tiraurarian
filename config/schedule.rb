@@ -19,7 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-env :PATH, ENV['PATH']
 set :output, 'log/crontab.log'
 set :runner_command, "rails runner"
 

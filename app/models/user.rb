@@ -31,6 +31,34 @@ class User < ApplicationRecord
     false
   end
 
+  def add_points(pt = 0)
+    points = Point.find_or_create_by(user_id: self.id)
+    points.increment!(:point, pt)
+  end
+
+  def sub_points?(pt = 0)
+    points = Point.find_or_create_by(user_id: self.id)
+    if points.point < pt
+      false
+    else
+      points.decrement!(:point, pt)
+      true
+    end
+  end
+
+  def send_points?(to = User.none, pt = 0)
+    if to.is_a?(User) && to.present?
+      if self.sub_points?(pt)
+        to.add_points(pt)
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
   private
     def format_description
       self.description.gsub!(/[\r\n|\r|\n]/, " ")

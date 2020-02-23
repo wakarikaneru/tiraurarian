@@ -59,6 +59,7 @@ gem 'devise'
 gem 'devise-i18n'
 
 gem "administrate"
+gem 'whenever'
 
 gem 'paperclip'
 

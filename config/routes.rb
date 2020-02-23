@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :bookmarks
   resources :mutes
+  resources :points
 
   namespace :admin do
     resources :users
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
     resources :goods
     resources :mutes
     resources :tags
+    resources :points
 
     root to: "users#index"
   end

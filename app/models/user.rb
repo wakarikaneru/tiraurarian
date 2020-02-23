@@ -84,7 +84,9 @@ class User < ApplicationRecord
   def self.collect_points
     tax_ratio = 0.01
     User.all.find_each do |user|
-      user.sub_points?((user.point.point * tax_ratio).floor)
+      if user.point.present?
+        user.sub_points?((user.point.point * tax_ratio).floor)
+      end
     end
   end
 

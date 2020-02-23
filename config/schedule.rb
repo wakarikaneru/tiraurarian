@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
+env :PATH, ENV['PATH']
+
 set :output, 'log/crontab.log'
 
 rails_env = ENV['RAILS_ENV'] || :development

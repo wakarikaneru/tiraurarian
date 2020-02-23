@@ -19,10 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.days, at: '0:00 am' do
+every 1.days, at: '23:59' do
   runner "User.collect_points"
 end
 
-every 1.hours, at: 0 do
+every 1.hours, at: 00 do
   runner "User.distribute_points"
 end

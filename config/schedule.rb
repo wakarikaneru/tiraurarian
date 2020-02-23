@@ -19,6 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, 'log/crontab.log'
+set :environment, :production
+set :runner_command, "rails runner"
+
 every 1.days, at: '23:59' do
   runner "User.collect_points"
 end

@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :name, length: { maximum: 16 }
   validates :description, length: { maximum: 140 }
 
-  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/noimage.png"
+  has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "128x128#", thumb: "64x64#" }, default_url: "/images/mystery-person.png"
   do_not_validate_attachment_file_type :avatar
 
   def avatar_from_url(url)

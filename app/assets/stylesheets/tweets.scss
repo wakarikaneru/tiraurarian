@@ -69,6 +69,9 @@
   width: 48px;
   height: 48px;
 
+  max-width: 48px;
+  max-height: 48px;
+
   margin: 4px;
   padding: 0px;
 
@@ -105,6 +108,9 @@
 .user-img-large{
   width: 48px;
   height: 48px;
+
+  max-width: 48px;
+  max-height: 48px;
 
   margin: 4px;
   padding: 0px;
@@ -150,13 +156,18 @@
 }
 
 .content-image{
+  width: 64px;
+  height: 64px;
+
+  max-width: 64px;
+  max-height: 64px;
+
   margin: 4px;
 
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
 
 .content-text{
-  -max-width: 9em;
   margin: 4px 0px;
 
   flex: 1 1 auto;
@@ -181,7 +192,6 @@
 }
 
 .content-parent-text{
-  -max-width: 9em;
   flex: 1 1 auto;
 
   overflow: hidden;
@@ -234,6 +244,9 @@
 .good-user-img{
   width: 32px;
   height: 32px;
+
+  max-width: 32px;
+  max-height: 32px;
 
   margin: 4px;
   padding: 0px;

@@ -70,10 +70,13 @@ class User < ApplicationRecord
     target_tweet = Tweet.where("create_datetime > ?", 1.hour.ago).select("user_id").distinct
     target_user = User.where(id: target_tweet)
     target_count = target_user.count
-    pt = [(distribute_pt / target_count).floor, 1].max
 
-    target_user.find_each do |user|
-      user.add_points(pt)
+    if 0 < target_count
+      pt = [(distribute_pt / target_count).floor, 1].max
+
+      target_user.find_each do |user|
+        user.add_points(pt)
+      end
     end
   end
 

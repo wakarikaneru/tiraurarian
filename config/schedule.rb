@@ -20,15 +20,14 @@
 # Learn more: http://github.com/javan/whenever
 
 set :output, 'log/crontab.log'
-set :runner_command, "rails runner"
 
 rails_env = ENV['RAILS_ENV'] || :development
 set :environment, rails_env
 
 every 1.days, at: '23:59' do
-  runner "User.collect_points"
+  rake 'collect_points:collect_points'
 end
 
 every 1.hours, at: 00 do
-  runner "User.distribute_points"
+  rake 'distribute_points:distribute_points'
 end

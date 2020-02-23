@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :follows
   has_many :goods
   has_many :tags
+  has_one :point
 
   validates :login_id, presence: true, uniqueness: true, length: { in: 1..16 }, format: { with: /\A[a-zA-Z\d_]+\z/ }
   validates :name, length: { maximum: 16 }
@@ -56,6 +57,31 @@ class User < ApplicationRecord
       end
     else
       false
+    end
+  end
+
+  # ポイント配布
+  def self.distribute_points
+    max_pt = 1000000
+    all_pt = Point.all.sum(:point)
+    distribute_ratio = 0.01
+    distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
+
+    target_tweet = Tweet.where("create_datetime > ?", 1.hour.ago).select("user_id").distinct
+    target_user = User.where(id: target_tweet)
+    target_count = target_user.count
+    pt = [(distribute_pt / target_count).floor, 1].max
+
+    target_user.find_each do |user|
+      user.add_points(pt)
+    end
+  end
+
+  # 税金を徴収
+  def self.collect_points
+    tax_ratio = 0.01
+    User.all.find_each do |user|
+      user.sub_points?((user.point.point * tax_ratio).floor)
     end
   end
 

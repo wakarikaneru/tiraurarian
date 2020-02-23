@@ -27,12 +27,10 @@ set :output, 'log/crontab.log'
 rails_env = ENV['RAILS_ENV'] || :development
 set :environment, rails_env
 
-job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variable=:environment bundle exec rake :task --silent :output!
-
 every 1.days, at: '23:59' do
-  rbenv_rake 'collect_points:collect_points'
+  rake 'collect_points:collect_points'
 end
 
 every 1.hours, at: 00 do
-  rbenv_rake 'distribute_points:distribute_points'
+  rake 'distribute_points:distribute_points'
 end

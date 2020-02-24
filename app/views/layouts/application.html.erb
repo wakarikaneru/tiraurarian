@@ -68,7 +68,7 @@
     <div class='login-user-info-container'>
       <div class='login-user-info'>
         <% if user_signed_in? %>
-          <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img" %>
+          <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
           <% if current_user.point.present? %>
             <span><%= current_user.point.point %> pt</span>
           <% else %>

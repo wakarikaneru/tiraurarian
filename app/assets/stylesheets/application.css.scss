@@ -253,6 +253,39 @@ img.fit{
   object-fit: cover;
 }
 
+img.thumb{
+  border-radius: 8px 8px 8px 8px;
+  object-fit: cover;
+}
+
+.image_x24{
+  width: 24px;
+  height: 24px;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.image_x32{
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.image_x48{
+  width: 48px;
+  height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+}
+
+.image_x64{
+  width: 64px;
+  height: 64px;
+  max-width: 64px;
+  max-height: 64px;
+}
+
 .tools{
   margin: 0px;
   padding: 0px;

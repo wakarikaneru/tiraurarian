@@ -20,7 +20,7 @@ $(document).ready(function() {
     $('img').error(function() {
         $(this).attr({
             src: '/images/broken-image.png',
-            alt: '画像が見つかりません'
+            alt: 'No Image'
         });
     });
 });

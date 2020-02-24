@@ -62,7 +62,12 @@ class User < ApplicationRecord
 
   # ポイント配布
   def self.distribute_points
-    max_pt = 1000000
+
+    all_user = User.all
+    all_count = all_user.count
+
+    max_pt = 1000000 + (all_count * 1000)
+
     all_pt = Point.all.sum(:point)
     distribute_ratio = 0.01
     distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
@@ -72,7 +77,7 @@ class User < ApplicationRecord
     target_count = target_user.count
 
     if 0 < target_count
-      pt = [(distribute_pt / target_count).floor, 1].max
+      pt = [(distribute_pt / target_count).floor, 10].max
 
       target_user.find_each do |user|
         user.add_points(pt)
@@ -82,10 +87,13 @@ class User < ApplicationRecord
 
   # 税金を徴収
   def self.collect_points
+
     tax_ratio = 0.01
+
     User.all.find_each do |user|
       if user.point.present?
-        user.sub_points?((user.point.point * tax_ratio).floor)
+        pt = [(user.point.point * tax_ratio).floor, 10].max
+        user.sub_points?(pt)
       end
     end
   end

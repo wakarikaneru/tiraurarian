@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :points
   devise_for :users
 
   root 'tweets#index'
@@ -14,17 +13,21 @@ Rails.application.routes.draw do
   resources :bookmarks
   resources :mutes
   resources :points
+  resources :search
+
+  resources :controls
 
   namespace :admin do
+    resources :controls
     resources :users
-    resources :bads
+    resources :points
     resources :tweets
+    resources :tags
+    resources :goods
+    resources :bads
     resources :bookmarks
     resources :follows
-    resources :goods
     resources :mutes
-    resources :tags
-    resources :points
 
     root to: "users#index"
   end

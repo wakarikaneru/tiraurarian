@@ -53,7 +53,7 @@
 
 .user-info-right{
   min-width: 0px;
-  
+
   margin: 0px;
   padding: 0px;
 
@@ -114,4 +114,82 @@
 .user-desc{
   margin: 8px;
   padding: 0px;
+}
+
+
+.users-container{
+  margin: 8px auto;
+  padding: 0px;
+
+}
+
+
+.users{
+  margin: 8px 0px;
+  padding: 16px;
+
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  align-content: flex-start;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.users-info{
+  min-width: 0px;
+  margin: 0px 8px;
+  padding: 0px;
+
+  flex: 1 1 auto;
+}
+
+
+.users-name{
+  font-size: 150%;
+}
+
+.users-desc{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.users-mode-changer-container{
+  margin: 8px auto;
+  padding: 0px;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  align-content: flex-start;
+  justify-content: center;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.users-mode-changer-item{
+  margin: 8px auto;
+  padding: 0px;
+
+  flex: 1 0 auto;
+
+  text-align: center;
+}
+
+.users-mode-changer-item-separator{
+  margin: 8px auto;
+  padding: 0px;
+
+  flex: 0 0 auto;
+
+  text-align: center;
 }

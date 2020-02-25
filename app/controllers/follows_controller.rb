@@ -5,14 +5,8 @@ class FollowsController < ApplicationController
   # GET /follows.json
   def index
     if user_signed_in? then
-      case params[:mode]
-        when "follow" then
-          @follows = Follow.where(user_id: current_user.id).order(create_datetime: "DESC")
-        when "follower" then
-          @follows = Follow.where(target_id: current_user.id).order(create_datetime: "DESC")
-        else
-          @follows = Follow.where(user_id: current_user.id).order(create_datetime: "DESC")
-      end
+      @follows = Follow.where(user_id: current_user.id).order(create_datetime: "DESC")
+      @followers = Follow.where(target_id: current_user.id).order(create_datetime: "DESC")
     else
       redirect_to new_user_session_path
     end

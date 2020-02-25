@@ -60,6 +60,27 @@ body{
   border-radius: 100%;
 }
 
+.footer{
+    width: 100%;
+
+    margin: 8px 0px;
+    padding: 8px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+
+    color: var(--color-2r);
+    background-color: var(--color-2);
+}
+
+.footer-item{
+  margin: 0px;
+  padding: 8px;
+
+  flex: 0 0 auto;
+}
+
 .shadow{
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
@@ -251,6 +272,39 @@ img.fit{
 
   border-radius: 8px 8px 8px 8px;
   object-fit: cover;
+}
+
+img.thumb{
+  border-radius: 8px 8px 8px 8px;
+  object-fit: cover;
+}
+
+.image_x24{
+  width: 24px;
+  height: 24px;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.image_x32{
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.image_x48{
+  width: 48px;
+  height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+}
+
+.image_x64{
+  width: 64px;
+  height: 64px;
+  max-width: 64px;
+  max-height: 64px;
 }
 
 .tools{

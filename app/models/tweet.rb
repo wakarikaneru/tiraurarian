@@ -31,6 +31,8 @@ class Tweet < ApplicationRecord
     extract_hashtags(self.content).uniq.each do |tag|
       Tag.find_or_create_by(user_id: self.user_id, tweet_id: self.id, tag_string: tag, create_datetime: Time.current)
     end
+    User.find_by(id: self.user_id).update_last_tweet()
+    User.find_by(id: self.user_id).add_points(1)
   end
 
   private

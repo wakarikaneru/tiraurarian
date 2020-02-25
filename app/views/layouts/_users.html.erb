@@ -2,7 +2,7 @@
 
   <% users.each do |user| %>
 
-    <div class="follow">
+    <div class="users">
       <div>
         <%= link_to user, class: "link-item" do %>
           <% if user.present? %>
@@ -11,12 +11,9 @@
         <% end %>
       </div>
 
-      <div class="follow-info">
-        <div class="follow-name"><%= user.name %></div>
-        <div class="follow-desc"><%= user.description %></div>
-      </div>
-
-      <div class="follow-control">
+      <div class="users-info">
+        <div class="users-name"><%= user.name %></div>
+        <div class="users-desc"><%= user.description %></div>
       </div>
     </div>
 

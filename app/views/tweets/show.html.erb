@@ -7,12 +7,12 @@
     <%= link_to @tweet.user, class: "link-item" do %>
       <% if @tweet.user.present? %>
         <% if @tweet.avatar? %>
-          <%= image_tag @tweet.avatar.url(:thumb), class: "user-img" %>
+          <%= image_tag @tweet.avatar.url(:thumb), class: "user-img image_x64" %>
         <% else %>
-          <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img" %>
+          <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img image_x64" %>
         <% end %>
       <% else %>
-        <%= image_tag "/images/mystery-person.png", class: "user-img" %>
+        <%= image_tag "/images/mystery-person.png", class: "user-img image_x64" %>
       <% end %>
     <% end %>
 

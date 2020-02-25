@@ -1,0 +1,44 @@
+<div class="users-mode-changer-container">
+  <div class="users-mode-changer-item text-big"><button id="btn-users" class="btn btn-default">ユーザー</button></div>
+  <div class="users-mode-changer-item text-big"><button id="btn-tags" class="btn btn-default">タグ</button></div>
+  <div class="users-mode-changer-item text-big"><button id="btn-tweets" class="btn btn-default">つぶやき</button></div>
+</div>
+
+<div id="users" class="view">
+  <h1>ユーザー検索</h1>
+  <%= render partial: "/layouts/users", locals: { users: @users } %>
+</div>
+
+<div id="tags" class="view">
+  <h1>タグ検索</h1>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tag, show_list: false, show_parent: true } %>
+</div>
+
+<div id="tweets" class="view">
+  <h1>つぶやき検索</h1>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true } %>
+</div>
+
+<script>
+  $(function () {
+
+    $(".view").hide();
+    $("#users").show();
+
+    $("#btn-users").click(function () {
+      $(".view").hide();
+      $("#users").show();
+    });
+
+    $("#btn-tags").click(function () {
+      $(".view").hide();
+      $("#tags").show();
+    });
+
+    $("#btn-tweets").click(function () {
+      $(".view").hide();
+      $("#tweets").show();
+    });
+
+  });
+</script>

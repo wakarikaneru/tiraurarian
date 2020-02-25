@@ -8,7 +8,7 @@
 
     <div class="user-info-right">
 
-      <% if user_signed_in? %>
+      <% if user_signed_in? && show_control %>
         <div class="user-control">
 
           <% followed = Follow.find_by(user_id: current_user.id, target_id: user.id) %>

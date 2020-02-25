@@ -1,4 +1,7 @@
 <div class="follow-container">
+  <% if users.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
 
   <% users.each do |user| %>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200225014838) do
+ActiveRecord::Schema.define(version: 20200225132827) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20200225014838) do
     t.text     "description",            limit: 65535
     t.string   "login_id",                             default: "", null: false
     t.string   "email",                                default: "", null: false
+    t.datetime "last_tweet"
     t.index ["login_id"], name: "index_users_on_login_id", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

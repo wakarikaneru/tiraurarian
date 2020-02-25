@@ -60,6 +60,27 @@ body{
   border-radius: 100%;
 }
 
+.footer{
+    width: 100%;
+
+    margin: 8px 0px;
+    padding: 8px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+
+    color: var(--color-2r);
+    background-color: var(--color-2);
+}
+
+.footer-item{
+  margin: 0px;
+  padding: 8px;
+
+  flex: 0 0 auto;
+}
+
 .shadow{
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }

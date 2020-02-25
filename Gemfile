@@ -63,6 +63,8 @@ gem 'whenever'
 
 gem 'paperclip'
 
+gem 'ransack'
+
 gem 'twitter-text', '~> 3.0'
 
 gem 'bootstrap-sass', '~> 3.4.1'

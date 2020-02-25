@@ -1,24 +1,33 @@
-<div class="follow-mode-changer-container">
-  <% case params[:mode] %>
-    <% when "follow" then %>
-      <div class="follow-mode-changer-item text-big">フォロー</div>
-      <div class="follow-mode-changer-item-separator text-big">|</div>
-      <div class="follow-mode-changer-item text-big">
-        <%= link_to "フォロワー", follows_path(mode: "follower") %>
-      </div>
-    <% when "follower" then %>
-      <div class="follow-mode-changer-item text-big">
-        <%= link_to "フォロー", follows_path(mode: "follow") %>
-      </div>
-      <div class="follow-mode-changer-item-separator text-big">|</div>
-      <div class="follow-mode-changer-item text-big">フォロワー</div>
-    <% else %>
-      <div class="follow-mode-changer-item text-big">フォロー</div>
-      <div class="follow-mode-changer-item-separator text-big">|</div>
-      <div class="follow-mode-changer-item text-big">
-        <%= link_to "フォロワー", follows_path(mode: "follower") %>
-      </div>
-  <% end %>
+<div class="users-mode-changer-container">
+  <div class="users-mode-changer-item text-big"><button id="btn-follow" class="btn btn-default">フォロー</button></div>
+  <div class="users-mode-changer-item text-big"><button id="btn-follower" class="btn btn-default">フォロワー</button></div>
 </div>
 
-<%= render partial: "/layouts/follows", locals: { follows: @follows, mode: params[:mode] } %>
+<div id="follow" class="view">
+  <h1>フォローしているユーザー</h1>
+  <%= render partial: "/layouts/follows", locals: { follows: @follows, mode: "follow" } %>
+</div>
+
+<div id="follower" class="view">
+  <h1>フォローされているユーザー</h1>
+  <%= render partial: "/layouts/follows", locals: { follows: @followers, mode: "follower" } %>
+</div>
+
+<script>
+  $(function () {
+
+    $(".view").hide();
+    $("#follow").show();
+
+    $("#btn-follow").click(function () {
+      $(".view").hide();
+      $("#follow").show();
+    });
+
+    $("#btn-follower").click(function () {
+      $(".view").hide();
+      $("#follower").show();
+    });
+
+  });
+</script>

@@ -1,4 +1,4 @@
-<div class="mute-container">
+<div class="users-container">
 
   <% mutes.each do |mute| %>
 
@@ -6,7 +6,7 @@
 
     <% user = User.find(target_id) %>
 
-    <div class="mute">
+    <div class="users">
       <div>
         <%= link_to user, class: "link-item" do %>
           <% if user.present? %>
@@ -15,9 +15,9 @@
         <% end %>
       </div>
 
-      <div class="mute-info">
-        <div class="mute-name"><%= user.name %></div>
-        <div class="mute-desc"><%= user.description %></div>
+      <div class="users-info">
+        <div class="users-name"><%= user.name %></div>
+        <div class="users-desc"><%= user.description %></div>
       </div>
 
       <div class="mute-control">

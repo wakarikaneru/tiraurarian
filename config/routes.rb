@@ -4,8 +4,6 @@ Rails.application.routes.draw do
   root 'tweets#index'
   root to: "tweets#index"
 
-  resources :controls
-
   resources :tweets
   resources :users
   resources :follows
@@ -15,6 +13,9 @@ Rails.application.routes.draw do
   resources :bookmarks
   resources :mutes
   resources :points
+  resources :search
+
+  resources :controls
 
   namespace :admin do
     resources :controls

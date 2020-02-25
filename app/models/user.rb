@@ -32,6 +32,10 @@ class User < ApplicationRecord
     false
   end
 
+  def update_last_tweet
+    self.update(last_tweet: Time.current)
+  end
+
   def add_points(pt = 0)
     points = Point.find_or_create_by(user_id: self.id)
     points.increment!(:point, pt)

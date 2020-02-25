@@ -16,7 +16,7 @@
 //= require_tree .
 //= require bootstrap-sprockets
 
-$(document).ready(function() {
+$(function(){
     $('img').error(function() {
         $(this).attr({
             src: '/images/broken-image.png',

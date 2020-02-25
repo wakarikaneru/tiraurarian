@@ -72,8 +72,14 @@ class User < ApplicationRecord
     distribute_ratio = 0.01
     distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
 
-    target_tweet = Tweet.where("create_datetime > ?", 1.hour.ago).select("user_id").distinct
-    target_user = User.where(id: target_tweet)
+    control_last_distribute = Control.find_or_create_by(key: "last_distribute")
+    last_distribute = control_last_distribute.value.to_i
+    target_tweet = Tweet.where("id > ?", last_distribute)
+    if target_tweet.any?
+      control_last_distribute.update(value: target_tweet.maximum(:id).to_s)
+    end
+
+    target_user = User.where(id: target_tweet.select("user_id").distinct)
     target_count = target_user.count
 
     if 0 < target_count
@@ -83,6 +89,7 @@ class User < ApplicationRecord
         user.add_points(pt)
       end
     end
+
   end
 
   # 税金を徴収

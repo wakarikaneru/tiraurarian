@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  resources :points
   devise_for :users
 
   root 'tweets#index'
   root to: "tweets#index"
+
+  resources :controls
 
   resources :tweets
   resources :users
@@ -16,15 +17,16 @@ Rails.application.routes.draw do
   resources :points
 
   namespace :admin do
+    resources :controls
     resources :users
-    resources :bads
+    resources :points
     resources :tweets
+    resources :tags
+    resources :goods
+    resources :bads
     resources :bookmarks
     resources :follows
-    resources :goods
     resources :mutes
-    resources :tags
-    resources :points
 
     root to: "users#index"
   end

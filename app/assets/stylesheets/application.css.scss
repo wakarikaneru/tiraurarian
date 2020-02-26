@@ -146,6 +146,27 @@ body{
   transition: all 0.25s ease;
 }
 
+.footer a{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:link{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:visited{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:hover{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:active{
+  color: inherit;
+  text-decoration: underline;
+}
+
 a.link-item-image{
 }
 a.link-item-image:link{

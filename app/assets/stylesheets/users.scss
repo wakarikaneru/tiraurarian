@@ -118,15 +118,20 @@
 
 
 .users-container{
-  margin: 8px auto;
+  margin: 8px 0px;
   padding: 0px;
 
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
 }
 
-
 .users{
+  max-width: 100%;
   margin: 8px 0px;
   padding: 16px;
+
+  flex: 1 0 0px;
 
   display: flex;
   flex-flow: row;

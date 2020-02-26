@@ -1,4 +1,6 @@
-<%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
+<% if @root_tweets.any? %>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
+<% end %>
 
 <div class="tweet-container">
 

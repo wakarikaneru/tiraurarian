@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :tags
   has_one :point
 
+  has_many :cards, foreign_key: :user_id, primary_key: :id
+
   validates :login_id, presence: true, uniqueness: true, length: { in: 1..16 }, format: { with: /\A[a-zA-Z\d_]+\z/ }
   validates :name, length: { maximum: 16 }
   validates :description, length: { maximum: 140 }

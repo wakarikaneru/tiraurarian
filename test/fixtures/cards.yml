@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  model_id: 1
+  type: 1
+  power: 1
+  create_datetime: 2020-02-26 11:34:16
+
+two:
+  user_id: 1
+  model_id: 1
+  type: 1
+  power: 1
+  create_datetime: 2020-02-26 11:34:16

@@ -12,6 +12,8 @@ class UserDashboard < Administrate::BaseDashboard
     follows: Field::HasMany,
     goods: Field::HasMany,
     tags: Field::HasMany,
+    point: Field::HasOne,
+    cards: Field::HasMany,
     id: Field::Number,
     encrypted_password: Field::String,
     reset_password_token: Field::String,
@@ -53,6 +55,8 @@ class UserDashboard < Administrate::BaseDashboard
   follows
   goods
   tags
+  point
+  cards
   id
   encrypted_password
   reset_password_token
@@ -83,6 +87,8 @@ class UserDashboard < Administrate::BaseDashboard
   follows
   goods
   tags
+  point
+  cards
   encrypted_password
   reset_password_token
   reset_password_sent_at

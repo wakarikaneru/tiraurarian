@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :points
   resources :mypage
   resources :search
+  resources :cards
 
   resources :controls
 
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
     resources :bookmarks
     resources :follows
     resources :mutes
+    resources :cards
 
     root to: "controls#index"
   end

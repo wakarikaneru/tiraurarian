@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :bookmarks
   resources :mutes
   resources :points
+  resources :mypage
   resources :search
 
   resources :controls
@@ -29,7 +30,7 @@ Rails.application.routes.draw do
     resources :follows
     resources :mutes
 
-    root to: "users#index"
+    root to: "controls#index"
   end
 
   get 'admin/index'

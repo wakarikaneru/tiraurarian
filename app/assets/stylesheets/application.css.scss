@@ -35,6 +35,15 @@ body{
   flex-flow: row-reverse wrap;
 }
 
+.nothing{
+  margin: 8px auto;
+  padding: 16px;
+
+  width: 100%;
+
+  text-align: center;
+}
+
 .login-user-info{
   margin: 0px;
   padding: 8px;
@@ -144,6 +153,27 @@ body{
   text-decoration: underline;
   opacity: 0.5;
   transition: all 0.25s ease;
+}
+
+.footer a{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:link{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:visited{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:hover{
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:active{
+  color: inherit;
+  text-decoration: underline;
 }
 
 a.link-item-image{

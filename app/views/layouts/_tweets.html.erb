@@ -4,6 +4,9 @@
   <div class="tweet-container">
 <% end %>
 
+  <% if tweets.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
 
   <% tweets.each do |tweet| %>
     <div class="tweet">

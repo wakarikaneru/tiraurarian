@@ -1,4 +1,7 @@
 <div class="users-container">
+  <% if mutes.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
 
   <% mutes.each do |mute| %>
 

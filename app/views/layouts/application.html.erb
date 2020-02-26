@@ -52,12 +52,9 @@
         </div>
         <div id='navbar' class='collapse navbar-collapse'>
           <ul class='nav navbar-nav'>
-            <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "マイページ", tweets_path(mode: "mypage") %></li>
-            <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "ブックマーク", tweets_path(mode: "bookmark") %></li>
+            <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "マイページ", mypage_index_path() %></li>
             <li class="visible-xs visible-md visible-lg"><%= link_to "Good", tweets_path(mode: "good") %></li>
             <li class="visible-xs visible-md visible-lg"><%= link_to "Root", tweets_path(mode: "root") %></li>
-            <!--<li><%= link_to "フォロー", follows_path(mode: "follow") %></li>-->
-            <!--<li><%= link_to "ミュート", mutes_path() %></li>-->
             <% if user_signed_in? && current_user.id == 1 %>
               <li class="visible-xs visible-md visible-lg"><%= link_to "管理", admin_root_path() %></li>
             <% end %>
@@ -105,7 +102,7 @@
     <% if Rails.env == 'development' %>
       <div id="development" class="notice alert alert-info">
         <p>当サーバーは開発版サーバーです。稼働停止や仕様変更、データの消失が頻繁に発生します。</p>
-        <p>チラウラリアご利用の方は<a href="http://tirauraria.me/" target="blank">安定稼働サーバ</a>をご利用ください。</p>
+        <p>チラウラリアご利用の方は<a href="http://tirauraria.me/" target="blank">安定稼働サーバー</a>をご利用ください。</p>
       </div>
     <% end %>
 
@@ -117,11 +114,11 @@
     <%= yield %>
 
     <footer class="footer">
-        <div class="footer-item">使い方</div>
-        <div class="footer-item">利用規約</div>
-        <div class="footer-item">プライバシーポリシー</div>
-        <div class="footer-item">VARTH(va)ってなに？</div>
-        <div class="footer-item">tirauraria</div>
+      <div class="footer-item"><a>チラウラリアとは</a></div>
+      <div class="footer-item">使い方</div>
+      <div class="footer-item">利用規約</div>
+      <div class="footer-item">プライバシーポリシー</div>
+      <div class="footer-item">VARTH(va)ってなに？</div>
     </footer>
 
   </body>

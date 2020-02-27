@@ -46,7 +46,7 @@ class MessagesController < ApplicationController
         @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
         @new_message = Message.new
-        @new_message.user_id = @message.sender_id
+        @new_message.user_id = @target.id
       else
         redirect_to messages_path
       end

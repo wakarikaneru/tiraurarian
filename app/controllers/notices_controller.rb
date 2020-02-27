@@ -24,11 +24,19 @@ class NoticesController < ApplicationController
   # DELETE /notices/1
   # DELETE /notices/1.json
   def destroy
-    @notice.destroy
-    respond_to do |format|
-      format.html { redirect_to notices_url, notice: 'Notice was successfully destroyed.' }
-      format.json { head :no_content }
+    if @notice.user_id == current_user.id || @notice.sender_id == current_user.id
+      @notice.destroy
+      respond_to do |format|
+        format.html { redirect_to notices_url, notice: 'Notice was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.json { head :no_content }
+      end
     end
+
   end
 
   private

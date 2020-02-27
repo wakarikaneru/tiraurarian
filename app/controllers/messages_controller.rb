@@ -72,10 +72,17 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    @message.destroy
-    respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
-      format.json { head :no_content }
+    if @message.user_id == current_user.id || @message.sender_id == current_user.id
+      @message.destroy
+      respond_to do |format|
+        format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.json { head :no_content }
+      end
     end
   end
 

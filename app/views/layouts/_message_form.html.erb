@@ -1,0 +1,17 @@
+<%= form_for(message, html: {name:"form", class: "form-horizontal", role: "form"}) do |f| %>
+
+  <%= f.hidden_field :user_id  %>
+
+  <div class="col-sm-12">
+    <div class="form-group">
+      <div class="input-group">
+        <%= f.text_field :content, class: "form-control", maxlength: 140, value: value, placeholder: "メッセージを入力してください" %>
+        <span class="input-group-btn">
+          <%= f.submit "送信", class: "btn accent" %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+<% end %>

@@ -1,37 +1,3 @@
-<p id="notice"><%= notice %></p>
+<div class="title">通知BOX</div>
 
-<h1>Notices</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Sender</th>
-      <th>Title</th>
-      <th>Content</th>
-      <th>Read flag</th>
-      <th>Create datetime</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @notices.each do |notice| %>
-      <tr>
-        <td><%= notice.user_id %></td>
-        <td><%= notice.sender %></td>
-        <td><%= notice.title %></td>
-        <td><%= notice.content %></td>
-        <td><%= notice.read_flag %></td>
-        <td><%= notice.create_datetime %></td>
-        <td><%= link_to 'Show', notice %></td>
-        <td><%= link_to 'Edit', edit_notice_path(notice) %></td>
-        <td><%= link_to 'Destroy', notice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Notice', new_notice_path %>
+<%= render partial: "/layouts/notices", locals: { notices: @notices, link: false } %>

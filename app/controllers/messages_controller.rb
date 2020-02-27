@@ -1,15 +1,48 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :destroy]
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+
+    @messages = Message.none
+
+    if user_signed_in? then
+      my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
+
+      receive_messages = Message.where(user_id: current_user.id)
+      messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
+      @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+
+    else
+      redirect_to new_user_session_path
+    end
+
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
+
+    @messages = Message.none
+
+    if user_signed_in? then
+      if @message.user_id == current_user.id || @message.sender_id == current_user.id
+
+        receive_messages = Message.where(user_id: current_user.id, sender_id: @message.sender_id)
+        send_messages = Message.where(user_id: @message.sender_id, sender_id: current_user.id)
+        messages = Message.none.or(receive_messages).or(send_messages)
+        @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+
+        @new_message = Message.new
+        @new_message.user_id = @message.sender_id
+      else
+        redirect_to messages_path
+      end
+    else
+      redirect_to new_user_session_path
+    end
+
   end
 
   # GET /messages/new
@@ -17,35 +50,20 @@ class MessagesController < ApplicationController
     @message = Message.new
   end
 
-  # GET /messages/1/edit
-  def edit
-  end
-
   # POST /messages
   # POST /messages.json
   def create
     @message = Message.new(message_params)
+    @message.sender_id = current_user.id
+    @message.sender_name = current_user.name
+    @message.create_datetime = Time.current
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        format.html { redirect_to :back, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /messages/1
-  # PATCH/PUT /messages/1.json
-  def update
-    respond_to do |format|
-      if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
-        format.json { render :show, status: :ok, location: @message }
-      else
-        format.html { render :edit }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
@@ -69,6 +87,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:user_id, :sender, :title, :content, :read_flag, :create_datetime)
+      params.require(:message).permit(:user_id, :sender_id, :sender_name, :title, :content, :read_flag, :create_datetime)
     end
 end

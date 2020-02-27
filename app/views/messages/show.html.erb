@@ -1,34 +1,8 @@
-<p id="notice"><%= notice %></p>
+<div class="title"><%= @message.sender.name %></div>
 
-<p>
-  <strong>User:</strong>
-  <%= @message.user_id %>
-</p>
+<div id="tweet-form" class="tweet-form">
+  <h2>このメッセージに返信</h2>
+  <%= render partial: "/layouts/message_form", locals: { message: @new_message, value: "" } %>
+</div>
 
-<p>
-  <strong>Sender:</strong>
-  <%= @message.sender %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @message.title %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @message.content %>
-</p>
-
-<p>
-  <strong>Read flag:</strong>
-  <%= @message.read_flag %>
-</p>
-
-<p>
-  <strong>Create datetime:</strong>
-  <%= @message.create_datetime %>
-</p>
-
-<%= link_to 'Edit', edit_message_path(@message) %> |
-<%= link_to 'Back', messages_path %>
+<%= render partial: "/layouts/chat", locals: { messages: @messages } %>

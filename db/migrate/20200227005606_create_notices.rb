@@ -3,7 +3,7 @@ class CreateNotices < ActiveRecord::Migration[5.0]
     create_table :notices do |t|
       t.integer :user_id
       t.integer :sender_id
-      t.string :sender
+      t.string :sender_name
       t.string :title
       t.string :content
       t.boolean :read_flag

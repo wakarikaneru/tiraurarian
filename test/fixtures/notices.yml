@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  sender: MyString
+  title: MyString
+  content: MyText
+  read_flag: false
+  create_datetime: 2020-02-27 09:56:06
+
+two:
+  user_id: 1
+  sender: MyString
+  title: MyString
+  content: MyText
+  read_flag: false
+  create_datetime: 2020-02-27 09:56:06

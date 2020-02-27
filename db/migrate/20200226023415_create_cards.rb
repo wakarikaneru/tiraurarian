@@ -1,7 +1,7 @@
 class CreateCards < ActiveRecord::Migration[5.0]
   def change
     create_table :cards do |t|
-      t.integer :user_id
+      t.integer :card_box_id
       t.integer :model_id
       t.integer :element
       t.integer :power

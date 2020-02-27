@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200226023415) do
+ActiveRecord::Schema.define(version: 20200227011128) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
@@ -36,8 +36,27 @@ ActiveRecord::Schema.define(version: 20200226023415) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "card_boxes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
+    t.integer  "size"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "card_decks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "card_box_id"
+    t.integer  "rule"
+    t.integer  "card_1"
+    t.integer  "card_2"
+    t.integer  "card_3"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "card_box_id"
     t.integer  "model_id"
     t.integer  "element"
     t.integer  "power"
@@ -69,6 +88,18 @@ ActiveRecord::Schema.define(version: 20200226023415) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer  "user_id"
+    t.integer  "sender_id"
+    t.string   "sender"
+    t.string   "title"
+    t.string   "content"
+    t.boolean  "read_flag"
+    t.datetime "create_datetime"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "mutes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
     t.integer  "target_id"
@@ -79,13 +110,14 @@ ActiveRecord::Schema.define(version: 20200226023415) do
 
   create_table "notices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
-    t.string   "title"
+    t.integer  "sender_id"
     t.string   "sender"
-    t.text     "content",         limit: 65535
+    t.string   "title"
+    t.string   "content"
     t.boolean  "read_flag"
     t.datetime "create_datetime"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "points", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

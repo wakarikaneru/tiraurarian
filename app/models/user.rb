@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_many :tags
   has_one :point
 
+  has_many :notices
+  has_many :messages
+
   validates :login_id, presence: true, uniqueness: true, length: { in: 1..16 }, format: { with: /\A[a-zA-Z\d_]+\z/ }
   validates :name, length: { maximum: 16 }
   validates :description, length: { maximum: 140 }
@@ -73,7 +76,7 @@ class User < ApplicationRecord
     max_pt = 1000000 + (all_count * 1000)
 
     all_pt = Point.all.sum(:point)
-    distribute_ratio = 0.01
+    distribute_ratio = Constants::DISTRIBUTE_RATIO
     distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
 
     control_last_distribute = Control.find_or_create_by(key: "last_distribute")
@@ -87,10 +90,11 @@ class User < ApplicationRecord
     target_count = target_user.count
 
     if 0 < target_count
-      pt = [(distribute_pt / target_count).floor, 10].max
+      pt = [(distribute_pt / target_count).floor, Constants::DISTRIBUTE_MIN].max
 
       target_user.find_each do |user|
         user.add_points(pt)
+        Notice.generate(user.id, 0, "チラウラリア", "つぶやきボーナスとして#{pt}vaを獲得しました。")
       end
     end
 
@@ -99,12 +103,14 @@ class User < ApplicationRecord
   # 税金を徴収
   def self.collect_points
 
-    tax_ratio = 0.01
+    tax_ratio = Constants::TAX_RATIO
 
     User.all.find_each do |user|
       if user.point.present?
-        pt = [(user.point.point * tax_ratio).floor, 10].max
-        user.sub_points?(pt)
+        pt = [(user.point.point * tax_ratio).floor, Constants::TAX_MIN].max
+        if user.sub_points?(pt)
+          Notice.generate(user.id, 0, "チラウラリア", "税金として#{pt}vaを納付しました。")
+        end
       end
     end
   end

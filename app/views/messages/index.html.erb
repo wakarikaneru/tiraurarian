@@ -1,0 +1,35 @@
+<div class="title">メッセージBOX</div>
+
+<div class="users-mode-changer-container">
+  <div class="users-mode-changer-item text-big"><button id="btn-receive" class="btn btn-default">受信トレイ</button></div>
+  <div class="users-mode-changer-item text-big"><button id="btn-send" class="btn btn-default">送信トレイ</button></div>
+</div>
+
+<div id="receive" class="view">
+  <h1>受信トレイ</h1>
+  <%= render partial: "/layouts/messages", locals: { messages: @messages, to: false } %>
+</div>
+
+<div id="send" class="view">
+  <h1>送信トレイ</h1>
+  <%= render partial: "/layouts/messages", locals: { messages: @send_messages, to: true } %>
+</div>
+
+<script>
+  $(function () {
+
+    $(".view").hide();
+    $("#receive").show();
+
+    $("#btn-receive").click(function () {
+      $(".view").hide();
+      $("#receive").show();
+    });
+
+    $("#btn-send").click(function () {
+      $(".view").hide();
+      $("#send").show();
+    });
+
+  });
+</script>

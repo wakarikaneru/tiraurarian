@@ -1,0 +1,8 @@
+<div class="title"><%= @target.name %>にメッセージを送信</div>
+
+<div id="tweet-form" class="tweet-form">
+  <h2>メッセージを送信</h2>
+  <%= render partial: "/layouts/message_form", locals: { message: @new_message } %>
+</div>
+
+<%= render partial: "/layouts/chat", locals: { messages: @messages } %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @card_deck.user_id %>
+</p>
+
+<p>
+  <strong>Card 1:</strong>
+  <%= @card_deck.card_1 %>
+</p>
+
+<p>
+  <strong>Card 2:</strong>
+  <%= @card_deck.card_2 %>
+</p>
+
+<p>
+  <strong>Card 3:</strong>
+  <%= @card_deck.card_3 %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @card_deck.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_card_deck_path(@card_deck) %> |
+<%= link_to 'Back', card_decks_path %>

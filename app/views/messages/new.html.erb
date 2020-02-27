@@ -1,0 +1,10 @@
+<% if User.find_by(id: params[:user_id]).present? %>
+  <div class="title"><%= User.find(params[:user_id]).name %>にメッセージを送信</div>
+<% else %>
+  <div class="title">メッセージを送信</div>
+<% end %>
+
+<div id="tweet-form" class="tweet-form">
+  <h2>メッセージを送信</h2>
+  <%= render partial: "/layouts/message_form", locals: { message: @message, user_id: params[:user_id] } %>
+</div>

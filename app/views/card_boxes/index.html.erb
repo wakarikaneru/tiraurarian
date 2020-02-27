@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Card Boxes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Size</th>
+      <th>Create datetime</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @card_boxes.each do |card_box| %>
+      <tr>
+        <td><%= card_box.user_id %></td>
+        <td><%= card_box.size %></td>
+        <td><%= card_box.create_datetime %></td>
+        <td><%= link_to 'Show', card_box %></td>
+        <td><%= link_to 'Edit', edit_card_box_path(card_box) %></td>
+        <td><%= link_to 'Destroy', card_box, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Card Box', new_card_box_path %>

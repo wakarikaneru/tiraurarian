@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @card_box.user_id %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @card_box.size %>
+</p>
+
+<p>
+  <strong>Create datetime:</strong>
+  <%= @card_box.create_datetime %>
+</p>
+
+<%= link_to 'Edit', edit_card_box_path(@card_box) %> |
+<%= link_to 'Back', card_boxes_path %>

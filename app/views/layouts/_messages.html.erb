@@ -1,0 +1,63 @@
+<div class="tweet-container-list">
+
+  <% if messages.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% messages.each do |message| %>
+    <div class="tweet">
+
+      <div class="tweet-left">
+        <%= link_to message.sender, class: "link-item-image" do %>
+          <% if message.sender.present? %>
+            <%= image_tag message.sender.avatar.url(:thumb), class: "user-img image_x48" %>
+          <% else %>
+            <%= image_tag "/images/broken-image.png", class: "user-img image_x48" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="tweet-right">
+        <%= link_to message, class: "link-item-hukidasi" do %>
+          <div class="hukidasi">
+
+            <% if to %>
+              <div class="content-desc">
+                <div class="content-desc-parent">
+                  <div class="content-parent-icon glyphicon glyphicon-share-alt" aria-hidden="true"></div>
+                  <% if message.user.present? %>
+                    <div class="content-parent-text word-break">
+                      <%= message.user.name %>
+                    </div>
+                  <% else %>
+                    <div class="content-parent-text">
+                      削除されたユーザー
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="content">
+              <div class="content-text word-break">
+                <%= message.content %>
+              </div>
+            </div>
+            <div class="content-desc">
+
+              <div class="content-desc-left"><%= message.sender_name %></div>
+
+              <div class="space"></div>
+
+              <div class="content-desc-right content-desc-flex-row-right">
+                <div><%= time_ago_in_words(message.create_datetime) %></div>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

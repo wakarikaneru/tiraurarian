@@ -14,7 +14,7 @@
           <%= image_tag @tweet.user.avatar.url(:thumb), class: "user-img image_x64" %>
         <% end %>
       <% else %>
-        <%= image_tag "/images/mystery-person.png", class: "user-img image_x64" %>
+        <%= image_tag "/images/broken-image.png", class: "user-img image_x64" %>
       <% end %>
     <% end %>
 
@@ -116,7 +116,7 @@
           <% if good.user.present? %>
             <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
           <% else %>
-            <%= image_tag "/images/mystery-person.png", class: "user-img" %>
+            <%= image_tag "/images/broken-image.png", class: "good-user-img" %>
           <% end %>
         <% end %>
       </div>

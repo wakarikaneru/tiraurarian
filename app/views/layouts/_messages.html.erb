@@ -21,6 +21,23 @@
         <%= link_to message, class: "link-item-hukidasi" do %>
           <div class="hukidasi">
 
+            <% if to %>
+              <div class="content-desc">
+                <div class="content-desc-parent">
+                  <div class="content-parent-icon glyphicon glyphicon-share-alt" aria-hidden="true"></div>
+                  <% if message.user.present? %>
+                    <div class="content-parent-text word-break">
+                      <%= message.user.name %>
+                    </div>
+                  <% else %>
+                    <div class="content-parent-text">
+                      削除されたユーザー
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
             <div class="content">
               <div class="content-text word-break">
                 <%= message.content %>

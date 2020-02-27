@@ -14,6 +14,8 @@ class MessagesController < ApplicationController
       messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
       @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
 
+      send_messages = Message.where(sender_id: current_user.id)
+      @send_messages = Message.none.or(send_messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
     else
       redirect_to new_user_session_path
     end
@@ -29,8 +31,14 @@ class MessagesController < ApplicationController
     if user_signed_in? then
       if @message.user_id == current_user.id || @message.sender_id == current_user.id
 
-        receive_messages = Message.where(user_id: current_user.id, sender_id: @message.sender_id)
-        send_messages = Message.where(user_id: @message.sender_id, sender_id: current_user.id)
+        if @message.user_id == current_user.id
+          @target = @message.sender
+        else
+          @target = @message.user
+        end
+
+        receive_messages = Message.where(user_id: current_user.id, sender_id: @target.id)
+        send_messages = Message.where(user_id: @target.id, sender_id: current_user.id)
         messages = Message.none.or(receive_messages).or(send_messages)
         @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
 
@@ -66,7 +74,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to messages_url, notice: 'Message was successfully created.' }
+        format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }

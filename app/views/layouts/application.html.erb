@@ -53,8 +53,26 @@
         <div id='navbar' class='collapse navbar-collapse'>
           <ul class='nav navbar-nav'>
             <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "マイページ", mypage_index_path() %></li>
-            <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "通知", notices_path() %></li>
-            <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to "メッセージ", messages_path() %></li>
+            <% if user_signed_in? %>
+
+              <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
+              <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
+
+              <% if notice_records.exists? %>
+               <% notice_count = [notice_records.count, 99].min.to_s %>
+              <% else %>
+               <% notice_count = "" %>
+              <% end %>
+
+              <% if message_records.exists? %>
+               <% message_count = [message_records.count, 99].min.to_s %>
+              <% else %>
+               <% message_count = "" %>
+              <% end %>
+
+              <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to notices_path() do %>通知 <span class="badge"><%= notice_count %></span><% end %></li>
+              <li class="visible-xs visible-sm visible-md visible-lg"><%= link_to messages_path() do %>DM <span class="badge"><%= message_count %></span><% end %></li>
+            <% end %>
             <li class="visible-xs visible-md visible-lg"><%= link_to "Good", tweets_path(mode: "good") %></li>
             <li class="visible-xs visible-md visible-lg"><%= link_to "Root", tweets_path(mode: "root") %></li>
             <% if user_signed_in? && current_user.id == 1 %>

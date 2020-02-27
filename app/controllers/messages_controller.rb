@@ -12,10 +12,10 @@ class MessagesController < ApplicationController
 
       receive_messages = Message.where(user_id: current_user.id)
       messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
-      @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+      @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
       send_messages = Message.where(sender_id: current_user.id)
-      @send_messages = Message.none.or(send_messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+      @send_messages = Message.none.or(send_messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
       @messages.update(read_flag: true)
 
@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
         receive_messages = Message.where(user_id: current_user.id, sender_id: @target.id)
         send_messages = Message.where(user_id: @target.id, sender_id: current_user.id)
         messages = Message.none.or(receive_messages).or(send_messages)
-        @messages = Message.none.or(messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+        @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
         @new_message = Message.new
         @new_message.user_id = @message.sender_id

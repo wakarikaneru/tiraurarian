@@ -9,7 +9,7 @@ class NoticesController < ApplicationController
     if user_signed_in? then
       receive_notices = Notice.where(user_id: current_user.id)
       notices = Notice.none.or(receive_notices)
-      @notices = Notice.none.or(notices).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+      @notices = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
       @notices.update(read_flag: true)
     else

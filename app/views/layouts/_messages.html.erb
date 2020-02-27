@@ -18,23 +18,7 @@
       </div>
 
       <div class="tweet-right">
-        <% if link %>
-          <%= link_to message, class: "link-item-hukidasi" do %>
-            <div class="hukidasi">
-
-              <div class="content">
-                <div class="content-text word-break">
-                  <%= message.content %>
-                </div>
-              </div>
-              <div class="content-desc">
-
-                <div class="content-desc-left"><%= message.sender_name %></div>
-
-              </div>
-            </div>
-          <% end %>
-        <% else %>
+        <%= link_to message, class: "link-item-hukidasi" do %>
           <div class="hukidasi">
 
             <div class="content">
@@ -45,6 +29,12 @@
             <div class="content-desc">
 
               <div class="content-desc-left"><%= message.sender_name %></div>
+
+              <div class="space"></div>
+
+              <div class="content-desc-right content-desc-flex-row-right">
+                <div><%= time_ago_in_words(message.create_datetime) %></div>
+              </div>
 
             </div>
           </div>

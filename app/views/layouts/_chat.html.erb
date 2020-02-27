@@ -29,6 +29,12 @@
 
               <div class="content-desc-left"><%= message.sender_name %></div>
 
+              <div class="space"></div>
+
+              <div class="content-desc-right content-desc-flex-row-right">
+                <div><%= time_ago_in_words(message.create_datetime) %></div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -57,6 +63,12 @@
             <div class="content-desc">
 
               <div class="content-desc-left"><%= message.sender_name %></div>
+
+              <div class="space"></div>
+
+              <div class="content-desc-right content-desc-flex-row-right">
+                <div><%= time_ago_in_words(message.create_datetime) %></div>
+              </div>
 
             </div>
           </div>

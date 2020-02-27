@@ -47,7 +47,13 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    @message = Message.new
+    user = User.find_by(id: params[:user_id])
+    if user.present?
+      @message = Message.new
+      @message.user_id = user.id
+    else
+      redirect_to messages_path
+    end
   end
 
   # POST /messages
@@ -60,7 +66,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to :back, notice: 'Message was successfully created.' }
+        format.html { redirect_to messages_url, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }

@@ -1,8 +1,8 @@
 <div class="title"><%= @message.sender.name %></div>
 
 <div id="tweet-form" class="tweet-form">
-  <h2>このメッセージに返信</h2>
-  <%= render partial: "/layouts/message_form", locals: { message: @new_message, value: "" } %>
+  <h2>メッセージを送信</h2>
+  <%= render partial: "/layouts/message_form", locals: { message: @new_message } %>
 </div>
 
 <%= render partial: "/layouts/chat", locals: { messages: @messages } %>

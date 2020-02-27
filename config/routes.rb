@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   resources :tweets
+  resources :tags
+  resources :bookmarks
+  resources :goods
+  resources :bads
 
   resources :mypage
   resources :search

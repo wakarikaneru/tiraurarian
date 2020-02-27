@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class CardDashboard < Administrate::BaseDashboard
+class CardBoxDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,12 +8,11 @@ class CardDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    card_box: Field::BelongsTo,
     user: Field::BelongsTo,
+    cards: Field::HasMany,
+    card_decks: Field::HasMany,
     id: Field::Number,
-    model_id: Field::Number,
-    element: Field::Number,
-    power: Field::Number,
+    size: Field::Number,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -25,21 +24,20 @@ class CardDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  card_box
   user
+  cards
+  card_decks
   id
-  model_id
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  card_box
   user
+  cards
+  card_decks
   id
-  model_id
-  element
-  power
+  size
   create_datetime
   created_at
   updated_at
@@ -49,11 +47,10 @@ class CardDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  card_box
   user
-  model_id
-  element
-  power
+  cards
+  card_decks
+  size
   create_datetime
   ].freeze
 
@@ -69,10 +66,10 @@ class CardDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how cards are displayed
+  # Overwrite this method to customize how card boxes are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(card)
-  #   "Card ##{card.id}"
+  # def display_resource(card_box)
+  #   "CardBox ##{card_box.id}"
   # end
 end

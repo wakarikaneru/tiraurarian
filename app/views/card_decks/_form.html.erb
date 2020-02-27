@@ -1,0 +1,42 @@
+<%= form_for(card_deck) do |f| %>
+  <% if card_deck.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(card_deck.errors.count, "error") %> prohibited this card_deck from being saved:</h2>
+
+      <ul>
+      <% card_deck.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :card_1 %>
+    <%= f.number_field :card_1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :card_2 %>
+    <%= f.number_field :card_2 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :card_3 %>
+    <%= f.number_field :card_3 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :create_datetime %>
+    <%= f.datetime_select :create_datetime %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

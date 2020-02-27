@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  card_1: 1
+  card_2: 1
+  card_3: 1
+  create_datetime: 2020-02-26 12:35:18
+
+two:
+  user_id: 1
+  card_1: 1
+  card_2: 1
+  card_3: 1
+  create_datetime: 2020-02-26 12:35:18

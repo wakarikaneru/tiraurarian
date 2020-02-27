@@ -33,6 +33,10 @@ every 1.days, at: '23:59' do
   rake 'collect_points:collect_points'
 end
 
-every 1.hours, at: 00 do
+every 1.hours do
   rake 'distribute_points:distribute_points'
+end
+
+every 1.minutes do
+  rake 'refresh_environment:refresh_environment'
 end

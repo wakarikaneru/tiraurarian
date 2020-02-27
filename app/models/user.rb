@@ -94,15 +94,7 @@ class User < ApplicationRecord
 
       target_user.find_each do |user|
         user.add_points(pt)
-
-        notice = Notice.new
-        notice.user_id = user.id
-        notice.sender_id = 0
-        notice.sender_name = "チラウラリア"
-        notice.content = "つぶやきボーナスとして#{pt}vaを獲得しました。"
-        notice.create_datetime = Time.current
-
-        notice.save!
+        Notice.generate(user.id, 0, "チラウラリア", "つぶやきボーナスとして#{pt}vaを獲得しました。")
       end
     end
 
@@ -116,16 +108,9 @@ class User < ApplicationRecord
     User.all.find_each do |user|
       if user.point.present?
         pt = [(user.point.point * tax_ratio).floor, Constants::TAX_MIN].max
-        user.sub_points?(pt)
-
-        notice = Notice.new
-        notice.user_id = user.id
-        notice.sender_id = 0
-        notice.sender_name = "チラウラリア"
-        notice.content = "税金として#{pt}vaを納付しました。"
-        notice.create_datetime = Time.current
-
-        notice.save!
+        if user.sub_points?(pt)
+          Notice.generate(user.id, 0, "チラウラリア", "税金として#{pt}vaを納付しました。")
+        end
       end
     end
   end

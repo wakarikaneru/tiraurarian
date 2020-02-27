@@ -16,6 +16,9 @@ class MessagesController < ApplicationController
 
       send_messages = Message.where(sender_id: current_user.id)
       @send_messages = Message.none.or(send_messages).where("create_datetime > ?", 7.days.ago).order(create_datetime: :desc)
+
+      @messages.update(read_flag: true)
+
     else
       redirect_to new_user_session_path
     end
@@ -70,6 +73,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.sender_id = current_user.id
     @message.sender_name = current_user.name
+    @message.read_flag = false
     @message.create_datetime = Time.current
 
     respond_to do |format|

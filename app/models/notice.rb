@@ -16,9 +16,9 @@ class Notice < ApplicationRecord
   end
 
   # 一斉送信
-  def self.broadcast(user_id = 0, sender_id = 0, sender_name = "チラウラリア", content = "")
+  def self.broadcast(sender_id = 0, sender_name = "チラウラリア", content = "")
     User.all.find_each do |user|
-      Notice.generate(user_id, sender_id, sender_name, content)
+      Notice.generate(user.id, sender_id, sender_name, content)
     end
   end
 

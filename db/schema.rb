@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20200227011128) do
   create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
     t.integer  "sender_id"
-    t.string   "sender"
+    t.string   "sender_name"
     t.string   "title"
     t.string   "content"
     t.boolean  "read_flag"
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20200227011128) do
   create_table "notices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer  "user_id"
     t.integer  "sender_id"
-    t.string   "sender"
+    t.string   "sender_name"
     t.string   "title"
     t.string   "content"
     t.boolean  "read_flag"

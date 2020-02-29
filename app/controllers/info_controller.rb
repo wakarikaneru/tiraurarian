@@ -2,15 +2,15 @@ class InfoController < ApplicationController
   def index
   end
 
-  def how-to-use
+  def howtouse
   end
 
-  def terms-of-service
+  def termsofservice
   end
 
-  def privacy-policy
+  def privacypolicy
   end
 
-  def what-is-varth
+  def whatisvarth
   end
 end

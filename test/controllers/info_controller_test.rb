@@ -6,23 +6,23 @@ class InfoControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get how-to-use" do
-    get info_how-to-use_url
+  test "should get howtouse" do
+    get info_howtouse_url
     assert_response :success
   end
 
-  test "should get terms-of-service" do
-    get info_terms-of-service_url
+  test "should get termsofservice" do
+    get info_termsofservice_url
     assert_response :success
   end
 
-  test "should get privacy-policy" do
-    get info_privacy-policy_url
+  test "should get privacypolicy" do
+    get info_privacypolicy_url
     assert_response :success
   end
 
-  test "should get what-is-varth" do
-    get info_what-is-varth_url
+  test "should get whatisvarth" do
+    get info_whatisvarth_url
     assert_response :success
   end
 

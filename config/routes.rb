@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
 
+  get 'info/index'
+
+  get 'info/howtouse'
+
+  get 'info/termsofservice'
+
+  get 'info/privacypolicy'
+
+  get 'info/whatisvarth'
+
   devise_for :users
 
   root 'tweets#index'

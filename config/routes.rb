@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
   root 'tweets#index'
@@ -23,6 +24,12 @@ Rails.application.routes.draw do
   resources :card_boxes
   resources :cards
   resources :card_decks
+
+  get 'info/index'
+  get 'info/how-to-use'
+  get 'info/terms-of-service'
+  get 'info/privacy-policy'
+  get 'info/what-is-varth'
 
   resources :points do
     collection do

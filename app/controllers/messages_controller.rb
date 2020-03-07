@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
 
     else
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
         format.json { head :no_content }
       end
     end
@@ -55,7 +55,7 @@ class MessagesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
         format.json { head :no_content }
       end
     end

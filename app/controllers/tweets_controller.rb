@@ -43,7 +43,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end
@@ -55,7 +55,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end
@@ -76,7 +76,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end

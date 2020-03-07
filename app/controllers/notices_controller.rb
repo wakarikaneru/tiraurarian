@@ -14,7 +14,7 @@ class NoticesController < ApplicationController
       @notices.update(read_flag: true)
     else
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
         format.json { head :no_content }
       end
     end

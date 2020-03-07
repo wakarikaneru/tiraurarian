@@ -46,10 +46,8 @@ class PointsController < ApplicationController
 
           if user.present?
             if current_user.send_points?(user, point)
-              Notice.generate(current_user.id, current_user.id, current_user.name, "[#{user.id}]#{user.name}に#{point}VARTHを送信しました。")
-              if 100 <= point
-                Notice.generate(user.id, current_user.id, current_user.name, "#{point}VARTHを受け取りました。")
-              end
+              Notice.generate(current_user.id, user.id, user.name, "#{point}VARTHを送信しました。")
+              Notice.generate(user.id, current_user.id, current_user.name, "#{point}VARTHを受け取りました。")
               respond_to do |format|
                 format.html { redirect_to :back, notice: "#{point}VARTHを送信しました。" }
                 format.json { head :no_content }

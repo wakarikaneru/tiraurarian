@@ -126,10 +126,8 @@
       </div>
     <% end %>
 
-    <% if Rails.env == 'development' %>
-      <div id="notice" class="notice alert alert-info"><%= notice %></div>
-      <div id="alert" class="notice alert alert-danger"><%= alert %></div>
-    <% end %>
+    <div id="notice" class="notice alert alert-info"><%= notice %></div>
+    <div id="alert" class="notice alert alert-danger"><%= alert %></div>
 
     <%= yield %>
 

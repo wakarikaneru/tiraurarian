@@ -7,16 +7,6 @@ class PointsController < ApplicationController
     @points = Point.all
   end
 
-  # DELETE /points/1
-  # DELETE /points/1.json
-  def destroy
-    @point.destroy
-    respond_to do |format|
-      format.html { redirect_to points_url, notice: "Point was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   def remit
     point_str = params[:point]
     user_id_str = params[:user_id]

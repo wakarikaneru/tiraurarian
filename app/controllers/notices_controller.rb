@@ -31,12 +31,12 @@ class NoticesController < ApplicationController
     if @notice.user_id == current_user.id || @notice.sender_id == current_user.id
       @notice.destroy
       respond_to do |format|
-        format.html { redirect_to notices_url, notice: 'Notice was successfully destroyed.' }
+        format.html { redirect_to notices_url, notice: '通知を削除しました。' }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

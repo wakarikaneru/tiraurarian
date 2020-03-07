@@ -84,7 +84,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        format.html { redirect_to @message, notice: 'メッセージを送信しました。' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
@@ -99,12 +99,12 @@ class MessagesController < ApplicationController
     if @message.user_id == current_user.id || @message.sender_id == current_user.id
       @message.destroy
       respond_to do |format|
-        format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
+        format.html { redirect_to messages_url, notice: 'メッセージを削除しました。' }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

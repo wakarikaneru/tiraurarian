@@ -21,7 +21,7 @@ class BadsController < ApplicationController
 
     respond_to do |format|
       if @bad.save
-        format.html { redirect_to :back, notice: "Bad was successfully created." }
+        format.html { redirect_to :back, notice: "Badをつけました。" }
         format.json { render :show, status: :created, location: @bad }
       else
         format.html { render :new }
@@ -36,12 +36,12 @@ class BadsController < ApplicationController
     if @bad.user_id == current_user.id
       @bad.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: "Bad was successfully destroyed." }
+        format.html { redirect_to :back, notice: "Badを解除しました。" }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

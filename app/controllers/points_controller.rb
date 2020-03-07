@@ -12,7 +12,7 @@ class PointsController < ApplicationController
   def destroy
     @point.destroy
     respond_to do |format|
-      format.html { redirect_to points_url, notice: 'Point was successfully destroyed.' }
+      format.html { redirect_to points_url, notice: "Point was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -24,12 +24,12 @@ class PointsController < ApplicationController
     if user_signed_in?
       if point_str.blank?
         respond_to do |format|
-          format.html { redirect_to :back, error: 'ポイントを入力してください。' }
+          format.html { redirect_to :back, error: "ポイントを入力してください。" }
           format.json { head :no_content }
         end
       elsif user_id_str.blank?
         respond_to do |format|
-          format.html { redirect_to :back, error: 'ユーザーを指定してください。' }
+          format.html { redirect_to :back, error: "ユーザーを指定してください。" }
           format.json { head :no_content }
         end
       else
@@ -37,28 +37,32 @@ class PointsController < ApplicationController
 
         if match_point.nil?
           respond_to do |format|
-            format.html { redirect_to :back, error: '入力が不正です。' }
+            format.html { redirect_to :back, error: "入力が不正です。" }
             format.json { head :no_content }
           end
         else
-          user = User.find(user_id_str.to_i)
+          user = User.find_by(id: user_id_str.to_i)
           point = point_str.to_i
 
           if user.present?
             if current_user.send_points?(user, point)
+              Notice.generate(current_user.id, current_user.id, current_user.name, "[#{user.id}]#{user.name}に#{point}VARTHを送信しました。")
+              if 100 <= point
+                Notice.generate(user.id, current_user.id, current_user.name, "#{point}VARTHを受け取りました。")
+              end
               respond_to do |format|
-                format.html { redirect_to :back, notice: '#{point}VARTHを送信しました。' }
+                format.html { redirect_to :back, notice: "#{point}VARTHを送信しました。" }
                 format.json { head :no_content }
               end
             else
               respond_to do |format|
-                format.html { redirect_to :back, error: 'VARTHの送信に失敗しました。' }
+                format.html { redirect_to :back, error: "VARTHの送信に失敗しました。" }
                 format.json { head :no_content }
               end
             end
           else
             respond_to do |format|
-              format.html { redirect_to :back, error: 'ユーザーが存在しません。' }
+              format.html { redirect_to :back, error: "ユーザーが存在しません。" }
               format.json { head :no_content }
             end
           end
@@ -66,7 +70,7 @@ class PointsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, error: "ログインしてください。" }
         format.json { head :no_content }
       end
     end

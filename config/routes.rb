@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
   root 'tweets#index'
@@ -26,12 +27,16 @@ Rails.application.routes.draw do
 
   resources :points do
     collection do
-      get 'remit'
       post 'remit'
     end
   end
 
-  resources :controls
+  get 'info/index'
+  get 'info/howtouse'
+  get 'info/termsofservice'
+  get 'info/privacypolicy'
+  get 'info/whatisvarth'
+
 
   namespace :admin do
     resources :controls

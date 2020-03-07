@@ -7,7 +7,10 @@ class MutesController < ApplicationController
     if user_signed_in? then
       @mutes = Mute.where(user_id: current_user.id).order(id: "DESC")
     else
-      redirect_to new_user_session_path
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.json { head :no_content }
+      end
     end
   end
 

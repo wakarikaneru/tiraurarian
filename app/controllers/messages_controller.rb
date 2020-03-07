@@ -20,7 +20,10 @@ class MessagesController < ApplicationController
       @messages.update(read_flag: true)
 
     else
-      redirect_to new_user_session_path
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.json { head :no_content }
+      end
     end
 
   end
@@ -51,7 +54,10 @@ class MessagesController < ApplicationController
         redirect_to messages_path
       end
     else
-      redirect_to new_user_session_path
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.json { head :no_content }
+      end
     end
 
   end

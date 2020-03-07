@@ -46,6 +46,10 @@ class PointsController < ApplicationController
 
           if user.present?
             if current_user.send_points?(user, point)
+              Notice.generate(current_user, current_user.id, current_user.name, '#{point}VIRTHを送信しました。')
+              if 100 <= point
+                Notice.generate(user, current_user.id, current_user.name, '#{point}VIRTHを受け取りました。')
+              end
               respond_to do |format|
                 format.html { redirect_to :back, notice: '#{point}VARTHを送信しました。' }
                 format.json { head :no_content }
@@ -66,7 +70,7 @@ class PointsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
         format.json { head :no_content }
       end
     end

@@ -42,7 +42,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "follow" then
         if user_signed_in? then
@@ -51,7 +54,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "good" then
         hot  = Good.where("goods.create_datetime > ?", 1.day.ago).group(:tweet_id).order("count(goods.id) desc")
@@ -69,7 +75,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "tag" then
         if params[:tag].blank?

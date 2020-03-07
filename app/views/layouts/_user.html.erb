@@ -11,6 +11,8 @@
       <% if user_signed_in? && show_control %>
         <div class="user-control">
 
+          <%= render partial: "/layouts/points_form", locals: { user_id: user.id } %>
+
           <%= link_to "メッセージ送信", new_message_path(user_id: user.id), class:"btn btn-default" %>
 
           <% followed = Follow.find_by(user_id: current_user.id, target_id: user.id) %>

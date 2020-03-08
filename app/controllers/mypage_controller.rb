@@ -18,7 +18,10 @@ class MypageController < ApplicationController
 
       @tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
     else
-      redirect_to new_user_session_path
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
+        format.json { head :no_content }
+      end
     end
 
   end

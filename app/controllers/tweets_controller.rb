@@ -42,7 +42,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "follow" then
         if user_signed_in? then
@@ -51,7 +54,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "good" then
         hot  = Good.where("goods.create_datetime > ?", 1.day.ago).group(:tweet_id).order("count(goods.id) desc")
@@ -69,7 +75,10 @@ class TweetsController < ApplicationController
 
           tags = Tweet.none.or(tweets)
         else
-          redirect_to new_user_session_path
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
       when "tag" then
         if params[:tag].blank?
@@ -182,7 +191,7 @@ class TweetsController < ApplicationController
 
     else
       respond_to do |format|
-        format.html { redirect_to :back, notice: "短時間での同一内容の投稿は禁止です。" }
+        format.html { redirect_to :back, alert: "短時間での同一内容の投稿は禁止です。" }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
     end
@@ -199,7 +208,7 @@ class TweetsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

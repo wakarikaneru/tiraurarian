@@ -1,15 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'info/index'
-
-  get 'info/howtouse'
-
-  get 'info/termsofservice'
-
-  get 'info/privacypolicy'
-
-  get 'info/whatisvarth'
-
   devise_for :users
 
   root 'tweets#index'
@@ -35,20 +25,18 @@ Rails.application.routes.draw do
   resources :cards
   resources :card_decks
 
-  get 'info/index'
-  get 'info/how-to-use'
-  get 'info/terms-of-service'
-  get 'info/privacy-policy'
-  get 'info/what-is-varth'
-
   resources :points do
     collection do
-      get 'remit'
       post 'remit'
     end
   end
 
-  resources :controls
+  get 'info/index'
+  get 'info/howtouse'
+  get 'info/termsofservice'
+  get 'info/privacypolicy'
+  get 'info/whatisvarth'
+
 
   namespace :admin do
     resources :controls

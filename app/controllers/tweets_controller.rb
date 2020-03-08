@@ -43,7 +43,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end
@@ -55,7 +55,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end
@@ -76,7 +76,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets)
         else
           respond_to do |format|
-            format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
         end
@@ -191,7 +191,7 @@ class TweetsController < ApplicationController
 
     else
       respond_to do |format|
-        format.html { redirect_to :back, notice: "短時間での同一内容の投稿は禁止です。" }
+        format.html { redirect_to :back, alert: "短時間での同一内容の投稿は禁止です。" }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
     end
@@ -208,7 +208,7 @@ class TweetsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

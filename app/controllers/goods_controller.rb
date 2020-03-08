@@ -21,7 +21,7 @@ class GoodsController < ApplicationController
 
     respond_to do |format|
       if @good.save
-        format.html { redirect_to :back, notice: "Good was successfully created." }
+        format.html { redirect_to :back, notice: "Goodをつけました。" }
         format.json { render :show, status: :created, location: @good }
       else
         format.html { render :new }
@@ -36,12 +36,12 @@ class GoodsController < ApplicationController
     if @good.user_id == current_user.id
       @good.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: "Good was successfully destroyed." }
+        format.html { redirect_to :back, notice: "Goodを解除しました。" }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

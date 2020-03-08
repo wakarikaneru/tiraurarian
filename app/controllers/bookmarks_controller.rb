@@ -21,7 +21,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.save
-        format.html { redirect_to :back, notice: "Bookmark was successfully created." }
+        format.html { redirect_to :back, notice: "ブックマークに設定しました。" }
         format.json { render :show, status: :created, location: @bookmark }
       else
         format.html { render :new }
@@ -36,12 +36,12 @@ class BookmarksController < ApplicationController
     if @bookmark.user_id == current_user.id
       @bookmark.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: "Bookmark was successfully destroyed." }
+        format.html { redirect_to :back, notice: "ブックマークを解除しました。" }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

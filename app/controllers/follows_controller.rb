@@ -9,7 +9,7 @@ class FollowsController < ApplicationController
       @followers = Follow.where(target_id: current_user.id).order(create_datetime: "DESC")
     else
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, error: 'ログインしてください。' }
+        format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
         format.json { head :no_content }
       end
     end
@@ -24,7 +24,7 @@ class FollowsController < ApplicationController
 
     respond_to do |format|
       if @follow.save
-        format.html { redirect_to :back, notice: "Follow was successfully created." }
+        format.html { redirect_to :back, notice: "フォローしました。" }
         format.json { render :show, status: :created, location: @follow }
       else
         format.html { render :new }
@@ -39,12 +39,12 @@ class FollowsController < ApplicationController
     if @follow.user_id == current_user.id
       @follow.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: "Follow was successfully destroyed." }
+        format.html { redirect_to :back, notice: "フォローを解除しました。" }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "You don't have permission." }
+        format.html { redirect_to :back, alert: "権限がありません。" }
         format.json { head :no_content }
       end
     end

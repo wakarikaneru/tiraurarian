@@ -5,6 +5,8 @@
 <% end %>
 
 <div id="tweet-form" class="tweet-form">
-  <h2>メッセージを送信</h2>
+  <div class="prompt">メッセージを送信</div>
   <%= render partial: "/layouts/message_form", locals: { message: @message, user_id: params[:user_id] } %>
 </div>
+
+<%= render partial: "/layouts/chat", locals: { messages: @messages } %>

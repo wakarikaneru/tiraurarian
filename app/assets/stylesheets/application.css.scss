@@ -1,14 +1,14 @@
 //= require_tree .
 //= require_self
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
-@import 'bootstrap-sprockets';
 @import 'bootstrap';
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 /* universal */
 
 body{
-  padding: 60px 15px 0;
-
+  padding: 71px 15px 0;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 14px;
 
@@ -17,10 +17,11 @@ body{
 }
 
 .title:before {
+  margin: 0 0.5em 0 0;
   content: "■";
 }
 .title{
-  margin: 32px auto;
+  margin: 0.5em auto;
   padding: 4px;
   width: 100%;
   font-size: 200%;
@@ -29,6 +30,7 @@ body{
 
 
 h1:before, h2:before, h3:before, h4:before, h5:before {
+  margin: 0 0.5em 0 0;
   content: "■";
 }
 h1, h2, h3, h4, h5 {
@@ -426,4 +428,46 @@ img.thumb{
 
   text-align: center;
   vertical-align: text-bottom;
+}
+
+.btn-accent {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:hover {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.btn-accent:focus, .btn-accent.focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.btn-accent.disabled, .btn-accent:disabled {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:not(:disabled):not(.disabled):active, .btn-accent:not(:disabled):not(.disabled).active,
+.show > .btn-accent.dropdown-toggle {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:not(:disabled):not(.disabled):active:focus, .btn-accent:not(:disabled):not(.disabled).active:focus,
+.show > .btn-accent.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.field_with_errors {
+  display: contents;
+  input {
+    @extend .is-invalid;
+  }
 }

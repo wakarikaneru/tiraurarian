@@ -6,9 +6,9 @@
     <div class="form-group">
       <div class="input-group">
         <%= f.text_field :content, class: "form-control", maxlength: 140, placeholder: "メッセージを入力してください" %>
-        <span class="input-group-btn">
-          <%= f.submit "送信", class: "btn accent" %>
-        </span>
+        <div class="input-group-append">
+          <%= f.submit "送信", class: "btn btn-accent" %>
+        </div>
       </div>
     </div>
   </div>

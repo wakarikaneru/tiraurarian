@@ -25,9 +25,9 @@
 
         <%= f.text_field :content, class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください" %>
 
-        <span class="input-group-btn">
-          <%= f.submit "つぶやく", class: "btn accent" %>
-        </span>
+        <div class="input-group-append">
+          <%= f.submit "つぶやく", class: "btn btn-accent" %>
+        </div>
 
       </div>
     </div>

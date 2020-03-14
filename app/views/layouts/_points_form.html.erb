@@ -2,8 +2,8 @@
   <%= hidden_field_tag :user_id, user_id %>
   <div class="input-group">
     <%= text_field_tag :point, "", class: "form-control", placeholder: "VARTH", size: 10 %>
-    <span class="input-group-btn">
-      <%= submit_tag "送信", class: "btn btn-default" %>
-    </span>
+    <div class="input-group-append">
+      <%= submit_tag "送信", class: "btn btn-light" %>
+    </div>
   </div>
 <% end %>

@@ -65,9 +65,16 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     user = User.find_by(id: params[:user_id])
-    if user.present?
+    if user_signed_in? && user.present?
+      
       @message = Message.new
       @message.user_id = user.id
+
+      receive_messages = Message.where(user_id: current_user.id, sender_id: user.id)
+      send_messages = Message.where(user_id: user.id, sender_id: current_user.id)
+      messages = Message.none.or(receive_messages).or(send_messages)
+      @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
+
     else
       redirect_to messages_path
     end

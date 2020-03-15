@@ -25,21 +25,12 @@
 
       <div class="mute-control">
         <a class="link-item" id="btn-hot">
-          <% mute = Mute.find_by(user_id: current_user.id, target_id: user.id) %>
-          <% if mute.present? %>
-            <%= link_to mute, method: :delete do %>
-              <div class="control-button muted-button">
-                <span class="glyphicon glyphicon-ok-sign full center" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-remove-sign full center" aria-hidden="true"></span>
-              </div>
-            <% end %>
-          <% else %>
-            <%= link_to mutes_path(mute: {target_id: user.id}), method: :post do %>
-              <div class="control-button mute-button">
-                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
-              </div>
-            <% end %>
+
+          <%= link_to mute, method: :delete do %>
+            <button class="change-hover-button btn btn-outline-primary rounded-pill">
+              <i class="fas fa-eye"> ミュート解除</i>
+              <i class="fas fa-eye"> ミュート解除</i>
+            </button>
           <% end %>
 
         </a>

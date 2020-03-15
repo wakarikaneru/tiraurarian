@@ -32,7 +32,7 @@
             <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
               <div class="content-desc">
                 <div class="content-desc-parent">
-                  <div class="content-parent-icon glyphicon glyphicon-share-alt" aria-hidden="true"></div>
+                  <div class="content-parent-icon"><i class="fas fa-reply"></i></div>
                   <% if Tweet.find_by(id: tweet.parent_id).present? %>
                     <div class="content-parent-text word-break">
                       <%= Tweet.find(tweet.parent_id).content %>
@@ -67,15 +67,15 @@
               <div class="space"></div>
 
               <div class="content-desc-right content-desc-flex-row-right">
-                <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= tweet.res_count %></div>
+                <div class="count-comment"><i class="fas fa-comments"></i> <%= tweet.res_count %></div>
                 <div class="space"> | </div>
                 <% if 0 <= tweet.good_count - tweet.bad_count %>
-                  <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+                  <div class="count-good"><i class="fas fa-thumbs-up"></i> <%= tweet.good_count - tweet.bad_count %></div>
                 <% else %>
-                  <div class="count-good"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= tweet.good_count - tweet.bad_count %></div>
+                  <div class="count-good"><i class="fas fa-thumbs-down"></i> <%= tweet.good_count - tweet.bad_count %></div>
                 <% end %>
                 <div class="space"> | </div>
-                <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= tweet.bookmark_count %></div>
+                <div class="count-bookmark"><i class="fas fa-bookmark"></i> <%= tweet.bookmark_count %></div>
               </div>
 
             </div>

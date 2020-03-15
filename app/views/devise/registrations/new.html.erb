@@ -6,14 +6,14 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form-horizontal", role: "form" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :login_id %></div>
-      <div class="col-sm-8"><%= f.text_field :login_id, class: "form-control", maxlength: 16, autofocus: true %></div>
+    <div class="form-group row">
+      <%= f.label :login_id, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col"><%= f.text_field :login_id, class: "form-control", maxlength: 16, autofocus: true %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :name %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <%= f.label :name, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col">
         <div>
           <% if @maximum_name_length %>
             <em>(<%= @maximum_name_length %> characters maximum)</em>
@@ -23,9 +23,9 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :password %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <%= f.label :password, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col">
         <div>
           <% if @minimum_password_length %>
             <em>(<%= @minimum_password_length %> characters minimum)</em>
@@ -35,19 +35,19 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :password_confirmation %></div>
-      <div class="col-sm-8"><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %></div>
+    <div class="form-group row">
+      <%= f.label :password_confirmation, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col"><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :avatar %></div>
-      <div class="col-sm-8"><%= f.file_field :avatar %></div>
+    <div class="form-group row">
+      <%= f.label :avatar, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col"><%= f.file_field :avatar %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :description %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <%= f.label :description, class: "col-sm-4 col-form-label text-sm-right" %>
+      <div class="col">
         <div>
           <% if @maximum_description_length %>
             <em>(<%= @maximum_description_length %> characters maximum)</em>
@@ -58,8 +58,8 @@
     </div>
 
     <div class="actions">
-      <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+      <div class="form-group row">
+        <div class="offset-sm-4 col">
           <%= f.submit "Sign up", class: "btn btn-primary" %>
         </div>
       </div>

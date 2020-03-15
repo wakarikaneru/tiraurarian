@@ -54,9 +54,10 @@ GEM
       execjs
     bcrypt (3.1.12)
     bindex (0.8.1)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
+    bootstrap (4.4.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.1.1)
     chronic (0.10.2)
@@ -83,6 +84,8 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.12.1)
+    font-awesome-sass (5.12.0)
+      sassc (>= 1.11)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.2)
@@ -137,6 +140,7 @@ GEM
       terrapin (~> 0.6.0)
     polyamorous (2.3.0)
       activerecord (>= 5.0)
+    popper_js (1.16.0)
     puma (3.12.4)
     rack (2.1.2)
     rack-attack (6.2.2)
@@ -247,11 +251,12 @@ PLATFORMS
 DEPENDENCIES
   administrate
   bcrypt (= 3.1.12)
-  bootstrap-sass (~> 3.4.1)
+  bootstrap (~> 4.4.1)
   byebug
   coffee-rails (~> 4.2)
   devise
   devise-i18n
+  font-awesome-sass (~> 5.12.0)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

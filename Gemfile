@@ -67,7 +67,9 @@ gem 'ransack'
 
 gem 'twitter-text', '~> 3.0'
 
-gem 'bootstrap-sass', '~> 3.4.1'
-gem 'sass-rails', '~> 5.0'
-
+gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
+
+gem 'font-awesome-sass', '~> 5.12.0'
+
+gem 'sass-rails', '~> 5.0'

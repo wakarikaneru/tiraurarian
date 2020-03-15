@@ -13,8 +13,12 @@ module Tiraurarian
     # -- all .rb files in that directory are automatically loaded.
     config.time_zone = 'Tokyo'
     config.i18n.default_locale = :ja
-    
+
     # security
     config.middleware.use Rack::Attack
+
+    config.action_view.field_error_proc = Proc.new do |html_tag, instance|
+      html_tag
+    end
   end
 end

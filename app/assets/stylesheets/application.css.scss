@@ -1,14 +1,14 @@
 //= require_tree .
 //= require_self
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
-@import 'bootstrap-sprockets';
 @import 'bootstrap';
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 /* universal */
 
 body{
-  padding: 60px 15px 0;
-
+  padding: 71px 15px 0;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 14px;
 
@@ -16,14 +16,53 @@ body{
   background-color: var(--color-4);
 }
 
+p{
+  margin: 0;
+}
+
+.title:before {
+  margin: 0 0.5em 0 0;
+  content: "■";
+}
 .title{
-  margin: 16px auto;
-
+  margin: 0.5em auto;
+  padding: 0.1em 0.1em 0.1em 0.5em;
   width: 100%;
-
-  font-size: 150%;
-
+  font-size: 200%;
   border-bottom: solid 2px rgba(0,0,0,0.5);
+}
+
+
+h1:before, h2:before, h3:before, h4:before, h5:before {
+}
+h1, h2, h3, h4, h5 {
+  margin: 0.5em auto;
+  padding: 0.1em 0.1em 0.1em 0.5em;
+  width: 100%;
+}
+h1{
+  font-size: 200%;
+  background-color: rgba(127,127,127,0.5);
+}
+
+h2{
+  font-size: 160%;
+  background-color: rgba(127,127,127,0.25);
+}
+
+h3{
+  font-size: 140%;
+  background-color: rgba(127,127,127,0.25);
+}
+
+h4{
+  font-size: 120%;
+  background-color: rgba(127,127,127,0.25);
+}
+
+h5{
+  font-size: 100%;
+  background-color: rgba(127,127,127,0.25);
 }
 
 .notice{
@@ -100,7 +139,7 @@ body{
   flex: 0 0 auto;
 }
 
-.shadow{
+.shadow-add{
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
@@ -358,22 +397,57 @@ img.thumb{
 }
 
 .control-button{
-  width: 48px;
-  height: 48px;
-
+  width: 64px;
+  height: 64px;
   margin: 8px;
-  padding: 0px;
-
   font-size: 32px;
-
-  border-radius: 100%;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
-
   overflow: hidden;
 }
 
+.change-hover-button :first-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+.change-hover-button :last-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-hover-button:hover :first-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-hover-button:hover :last-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+
+.change-active-button :first-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+.change-active-button :last-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-active-button:active :first-child, .change-active-button:focus :first-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-active-button:active :last-child, .change-active-button:focus :last-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+
 .center{
-  text-align: center
+  text-align: center;
 }
 
 .center::before{
@@ -382,4 +456,46 @@ img.thumb{
 
   text-align: center;
   vertical-align: text-bottom;
+}
+
+.btn-accent {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:hover {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.btn-accent:focus, .btn-accent.focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.btn-accent.disabled, .btn-accent:disabled {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:not(:disabled):not(.disabled):active, .btn-accent:not(:disabled):not(.disabled).active,
+.show > .btn-accent.dropdown-toggle {
+  color: var(--color-0r);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:not(:disabled):not(.disabled):active:focus, .btn-accent:not(:disabled):not(.disabled).active:focus,
+.show > .btn-accent.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,157,0,0.5);
+}
+
+.field_with_errors {
+  display: contents;
+  input {
+    @extend .is-invalid;
+  }
 }

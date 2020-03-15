@@ -6,14 +6,14 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form-horizontal", role: "form", method: :put }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :login_id %></div>
-      <div class="col-sm-8"><%= f.text_field :login_id, class: "form-control", maxlength: 16, autofocus: true %></div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :login_id %></label>
+      <div class="col"><%= f.text_field :login_id, class: "form-control", maxlength: 16, autofocus: true %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :name %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :name %></label>
+      <div class="col">
         <div><%= f.text_field :name, class: "form-control", maxlength: 16 %></div>
         <div>
           <% if @maximum_name_length %>
@@ -23,9 +23,9 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :password %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :password %></label>
+      <div class="col">
         <div><i>変更しない場合、空欄にしてください</i></div>
         <div><%= f.password_field :password, class: "form-control", autocomplete: "new-password" %></div>
         <div>
@@ -36,19 +36,19 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :password_confirmation %></div>
-      <div class="col-sm-8"><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %></div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :password_confirmation %></label>
+      <div class="col"><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :avatar %></div>
-      <div class="col-sm-8"><%= f.file_field :avatar %></div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :avatar %></label>
+      <div class="col"><%= f.file_field :avatar %></div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :description %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :description %></label>
+      <div class="col">
         <div><%= f.text_area :description, class: "form-control", maxlength: 140 %></div>
         <div>
           <% if @maximum_description_length %>
@@ -58,17 +58,17 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-4 control-label"><%= f.label :current_password %></div>
-      <div class="col-sm-8">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label text-sm-right"><%= f.label :current_password %></label>
+      <div class="col">
         <div><i>設定を変更する場合には、現在のパスワードを入力してください</i></div>
         <div><%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %></div>
       </div>
     </div>
 
     <div class="actions">
-      <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+      <div class="form-group row">
+        <div class="offset-sm-4 col">
           <%= f.submit "Update", class: "btn btn-primary" %>
         </div>
       </div>
@@ -86,5 +86,3 @@
   </p>
 
 </div>
-
-<%= link_to "Back", :back %>

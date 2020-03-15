@@ -2,8 +2,11 @@
   <%= hidden_field_tag :user_id, user_id %>
   <div class="input-group">
     <%= text_field_tag :point, "", class: "form-control", placeholder: "VARTH", size: 10 %>
-    <span class="input-group-btn">
-      <%= submit_tag "送信", class: "btn btn-default" %>
-    </span>
+    <div class="input-group-append">
+      <%= button_tag type: "submit", class: "change-active-button btn btn-secondary" do %>
+        <span>送信</span>
+        <i class="fa fa-spinner fa-pulse"></i>
+      <% end %>
+    </div>
   </div>
 <% end %>

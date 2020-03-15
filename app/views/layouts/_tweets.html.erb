@@ -56,6 +56,11 @@
                 <%= tweet.content %>
               </div>
             </div>
+
+            <div class="content-desc">
+              <div class="text-right"><%= time_ago_in_words(tweet.create_datetime) %></div>
+            </div>
+
             <div class="content-desc">
 
               <% if tweet.user.present? %>
@@ -76,6 +81,7 @@
                 <% end %>
                 <div class="space"> | </div>
                 <div class="count-comment"><i class="fas fa-layer-group"></i> <%= tweet.context %></div>
+                <br />
               </div>
 
             </div>

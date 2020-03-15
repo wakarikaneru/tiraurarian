@@ -78,7 +78,7 @@
 
           <div>
             <% if @tweet.user_id == current_user.id %>
-              <%= link_to @tweet, method: :delete, class: "btn btn-danger m-1", data: { confirm: "本当に削除しますか？" } do %>
+              <%= link_to @tweet, method: :delete, class: "btn btn-danger rounded-pill m-1", data: { confirm: "本当に削除しますか？" } do %>
                 <i class="fas fa-trash"></i>
               <% end %>
             <% end %>

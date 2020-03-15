@@ -4,7 +4,7 @@ class Tweet < ApplicationRecord
   before_create :format_content, :set_context
 
   belongs_to :user, foreign_key: :user_id, primary_key: :id
-  belongs_to :tweet, foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
+  belongs_to :parent, class_name: 'Tweet', foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
   has_many :tweets, foreign_key: :parent_id, primary_key: :id
   has_many :goods
   has_many :bads

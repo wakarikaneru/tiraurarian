@@ -13,7 +13,8 @@ class UserDashboard < Administrate::BaseDashboard
     goods: Field::HasMany,
     tags: Field::HasMany,
     point: Field::HasOne,
-    cards: Field::HasMany,
+    notices: Field::HasMany,
+    messages: Field::HasMany,
     id: Field::Number,
     encrypted_password: Field::String,
     reset_password_token: Field::String,
@@ -56,7 +57,8 @@ class UserDashboard < Administrate::BaseDashboard
   goods
   tags
   point
-  cards
+  notices
+  messages
   id
   encrypted_password
   reset_password_token
@@ -88,7 +90,8 @@ class UserDashboard < Administrate::BaseDashboard
   goods
   tags
   point
-  cards
+  notices
+  messages
   encrypted_password
   reset_password_token
   reset_password_sent_at

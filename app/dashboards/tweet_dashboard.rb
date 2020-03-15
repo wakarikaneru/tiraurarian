@@ -9,7 +9,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
-    tweet: Field::BelongsTo,
+    parent: Field::BelongsTo.with_options(class_name: "Tweet"),
     tweets: Field::HasMany,
     goods: Field::HasMany,
     bads: Field::HasMany,
@@ -43,7 +43,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   user
-  tweet
+  parent
   tweets
   goods
   ].freeze
@@ -52,7 +52,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   user
-  tweet
+  parent
   tweets
   goods
   bads
@@ -84,7 +84,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
   user
-  tweet
+  parent
   tweets
   goods
   bads

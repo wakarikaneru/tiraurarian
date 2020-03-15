@@ -32,6 +32,32 @@
 
   <body class ='container-fluid'>
 
+    <% if user_signed_in? %>
+      <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
+      <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
+
+      <% notice_count_i = [notice_records.count, 99].min %>
+      <% message_count_i = [message_records.count, 99].min %>
+      <% total_count_i = [notice_records.count + message_records.count, 99].min %>
+
+      <% if 0 < notice_count_i %>
+        <% notice_count = notice_count_i.to_s %>
+      <% else %>
+        <% notice_count = "" %>
+      <% end %>
+
+      <% if 0 < message_count_i %>
+        <% message_count = message_count_i.to_s %>
+      <% else %>
+        <% message_count = "" %>
+      <% end %>
+
+      <% if 0 < total_count_i %>
+        <% total_count = total_count_i.to_s %>
+      <% else %>
+        <% total_count = "" %>
+      <% end %>
+
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
       <a class="navbar-brand" href="#">
         <% if Rails.env == 'development' %>
@@ -41,7 +67,7 @@
         <% end %>
       </a>
       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-primary"><%= total_count %></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navberContent">
@@ -53,31 +79,6 @@
               <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
             </div>
           </li>
-          <% if user_signed_in? %>
-            <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
-            <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
-
-            <% notice_count_i = [notice_records.count, 99].min %>
-            <% message_count_i = [message_records.count, 99].min %>
-            <% total_count_i = [notice_records.count + message_records.count, 99].min %>
-
-            <% if 0 < notice_count_i %>
-              <% notice_count = notice_count_i.to_s %>
-            <% else %>
-              <% notice_count = "" %>
-            <% end %>
-
-            <% if 0 < message_count_i %>
-              <% message_count = message_count_i.to_s %>
-            <% else %>
-              <% message_count = "" %>
-            <% end %>
-
-            <% if 0 < total_count_i %>
-              <% total_count = total_count_i.to_s %>
-            <% else %>
-              <% total_count = "" %>
-            <% end %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-primary"><%= total_count %></span></a>
               <div class="dropdown-menu">

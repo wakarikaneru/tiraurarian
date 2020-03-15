@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  access_datetime: 2020-03-15 19:35:06
+  ip_address: MyString
+  url: MyString
+  status: MyString
+  size: 1
+  referer: MyString
+  ua: MyString
+  user_id: 1
+
+two:
+  access_datetime: 2020-03-15 19:35:06
+  ip_address: MyString
+  url: MyString
+  status: MyString
+  size: 1
+  referer: MyString
+  ua: MyString
+  user_id: 1

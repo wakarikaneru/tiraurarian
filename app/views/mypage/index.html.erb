@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
   <div class="users-mode-changer-container">
-    <div class="users-mode-changer-item text-big"><%= link_to "ブックマーク", tweets_path(mode: "bookmark"), class:"btn btn-light" %></div>
-    <div class="users-mode-changer-item text-big"><%= link_to "フォロー", follows_path(), class:"btn btn-light" %></div>
-    <div class="users-mode-changer-item text-big"><%= link_to "ミュート", mutes_path(), class:"btn btn-light" %></div>
+    <div class="users-mode-changer-item text-big"><%= link_to "ブックマーク", tweets_path(mode: "bookmark"), class:"btn btn-outline-secondary" %></div>
+    <div class="users-mode-changer-item text-big"><%= link_to "フォロー", follows_path(), class:"btn btn-outline-secondary" %></div>
+    <div class="users-mode-changer-item text-big"><%= link_to "ミュート", mutes_path(), class:"btn btn-outline-secondary" %></div>
   </div>
 
   <%= render partial: "/layouts/user", locals: { user: current_user, tags: @tags, show_control: false } %>

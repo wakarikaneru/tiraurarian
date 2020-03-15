@@ -29,25 +29,23 @@
       </div>
 
       <div class="follow-control">
-        <a class="link-item" id="btn-hot">
-          <% follow = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
-          <% if follow.present? %>
-            <%= link_to follow, method: :delete do %>
-              <div class="control-button followed-button">
-                <span class="glyphicon glyphicon-ok-sign full center" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-remove-sign full center" aria-hidden="true"></span>
-              </div>
-            <% end %>
-          <% else %>
-            <%= link_to follows_path(follow: {target_id: user.id}), method: :post do %>
-              <div class="control-button follow-button">
-                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-plus-sign full center" aria-hidden="true"></span>
-              </div>
-            <% end %>
+        <% follow = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
+        <% if follow.present? %>
+          <%= link_to follow, method: :delete do %>
+            <button class="change-hover-button btn btn-primary rounded-pill">
+              <i class="fas fa-user-check"> フォロー中</i>
+              <i class="fas fa-user-minus"> フォロー解除</i>
+            </button>
           <% end %>
+        <% else %>
+          <%= link_to follows_path(follow: {target_id: user.id}), method: :post do %>
+            <button class="change-hover-button btn btn-outline-primary rounded-pill">
+              <i class="fas fa-user-plus"> フォロー</i>
+              <i class="fas fa-user-plus"> フォロー</i>
+            </button>
+          <% end %>
+        <% end %>
 
-        </a>
       </div>
     </div>
 

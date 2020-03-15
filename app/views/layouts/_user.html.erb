@@ -11,9 +11,13 @@
       <% if user_signed_in? && show_control %>
         <div class="user-control">
 
-          <%= render partial: "/layouts/points_form", locals: { user_id: user.id } %>
+          <span class="m-1">
+            <%= render partial: "/layouts/points_form", locals: { user_id: user.id } %>
+          </span>
 
-          <%= link_to "メッセージ送信", new_message_path(user_id: user.id), class:"btn btn-light" %>
+          <%= link_to new_message_path(user_id: user.id), class:"btn btn-light rounded-pill m-1" do %>
+            <i class="fas fa-envelope"></i>
+          <% end %>
 
           <% followed = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
 
@@ -21,7 +25,10 @@
 
             <%= form_for(followed, method: :delete) do |form| %>
               <%= form.hidden_field :target_id %>
-              <%= form.submit "フォロー解除", class: "btn btn-danger" %>
+              <%= form.button type: "submit", class: "change-hover-button btn btn-primary rounded-pill m-1" do %>
+                <span>フォロー中</span>
+                <span>フォロー解除</span>
+              <% end %>
             <% end %>
 
           <% else %>
@@ -31,7 +38,9 @@
 
             <%= form_for(follow) do |form| %>
               <%= form.hidden_field :target_id %>
-              <%= form.submit "フォロー", class: "btn btn-primary" %>
+              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                <span>フォロー</span>
+              <% end %>
             <% end %>
 
           <% end %>
@@ -43,7 +52,9 @@
 
             <%= form_for(muted, method: :delete) do |form| %>
               <%= form.hidden_field :target_id %>
-              <%= form.submit "ミュート解除", class: "btn btn-danger" %>
+              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                <i class="fas fa-eye"></i>
+              <% end %>
             <% end %>
 
           <% else %>
@@ -53,7 +64,9 @@
 
             <%= form_for(mute) do |form| %>
               <%= form.hidden_field :target_id %>
-              <%= form.submit "ミュート", class: "btn btn-primary" %>
+              <%= form.button type: "submit", class: "btn btn-danger rounded-pill m-1" do %>
+                <i class="fas fa-eye-slash"></i>
+              <% end %>
             <% end %>
 
           <% end %>

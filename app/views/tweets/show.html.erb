@@ -26,12 +26,16 @@
             <% if @gooded.present? %>
               <%= form_for(@gooded, method: :delete) do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.submit "Good!解除", class: "btn btn-warning" %>
+                <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                  <i class="fas fa-thumbs-up"></i>
+                <% end %>
               <% end %>
             <% else %>
             <%= form_for(@good) do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.submit "Good!", class: "btn btn-primary" %>
+              <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                <i class="fas fa-thumbs-up"></i>
+              <% end %>
             <% end %>
             <% end %>
           </div>
@@ -40,12 +44,16 @@
             <% if @baded.present? %>
             <%= form_for(@baded, method: :delete) do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.submit "Bad!解除", class: "btn btn-warning" %>
+              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                <i class="fas fa-thumbs-down"></i>
+              <% end %>
             <% end %>
             <% else %>
               <%= form_for(@bad) do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.submit "Bad!", class: "btn btn-primary" %>
+                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                  <i class="fas fa-thumbs-down"></i>
+                <% end %>
               <% end %>
             <% end %>
           </div>
@@ -54,19 +62,25 @@
             <% if @bookmarked.present? %>
             <%= form_for(@bookmarked, method: :delete) do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.submit "ブックマーク解除", class: "btn btn-warning" %>
+              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                <i class="fas fa-bookmark"></i>
+              <% end %>
             <% end %>
             <% else %>
               <%= form_for(@bookmark) do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.submit "ブックマーク", class: "btn btn-primary" %>
+                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                  <i class="fas fa-bookmark"></i>
+                <% end %>
               <% end %>
             <% end %>
           </div>
 
           <div>
             <% if @tweet.user_id == current_user.id %>
-              <%= link_to "", @tweet, method: :delete, class: "btn btn-danger glyphicon glyphicon-trash", data: { confirm: "本当に削除しますか？" } %>
+              <%= link_to @tweet, method: :delete, class: "btn btn-danger m-1", data: { confirm: "本当に削除しますか？" } do %>
+                <i class="fas fa-trash"></i>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -100,13 +114,13 @@
         <div class="space"></div>
 
         <div class="content-desc-right content-desc-flex-row-right">
-          <div class="count-comment"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= @tweet.res_count %></div>
+          <div class="count-comment"><i class="fas fa-comments"></i> <%= @tweet.res_count %></div>
           <div class="space"> | </div>
-          <div class="count-good"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= @tweet.good_count %></div>
+          <div class="count-good"><i class="fas fa-thumbs-up"></i>  <%= @tweet.good_count %></div>
           <div class="space"> | </div>
-          <div class="count-bad"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <%= - @tweet.bad_count %></div>
+          <div class="count-bad"><i class="fas fa-thumbs-down"></i> <%= - @tweet.bad_count %></div>
           <div class="space"> | </div>
-          <div class="count-bookmark"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <%= @tweet.bookmark_count %></div>
+          <div class="count-bookmark"><i class="fas fa-bookmark"></i> <%= @tweet.bookmark_count %></div>
         </div>
 
       </div>
@@ -128,7 +142,7 @@
 </div>
 
 <div id="tweet-form" class="tweet-form">
-  <h2>このつぶやきにレス</h2>
+  <div class="prompt">このつぶやきにレス</div>
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 

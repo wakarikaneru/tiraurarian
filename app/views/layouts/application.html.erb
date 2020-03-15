@@ -32,7 +32,7 @@
 
   <body class ='container-fluid'>
 
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
       <a class="navbar-brand" href="#">
         <% if Rails.env == 'development' %>
           <%= link_to 'チラウラリア(β)', root_path(), class: 'navbar-brand' %>
@@ -40,46 +40,62 @@
           <%= link_to 'チラウラリア', root_path(), class: 'navbar-brand' %>
         <% end %>
       </a>
-      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="Navber">
+      <div class="collapse navbar-collapse" id="navberContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><%= link_to "マイページ", mypage_index_path(), class: "nav-link" %></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">新着</a>
+            <div class="dropdown-menu">
+              <%= link_to "Root", tweets_path(mode: "root"), class: "dropdown-item" %>
+              <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
+            </div>
+          </li>
           <% if user_signed_in? %>
-
             <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
             <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
 
-            <% if notice_records.exists? %>
-             <% notice_count = [notice_records.count, 99].min.to_s %>
+            <% notice_count_i = [notice_records.count, 99].min %>
+            <% message_count_i = [message_records.count, 99].min %>
+            <% total_count_i = [notice_records.count + message_records.count, 99].min %>
+
+            <% if 0 < notice_count_i %>
+              <% notice_count = notice_count_i.to_s %>
             <% else %>
-             <% notice_count = "" %>
+              <% notice_count = "" %>
             <% end %>
 
-            <% if message_records.exists? %>
-             <% message_count = [message_records.count, 99].min.to_s %>
+            <% if 0 < message_count_i %>
+              <% message_count = message_count_i.to_s %>
             <% else %>
-             <% message_count = "" %>
+              <% message_count = "" %>
             <% end %>
 
-            <li class="nav-item"><%= link_to notices_path(), class: "nav-link" do %>通知 <span class="badge badge-primary"><%= notice_count %></span><% end %></li>
-            <li class="nav-item"><%= link_to messages_path(), class: "nav-link" do %>DM <span class="badge badge-primary"><%= message_count %></span><% end %></li>
+            <% if 0 < total_count_i %>
+              <% total_count = total_count_i.to_s %>
+            <% else %>
+              <% total_count = "" %>
+            <% end %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-primary"><%= total_count %></span></a>
+              <div class="dropdown-menu">
+                <%= link_to "マイページ", mypage_index_path(), class: "dropdown-item" %>
+                <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="badge badge-pill badge-primary"><%= notice_count %></span><% end %>
+                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-primary"><%= message_count %></span><% end %>
+              </div>
+            </li>
           <% end %>
-          <li class="nav-item"><%= link_to "Good", tweets_path(mode: "good"), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Root", tweets_path(mode: "root"), class: "nav-link" %></li>
           <% if user_signed_in? && current_user.id == 1 %>
             <li class="nav-item"><%= link_to "管理", admin_root_path(), class: "nav-link" %></li>
           <% end %>
         </ul>
         <%= form_tag("/search", method: "get", class: "form-inline", role: "form") do %>
-          <div>
-            <div class="input-group">
-              <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
-              <div class="input-group-append">
-                <%= submit_tag "検索", class: "btn btn-info" %>
-              </div>
+          <div class="input-group">
+            <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
+            <div class="input-group-append">
+              <%= submit_tag "検索", class: "btn btn-info" %>
             </div>
           </div>
         <% end %>

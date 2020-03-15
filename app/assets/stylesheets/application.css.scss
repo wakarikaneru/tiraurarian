@@ -16,13 +16,17 @@ body{
   background-color: var(--color-4);
 }
 
+p{
+  margin: 0;
+}
+
 .title:before {
   margin: 0 0.5em 0 0;
   content: "■";
 }
 .title{
   margin: 0.5em auto;
-  padding: 4px;
+  padding: 0.1em 0.1em 0.1em 0.5em;
   width: 100%;
   font-size: 200%;
   border-bottom: solid 2px rgba(0,0,0,0.5);
@@ -30,45 +34,34 @@ body{
 
 
 h1:before, h2:before, h3:before, h4:before, h5:before {
-  margin: 0 0.5em 0 0;
-  content: "■";
 }
 h1, h2, h3, h4, h5 {
-  padding: 4px;
+  margin: 0.5em auto;
+  padding: 0.1em 0.1em 0.1em 0.5em;
   width: 100%;
 }
 h1{
-  margin: 16px auto;
   font-size: 200%;
-
   background-color: rgba(127,127,127,0.5);
 }
 
 h2{
-  margin: 8px auto;
   font-size: 160%;
-
   background-color: rgba(127,127,127,0.25);
 }
 
 h3{
-  margin: 8px auto;
   font-size: 140%;
-
   background-color: rgba(127,127,127,0.25);
 }
 
 h4{
-  margin: 8px auto;
   font-size: 120%;
-
   background-color: rgba(127,127,127,0.25);
 }
 
 h5{
-  margin: 8px auto;
   font-size: 100%;
-
   background-color: rgba(127,127,127,0.25);
 }
 
@@ -146,7 +139,7 @@ h5{
   flex: 0 0 auto;
 }
 
-.shadow{
+.shadow-add{
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }
 
@@ -404,22 +397,57 @@ img.thumb{
 }
 
 .control-button{
-  width: 48px;
-  height: 48px;
-
+  width: 64px;
+  height: 64px;
   margin: 8px;
-  padding: 0px;
-
   font-size: 32px;
-
-  border-radius: 100%;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
-
   overflow: hidden;
 }
 
+.change-hover-button :first-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+.change-hover-button :last-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-hover-button:hover :first-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-hover-button:hover :last-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+
+.change-active-button :first-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+.change-active-button :last-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-active-button:active :first-child, .change-active-button:focus :first-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-active-button:active :last-child, .change-active-button:focus :last-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+
 .center{
-  text-align: center
+  text-align: center;
 }
 
 .center::before{

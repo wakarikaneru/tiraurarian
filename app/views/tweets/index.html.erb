@@ -3,99 +3,106 @@
 <% end %>
 
 <div id="tweet-form" class="tweet-form">
-  <div class="prompt">今なにしてる？………ごめん。</div>
+  <div class="prompt">
+    <i class="fas fa-comment"></i>
+    今なにしてる？………ごめん。</div>
 
   <% if params[:mode] == "tag" %>
     <% default_value = " ##{params[:tag]}" %>
-  <% else %>
-    <% default_value = "" %>
-  <% end %>
+    <% else %>
+      <% default_value = "" %><% end %>
 
-  <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: default_value } %>
-</div>
-
-<div class="tools">
-  <a class="link-item" id="btn-hot">
-    <div class="control-button color-3">
-      <span class="glyphicon glyphicon-fire full center" aria-hidden="true"></span>
+      <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: default_value } %>
     </div>
-  </a>
-  <a class="link-item" id="btn-recent">
-    <div class="control-button color-3">
-      <span class="glyphicon glyphicon-time full center" aria-hidden="true"></span>
+
+    <div class="tools">
+      <a id="btn-hot">
+        <button class="control-button btn btn-secondary rounded-circle">
+          <i class="fas fa-fire-alt"></i>
+        </button>
+      </a>
+      <a id="btn-recent">
+        <button class="control-button btn btn-secondary rounded-circle">
+          <i class="fas fa-history"></i>
+        </button>
+      </a>
+      <a id="btn-search">
+        <button class="control-button btn btn-secondary rounded-circle">
+          <i class="fas fa-search"></i>
+        </button>
+      </a>
     </div>
-  </a>
-  <a class="link-item" id="btn-search">
-    <div class="control-button color-3">
-      <span class="glyphicon glyphicon-search full center" aria-hidden="true"></span>
+
+    <div id="tag-hot" class="tag-form">
+      <h3>
+        <i class="fas fa-fire-alt"></i>
+        話題のタグ</h3>
+      <%= render partial: "/layouts/tags", locals: { tags: @hot_tags } %>
     </div>
-  </a>
-</div>
 
-<div id="tag-hot" class="tag-form">
-  <h3>話題のタグ</h3>
-  <%= render partial: "/layouts/tags", locals: { tags: @hot_tags } %>
-</div>
+    <div id="tag-recent" class="tag-form">
+      <h3>
+        <i class="fas fa-history"></i>
+        最近使ったタグ</h3>
+      <%= render partial: "/layouts/tags", locals: { tags: @recent_tags } %>
+    </div>
 
-<div id="tag-recent" class="tag-form">
-  <h3>最近使ったタグ</h3>
-  <%= render partial: "/layouts/tags", locals: { tags: @recent_tags } %>
-</div>
-
-<div id="tag-search" class="tag-form">
-  <h3>タグ検索</h3>
-  <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
-    <%= hidden_field_tag :mode, "tag" %>
-    <div class="col-sm-12">
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">#</span>
-          </div>
-          <%= text_field_tag :tag, params[:tag], class: "form-control", placeholder: "タグ" %>
-          <div class="input-group-append">
-            <%= submit_tag "タグ検索", class: "btn btn-light" %>
+    <div id="tag-search" class="tag-form">
+      <h3>
+        <i class="fas fa-search"></i>
+        タグ検索</h3>
+      <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
+      <%= hidden_field_tag :mode, "tag" %>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">#</span>
+            </div>
+            <%= text_field_tag :tag, params[:tag], class: "form-control", placeholder: "タグ" %>
+            <div class="input-group-append">
+              <%= submit_tag "タグ検索", class: "btn btn-outline-secondary" %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 
-<%= render partial: "/layouts/tweets", locals: { tweets: @tweets, show_list: false, show_parent: true } %>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @tweets, show_list: false, show_parent: true } %>
 
-<script>
-  $(function () {
-    $("#btn-hot").click(function () {
+  <script>
+    $(function () {
+      $("#btn-hot").click(function () {
 
-      if($("#tag-hot").is(':visible')){
+        if ($("#tag-hot").is(':visible')) {
+          $(".tag-form").hide();
+        } else {
+          $(".tag-form").hide();
+          $("#tag-hot").show();
+        }
+      });
+
+      $("#btn-recent").click(function () {
+        if ($("#tag-recent").is(':visible')) {
+          $(".tag-form").hide();
+        } else {
+          $(".tag-form").hide();
+          $("#tag-recent").show();
+        }
+      });
+
+      $("#btn-search").click(function () {
+        if ($("#tag-search").is(':visible')) {
+          $(".tag-form").hide();
+        } else {
+          $(".tag-form").hide();
+          $("#tag-search").show();
+        }
+      });
+
+      $("#btn-close").click(function () {
         $(".tag-form").hide();
-      }else{
-        $(".tag-form").hide();
-        $("#tag-hot").show();
-      }
+      });
     });
-
-    $("#btn-recent").click(function () {
-      if($("#tag-recent").is(':visible')){
-        $(".tag-form").hide();
-      }else{
-        $(".tag-form").hide();
-        $("#tag-recent").show();
-      }
-    });
-
-    $("#btn-search").click(function () {
-      if($("#tag-search").is(':visible')){
-        $(".tag-form").hide();
-      }else{
-        $(".tag-form").hide();
-        $("#tag-search").show();
-      }
-    });
-
-    $("#btn-close").click(function () {
-      $(".tag-form").hide();
-    });
-  });
-</script>
+  </script>

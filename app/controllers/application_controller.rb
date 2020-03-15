@@ -31,7 +31,8 @@ class ApplicationController < ActionController::Base
 
     def get_active_users
       @active_users = User.where(id: AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:user_id))
-      @active_anonyms_count = AccessLog.where(user_id: 0).where("access_datetime > ?", 10.minutes.ago).distinct(:ip_address).select(:user_id).count
+      active_users_ips = AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:ip_address)
+      @active_anonyms_count = AccessLog.where(user_id: 0).where.not(ip_address: active_users_ips).where("access_datetime > ?", 10.minutes.ago).distinct(:ip_address).select(:ip_address).count
     end
 
 end

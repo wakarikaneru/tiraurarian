@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   get 'info/privacypolicy'
   get 'info/whatisvarth'
 
-
   namespace :admin do
+    resources :access_logs
     resources :controls
 
     resources :tweets

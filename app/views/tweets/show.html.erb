@@ -88,7 +88,7 @@
 
       <div class="content">
         <div class="content-text word-break">
-          <%= auto_link(@tweet.content.encode!(xml: :text), { url_target: :target_blank, hashtag_url_base: "/tweets?mode=tag&tag=" }).html_safe %>
+          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=").html_safe %>
         </div>
       </div>
 

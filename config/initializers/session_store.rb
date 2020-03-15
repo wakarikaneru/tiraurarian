@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-Rails.application.config.session_store :cookie_store, key: '_tiraurarian_session', expire_after: 20.years
+Rails.application.config.session_store :cookie_store, key: '_tiraurarian_session', expire_after: 20.years, secure: Rails.env.production?

@@ -97,6 +97,10 @@ h5{
   margin: 0px;
   padding: 8px;
 
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+
   flex: 0 1 auto;
 
   border-radius: 8px 8px 8px 8px;
@@ -110,8 +114,39 @@ h5{
   width: 24px;
   height: 24px;
 
-  margin: 4px;
+  margin: 2px;
   padding: 2px;
+
+  background-color: #FFFFFF;
+
+  border-radius: 100%;
+}
+
+.active-user-info{
+  margin: 0px;
+  padding: 8px;
+
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  flex: 0 1 auto;
+
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-2r);
+  background-color: var(--color-2);
+}
+
+.active-user-img{
+  width: 24px;
+  height: 24px;
+
+  margin: 2px;
 
   background-color: #FFFFFF;
 
@@ -356,6 +391,13 @@ img.fit{
 img.thumb{
   border-radius: 8px 8px 8px 8px;
   object-fit: cover;
+}
+
+.image_x16{
+  width: 16px;
+  height: 16px;
+  max-width: 16px;
+  max-height: 16px;
 }
 
 .image_x24{

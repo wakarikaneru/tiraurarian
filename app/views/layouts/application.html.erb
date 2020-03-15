@@ -58,7 +58,7 @@
         <% total_count = "" %>
       <% end %>
     <% end %>
-    
+
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
       <a class="navbar-brand" href="#">
         <% if Rails.env == 'development' %>
@@ -74,8 +74,9 @@
       <div class="collapse navbar-collapse" id="navberContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">新着</a>
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">つぶやき</a>
             <div class="dropdown-menu">
+              <%= link_to "Context", tweets_path(mode: "context"), class: "dropdown-item" %>
               <%= link_to "Root", tweets_path(mode: "root"), class: "dropdown-item" %>
               <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
             </div>

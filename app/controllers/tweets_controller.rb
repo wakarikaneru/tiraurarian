@@ -30,6 +30,13 @@ class TweetsController < ApplicationController
         @tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+      when "context" then
+        high_context_tweets = Tweet.where("create_datetime > ?", 1.day.ago).order(context: :desc).order(id: :desc)
+
+        tweets = Tweet.none.or(high_context_tweets).where.not(user_id: my_mutes)
+        @tweets = Tweet.none.or(tweets).limit(100)
+
+        tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "mypage" then
         if user_signed_in? then
           my_tweets = Tweet.where(user_id: current_user.id)

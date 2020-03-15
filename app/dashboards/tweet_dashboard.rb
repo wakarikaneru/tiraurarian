@@ -33,6 +33,7 @@ class TweetDashboard < Administrate::BaseDashboard
     avatar_file_size: Field::Number,
     avatar_updated_at: Field::DateTime,
     bad_count: Field::Number,
+    context: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -75,6 +76,7 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_file_size
   avatar_updated_at
   bad_count
+  context
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -103,6 +105,7 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_file_size
   avatar_updated_at
   bad_count
+  context
   ].freeze
 
   # COLLECTION_FILTERS

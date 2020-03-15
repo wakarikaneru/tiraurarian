@@ -1,7 +1,7 @@
 class Tweet < ApplicationRecord
   include Twitter::TwitterText::Extractor
 
-  before_create :format_content
+  before_create :format_content, :set_context
 
   belongs_to :user, foreign_key: :user_id, primary_key: :id
   belongs_to :tweet, foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
@@ -38,5 +38,9 @@ class Tweet < ApplicationRecord
   private
     def format_content
       self.content.gsub!(/[\r\n|\r|\n]/, " ")
+    end
+
+    def set_context
+      self.context = Tweet.find(self.parent_id).context + 1
     end
 end

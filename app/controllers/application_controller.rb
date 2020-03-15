@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
       access_log.referer = request.referer
       if user_signed_in?
         access_log.user_id = current_user.id
+      else
+        access_log.user_id = 0
       end
       access_log.save!
     end

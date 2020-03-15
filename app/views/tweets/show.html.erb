@@ -88,7 +88,7 @@
 
       <div class="content">
         <div class="content-text word-break">
-          <%= auto_link(@tweet.content.encode!(xml: :text), { url_target: :target_blank, hashtag_url_base: "/tweets?mode=tag&tag=" }).html_safe %>
+          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=").html_safe %>
         </div>
       </div>
 
@@ -121,6 +121,8 @@
           <div class="count-bad"><i class="fas fa-thumbs-down"></i> <%= - @tweet.bad_count %></div>
           <div class="space"> | </div>
           <div class="count-bookmark"><i class="fas fa-bookmark"></i> <%= @tweet.bookmark_count %></div>
+          <div class="space"> | </div>
+          <div class="count-comment"><i class="fas fa-layer-group"></i> <%= @tweet.context %></div>
         </div>
 
       </div>

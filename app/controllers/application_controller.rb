@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :access_log
+  before_action :get_active_users
 
   protected
     def configure_permitted_parameters
@@ -26,6 +27,11 @@ class ApplicationController < ActionController::Base
         access_log.user_id = 0
       end
       access_log.save!
+    end
+
+    def get_active_users
+      @active_users = User.where(id: AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:user_id))
+      @active_anonyms_count = AccessLog.where(user_id: 0).where("access_datetime > ?", 10.minutes.ago).distinct(:ip_address).select(:user_id).count
     end
 
 end

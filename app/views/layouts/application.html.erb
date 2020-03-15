@@ -124,6 +124,19 @@
           <span><%= link_to "ログイン", new_user_session_path %></span>
         <% end %>
       </div>
+
+      <div class="active-user-info mr-auto">
+        <% @active_users.each do |user| %>
+          <% if user.present? %>
+            <%= image_tag user.avatar.url(:thumb), class: "active-user-img image_x24" %>
+          <% else %>
+            <%= image_tag "/images/broken-image.png", class: "active-user-img image_x24" %>
+          <% end %>
+        <% end %>
+        <% @active_anonyms_count.times do %>
+          <%= image_tag "/images/mystery-person.png", class: "active-user-img image_x16" %>
+        <% end %>
+      </div>
     </div>
 
     <% if Rails.env == 'development' %>

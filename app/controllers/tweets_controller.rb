@@ -177,7 +177,7 @@ class TweetsController < ApplicationController
       current_user_id = current_user.id
     else
       current_user_id = 2
-      hash = Digest::MD5.hexdigest(request.remote_ip)
+      hash = Digest::MD5.hexdigest(Date.today.to_s + request.remote_ip)
       @tweet.avatar_from_url("https://www.gravatar.com/avatar/#{hash}?rating=g&default=retro")
     end
 

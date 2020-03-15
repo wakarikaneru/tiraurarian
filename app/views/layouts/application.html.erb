@@ -57,7 +57,8 @@
       <% else %>
         <% total_count = "" %>
       <% end %>
-
+    <% end %>
+    
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
       <a class="navbar-brand" href="#">
         <% if Rails.env == 'development' %>
@@ -67,7 +68,7 @@
         <% end %>
       </a>
       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-        <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-primary"><%= total_count %></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navberContent">
@@ -87,7 +88,6 @@
                 <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-primary"><%= message_count %></span><% end %>
               </div>
             </li>
-          <% end %>
           <% if user_signed_in? && current_user.id == 1 %>
             <li class="nav-item"><%= link_to "管理", admin_root_path(), class: "nav-link" %></li>
           <% end %>

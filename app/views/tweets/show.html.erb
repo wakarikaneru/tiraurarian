@@ -22,6 +22,25 @@
 
       <% if user_signed_in? %>
         <div class="content-control">
+
+          <div>
+            <% if @bookmarked.present? %>
+            <%= form_for(@bookmarked, method: :delete) do |form| %>
+              <%= form.hidden_field :tweet_id, value: @tweet.id %>
+              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                <i class="fas fa-bookmark"></i>
+              <% end %>
+            <% end %>
+            <% else %>
+              <%= form_for(@bookmark) do |form| %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                  <i class="fas fa-bookmark"></i>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+
           <div>
             <% if @gooded.present? %>
               <%= form_for(@gooded, method: :delete) do |form| %>
@@ -59,30 +78,13 @@
           </div>
 
           <div>
-            <% if @bookmarked.present? %>
-            <%= form_for(@bookmarked, method: :delete) do |form| %>
-              <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
-                <i class="fas fa-bookmark"></i>
-              <% end %>
-            <% end %>
-            <% else %>
-              <%= form_for(@bookmark) do |form| %>
-                <%= form.hidden_field :tweet_id, value: @tweet.id %>
-                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
-                  <i class="fas fa-bookmark"></i>
-                <% end %>
-              <% end %>
-            <% end %>
-          </div>
-
-          <div>
             <% if @tweet.user_id == current_user.id %>
               <%= link_to @tweet, method: :delete, class: "btn btn-danger rounded-pill m-1", data: { confirm: "本当に削除しますか？" } do %>
                 <i class="fas fa-trash"></i>
               <% end %>
             <% end %>
           </div>
+          
         </div>
       <% end %>
 
@@ -101,7 +103,7 @@
       <% end %>
 
       <div class="content-desc">
-        <div class="content-desc-right"><%= time_ago_in_words(@tweet.create_datetime) %></div>
+        <div class="text-right"><%= time_ago_in_words(@tweet.create_datetime) %></div>
       </div>
 
       <div class="content-desc">
@@ -114,13 +116,13 @@
         <div class="space"></div>
 
         <div class="content-desc-right content-desc-flex-row-right">
+          <div class="count-bookmark"><i class="fas fa-bookmark"></i> <%= @tweet.bookmark_count %></div>
+          <div class="space"> | </div>
           <div class="count-comment"><i class="fas fa-comments"></i> <%= @tweet.res_count %></div>
           <div class="space"> | </div>
           <div class="count-good"><i class="fas fa-thumbs-up"></i>  <%= @tweet.good_count %></div>
           <div class="space"> | </div>
           <div class="count-bad"><i class="fas fa-thumbs-down"></i> <%= - @tweet.bad_count %></div>
-          <div class="space"> | </div>
-          <div class="count-bookmark"><i class="fas fa-bookmark"></i> <%= @tweet.bookmark_count %></div>
           <div class="space"> | </div>
           <div class="count-comment"><i class="fas fa-layer-group"></i> <%= @tweet.context %></div>
         </div>

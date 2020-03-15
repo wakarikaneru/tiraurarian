@@ -65,7 +65,7 @@ gem 'paperclip'
 
 gem 'ransack'
 
-gem 'twitter-text', '~> 3.0'
+gem 'twitter-text'
 
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'

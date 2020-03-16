@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200315103506) do
+ActiveRecord::Schema.define(version: 20200316045915) do
 
   create_table "access_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "access_datetime"
@@ -145,6 +145,16 @@ ActiveRecord::Schema.define(version: 20200315103506) do
     t.datetime "create_datetime"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "thumbs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string   "key"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "thumb_file_name"
+    t.string   "thumb_content_type"
+    t.bigint   "thumb_file_size"
+    t.datetime "thumb_updated_at"
   end
 
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

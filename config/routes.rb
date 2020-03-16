@@ -60,6 +60,8 @@ Rails.application.routes.draw do
     resources :notices
     resources :messages
 
+    resources :thumbs
+
     root to: "controls#index"
   end
 

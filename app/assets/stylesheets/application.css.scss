@@ -549,3 +549,9 @@ img.thumb{
     @extend .is-invalid;
   }
 }
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}

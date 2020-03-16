@@ -106,7 +106,7 @@
         <div class="text-right"><%= time_ago_in_words(@tweet.create_datetime) %></div>
       </div>
 
-      <div class="content-desc">
+      <div class="content-desc clearfix">
         <% if @tweet.user.present? %>
           <div class="content-desc-left"><%= @tweet.user.name %></div>
         <% else %>
@@ -126,7 +126,6 @@
           <div class="space"> | </div>
           <div class="count-comment"><i class="fas fa-layer-group"></i> <%= @tweet.context %></div>
         </div>
-        <br />
       </div>
 
       <div class="good-list">

@@ -10,6 +10,10 @@ module Admin
 
     def authenticate_admin
       # TODO Add authentication logic here.
+      if user_signed_in? && current_user.id == 1
+      else
+        redirect_to root_path
+      end
     end
 
     # Override this value to specify the number of elements to display at a time

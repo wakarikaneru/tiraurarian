@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :access_log
   before_action :get_active_users
+  before_action :create_thumb
 
   protected
     def configure_permitted_parameters
@@ -33,6 +34,14 @@ class ApplicationController < ActionController::Base
       @active_users = User.where(id: AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:user_id))
       active_users_ips = AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:ip_address)
       @active_anonyms_count = AccessLog.where(user_id: 0).where.not(ip_address: active_users_ips).where("access_datetime > ?", 10.minutes.ago).distinct(:ip_address).select(:ip_address).count
+    end
+
+    def create_thumb
+      key = Date.today.to_s + ":" + request.remote_ip
+      if Thumb.find_by(key: key).present?
+      else
+        CreateThumbJob.perform_now(key)
+      end
     end
 
 end

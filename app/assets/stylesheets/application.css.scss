@@ -79,11 +79,6 @@ h5{
   display: none;
 }
 
-.login-user-info-container{
-  display: flex;
-  flex-flow: row-reverse wrap;
-}
-
 .nothing{
   margin: 8px auto;
   padding: 16px;
@@ -91,6 +86,50 @@ h5{
   width: 100%;
 
   text-align: center;
+}
+
+.login-user-info-container{
+  display: flex;
+  flex-flow: row-reverse;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.active-user-info{
+  margin-right: 8px;
+  padding: 8px;
+
+  overflow: hidden;
+
+  flex: 0 1 auto;
+
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-2r);
+  background-color: var(--color-2);
+}
+
+.active-user{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.active-user-count{
+  vertical-align: bottom;
+}
+
+.active-user-img{
+  vertical-align: text-bottom;
+}
+
+.active-user-img-img{
+  width: 24px;
+  height: 24px;
+
+  background-color: #FFFFFF;
+  border-radius: 100%;
 }
 
 .login-user-info{
@@ -101,7 +140,7 @@ h5{
   flex-flow: row;
   align-items: center;
 
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 
   border-radius: 8px 8px 8px 8px;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
@@ -116,37 +155,6 @@ h5{
 
   margin: 2px;
   padding: 2px;
-
-  background-color: #FFFFFF;
-
-  border-radius: 100%;
-}
-
-.active-user-info{
-  margin: 0px;
-  padding: 8px;
-
-  display: flex;
-  flex-flow: row;
-  align-items: flex-end;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  flex: 0 1 auto;
-
-  border-radius: 8px 8px 8px 8px;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
-
-  color: var(--color-2r);
-  background-color: var(--color-2);
-}
-
-.active-user-img{
-  width: 24px;
-  height: 24px;
-
-  margin: 2px;
 
   background-color: #FFFFFF;
 

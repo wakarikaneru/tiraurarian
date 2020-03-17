@@ -1,3 +1,16 @@
+<div class="title">検索</div>
+
+<div id="tweet-form" class="tweet-form">
+  <%= form_tag("/search", method: "get", class: "form-horizontal", role: "form") do %>
+    <div class="input-group">
+      <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
+      <div class="input-group-append">
+        <%= submit_tag "検索", class: "btn btn-info" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
 <div class="users-mode-changer-container">
   <div class="users-mode-changer-item text-big"><button id="btn-users" class="btn btn-outline-secondary">ユーザー</button></div>
   <div class="users-mode-changer-item text-big"><button id="btn-tags" class="btn btn-outline-secondary">タグ</button></div>

@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       key = Date.today.to_s + ":" + request.remote_ip
       if Thumb.find_by(key: key).present?
       else
-        CreateThumbJob.perform_now(key)
+        CreateThumbJob.perform_later(key)
       end
     end
 

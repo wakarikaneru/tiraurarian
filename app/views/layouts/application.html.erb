@@ -180,12 +180,14 @@
           </li>
           <li class="nav-item col">
             <%= link_to notices_path(), class:"btn btn-secondary" do %>
-              <i class="fas fa-bell"><div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div></i>
+              <i class="fas fa-bell"></i>
+              <div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div>
             <% end %>
           </li>
           <li class="nav-item col">
             <%= link_to messages_path(), class:"btn btn-secondary" do %>
-              <i class="fas fa-envelope"><div class="badge badge-pill badge-primary badge_float"><%= message_count %></div></i>
+              <i class="fas fa-envelope"></i>
+              <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
             <% end %>
           </li>
           <li class="nav-item col">

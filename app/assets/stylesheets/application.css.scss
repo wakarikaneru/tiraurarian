@@ -555,3 +555,32 @@ img.thumb{
   display: block;
   clear: both;
 }
+
+.bottom_nav_space {
+  height: 66px;
+}
+
+.bottom_nav {
+}
+
+.bottom_nav li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom_nav a {
+  width: 100%;
+}
+
+.bottom_nav i {
+  font-size: 2em;
+}
+
+.bottom_nav .badge_float {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-50%, 0%);
+  font-size: 1rem;
+}

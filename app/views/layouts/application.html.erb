@@ -174,24 +174,24 @@
       <nav class="bottom_nav navbar navbar-expand fixed-bottom navbar-light bg-light shadow-add">
         <ul class="navbar-nav w-100 text-center">
           <li class="nav-item col">
-            <%= link_to root_path(), class:"btn btn-secondary" do %>
+            <%= link_to root_path(), class:"btn btn-secondary rounded-pill" do %>
               <i class="fas fa-home"></i>
             <% end %>
           </li>
           <li class="nav-item col">
-            <%= link_to notices_path(), class:"btn btn-secondary" do %>
+            <%= link_to notices_path(), class:"btn btn-secondary rounded-pill" do %>
               <i class="fas fa-bell"></i>
               <div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div>
             <% end %>
           </li>
           <li class="nav-item col">
-            <%= link_to messages_path(), class:"btn btn-secondary" do %>
+            <%= link_to messages_path(), class:"btn btn-secondary rounded-pill" do %>
               <i class="fas fa-envelope"></i>
               <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
             <% end %>
           </li>
           <li class="nav-item col">
-            <%= link_to search_index_path(), class:"btn btn-secondary" do %>
+            <%= link_to search_index_path(), class:"btn btn-secondary rounded-pill" do %>
               <i class="fas fa-search"></i>
             <% end %>
           </li>
@@ -201,7 +201,7 @@
                 <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x32" %>
               <% end %>
             <% else %>
-              <%= link_to new_user_session_path(), class:"btn btn-secondary" do %>
+              <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>
                 <i class="fas fa-sign-in-alt"></i>
               <% end %>
             <% end %>

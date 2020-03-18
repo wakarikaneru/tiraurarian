@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     end
 
     def get_active_users
-      @active_users = User.where(id: AccessLog.where.not(user_id: 0).where("access_datetime > ?", 10.minutes.ago).select(:user_id))
+      @active_users = User.joins(:access_logs).merge(AccessLog.where("access_datetime > ?", 10.minutes.ago).where.not(user_id: 0).order(id: :desc).select(:user_id))
       @active_users_count = @active_users.count
       active_users_ips = AccessLog.where("access_datetime > ?", 10.minutes.ago).where.not(user_id: 0).select(:ip_address)
       @active_anonyms_count = AccessLog.where("access_datetime > ?", 10.minutes.ago).where(user_id: 0).where.not(ip_address: active_users_ips).select(:ip_address).distinct.count

@@ -13,21 +13,12 @@ class ApplicationController < ActionController::Base
     end
 
     def access_log
-      access_count = Control.find_or_create_by(key: "access_count")
-      access_count.update(value: (access_count.value.to_i + 1).to_s)
-
-      access_log = AccessLog.new
-      access_log.access_datetime = Time.current
-      access_log.ip_address = request.remote_ip
-      access_log.url = request.url
-      access_log.method = request.method
-      access_log.referer = request.referer
       if user_signed_in?
-        access_log.user_id = current_user.id
+        user_id = current_user.id
       else
-        access_log.user_id = 0
+        user_id = 0
       end
-      access_log.save!
+      AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
     end
 
     def get_active_users

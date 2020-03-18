@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     user_tweets = Tweet.where(user_id: @user.id)
 
     tweets = Tweet.none.or(user_tweets)
-    @user_tweets = Tweet.none.or(tweets).limit(100).order(id: :desc)
+    @user_tweets = Tweet.none.or(tweets).limit(100).order(id: :desc).includes(:user, :parent)
 
     @tags = Tag.where(user_id: @user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
 

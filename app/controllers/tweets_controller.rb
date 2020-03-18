@@ -129,7 +129,7 @@ class TweetsController < ApplicationController
     end
     @root_tweets.reverse!
 
-    @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC")
+    @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC").includes(:user, :parent)
 
     @new_tweet = Tweet.new
     @new_tweet.parent_id = @tweet.id
@@ -193,7 +193,7 @@ class TweetsController < ApplicationController
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
-    if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 1.hour.ago).where(content: @tweet.content).size <= 0
+    if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 10.minutes.ago).where(content: @tweet.content).size <= 0
 
       respond_to do |format|
         if @tweet.save

@@ -26,7 +26,7 @@ class SearchController < ApplicationController
       tweets = Tweet.none.or(tagged_tweets).where.not(user_id: my_mutes)
       @tweets_tag = Tweet.none.or(tweets).limit(100).order(id: :desc)
 
-      @tweets_tweet = Tweet.ransack(content_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(id: :desc).limit(100)
+      @tweets_tweet = Tweet.ransack(content_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(id: :desc).limit(100).includes(:user, :parent)
     end
 
   end

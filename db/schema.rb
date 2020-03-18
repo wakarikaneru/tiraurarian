@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200316045915) do
+ActiveRecord::Schema.define(version: 20200318084637) do
 
   create_table "access_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "access_datetime"
@@ -187,10 +187,6 @@ ActiveRecord::Schema.define(version: 20200316045915) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.string   "name"
-    t.string   "avater_file_name"
-    t.string   "avater_content_type"
-    t.bigint   "avater_file_size"
-    t.datetime "avater_updated_at"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.bigint   "avatar_file_size"

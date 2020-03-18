@@ -23,10 +23,6 @@ class UserDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     name: Field::String,
-    avater_file_name: Field::String,
-    avater_content_type: Field::String,
-    avater_file_size: Field::Number,
-    avater_updated_at: Field::DateTime,
     avatar_file_name: Field::String,
     avatar_content_type: Field::String,
     avatar_file_size: Field::Number,
@@ -67,10 +63,6 @@ class UserDashboard < Administrate::BaseDashboard
   created_at
   updated_at
   name
-  avater_file_name
-  avater_content_type
-  avater_file_size
-  avater_updated_at
   avatar_file_name
   avatar_content_type
   avatar_file_size
@@ -97,10 +89,6 @@ class UserDashboard < Administrate::BaseDashboard
   reset_password_sent_at
   remember_created_at
   name
-  avater_file_name
-  avater_content_type
-  avater_file_size
-  avater_updated_at
   avatar_file_name
   avatar_content_type
   avatar_file_size

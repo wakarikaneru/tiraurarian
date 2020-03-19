@@ -8,7 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '076633c522b9c182cdf7fd3c428fe057cd1b239504daef1f29f5a2d6f7a8a5070697d8d7de0731c0594d4d4a5bdfb759310c0754255d3a29e41a5c8617c333fc'
+  # config.secret_key = 'cec6b8aba0c4e3b92bd1d08cb425e4c087f5fa585ae7700f22a5335e3ab3e6ae92f385f81bc153a8148c1991089309faf33f264515eb07bbaae1c28a062e7f6f'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -40,6 +40,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
+  # config.authentication_keys = [:email]
   config.authentication_keys = [:login_id]
 
   # Configure parameters from the request object used for authentication. Each entry
@@ -114,7 +115,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '0d2bd98da487168f368b0f96b15a5b5176a55dd4f0d0ece0756f44003ed300816fe72ba1d0b3ba8311585f810d1c50235cd75f5b465cd941ccbd44ce28b93bac'
+  # config.pepper = 'f1b68b92d56d6f25c581066263c5b209e976e6a2de7873b73968839f38f54df7764435050a3b5bf8f1f3ff4587123d1fcb3bc8e1fd904764d857e0ea9b21294e'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -296,6 +297,4 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-
- config.secret_key = 'af0b30d297345b7290f1cb1406037258b071598a439ebc21f77ec9a168caaabf9819332af648cdc5ca96533ba60ddce12f368af0b60fae0eb68b246cd493394d'
 end

@@ -14,12 +14,12 @@ class PointsController < ApplicationController
     if user_signed_in?
       if point_str.blank?
         respond_to do |format|
-          format.html { redirect_to :back, alert: "ポイントを入力してください。" }
+          format.html { redirect_back(fallback_location: root_path, alert: "ポイントを入力してください。" )}
           format.json { head :no_content }
         end
       elsif user_id_str.blank?
         respond_to do |format|
-          format.html { redirect_to :back, alert: "ユーザーを指定してください。" }
+          format.html { redirect_back(fallback_location: root_path, alert: "ユーザーを指定してください。" )}
           format.json { head :no_content }
         end
       else
@@ -27,7 +27,7 @@ class PointsController < ApplicationController
 
         if match_point.nil?
           respond_to do |format|
-            format.html { redirect_to :back, alert: "入力が不正です。" }
+            format.html { redirect_back(fallback_location: root_path, alert: "入力が不正です。" )}
             format.json { head :no_content }
           end
         else
@@ -39,18 +39,18 @@ class PointsController < ApplicationController
               Notice.generate(current_user.id, user.id, user.name, "#{point}VARTHを送信しました。")
               Notice.generate(user.id, current_user.id, current_user.name, "#{point}VARTHを受け取りました。")
               respond_to do |format|
-                format.html { redirect_to :back, notice: "#{point}VARTHを送信しました。" }
+                format.html { redirect_back(fallback_location: root_path, notice: "#{point}VARTHを送信しました。" )}
                 format.json { head :no_content }
               end
             else
               respond_to do |format|
-                format.html { redirect_to :back, alert: "VARTHの送信に失敗しました。" }
+                format.html { redirect_back(fallback_location: root_path, alert: "VARTHの送信に失敗しました。" )}
                 format.json { head :no_content }
               end
             end
           else
             respond_to do |format|
-              format.html { redirect_to :back, alert: "ユーザーが存在しません。" }
+              format.html { redirect_back(fallback_location: root_path, alert: "ユーザーが存在しません。" )}
               format.json { head :no_content }
             end
           end

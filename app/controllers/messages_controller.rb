@@ -111,7 +111,7 @@ class MessagesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to :back, alert: "権限がありません。" }
+        format.html { redirect_to redirect_back(fallback_location: root_path, alert: "権限がありません。" )}
         format.json { head :no_content }
       end
     end

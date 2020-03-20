@@ -33,9 +33,9 @@
               <div class="content-desc">
                 <div class="content-desc-parent">
                   <div class="content-parent-icon"><i class="fas fa-reply"></i></div>
-                  <% if Tweet.find_by(id: tweet.parent_id).present? %>
+                  <% if tweet.parent.present? %>
                     <div class="content-parent-text word-break">
-                      <%= Tweet.find(tweet.parent_id).content %>
+                      <%= tweet.parent.content %>
                     </div>
                   <% else %>
                     <div class="content-parent-text">

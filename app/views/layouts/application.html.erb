@@ -26,13 +26,14 @@
 
     <%= csrf_meta_tags %>
 
-    <%#= preload_link_tag 'application.css', onload: "this.rel='stylesheet'" %>
+    <%= preload_link_tag 'application.css', onload: "this.rel='stylesheet'" %>
     <%#= preload_link_tag 'application.js' %>
-    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', async: 'async', 'data-turbolinks-track': 'reload' %>
 
+    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
+    
     <!-- iOS_PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">

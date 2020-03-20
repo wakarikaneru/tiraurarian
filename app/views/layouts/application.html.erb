@@ -31,7 +31,24 @@
     <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', async: 'async', 'data-turbolinks-track': 'reload' %>
+
+    <!-- iOS_PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="チラウラリア">
+    <link rel="apple-touch-icon" href="images/icons/icon-x512.png">
+
+    <!-- ANDROID_PWA -->
+    <link rel="manifest" href="manifest.json">
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then((reg) => {
+            console.log('Service worker registered.', reg);
+          });
+    }
+    </script>
 
   </head>
 

@@ -4,7 +4,7 @@
       <h2><%= pluralize(mute.errors.count, "error") %> prohibited this mute from being saved:</h2>
 
       <ul>
-      <% mute.errors.full_messages.each do |message| %>
+      <% mute.errors.full_messages.map do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

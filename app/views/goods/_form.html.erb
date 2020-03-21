@@ -4,7 +4,7 @@
       <h2><%= pluralize(good.errors.count, "error") %> prohibited this good from being saved:</h2>
 
       <ul>
-      <% good.errors.full_messages.each do |message| %>
+      <% good.errors.full_messages.map do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

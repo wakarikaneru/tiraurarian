@@ -4,7 +4,7 @@
       <h2><%= pluralize(control.errors.count, "error") %> prohibited this control from being saved:</h2>
 
       <ul>
-      <% control.errors.full_messages.each do |message| %>
+      <% control.errors.full_messages.map do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

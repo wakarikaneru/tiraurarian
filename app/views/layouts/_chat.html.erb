@@ -4,7 +4,7 @@
     <div class="nothing">データがありません</div>
   <% end %>
 
-  <% messages.each do |message| %>
+  <% messages.map do |message| %>
     <% if message.sender_id == current_user.id %>
       <div class="tweet-reverse">
     <% else %>

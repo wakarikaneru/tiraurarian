@@ -15,7 +15,7 @@
   </thead>
 
   <tbody>
-    <% @card_decks.each do |card_deck| %>
+    <% @card_decks.map do |card_deck| %>
       <tr>
         <td><%= card_deck.user_id %></td>
         <td><%= card_deck.card_1 %></td>

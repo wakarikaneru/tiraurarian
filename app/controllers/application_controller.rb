@@ -3,8 +3,16 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :access_log
+  before_action :notification_count
   before_action :get_active_users
   before_action :create_thumb
+
+  def notification
+    respond_to do |format|
+      format.html
+      format.json { render json: @notification }
+    end
+  end
 
   protected
     def configure_permitted_parameters
@@ -41,6 +49,22 @@ class ApplicationController < ActionController::Base
       else
         CreateThumbJob.perform_later(key)
       end
+    end
+
+    def notification_count
+      if user_signed_in? then
+        notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
+        message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
+      else
+        notice_records = Notice.none
+        message_records = Message.none
+      end
+
+      @notice_count = notice_records.count
+      @message_count = message_records.count
+      @total_count = @notice_count + @message_count
+
+      @notification = {notice: @notice_count, message: @message_count, total: @total_count}
     end
 
 end

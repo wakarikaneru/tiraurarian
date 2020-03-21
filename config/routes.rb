@@ -5,13 +5,14 @@ Rails.application.routes.draw do
   root 'tweets#index'
   root to: "tweets#index"
 
+  get 'notification', to: 'application#notification'
+
   resources :tweets
   resources :tags
   resources :bookmarks
   resources :goods
   resources :bads
 
-  resources :mypage
   resources :search
 
   resources :users
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
       post 'remit'
     end
   end
+
+  resources :mypage
 
   get 'info/index'
   get 'info/howtouse'

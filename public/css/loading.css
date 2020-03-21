@@ -1,3 +1,12 @@
+body{
+  padding: 71px 0 0;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+
+  color: #111111;
+  background-color: #B4C8D9;
+}
+
 #loading{
   width: 100vw;
   height: 100vh;

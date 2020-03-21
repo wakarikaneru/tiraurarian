@@ -26,9 +26,10 @@
 
     <%= csrf_meta_tags %>
 
-    <%= preload_link_tag 'application.css', onload: "this.rel='stylesheet'" %>
+    <link rel="stylesheet" media='all' href="/css/loading.css" data-turbolinks-track="reload">
+    <%= preload_link_tag 'application.css', media: 'all', 'data-turbolinks-track': 'reload', onload: "this.rel='stylesheet'" %>
     <%= javascript_include_tag 'application', async: 'async', 'data-turbolinks-track': 'reload' %>
-    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
+    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2', 'data-turbolinks-track': 'reload' %>
 
     <!-- iOS_PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -49,187 +50,199 @@
 
   </head>
 
-  <body class ='container-fluid'>
-
-    <% if user_signed_in? %>
-      <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
-      <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
-
-      <% notice_count_i = [notice_records.count, 99].min %>
-      <% message_count_i = [message_records.count, 99].min %>
-      <% total_count_i = [notice_records.count + message_records.count, 99].min %>
-
-      <% if 0 < notice_count_i %>
-        <% notice_count = notice_count_i.to_s %>
-      <% else %>
-        <% notice_count = "" %>
-      <% end %>
-
-      <% if 0 < message_count_i %>
-        <% message_count = message_count_i.to_s %>
-      <% else %>
-        <% message_count = "" %>
-      <% end %>
-
-      <% if 0 < total_count_i %>
-        <% total_count = total_count_i.to_s %>
-      <% else %>
-        <% total_count = "" %>
-      <% end %>
-    <% end %>
-
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
-      <a class="navbar-brand" href="#">
-        <% if Rails.env == 'development' %>
-          <%= link_to 'チラウラリア(β)', root_path(), class: 'navbar-brand' %>
-        <% else %>
-          <%= link_to 'チラウラリア', root_path(), class: 'navbar-brand' %>
-        <% end %>
-      </a>
-      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-        <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-primary"><%= total_count %></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navberContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">つぶやき</a>
-            <div class="dropdown-menu">
-              <%= link_to "リーフ", tweets_path(mode: "leaf"), class: "dropdown-item" %>
-              <%= link_to "ルート", tweets_path(mode: "root"), class: "dropdown-item" %>
-              <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
-            </div>
-          </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-primary"><%= total_count %></span></a>
-              <div class="dropdown-menu">
-                <%= link_to "マイページ", mypage_index_path(), class: "dropdown-item" %>
-                <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="badge badge-pill badge-primary"><%= notice_count %></span><% end %>
-                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-primary"><%= message_count %></span><% end %>
-              </div>
-            </li>
-          <% if user_signed_in? && current_user.id == 1 %>
-            <li class="nav-item"><%= link_to "管理", admin_root_path(), class: "nav-link" %></li>
-          <% end %>
-        </ul>
-        <%= form_tag("/search", method: "get", class: "form-inline", role: "form") do %>
-          <div class="input-group">
-            <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
-            <div class="input-group-append">
-              <%= submit_tag "検索", class: "btn btn-info" %>
-            </div>
-          </div>
-        <% end %>
-      </div><!-- /.navbar-collapse -->
-    </nav>
-
-    <div class='login-user-info-container'>
-      <div class='login-user-info'>
-        <% if user_signed_in? %>
-          <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
-          <span> | </span>
-          <% if current_user.point.present? %>
-            <span><%= current_user.point.point %> va</span>
-          <% else %>
-            <span>0 va</span>
-          <% end %>
-          <span> | </span>
-          <span><%= link_to "設定", edit_user_registration_path %></span>
-          <span> | </span>
-          <span><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></span>
-        <% else %>
-          <span><%= link_to "新規登録", new_user_registration_path %></span>
-          <span> | </span>
-          <span><%= link_to "ログイン", new_user_session_path %></span>
-        <% end %>
-      </div>
-
-      <div class="active-user-info">
-        <div class="active-user">
-          <span class="active-user-count">
-            <span class="badge badge-pill badge-light"><%= @active_total_count%></span>
-          </span>
-          <span>
-            <% @active_users.each do |user| %>
-              <% if user.present? %>
-                <%= image_tag user.avatar.url(:thumb), class: "active-user-img-img image_x24" %>
-              <% else %>
-                <%= image_tag "/images/broken-image.png", class: "active-user-img-img image_x24" %>
-              <% end %>
-            <% end %>
-            <% @active_anonyms_count.times do %>
-              <%= image_tag "/images/mystery-person.png", class: "active-user-img-img image_x16" %>
-            <% end %>
-          </span>
+  <body>
+    <div id="loading" class="loaded">
+      <div class="loader">Loading...</div>
+      <div class="loading-text">
+        <div class="loading-text-title">
+          チラウラリア
+        </div>
+        <div class="loading-text-text">
+          ログイン不要で書き込める、あたらしいSNS。
         </div>
       </div>
-
     </div>
+    <div class='container-fluid'>
+      <% if user_signed_in? %>
+        <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
+        <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
 
-    <% if Rails.env == 'development' %>
-      <div id="development" class="notice alert alert-info">
-        <p>当サーバーは開発版サーバーです。稼働停止や仕様変更、データの消失が頻繁に発生します。</p>
-        <p>チラウラリアご利用の方は<a href="http://tirauraria.me/" target="blank">安定稼働サーバー</a>をご利用ください。</p>
-      </div>
-    <% end %>
+        <% notice_count_i = [notice_records.count, 99].min %>
+        <% message_count_i = [message_records.count, 99].min %>
+        <% total_count_i = [notice_records.count + message_records.count, 99].min %>
 
-    <div id="notice" class="notice alert alert-info"><%= notice %></div>
-    <div id="alert" class="notice alert alert-danger"><%= alert %></div>
+        <% if 0 < notice_count_i %>
+          <% notice_count = notice_count_i.to_s %>
+        <% else %>
+          <% notice_count = "" %>
+        <% end %>
 
-    <%= yield %>
+        <% if 0 < message_count_i %>
+          <% message_count = message_count_i.to_s %>
+        <% else %>
+          <% message_count = "" %>
+        <% end %>
 
-    <footer class="footer">
-      <div class="footer-item"><%= link_to "チラウラリアとは", info_index_path %></div>
-      <div class="footer-item"><%= link_to "使い方", info_howtouse_path %></div>
-      <div class="footer-item"><%= link_to "利用規約", info_termsofservice_path %></div>
-      <div class="footer-item"><%= link_to "プライバシーポリシー", info_privacypolicy_path %></div>
-      <div class="footer-item"><%= link_to "VARTH(va)ってなに？", info_whatisvarth_path %></div>
-    </footer>
+        <% if 0 < total_count_i %>
+          <% total_count = total_count_i.to_s %>
+        <% else %>
+          <% total_count = "" %>
+        <% end %>
+      <% end %>
 
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
+        <a class="navbar-brand" href="#">
+          <% if Rails.env == 'development' %>
+            <%= link_to 'チラウラリア(β)', root_path(), class: 'navbar-brand' %>
+          <% else %>
+            <%= link_to 'チラウラリア', root_path(), class: 'navbar-brand' %>
+          <% end %>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
+          <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-primary"><%= total_count %></span>
+        </button>
 
-    <div class="d-sm-none">
-      <div class="bottom_nav_space"></div>
-
-      <nav class="bottom_nav navbar navbar-expand fixed-bottom navbar-light bg-light shadow-add">
-        <ul class="navbar-nav w-100 text-center">
-          <li class="nav-item col">
-            <%= link_to root_path(), class:"btn btn-secondary rounded-pill" do %>
-              <i class="fas fa-home"></i>
+        <div class="collapse navbar-collapse" id="navberContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">つぶやき</a>
+              <div class="dropdown-menu">
+                <%= link_to "リーフ", tweets_path(mode: "leaf"), class: "dropdown-item" %>
+                <%= link_to "ルート", tweets_path(mode: "root"), class: "dropdown-item" %>
+                <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
+              </div>
+            </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-primary"><%= total_count %></span></a>
+                <div class="dropdown-menu">
+                  <%= link_to "マイページ", mypage_index_path(), class: "dropdown-item" %>
+                  <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="badge badge-pill badge-primary"><%= notice_count %></span><% end %>
+                  <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-primary"><%= message_count %></span><% end %>
+                </div>
+              </li>
+            <% if user_signed_in? && current_user.id == 1 %>
+              <li class="nav-item"><%= link_to "管理", admin_root_path(), class: "nav-link" %></li>
             <% end %>
-          </li>
-          <li class="nav-item col">
-            <%= link_to notices_path(), class:"btn btn-secondary rounded-pill" do %>
-              <i class="fas fa-bell"></i>
-              <div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div>
-            <% end %>
-          </li>
-          <li class="nav-item col">
-            <%= link_to messages_path(), class:"btn btn-secondary rounded-pill" do %>
-              <i class="fas fa-envelope"></i>
-              <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
-            <% end %>
-          </li>
-          <li class="nav-item col">
-            <%= link_to search_index_path(), class:"btn btn-secondary rounded-pill" do %>
-              <i class="fas fa-search"></i>
-            <% end %>
-          </li>
-          <li class="nav-item col">
-            <% if user_signed_in? %>
-              <%= link_to mypage_index_path(), class: "btn btn-secondary rounded-pill" do %>
-                <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x32" %>
-              <% end %>
-            <% else %>
-              <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>
-                <i class="fas fa-sign-in-alt"></i>
-              <% end %>
-            <% end %>
-          </li>
-        </ul>
+          </ul>
+          <%= form_tag("/search", method: "get", class: "form-inline", role: "form") do %>
+            <div class="input-group">
+              <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
+              <div class="input-group-append">
+                <%= submit_tag "検索", class: "btn btn-info" %>
+              </div>
+            </div>
+          <% end %>
+        </div><!-- /.navbar-collapse -->
       </nav>
 
-    </div>
+      <div class='login-user-info-container'>
+        <div class='login-user-info'>
+          <% if user_signed_in? %>
+            <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
+            <span> | </span>
+            <% if current_user.point.present? %>
+              <span><%= current_user.point.point %> va</span>
+            <% else %>
+              <span>0 va</span>
+            <% end %>
+            <span> | </span>
+            <span><%= link_to "設定", edit_user_registration_path %></span>
+            <span> | </span>
+            <span><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></span>
+          <% else %>
+            <span><%= link_to "新規登録", new_user_registration_path %></span>
+            <span> | </span>
+            <span><%= link_to "ログイン", new_user_session_path %></span>
+          <% end %>
+        </div>
 
+        <div class="active-user-info">
+          <div class="active-user">
+            <span class="active-user-count">
+              <span class="badge badge-pill badge-light"><%= @active_total_count%></span>
+            </span>
+            <span>
+              <% @active_users.each do |user| %>
+                <% if user.present? %>
+                  <%= image_tag user.avatar.url(:thumb), class: "active-user-img-img image_x24" %>
+                <% else %>
+                  <%= image_tag "/images/broken-image.png", class: "active-user-img-img image_x24" %>
+                <% end %>
+              <% end %>
+              <% @active_anonyms_count.times do %>
+                <%= image_tag "/images/mystery-person.png", class: "active-user-img-img image_x16" %>
+              <% end %>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <% if Rails.env == 'development' %>
+        <div id="development" class="notice alert alert-info">
+          <p>当サーバーは開発版サーバーです。稼働停止や仕様変更、データの消失が頻繁に発生します。</p>
+          <p>チラウラリアご利用の方は<a href="http://tirauraria.me/" target="blank">安定稼働サーバー</a>をご利用ください。</p>
+        </div>
+      <% end %>
+
+      <div id="notice" class="notice alert alert-info"><%= notice %></div>
+      <div id="alert" class="notice alert alert-danger"><%= alert %></div>
+
+      <%= yield %>
+
+      <footer class="footer">
+        <div class="footer-item"><%= link_to "チラウラリアとは", info_index_path %></div>
+        <div class="footer-item"><%= link_to "使い方", info_howtouse_path %></div>
+        <div class="footer-item"><%= link_to "利用規約", info_termsofservice_path %></div>
+        <div class="footer-item"><%= link_to "プライバシーポリシー", info_privacypolicy_path %></div>
+        <div class="footer-item"><%= link_to "VARTH(va)ってなに？", info_whatisvarth_path %></div>
+      </footer>
+
+
+      <div class="d-sm-none">
+        <div class="bottom_nav_space"></div>
+
+        <nav class="bottom_nav navbar navbar-expand fixed-bottom navbar-light bg-light shadow-add">
+          <ul class="navbar-nav w-100 text-center">
+            <li class="nav-item col">
+              <%= link_to root_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-home"></i>
+              <% end %>
+            </li>
+            <li class="nav-item col">
+              <%= link_to notices_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-bell"></i>
+                <div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div>
+              <% end %>
+            </li>
+            <li class="nav-item col">
+              <%= link_to messages_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-envelope"></i>
+                <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
+              <% end %>
+            </li>
+            <li class="nav-item col">
+              <%= link_to search_index_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-search"></i>
+              <% end %>
+            </li>
+            <li class="nav-item col">
+              <% if user_signed_in? %>
+                <%= link_to mypage_index_path(), class: "btn btn-secondary rounded-pill" do %>
+                  <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x32" %>
+                <% end %>
+              <% else %>
+                <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>
+                  <i class="fas fa-sign-in-alt"></i>
+                <% end %>
+              <% end %>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+
+    </div>
 
   </body>
 </html>

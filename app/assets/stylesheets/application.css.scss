@@ -5,10 +5,15 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+#loading.loaded {
+  opacity: 0;
+  visibility: hidden;
+}
+
 /* universal */
 
 body{
-  padding: 71px 15px 0;
+  padding: 71px 0 0;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 14px;
 

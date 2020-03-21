@@ -26,8 +26,8 @@
 
     <%= csrf_meta_tags %>
 
-    <%#= preload_link_tag 'application.css', media: 'all', 'data-turbolinks-track': 'reload', onload: "this.rel='stylesheet'" %>
-    <%= stylesheet_link_tag 'application.css', media: 'print', 'data-turbolinks-track': 'reload', onload: "this.media='all'" %>
+    <%= preload_link_tag 'application.css', media: 'all', 'data-turbolinks-track': 'reload', onload: "this.onload=null;this.rel='stylesheet'" %>
+    <noscript><link rel="stylesheet" href="<%= stylesheet_path('application') %>"></noscript>
     <link rel="stylesheet" media='all' href="/css/loading.css" data-turbolinks-track="reload">
     <%= javascript_include_tag 'application', async: 'async', 'data-turbolinks-track': 'reload' %>
     <%= preload_link_tag 'font-awesome/fa-solid-900.woff2', 'data-turbolinks-track': 'reload' %>

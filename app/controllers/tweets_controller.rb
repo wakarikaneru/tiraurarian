@@ -108,10 +108,12 @@ class TweetsController < ApplicationController
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
     end
 
-    @hot_tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").order("max(create_datetime) desc").limit(15)
+    @tweets = @tweets
+
+    @hot_tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").order("max(id) desc").limit(15)
 
     if user_signed_in? then
-      @recent_tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
+      @recent_tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(id) desc").limit(15)
     end
 
     @new_tweet = Tweet.new

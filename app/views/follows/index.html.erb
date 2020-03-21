@@ -1,33 +1,22 @@
-<div class="users-mode-changer-container">
-  <div class="users-mode-changer-item text-big"><button id="btn-follow" class="btn btn-outline-secondary">フォロー</button></div>
-  <div class="users-mode-changer-item text-big"><button id="btn-follower" class="btn btn-outline-secondary">フォロワー</button></div>
+<div class="title">フォロー</div>
+
+<ul class="nav nav-pills nav-justified bg-light">
+  <li class="nav-item">
+    <a href="#follow" class="nav-link active" data-toggle="tab">フォロー</a>
+  </li>
+  <li class="nav-item">
+    <a href="#follower" class="nav-link" data-toggle="tab">フォロワー</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div id="follow" class="tab-pane active">
+    <h1>フォローしているユーザー</h1>
+    <%= render partial: "/layouts/follows", locals: { follows: @follows, mode: "follow" } %>
+  </div>
+
+  <div id="follower" class="tab-pane">
+    <h1>フォローされているユーザー</h1>
+    <%= render partial: "/layouts/follows", locals: { follows: @followers, mode: "follower" } %>
+  </div>
 </div>
-
-<div id="follow" class="view">
-  <h1>フォローしているユーザー</h1>
-  <%= render partial: "/layouts/follows", locals: { follows: @follows, mode: "follow" } %>
-</div>
-
-<div id="follower" class="view">
-  <h1>フォローされているユーザー</h1>
-  <%= render partial: "/layouts/follows", locals: { follows: @followers, mode: "follower" } %>
-</div>
-
-<script>
-  $(function () {
-
-    $(".view").hide();
-    $("#follow").show();
-
-    $("#btn-follow").click(function () {
-      $(".view").hide();
-      $("#follow").show();
-    });
-
-    $("#btn-follower").click(function () {
-      $(".view").hide();
-      $("#follower").show();
-    });
-
-  });
-</script>

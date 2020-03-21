@@ -15,15 +15,3 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets
-
-$(function() {
-
-  $('[data-toggle="tooltip"]').tooltip();
-  $('img').error(function() {
-    $(this).attr({
-      src: '/images/broken-image.png',
-      alt: 'No Image'
-    });
-  });
-
-});

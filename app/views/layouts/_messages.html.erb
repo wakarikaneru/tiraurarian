@@ -5,7 +5,11 @@
   <% end %>
 
   <% messages.each do |message| %>
-    <div class="tweet">
+    <% if message.sender_id == current_user.id %>
+      <div class="tweet-reverse">
+    <% else %>
+      <div class="tweet">
+    <% end %>
 
       <div class="tweet-left">
         <%= link_to message.sender, class: "link-item-image" do %>

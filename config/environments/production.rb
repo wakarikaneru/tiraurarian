@@ -1,5 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.logger = Logger.new("log/production.log", 'daily')
 
   # Code is not reloaded between requests.
   config.cache_classes = true

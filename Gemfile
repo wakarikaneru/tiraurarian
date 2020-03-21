@@ -67,6 +67,7 @@ gem 'ransack'
 
 gem 'twitter-text'
 
+gem 'loadcss-rails'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 

@@ -5,6 +5,6 @@ self.addEventListener('fetch', (event) => {
       return response;
     }).catch(() => {
       return caches.match(event.request);
-    });
+    })
   );
 });

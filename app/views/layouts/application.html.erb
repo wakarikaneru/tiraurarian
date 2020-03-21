@@ -244,11 +244,6 @@
     </div>
 
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(async (swReg) => {
-          const bgFetch = await swReg.backgroundFetch.fetch('notification', '/notification', {title: 'title of download'});
-        });
-      }
     </script>
   </body>
 </html>

@@ -3,7 +3,7 @@ self.addEventListener('fetch', (event) => {
     fetch(event.request).then((response) => {
       cache.put(event.request, response.clone());
       return response;
-    }).catch({
+    }).catch(() => {
       return caches.match(event.request);
     });
   );

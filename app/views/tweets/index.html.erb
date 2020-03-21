@@ -16,86 +16,56 @@
 
 <div class="tools">
   <a id="btn-hot">
-    <button class="control-button btn btn-secondary rounded-circle">
+    <button class="control-button btn btn-secondary rounded-pill" data-toggle="collapse" data-target="#tag-hot">
       <i class="fas fa-fire-alt"></i>
     </button>
   </a>
   <a id="btn-recent">
-    <button class="control-button btn btn-secondary rounded-circle">
+    <button class="control-button btn btn-secondary rounded-pill" data-toggle="collapse" data-target="#tag-recent">
       <i class="fas fa-history"></i>
     </button>
   </a>
   <a id="btn-search">
-    <button class="control-button btn btn-secondary rounded-circle">
+    <button class="control-button btn btn-secondary rounded-pill" data-toggle="collapse" data-target="#tag-search">
       <i class="fas fa-search"></i>
     </button>
   </a>
 </div>
 
-<div id="tag-hot" class="tag-form">
-  <h3><i class="fas fa-fire-alt"></i> 話題のタグ</h3>
-  <%= render partial: "/layouts/tags", locals: { tags: @hot_tags } %>
+<div id="tag-hot" class="collapse">
+  <div class="tag-form">
+    <h3><i class="fas fa-fire-alt"></i> 話題のタグ</h3>
+    <%= render partial: "/layouts/tags", locals: { tags: @hot_tags } %>
+  </div>
 </div>
 
-<div id="tag-recent" class="tag-form">
-  <h3><i class="fas fa-history"></i> 最近使ったタグ</h3>
-  <%= render partial: "/layouts/tags", locals: { tags: @recent_tags } %>
+<div id="tag-recent" class="collapse">
+  <div class="tag-form">
+    <h3><i class="fas fa-history"></i> 最近使ったタグ</h3>
+    <%= render partial: "/layouts/tags", locals: { tags: @recent_tags } %>
+  </div>
 </div>
 
-<div id="tag-search" class="tag-form">
-  <h3><i class="fas fa-search"></i> タグ検索</h3>
-  <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
-    <%= hidden_field_tag :mode, "tag" %>
-    <div class="col-sm-12">
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">#</span>
-          </div>
-          <%= text_field_tag :tag, params[:tag], class: "form-control", placeholder: "タグ" %>
-          <div class="input-group-append">
-            <%= submit_tag "タグ検索", class: "btn btn-secondary" %>
+<div id="tag-search" class="collapse">
+  <div class="tag-form">
+    <h3><i class="fas fa-search"></i> タグ検索</h3>
+    <%= form_tag("/tweets", method: "get", class: "form-horizontal", role: "form") do %>
+      <%= hidden_field_tag :mode, "tag" %>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">#</span>
+            </div>
+            <%= text_field_tag :tag, params[:tag], class: "form-control", placeholder: "タグ" %>
+            <div class="input-group-append">
+              <%= submit_tag "タグ検索", class: "btn btn-secondary" %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
 
 <%= render partial: "/layouts/tweets", locals: { tweets: @tweets, show_list: false, show_parent: true } %>
-
-<script>
-  $(function () {
-    $("#btn-hot").click(function () {
-
-      if ($("#tag-hot").is(':visible')) {
-        $(".tag-form").hide();
-      } else {
-        $(".tag-form").hide();
-        $("#tag-hot").show();
-      }
-    });
-
-    $("#btn-recent").click(function () {
-      if ($("#tag-recent").is(':visible')) {
-        $(".tag-form").hide();
-      } else {
-        $(".tag-form").hide();
-        $("#tag-recent").show();
-      }
-    });
-
-    $("#btn-search").click(function () {
-      if ($("#tag-search").is(':visible')) {
-        $(".tag-form").hide();
-      } else {
-        $(".tag-form").hide();
-        $("#tag-search").show();
-      }
-    });
-
-    $("#btn-close").click(function () {
-      $(".tag-form").hide();
-    });
-  });
-</script>

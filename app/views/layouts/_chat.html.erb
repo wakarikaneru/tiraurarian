@@ -7,74 +7,41 @@
   <% messages.each do |message| %>
     <% if message.sender_id == current_user.id %>
       <div class="tweet-reverse">
-        <div class="tweet-left">
-          <%= link_to message.sender, class: "link-item-image" do %>
-            <% if message.sender.present? %>
-              <%= image_tag message.sender.avatar.url(:thumb), class: "user-img image_x48" %>
-            <% else %>
-              <%= image_tag "/images/broken-image.png", class: "user-img image_x48" %>
-            <% end %>
-          <% end %>
-        </div>
-
-        <div class="tweet-right">
-          <div class="hukidasi-reverse">
-
-            <div class="content">
-              <div class="content-text word-break">
-                <%= message.content %>
-              </div>
-            </div>
-            <div class="content-desc">
-
-              <div class="content-desc-left"><%= message.sender_name %></div>
-
-              <div class="space"></div>
-
-              <div class="content-desc-right content-desc-flex-row-right">
-                <div><%= time_ago_in_words(message.create_datetime) %></div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
     <% else %>
       <div class="tweet">
-
-        <div class="tweet-left">
-          <%= link_to message.sender, class: "link-item-image" do %>
-            <% if message.sender.present? %>
-              <%= image_tag message.sender.avatar.url(:thumb), class: "user-img image_x48" %>
-            <% else %>
-              <%= image_tag "/images/broken-image.png", class: "user-img image_x48" %>
-            <% end %>
+    <% end %>
+      <div class="tweet-left">
+        <%= link_to message.sender, class: "link-item-image" do %>
+          <% if message.sender.present? %>
+            <%= image_tag message.sender.avatar.url(:thumb), class: "user-img image_x48" %>
+          <% else %>
+            <%= image_tag "/images/broken-image.png", class: "user-img image_x48" %>
           <% end %>
-        </div>
+        <% end %>
+      </div>
 
-        <div class="tweet-right">
-          <div class="hukidasi">
+      <div class="tweet-right">
+        <div class="hukidasi">
 
-            <div class="content">
-              <div class="content-text word-break">
-                <%= message.content %>
-              </div>
+          <div class="content">
+            <div class="content-text word-break">
+              <%= message.content %>
             </div>
-            <div class="content-desc">
+          </div>
+          <div class="content-desc">
 
-              <div class="content-desc-left"><%= message.sender_name %></div>
+            <div class="content-desc-left"><%= message.sender_name %></div>
 
-              <div class="space"></div>
+            <div class="space"></div>
 
-              <div class="content-desc-right content-desc-flex-row-right">
-                <div><%= time_ago_in_words(message.create_datetime) %></div>
-              </div>
-
+            <div class="content-desc-right content-desc-flex-row-right">
+              <div><%= time_ago_in_words(message.create_datetime) %></div>
             </div>
+
           </div>
         </div>
       </div>
-    <% end %>
+    </div>
   <% end %>
 
 </div>

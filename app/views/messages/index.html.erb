@@ -1,35 +1,22 @@
 <div class="title">メッセージBOX</div>
 
-<div class="users-mode-changer-container">
-  <div class="users-mode-changer-item text-big"><button id="btn-receive" class="btn btn-outline-secondary">受信トレイ</button></div>
-  <div class="users-mode-changer-item text-big"><button id="btn-send" class="btn btn-outline-secondary">送信トレイ</button></div>
+<ul class="nav nav-pills nav-justified bg-light">
+  <li class="nav-item">
+    <a href="#receive" class="nav-link active" data-toggle="tab">受信トレイ</a>
+  </li>
+  <li class="nav-item">
+    <a href="#send" class="nav-link" data-toggle="tab">送信トレイ</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div id="receive" class="tab-pane active">
+    <h1>受信トレイ</h1>
+    <%= render partial: "/layouts/messages", locals: { messages: @messages, to: false } %>
+  </div>
+
+  <div id="send" class="tab-pane">
+    <h1>送信トレイ</h1>
+    <%= render partial: "/layouts/messages", locals: { messages: @send_messages, to: true } %>
+  </div>
 </div>
-
-<div id="receive" class="view">
-  <h1>受信トレイ</h1>
-  <%= render partial: "/layouts/messages", locals: { messages: @messages, to: false } %>
-</div>
-
-<div id="send" class="view">
-  <h1>送信トレイ</h1>
-  <%= render partial: "/layouts/messages", locals: { messages: @send_messages, to: true } %>
-</div>
-
-<script>
-  $(function () {
-
-    $(".view").hide();
-    $("#receive").show();
-
-    $("#btn-receive").click(function () {
-      $(".view").hide();
-      $("#receive").show();
-    });
-
-    $("#btn-send").click(function () {
-      $(".view").hide();
-      $("#send").show();
-    });
-
-  });
-</script>

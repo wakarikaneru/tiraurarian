@@ -11,47 +11,31 @@
   <% end %>
 </div>
 
-<div class="users-mode-changer-container">
-  <div class="users-mode-changer-item text-big"><button id="btn-users" class="btn btn-outline-secondary">ユーザー</button></div>
-  <div class="users-mode-changer-item text-big"><button id="btn-tags" class="btn btn-outline-secondary">タグ</button></div>
-  <div class="users-mode-changer-item text-big"><button id="btn-tweets" class="btn btn-outline-secondary">つぶやき</button></div>
+<ul class="nav nav-pills nav-justified bg-light">
+  <li class="nav-item">
+    <a href="#users" class="nav-link active" data-toggle="tab">ユーザー</a>
+  </li>
+  <li class="nav-item">
+    <a href="#tags" class="nav-link" data-toggle="tab">タグ</a>
+  </li>
+  <li class="nav-item">
+    <a href="#tweets" class="nav-link" data-toggle="tab">つぶやき</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div id="users" class="tab-pane active">
+    <h1>ユーザー検索</h1>
+    <%= render partial: "/layouts/users", locals: { users: @users } %>
+  </div>
+
+  <div id="tags" class="tab-pane">
+    <h1>タグ検索</h1>
+    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tag, show_list: false, show_parent: true } %>
+  </div>
+
+  <div id="tweets" class="tab-pane">
+    <h1>つぶやき検索</h1>
+    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true } %>
+  </div>
 </div>
-
-<div id="users" class="view">
-  <h1>ユーザー検索</h1>
-  <%= render partial: "/layouts/users", locals: { users: @users } %>
-</div>
-
-<div id="tags" class="view">
-  <h1>タグ検索</h1>
-  <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tag, show_list: false, show_parent: true } %>
-</div>
-
-<div id="tweets" class="view">
-  <h1>つぶやき検索</h1>
-  <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true } %>
-</div>
-
-<script>
-  $(function () {
-
-    $(".view").hide();
-    $("#users").show();
-
-    $("#btn-users").click(function () {
-      $(".view").hide();
-      $("#users").show();
-    });
-
-    $("#btn-tags").click(function () {
-      $(".view").hide();
-      $("#tags").show();
-    });
-
-    $("#btn-tweets").click(function () {
-      $(".view").hide();
-      $("#tweets").show();
-    });
-
-  });
-</script>

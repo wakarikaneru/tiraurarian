@@ -4,7 +4,7 @@
       <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>
 
       <ul>
-      <% card.errors.full_messages.each do |message| %>
+      <% card.errors.full_messages.map do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

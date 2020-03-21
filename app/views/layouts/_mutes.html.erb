@@ -3,7 +3,7 @@
     <div class="nothing">データがありません</div>
   <% end %>
 
-  <% mutes.each do |mute| %>
+  <% mutes.map do |mute| %>
 
     <% target_id = mute.target_id %>
 

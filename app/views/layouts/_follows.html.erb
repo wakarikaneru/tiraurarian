@@ -3,7 +3,7 @@
     <div class="nothing">データがありません</div>
   <% end %>
 
-  <% follows.each do |follow| %>
+  <% follows.map do |follow| %>
 
     <% case mode %>
       <% when "follow" then %>

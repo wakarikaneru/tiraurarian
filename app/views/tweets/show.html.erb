@@ -129,7 +129,7 @@
       </div>
 
       <div class="good-list">
-        <% Good.where(tweet_id: @tweet.id).order(id: :desc).each do |good| %>
+        <% Good.where(tweet_id: @tweet.id).order(id: :desc).map do |good| %>
           <% if good.user.present? %>
             <%= image_tag good.user.avatar.url(:thumb), class: "good-user-img" %>
           <% else %>

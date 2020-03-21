@@ -13,7 +13,7 @@
   </thead>
 
   <tbody>
-    <% @card_boxes.each do |card_box| %>
+    <% @card_boxes.map do |card_box| %>
       <tr>
         <td><%= card_box.user_id %></td>
         <td><%= card_box.size %></td>

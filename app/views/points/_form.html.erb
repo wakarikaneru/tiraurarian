@@ -4,7 +4,7 @@
       <h2><%= pluralize(point.errors.count, "error") %> prohibited this point from being saved:</h2>
 
       <ul>
-      <% point.errors.full_messages.each do |message| %>
+      <% point.errors.full_messages.map do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

@@ -28,7 +28,7 @@ class Tweet < ApplicationRecord
   end
 
   after_create do
-    extract_hashtags(self.content).uniq.each do |tag|
+    extract_hashtags(self.content).uniq.map do |tag|
       Tag.find_or_create_by(user_id: self.user_id, tweet_id: self.id, tag_string: tag, create_datetime: Time.current)
     end
     User.find_by(id: self.user_id).update_last_tweet()

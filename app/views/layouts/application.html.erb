@@ -42,12 +42,12 @@
     <!-- ANDROID_PWA -->
     <link rel="manifest" href="/manifest.json">
     <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-          .then((reg) => {
-            console.log('Service worker registered.', reg);
-          });
-    }
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+              console.log('Service worker registered.', reg);
+            });
+      }
     </script>
 
   </head>
@@ -66,12 +66,9 @@
     </div>
     <div class='container-fluid'>
       <% if user_signed_in? %>
-        <% notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago) %>
-        <% message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago) %>
-
-        <% notice_count_i = [notice_records.count, 99].min %>
-        <% message_count_i = [message_records.count, 99].min %>
-        <% total_count_i = [notice_records.count + message_records.count, 99].min %>
+        <% notice_count_i = [@notice_count, 99].min %>
+        <% message_count_i = [@message_count, 99].min %>
+        <% total_count_i = [@total_count, 99].min %>
 
         <% if 0 < notice_count_i %>
           <% notice_count = notice_count_i.to_s %>
@@ -246,5 +243,12 @@
 
     </div>
 
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(async (swReg) => {
+          const bgFetch = await swReg.backgroundFetch.fetch('notification', '/notification', {'text': 'test'});
+        });
+      }
+    </script>
   </body>
 </html>

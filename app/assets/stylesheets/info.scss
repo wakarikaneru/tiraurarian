@@ -1,3 +1,46 @@
 // Place all the styles related to the Info controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#offline{
+  width: 100vw;
+  height: 100vh;
+  transition: all 0.25s;
+  background-color: #30618C;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+#offline .offline-head {
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 12vw;
+}
+
+#offline .offline-text {
+}
+
+#offline .offline-text-title {
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 8vw;
+}
+
+#offline .offline-text-text {
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 2vw;
+}
+
+#offline .offline-text-botton {
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 4vw;
+}

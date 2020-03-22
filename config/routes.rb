@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get 'info/termsofservice'
   get 'info/privacypolicy'
   get 'info/whatisvarth'
+  get 'info/offline'
 
   namespace :admin do
     resources :access_logs

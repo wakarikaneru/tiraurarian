@@ -17,7 +17,9 @@ self.addEventListener('fetch', (event) => {
     caches.open(CACHE_NAME).then((cache) => {
       return fetch(event.request).then((response) => {
         cache.put(event.request, response.clone());
-        return response || cache.match(event.request) || caches.match('/info/offline');
+        return response;
+      }).catch(() => {
+        return cache.match(event.request) ||caches.match('/info/offline');
       })
     })
   );

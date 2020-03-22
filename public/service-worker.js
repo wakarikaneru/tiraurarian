@@ -16,10 +16,20 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.open(CACHE_NAME).then((cache) => {
       return fetch(event.request).then((response) => {
-        cache.put(event.request, response.clone());
-        return response;
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }else{
+          cache.put(event.request, response.clone());
+          return response;
+        }
       }).catch(() => {
-        return cache.match(event.request) || cache.match('/info/offline');
+        return cache.match(event.request).then((cachedResponse) => {
+          if(cachedResponse){
+            return cachedResponse;
+          }else{
+            return cache.match('/info/offline');
+          }
+        })
       })
     })
   );

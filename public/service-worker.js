@@ -1,4 +1,4 @@
-CACHE_NAME = "tirauraria-v1"
+let CACHE_NAME = "tirauraria-v1"
 
 console.log('Hello from service-worker.js');
 
@@ -19,7 +19,7 @@ self.addEventListener('fetch', (event) => {
         cache.put(event.request, response.clone());
         return response;
       }).catch(() => {
-        return cache.match(event.request)).catch(() => {
+        return cache.match(event.request).catch(() => {
           return caches.match('/info/offline');
         });
       })

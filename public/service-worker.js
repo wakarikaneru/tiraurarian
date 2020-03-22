@@ -17,21 +17,7 @@ self.addEventListener('fetch', (event) => {
 
   switch (destination) {
     case 'style':
-    case 'script':{
-      //stale-while-revalidate
-      event.respondWith(
-        caches.open(CACHE_NAME).then((cache) => {
-          return cache.match(event.request).then((cacheResponse) => {
-            var fetchPromise = fetch(event.request).then((fetchResponse) => {
-              cache.put(event.request, fetchResponse.clone());
-              return fetchResponse;
-            })
-            return cacheResponse || fetchPromise;
-          })
-        })
-      );
-      return;
-    }
+    case 'script':
     case 'font':
     case 'image':{
       //Cache, falling back to network

@@ -43,7 +43,7 @@
     <link rel="manifest" href="/manifest.json">
     <script>
       if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('/service-worker.js')
             .then((reg) => {
               console.log('Service worker registered.', reg);
             });
@@ -244,6 +244,7 @@
     </div>
 
     <script>
+
     </script>
   </body>
 </html>

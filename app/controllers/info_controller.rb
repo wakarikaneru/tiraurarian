@@ -13,4 +13,7 @@ class InfoController < ApplicationController
 
   def whatisvarth
   end
+
+  def offline
+  end
 end

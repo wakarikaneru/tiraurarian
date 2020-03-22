@@ -19,7 +19,9 @@ self.addEventListener('fetch', (event) => {
         cache.put(event.request, response.clone());
         return response;
       }).catch(() => {
-        return cache.match(event.request);
+        return cache.match(event.request)).catch(() => {
+          return caches.match('/info/offline');
+        });
       })
     })
   );

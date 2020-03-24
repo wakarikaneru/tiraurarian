@@ -28,11 +28,11 @@ self.addEventListener('fetch', (event) => {
         caches.open(CACHE_NAME).then((cache) => {
           return cache.match(event.request).then((cacheResponse) => {
             return cacheResponse || fetch(event.request).then((fetchResponse) => {
-              if (!fetchResponse.ok || fetchResponse.type !== 'basic') {
-                return fetchResponse;
-              }else{
+              if (fetchResponse.ok) {
                 cache.put(event.request, fetchResponse.clone());
                 console.log("cache.put " + event.request);
+                return fetchResponse;
+              }else{
                 return fetchResponse;
               }
             });
@@ -53,7 +53,34 @@ self.addEventListener('fetch', (event) => {
     }
     default: {
       //Network falling back to cache, Generic fallback
-      event.respondWith(fetch(event.request));
+      event.respondWith(
+        caches.open(CACHE_NAME).then((cache) => {
+          return fetch(event.request).then((fetchResponse) => {
+            const contentType = fetchResponse.clone().headers.get('Content-Type');
+            console.log("fetchResponse.headers.get('Content-Type') = " + contentType);
+            console.log("contentType.includes('text/html') " + contentType.includes('text/html'));
+
+            if (contentType.includes('text/html')){
+              if (fetchResponse.ok) {
+                cache.put(event.request, fetchResponse.clone());
+                console.log("cache.put " + event.request.url);
+                return fetchResponse;
+              }else{
+                return cache.match(event.request).then((cachedResponse) => {
+                  if(cachedResponse){
+                    return cachedResponse;
+                  }else{
+                    return cache.match('/info/offline');
+                  }
+                });
+              }
+            }else{
+              return fetchResponse;
+            }
+
+          })
+        })
+      );
       break;
     }
   }

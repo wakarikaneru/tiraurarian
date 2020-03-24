@@ -51,6 +51,9 @@ self.addEventListener('fetch', (event) => {
       );
       break;
     }
+    case 'document':{
+      event.respondWith(fetch(event.request));
+    }
     default: {
       //Network falling back to cache, Generic fallback
       event.respondWith(

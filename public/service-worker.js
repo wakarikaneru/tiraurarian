@@ -54,32 +54,7 @@ self.addEventListener('fetch', (event) => {
     default: {
       //Network falling back to cache, Generic fallback
       event.respondWith(
-        caches.open(CACHE_NAME).then((cache) => {
-          return fetch(event.request).then((fetchResponse) => {
-            const contentType = fetchResponse.clone().headers.get('Content-Type');
-            console.log("fetchResponse.headers.get('Content-Type') = " + contentType);
-            console.log("contentType.includes('text/html') " + contentType.includes('text/html'));
-
-            if (contentType.includes('text/html')){
-              if (!fetchResponse.ok || fetchResponse.type !== 'basic'){
-                return fetchResponse;
-              }else{
-                cache.put(event.request, fetchResponse.clone());
-                console.log("cache.put " + event.request.url);
-                return fetchResponse;
-              }
-            }else{
-              return fetchResponse;
-            }
-          }).catch(() => {
-            return cache.match(event.request).then((cachedResponse) => {
-              if(cachedResponse){
-                return cachedResponse;
-              }else{
-                return cache.match('/info/offline');
-              }
-            })
-          })
+          fetch(event.request)
         })
       );
       return;

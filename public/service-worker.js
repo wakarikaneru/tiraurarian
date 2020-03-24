@@ -39,7 +39,7 @@ self.addEventListener('fetch', (event) => {
           })
         })
       );
-      return;
+      break;
     }
     case 'image':{
       event.respondWith(
@@ -49,15 +49,12 @@ self.addEventListener('fetch', (event) => {
           })
         })
       );
-      return;
+      break;
     }
     default: {
       //Network falling back to cache, Generic fallback
-      event.respondWith(
-          fetch(event.request)
-        })
-      );
-      return;
+      event.respondWith(fetch(event.request));
+      break;
     }
   }
 });

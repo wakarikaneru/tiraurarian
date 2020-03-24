@@ -70,18 +70,20 @@ self.addEventListener('fetch', (event) => {
                 console.log("cache.put " + event.request.url);
                 return fetchResponse;
               }else{
-                return cache.match(event.request).then((cachedResponse) => {
-                  if(cachedResponse){
-                    return cachedResponse;
-                  }else{
-                    return cache.match('/info/offline');
-                  }
-                });
+                return fetchResponse;
               }
             }else{
               return fetchResponse;
             }
 
+          }).catch(() => {
+            return cache.match(event.request).then((cachedResponse) => {
+              if(cachedResponse){
+                return cachedResponse;
+              }else{
+                return cache.match('/info/offline');
+              }
+            });
           })
         })
       );

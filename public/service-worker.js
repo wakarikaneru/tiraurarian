@@ -6,7 +6,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
-        '/info/offline',
+        '/offline',
         '/images/no-image.png'
       ]);
     })
@@ -81,7 +81,7 @@ self.addEventListener('fetch', (event) => {
               if(cachedResponse){
                 return cachedResponse;
               }else{
-                return cache.match('/info/offline');
+                return cache.match('/offline');
               }
             });
           })

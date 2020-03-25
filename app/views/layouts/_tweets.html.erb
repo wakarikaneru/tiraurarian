@@ -1,8 +1,4 @@
-<% if show_list %>
-  <div class="tweet-container list">
-<% else %>
-  <div class="tweet-container">
-<% end %>
+<div class="tweet-container<%= if show_list then ' list' end %><%= if infinite_scroll then ' infinite_scroll' end %>">
 
   <% if tweets.blank? %>
     <div class="nothing">データがありません</div>

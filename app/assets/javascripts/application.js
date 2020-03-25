@@ -20,6 +20,7 @@
 new InfiniteScroll( '.tweet-container', {
     path: "a[rel=next]",
     append: ".tweet",
+    history: false,
     prefill: true,
     scrollThreshold: 400,
     loadOnScroll: true,

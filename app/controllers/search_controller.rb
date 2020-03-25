@@ -19,7 +19,7 @@ class SearchController < ApplicationController
 
       my_mutes_array = my_mutes.pluck(:target_id)
 
-      @users = User.ransack(name_or_description_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(last_tweet: :desc).page(params[:page]).per(60)
+      @users = User.ransack(name_or_description_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(last_tweet: :desc)
 
       tagged = Tag.ransack(tag_string_matches_any: query_array).result
       tagged_tweets  = Tweet.joins(:tags).merge(tagged)

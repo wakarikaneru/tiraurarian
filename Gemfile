@@ -64,6 +64,7 @@ gem 'whenever'
 gem 'paperclip'
 
 gem 'ransack'
+gem 'kaminari'
 
 gem 'twitter-text'
 

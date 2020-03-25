@@ -15,3 +15,12 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets
+//= require infinite-scroll.pkgd.min
+
+new InfiniteScroll( '.tweet-container', {
+    path: "a[rel=next]",
+    append: ".tweet",
+    prefill: true,
+    scrollThreshold: 400,
+    loadOnScroll: true,
+})

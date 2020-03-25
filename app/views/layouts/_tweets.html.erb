@@ -1,5 +1,5 @@
 <% if show_list %>
-  <div class="tweet-container-list">
+  <div class="tweet-container list">
 <% else %>
   <div class="tweet-container">
 <% end %>
@@ -8,7 +8,7 @@
     <div class="nothing">データがありません</div>
   <% end %>
 
-  <% tweets.map do |tweet| %>
+  <% tweets.each do |tweet| %>
     <div class="tweet">
 
       <div  class="tweet-left">
@@ -91,3 +91,5 @@
   <% end %>
 
 </div>
+
+<div class="d-none justify-content-center m-4"><%= paginate tweets %></div>

@@ -19,14 +19,14 @@ class SearchController < ApplicationController
 
       my_mutes_array = my_mutes.pluck(:target_id)
 
-      @users = User.ransack(name_or_description_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(last_tweet: :desc).limit(100)
+      @users = User.ransack(name_or_description_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(last_tweet: :desc).page(params[:page]).per(60)
 
       tagged = Tag.ransack(tag_string_matches_any: query_array).result
       tagged_tweets  = Tweet.joins(:tags).merge(tagged)
       tweets = Tweet.none.or(tagged_tweets).where.not(user_id: my_mutes)
-      @tweets_tag = Tweet.none.or(tweets).limit(100).order(id: :desc)
+      @tweets_tag = Tweet.none.or(tweets).order(id: :desc).page(params[:page]).per(60)
 
-      @tweets_tweet = Tweet.ransack(content_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(id: :desc).limit(100).includes(:user, :parent)
+      @tweets_tweet = Tweet.ransack(content_cont_all: query_array, id_does_not_match_all: my_mutes_array).result.order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
     end
 
   end

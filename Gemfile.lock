@@ -187,6 +187,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    render_async (2.1.5)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -275,6 +276,7 @@ DEPENDENCIES
   rack-attack
   rails (~> 5.2)
   ransack
+  render_async
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)

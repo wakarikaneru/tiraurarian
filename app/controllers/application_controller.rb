@@ -13,6 +13,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def offline
+  end
+  
   def active_users
     if user_signed_in?
       @active_users = User.where(id: current_user.id) + User.where("access_datetime > ?", 10.minutes.ago).where.not(id: current_user.id).where.not(id: 0).joins(:access_logs).order("access_logs.id desc").distinct

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   get 'notification', to: 'application#notification'
+  get 'active_users', to: 'application#active_users'
 
   resources :tweets
   resources :tags

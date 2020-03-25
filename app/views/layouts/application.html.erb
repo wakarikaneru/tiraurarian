@@ -159,23 +159,9 @@
         </div>
 
         <div class="active-user-info">
-          <div class="active-user">
-            <span class="active-user-count">
-              <span class="badge badge-pill badge-light"><%= @active_total_count%></span>
-            </span>
-            <span>
-              <% @active_users.map do |user| %>
-                <% if user.present? %>
-                  <%= image_tag user.avatar.url(:thumb), class: "active-user-img-img image_x24" %>
-                <% else %>
-                  <%= image_tag "/images/broken-image.png", class: "active-user-img-img image_x24" %>
-                <% end %>
-              <% end %>
-              <% @active_anonyms_count.times do %>
-                <%= image_tag "/images/mystery-person.png", class: "active-user-img-img image_x16" %>
-              <% end %>
-            </span>
-          </div>
+          <%= render_async active_users_path, interval: 60000, error_message: "Offline" do %>
+            Loading...
+          <% end %>
         </div>
 
       </div>
@@ -246,5 +232,6 @@
 
     </div>
 
+    <%= content_for :render_async %>
   </body>
 </html>

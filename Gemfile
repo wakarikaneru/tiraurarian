@@ -65,6 +65,7 @@ gem 'paperclip'
 
 gem 'ransack'
 gem 'kaminari'
+gem 'render_async'
 
 gem 'twitter-text'
 

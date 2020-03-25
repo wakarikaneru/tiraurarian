@@ -1,5 +1,5 @@
 <% if @root_tweets.any? %>
-  <%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false, infinite_scroll: false } %>
 <% end %>
 
 <div class="tweet-container">
@@ -149,4 +149,4 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 
-<%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false } %>
+<%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false, infinite_scroll: true } %>

@@ -17,7 +17,7 @@
 //= require bootstrap-sprockets
 //= require infinite-scroll.pkgd.min
 
-new InfiniteScroll( '.tweet-container', {
+new InfiniteScroll( '.tweet-container .scroll', {
     path: "a[rel=next]",
     append: ".tweet",
     history: false,

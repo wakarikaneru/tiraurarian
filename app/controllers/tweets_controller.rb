@@ -131,7 +131,7 @@ class TweetsController < ApplicationController
     end
     @root_tweets.reverse!
 
-    @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: "ASC").includes(:user, :parent)
+    @res_tweets = Tweet.where(parent_id: @tweet.id).order(id: :asc).includes(:user, :parent).page(params[:page]).per(60)
 
     @new_tweet = Tweet.new
     @new_tweet.parent_id = @tweet.id

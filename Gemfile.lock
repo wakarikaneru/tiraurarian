@@ -266,6 +266,7 @@ DEPENDENCIES
   font-awesome-sass (~> 5.12.0)
   jbuilder (~> 2.5)
   jquery-rails
+  kaminari
   listen (~> 3.0.5)
   loadcss-rails
   mysql2 (>= 0.3.18, < 0.6.0)

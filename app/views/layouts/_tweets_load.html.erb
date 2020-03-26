@@ -88,6 +88,6 @@
 
 </div>
 
-<% if @infinite_scroll && (1 + params[:page].to_i) < @tweets.total_pages %>
+<% if @infinite_scroll && (params[:page].to_i) < @tweets.total_pages %>
   <div class="d-none"><%= link_to "next", load_path(mode: params[:mode], id: params[:id], page: 1 + params[:page].to_i, show_list: "false", show_parent: "true", infinite_scroll: "true"), class: "next" %></div>
 <% end %>

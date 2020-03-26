@@ -1,10 +1,10 @@
-<div class="tweet-container<%= if @show_list then ' list' end %><%= if @infinite_scroll then ' infinite_scroll' end %>">
+<div class="tweet-container infinite_scroll">
 
   <% if @tweets.blank? %>
     <div class="nothing">データがありません</div>
   <% end %>
 
-  <% @tweets.each do |tweet| %>
+  <% @tweets.map do |tweet| %>
     <div class="tweet">
 
       <div  class="tweet-left">
@@ -88,6 +88,6 @@
 
 </div>
 
-<% if @infinite_scroll && (params[:page].to_i) < @tweets.total_pages %>
+<% if (params[:page].to_i) < @tweets.total_pages %>
   <div class="d-none"><%= link_to "next", load_path(mode: params[:mode], id: params[:id], page: 1 + params[:page].to_i, show_list: "false", show_parent: "true", infinite_scroll: "true"), class: "next" %></div>
 <% end %>

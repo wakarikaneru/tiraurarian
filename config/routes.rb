@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'offline', to: 'application#offline'
 
   resources :tweets
+  get 'load', to: 'tweets#load'
   resources :tags
   resources :bookmarks
   resources :goods

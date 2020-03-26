@@ -17,11 +17,13 @@
 //= require bootstrap-sprockets
 //= require infinite-scroll.pkgd.min
 
-new InfiniteScroll( '.tweet-container.infinite_scroll', {
-    path: "a[rel=next]",
+document.addEventListener("tweet-loaded", function(event) {
+  new InfiniteScroll( '.tweet-container.infinite_scroll', {
+    path: "a.next",
     append: ".tweet",
     history: false,
     prefill: true,
     scrollThreshold: 400,
     loadOnScroll: true,
-})
+  })
+});

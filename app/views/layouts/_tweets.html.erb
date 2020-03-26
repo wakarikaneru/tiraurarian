@@ -88,4 +88,6 @@
 
 </div>
 
-<div class="d-none justify-content-center m-4"><%= paginate tweets %></div>
+<% if infinite_scroll %>">
+  <div class="d-none justify-content-center m-4"><%= paginate tweets %></div>
+<% end %>

@@ -31,11 +31,11 @@
 
   <div id="tags" class="tab-pane">
     <h1>タグ検索</h1>
-    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tag, show_list: false, show_parent: true, infinite_scroll: false } %>
+    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tag, show_list: false, show_parent: true } %>
   </div>
 
   <div id="tweets" class="tab-pane">
     <h1>つぶやき検索</h1>
-    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true, infinite_scroll: false } %>
+    <%= render partial: "/layouts/tweets", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true } %>
   </div>
 </div>

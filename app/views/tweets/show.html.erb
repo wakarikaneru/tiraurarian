@@ -1,5 +1,5 @@
 <% if @root_tweets.any? %>
-  <%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false, infinite_scroll: false } %>
+  <%= render partial: "/layouts/tweets", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
 <% end %>
 
 <div class="tweet-container">
@@ -149,4 +149,6 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 
-<%= render partial: "/layouts/tweets", locals: { tweets: @res_tweets, show_list: false, show_parent: false, infinite_scroll: true } %>
+<%= render_async load_path(mode: "tweet", id: @tweet.id,  page: 1, show_list: "false", show_parent: "false", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
+  <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>
+<% end %>

@@ -7,16 +7,13 @@ class ApplicationController < ActionController::Base
   before_action :create_thumb
 
   def notification
-    respond_to do |format|
-      format.html
-      format.json { render json: @notification }
-    end
+    render json: @notification
   end
 
   def stat
     load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
     active_users = AccessLog.where("access_datetime > ?", 10.minutes.ago).select(:ip_address).distinct.count
-    @stat = {load: load, active_users: active_users}
+    @stat = {datetime: Time.current.to_s, load: load, active_users: active_users}
     render json: @stat
   end
 
@@ -75,7 +72,7 @@ class ApplicationController < ActionController::Base
       @message_count = message_records.count
       @total_count = @notice_count + @message_count
 
-      @notification = {notice: @notice_count, message: @message_count, total: @total_count}
+      @notification = {datetime: Time.current.to_s, notice: @notice_count, message: @message_count, total: @total_count}
     end
 
 end

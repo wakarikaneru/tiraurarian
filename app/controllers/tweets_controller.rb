@@ -157,12 +157,12 @@ class TweetsController < ApplicationController
       when "tweet" then
         if params[:id].blank?
           tweets = Tweet.all.where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent).page(params[:page]).per(60)
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
         else
           res_tweets = Tweet.where(parent_id: params[:id])
           tweets = Tweet.none.or(res_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent).page(params[:page]).per(60)
         end
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "user" then
@@ -173,7 +173,7 @@ class TweetsController < ApplicationController
         else
           user_tweets = Tweet.where(user_id: params[:id])
           tweets = Tweet.none.or(user_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
         end
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)

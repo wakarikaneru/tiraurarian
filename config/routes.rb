@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'notification', to: 'application#notification'
   get 'active_users', to: 'application#active_users'
+  get 'stat', to: 'application#stat'
   get 'offline', to: 'application#offline'
 
   resources :tweets

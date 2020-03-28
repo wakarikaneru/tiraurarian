@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def stat
+    load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
+    active_users = AccessLog.where("access_datetime > ?", 10.minutes.ago).select(:ip_address).distinct.count
+    @stat = {load: load, active_users: active_users}
+    render json: @stat
+  end
+
   def offline
   end
 

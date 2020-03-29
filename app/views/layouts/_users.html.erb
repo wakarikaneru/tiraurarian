@@ -7,7 +7,7 @@
 
     <div class="users">
       <div>
-        <%= link_to user, class: "link-item" do %>
+        <%= link_to user, class: "link-item-image" do %>
           <% if user.present? %>
             <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
           <% end %>

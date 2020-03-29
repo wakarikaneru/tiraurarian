@@ -11,7 +11,7 @@
 
     <div class="users">
       <div>
-        <%= link_to user, class: "link-item" do %>
+        <%= link_to user, class: "link-item-image" do %>
           <% if user.present? %>
             <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
           <% end %>
@@ -24,16 +24,12 @@
       </div>
 
       <div class="mute-control">
-        <a class="link-item" id="btn-hot">
-
-          <%= link_to mute, method: :delete do %>
-            <button class="change-hover-button btn btn-outline-primary rounded-pill">
-              <i class="fas fa-eye"> ミュート解除</i>
-              <i class="fas fa-eye"> ミュート解除</i>
-            </button>
-          <% end %>
-
-        </a>
+        <%= link_to mute, method: :delete do %>
+          <button class="change-hover-button btn btn-outline-primary rounded-pill">
+            <i class="fas fa-eye"> ミュート解除</i>
+            <i class="fas fa-eye"> ミュート解除</i>
+          </button>
+        <% end %>
       </div>
     </div>
 

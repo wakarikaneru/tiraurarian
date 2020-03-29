@@ -22,6 +22,7 @@ class TweetsController < ApplicationController
 
     @new_tweet = Tweet.new
     @new_tweet.parent_id = 0
+    @new_tweet.build_text
   end
 
   # GET /tweets/1
@@ -37,6 +38,7 @@ class TweetsController < ApplicationController
 
     @new_tweet = Tweet.new
     @new_tweet.parent_id = @tweet.id
+    @new_tweet.build_text
 
     @good = Good.new
     @good.tweet_id = @tweet.id
@@ -66,6 +68,8 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
+    @tweet.parent_id = @tweet.id
+    @tweet.build_text
   end
 
 
@@ -91,6 +95,13 @@ class TweetsController < ApplicationController
 
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
+
+    if @tweet.text.content.blank?
+      @tweet.text = nil
+    else
+      @tweet.text.user_id = @tweet.user_id
+      @tweet.text.create_datetime = @tweet.create_datetime
+    end
 
     if Tweet.where(user_id: current_user_id).where("create_datetime > ?", 10.minutes.ago).where(content: @tweet.content).size <= 0
       respond_to do |format|
@@ -137,46 +148,53 @@ class TweetsController < ApplicationController
     case params[:mode]
       when "new" then
         tweets = Tweet.all.where.not(user_id: my_mutes)
-        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "root" then
         root_tweets = Tweet.where(parent_id: 0)
 
         tweets = Tweet.none.or(root_tweets).where.not(user_id: my_mutes)
-        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "leaf" then
         high_context_tweets = Tweet.where("create_datetime > ?", 1.day.ago).order(context: :desc).order(id: :desc)
 
         tweets = Tweet.none.or(high_context_tweets).where.not(user_id: my_mutes)
-        @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+        @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "tweet" then
         if params[:id].blank?
-          tweets = Tweet.all.where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent).page(params[:page]).per(60)
-          tags = Tweet.where("create_datetime > ?", 1.day.ago)
+          @tweets = Tweet.none
+          tags = Tweet.none
         else
           res_tweets = Tweet.where(parent_id: params[:id])
           tweets = Tweet.none.or(res_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent, :text).page(params[:page]).per(60)
+          tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         end
-        tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+      when "path" then
+        if params[:id].blank?
+          @tweets = Tweet.none
+          tags = Tweet.none
+        else
+          res_tweets = Tweet.where(parent_id: params[:id])
+          tweets = Tweet.none.or(res_tweets).where.not(user_id: my_mutes)
+          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent, :text)
+          tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+        end
       when "user" then
         if params[:id].blank?
-          tweets = Tweet.all.where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
-          tags = Tweet.where("create_datetime > ?", 1.day.ago)
+          @tweets = Tweet.none
+          tags = Tweet.none
         else
           user_tweets = Tweet.where(user_id: params[:id])
           tweets = Tweet.none.or(user_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
+          tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         end
-
-        tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
       when "mypage" then
         if user_signed_in? then
           my_tweets = Tweet.where(user_id: current_user.id)
@@ -185,28 +203,28 @@ class TweetsController < ApplicationController
           my_bookmarks = Tweet.where(id: Bookmark.where(user_id: current_user.id).select(:tweet_id))
 
           tweets = Tweet.none.or(my_tweets).or(my_tweets_res).or(my_follows).or(my_bookmarks).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           tweets = Tweet.none
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
       when "follow" then
         if user_signed_in? then
           tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         else
           tweets = Tweet.none
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
       when "good" then
         hot  = Good.where("goods.create_datetime > ?", 1.day.ago).group(:tweet_id).order("count(goods.id) desc")
         hot_tweets = Tweet.joins(:goods).merge(hot)
         tweets = Tweet.none.or(hot_tweets).where.not(user_id: my_mutes)
-        @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+        @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets)
       when "bookmark" then
@@ -214,30 +232,28 @@ class TweetsController < ApplicationController
           bookmarked = Bookmark.where(user_id: current_user.id).order(create_datetime: :desc)
           bookmarked_tweets  = Tweet.joins(:bookmarks).merge(bookmarked)
           tweets = Tweet.none.or(bookmarked_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets)
         else
           tweets = Tweet.none
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
       when "tag" then
         if params[:tag].blank?
-          tweets = Tweet.all.where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
-
-          tags = Tweet.where("create_datetime > ?", 1.day.ago)
+          @tweets = Tweet.none
+          tags = Tweet.none
         else
           tagged = Tag.where(tag_string: params[:tag]).order(create_datetime: :desc)
           tagged_tweets  = Tweet.joins(:tags).merge(tagged)
           tweets = Tweet.none.or(tagged_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
         end
       else
         tweets = Tweet.all.where.not(user_id: my_mutes)
-        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
+        @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
     end
@@ -257,6 +273,6 @@ class TweetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
-      params.require(:tweet).permit(:id, :user_id, :parent_id, :content, :create_datetime, :image)
+      params.require(:tweet).permit(:id, :user_id, :parent_id, :content, :create_datetime, :image, :nsfw, text_attributes:[:id, :tweet_id, :user_id, :content, :create_datetime])
     end
 end

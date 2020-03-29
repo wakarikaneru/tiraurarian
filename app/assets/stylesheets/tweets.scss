@@ -36,7 +36,7 @@
   padding: 0px;
 
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   align-items: flex-start;
   justify-content: center;
 }
@@ -101,6 +101,17 @@
 
   color: var(--color-5r);
   background-color: var(--color-5);
+}
+
+.hukidasi.nsfw{
+  display: flex;
+  flex-flow: column;
+
+  align-items: center;
+  justify-content: center;
+
+    color: var(--color-5);
+    background-color: var(--color-5r);
 }
 
 .tweet-reverse .hukidasi{
@@ -176,14 +187,31 @@
   overflow:hidden;
 }
 
+.content-text{
+  margin: 8px;
+  padding: 8px 16px;
+
+  flex: 1 1 auto;
+
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
 .content-image{
-  margin: 4px;
+  margin: 8px;
 
   flex: 0 0 auto;
 }
 
-.content-text{
-  margin: 4px 0px;
+.content-content{
+  margin: 8px 0px;
 
   flex: 1 1 auto;
 
@@ -260,4 +288,12 @@
 
   border-radius: 100%;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+}
+
+.tweet-addition[aria-expanded="false"] :last-child {
+  display: none;
+}
+
+.tweet-addition[aria-expanded="true"] :first-child {
+  display: none;
 }

@@ -6,7 +6,7 @@
 
   <div class="tweet-large">
 
-    <%= link_to @tweet.user, class: "link-item" do %>
+    <%= link_to @tweet.user, class: "link-item-image" do %>
       <% if @tweet.user.present? %>
         <% if @tweet.avatar? %>
           <%= image_tag @tweet.avatar.url(:thumb), class: "user-img image_x64" %>
@@ -89,17 +89,25 @@
       <% end %>
 
       <div class="content">
-        <div class="content-text word-break">
-          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=").html_safe %>
+        <div class="content-content word-break">
+          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=", class: "link-item").html_safe %>
         </div>
       </div>
 
+      <% if @tweet.text.present? %>
+        <%= link_to @tweet.text, target: :_blank, class: "link-item-hukidasi" do %>
+          <div class="content-text">
+            <i class="fas fa-file"></i> <%= @tweet.text.content %>
+          </div>
+        <% end %>
+      <% end %>
+
       <% if @tweet.image? %>
-        <div class="content-image">
-          <%= link_to @tweet.image.url(:large), class: "link-item" do %>
+        <%= link_to @tweet.image.url(:large), target: :_blank, class: "link-item-image" do %>
+          <div class="content-image">
             <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       <% end %>
 
       <div class="content-desc">

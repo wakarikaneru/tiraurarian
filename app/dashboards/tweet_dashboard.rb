@@ -11,6 +11,7 @@ class TweetDashboard < Administrate::BaseDashboard
     user: Field::BelongsTo,
     parent: Field::BelongsTo.with_options(class_name: "Tweet"),
     tweets: Field::HasMany,
+    text: Field::HasOne,
     goods: Field::HasMany,
     bads: Field::HasMany,
     bookmarks: Field::HasMany,
@@ -34,6 +35,7 @@ class TweetDashboard < Administrate::BaseDashboard
     avatar_updated_at: Field::DateTime,
     bad_count: Field::Number,
     context: Field::Number,
+    nsfw: Field::Boolean,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -45,7 +47,7 @@ class TweetDashboard < Administrate::BaseDashboard
   user
   parent
   tweets
-  goods
+  text
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -54,6 +56,7 @@ class TweetDashboard < Administrate::BaseDashboard
   user
   parent
   tweets
+  text
   goods
   bads
   bookmarks
@@ -77,6 +80,7 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
+  nsfw
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -86,6 +90,7 @@ class TweetDashboard < Administrate::BaseDashboard
   user
   parent
   tweets
+  text
   goods
   bads
   bookmarks
@@ -106,6 +111,7 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
+  nsfw
   ].freeze
 
   # COLLECTION_FILTERS
@@ -116,7 +122,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # in the search field:
   #
   #   COLLECTION_FILTERS = {
-  #     open: ->(resources) { where(open: true) }
+  #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 

@@ -14,10 +14,11 @@ class User < ApplicationRecord
   has_many :access_logs
 
   has_many :tweets
-  has_many :follows
-  has_many :goods
+  has_many :texts
+  has_many :follows, dependent: :destroy
+  has_many :goods, dependent: :destroy
   has_many :tags
-  has_one :point
+  has_one :point, dependent: :destroy
 
   has_many :notices
   has_many :messages

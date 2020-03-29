@@ -31,7 +31,11 @@
                     <div class="content-parent-icon"><i class="fas fa-reply"></i></div>
                     <% if tweet.parent.present? %>
                       <div class="content-parent-text word-break">
-                        <%= tweet.parent.content %>
+                        <% if !tweet.parent.nsfw %>
+                          <%= tweet.parent.content %>
+                        <% else %>
+                          <i class="fas fa-exclamation-circle"></i>
+                        <% end %>
                       </div>
                     <% else %>
                       <div class="content-parent-text">

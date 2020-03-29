@@ -1,6 +1,5 @@
 class Card < ApplicationRecord
-  belongs_to :card_box, foreign_key: :card_box_id, primary_key: :id
-  belongs_to :user, foreign_key: :model_id, primary_key: :id
+  belongs_to :card_box
 
   def self.generate(id = 0)
     card_box = CardBox.find_or_create_by(user_id: id)

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tweet_id: 1
+  user_id: 1
+  content: MyText
+  create_datetime: 2020-03-29 10:18:55
+
+two:
+  tweet_id: 1
+  user_id: 1
+  content: MyText
+  create_datetime: 2020-03-29 10:18:55

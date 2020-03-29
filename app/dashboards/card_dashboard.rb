@@ -9,7 +9,6 @@ class CardDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     card_box: Field::BelongsTo,
-    user: Field::BelongsTo,
     id: Field::Number,
     model_id: Field::Number,
     element: Field::Number,
@@ -26,16 +25,15 @@ class CardDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   card_box
-  user
   id
   model_id
+  element
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   card_box
-  user
   id
   model_id
   element
@@ -50,7 +48,6 @@ class CardDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
   card_box
-  user
   model_id
   element
   power
@@ -65,7 +62,7 @@ class CardDashboard < Administrate::BaseDashboard
   # in the search field:
   #
   #   COLLECTION_FILTERS = {
-  #     open: ->(resources) { where(open: true) }
+  #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 

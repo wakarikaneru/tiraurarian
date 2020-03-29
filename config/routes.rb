@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   devise_for :users
 
   root 'tweets#index'
@@ -12,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :tweets
   get 'load', to: 'tweets#load'
+  resources :texts
   resources :tags
   resources :bookmarks
   resources :goods
@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     resources :controls
 
     resources :tweets
+    resources :texts
     resources :tags
     resources :bookmarks
     resources :goods

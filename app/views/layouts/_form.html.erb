@@ -1,36 +1,60 @@
 <%= form_for(tweet, html: {name:"form", class: "form-horizontal", role: "form"}) do |f| %>
-<% if tweet.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(tweet.errors.count, "error") %>
-      prohibited this tweet from being saved:</h2>
+  <% if tweet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tweet.errors.count, "error") %>
+        prohibited this tweet from being saved:</h2>
 
-    <ul>
-      <% tweet.errors.full_messages.map do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= f.hidden_field :parent_id %>
-
-<div class="form-group">
-  <%= f.file_field :image %>
-</div>
-
-<div class="form-group">
-  <div class="input-group">
-
-    <%= f.text_field :content, class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください" %>
-
-    <div class="input-group-append">
-      <%= f.button type: "submit", class: "change-active-button btn btn-accent" do %>
-        <span>つぶやく</span>
-        <i class="fa fa-spinner fa-pulse"></i>
-      <% end %>
+      <ul>
+        <% tweet.errors.full_messages.map do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
 
+  <%= f.hidden_field :parent_id %>
+
+  <div class="form-group d-flex flex-row justify-content-between">
+    <div class="">
+      <%= f.file_field :image, class: "form-control-file" %>
+    </div>
+    <div class="">
+      <div class="form-check">
+        <%= f.check_box :nsfw, class: "form-check-input" %>
+        <%= f.label :nsfw, class: "form-check-label" %>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="form-group row">
+    <div class="col">
+      <div class="input-group">
+
+        <%= f.text_field :content, class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください" %>
+
+        <div class="input-group-append">
+          <%= f.button type: "submit", class: "change-active-button btn btn-accent" do %>
+            <span>つぶやく</span>
+            <i class="fa fa-spinner fa-pulse"></i>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <a class="tweet-addition btn btn-primary btn-sm w-100" data-toggle="collapse" href="#text" aria-expanded="false">
+      <i class="fas fa-angle-double-down"></i>
+      <i class="fas fa-angle-double-up"></i>
+    </a>
+  </div>
+  <div class="collapse" id="text">
+    <%= f.fields_for :text do |t| %>
+      <div class="form-group mt-3">
+        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "テキストを入力してください" %>
+      </div>
+    <% end %>
+  </div>
 
 <% end %>

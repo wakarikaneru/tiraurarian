@@ -3,17 +3,20 @@ class Tweet < ApplicationRecord
 
   before_create :format_content, :set_context
 
-  belongs_to :user, foreign_key: :user_id, primary_key: :id
+  belongs_to :user
   belongs_to :parent, class_name: 'Tweet', foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
   has_many :tweets, foreign_key: :parent_id, primary_key: :id
-  has_many :goods
-  has_many :bads
-  has_many :bookmarks
-  has_many :tags
+  has_one :text, dependent: :destroy
+  has_many :goods, dependent: :destroy
+  has_many :bads, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   validates :content, length: { in: 1..140 }
 
-  has_attached_file :image, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "640x360#", thumb: "64x64#" }, default_url: "/images/null.png"
+  accepts_nested_attributes_for :text
+
+  has_attached_file :image, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { large: "1024x1024>", medium: "512x512>", thumb_large: "640x360#", thumb: "64x64#" }, default_url: "/images/no-image.png"
   do_not_validate_attachment_file_type :image
 
   has_attached_file :avatar, url: "/system/images/:hash.:extension", hash_secret: "longSecretString", styles: { thumb: "64x64#" }, default_url: "/images/no-image.png"

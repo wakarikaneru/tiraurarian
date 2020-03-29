@@ -9,6 +9,7 @@ class FollowDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
+    target: Field::BelongsTo.with_options(class_name: "User"),
     id: Field::Number,
     target_id: Field::Number,
     create_datetime: Field::DateTime,
@@ -23,15 +24,16 @@ class FollowDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   user
+  target
   id
   target_id
-  create_datetime
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   user
+  target
   id
   target_id
   create_datetime
@@ -44,6 +46,7 @@ class FollowDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
   user
+  target
   target_id
   create_datetime
   ].freeze
@@ -56,7 +59,7 @@ class FollowDashboard < Administrate::BaseDashboard
   # in the search field:
   #
   #   COLLECTION_FILTERS = {
-  #     open: ->(resources) { where(open: true) }
+  #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 

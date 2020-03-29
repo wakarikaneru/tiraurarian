@@ -22,20 +22,17 @@
         <div class="hukidasi">
 
           <div class="content">
-            <div class="content-text word-break">
+            <div class="content-content word-break">
               <%= notice.content %>
             </div>
           </div>
+
           <div class="content-desc">
+            <div class="text-right"><%= time_ago_in_words(notice.create_datetime) %></div>
+          </div>
 
+          <div class="content-desc">
             <div class="content-desc-left"><%= notice.sender_name %></div>
-
-            <div class="space"></div>
-
-            <div class="content-desc-right content-desc-flex-row-right">
-              <div><%= time_ago_in_words(notice.create_datetime) %></div>
-            </div>
-
           </div>
         </div>
       </div>

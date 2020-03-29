@@ -1,0 +1,24 @@
+<div class="tweet-container list">
+  <div class="hukidasi width-full word-break">
+
+    <div class="content">
+      <div class="content-content word-break">
+        <%= simple_format(@text.content) %>
+      </div>
+    </div>
+
+    <div class="content-desc">
+      <div class="text-right"><%= time_ago_in_words(@text.create_datetime) %></div>
+    </div>
+
+    <div class="content-desc clearfix">
+
+      <% if @text.user.present? %>
+        <div class="content-desc-left"><%= @text.user.name %></div>
+      <% else %>
+        <div class="content-desc-left">削除されたユーザー</div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

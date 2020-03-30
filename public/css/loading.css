@@ -7,6 +7,14 @@ body{
   background-color: #B4C8D9;
 }
 
+@media (max-width: 575px) {
+  /* reCAPTCHA v3　表示位置 */
+  .grecaptcha-badge{
+      margin-bottom: 60px !important;
+  }
+}
+
+
 #loading{
   width: 100vw;
   height: 100vh;

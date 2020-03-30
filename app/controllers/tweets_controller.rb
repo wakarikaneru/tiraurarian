@@ -96,6 +96,8 @@ class TweetsController < ApplicationController
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
+    @tweet.humanity = Recaptcha.api_verification({secret: Recaptcha.configuration.secret_key, response: recaptcha_response_token("tweet")})['score']
+
     if @tweet.text.content.blank?
       @tweet.text = nil
     else
@@ -273,6 +275,6 @@ class TweetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
-      params.require(:tweet).permit(:id, :user_id, :parent_id, :content, :create_datetime, :image, :nsfw, text_attributes:[:id, :tweet_id, :user_id, :content, :create_datetime])
+      params.require(:tweet).permit(:id, :user_id, :parent_id, :content, :create_datetime, :image, :nsfw, :humanity, :sensitivity, text_attributes:[:id, :tweet_id, :user_id, :content, :create_datetime])
     end
 end

@@ -36,6 +36,8 @@ class TweetDashboard < Administrate::BaseDashboard
     bad_count: Field::Number,
     context: Field::Number,
     nsfw: Field::Boolean,
+    humanity: Field::Number,
+    sensitivity: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -81,6 +83,8 @@ class TweetDashboard < Administrate::BaseDashboard
   bad_count
   context
   nsfw
+  humanity
+  sensitivity
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -112,6 +116,8 @@ class TweetDashboard < Administrate::BaseDashboard
   bad_count
   context
   nsfw
+  humanity
+  sensitivity
   ].freeze
 
   # COLLECTION_FILTERS

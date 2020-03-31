@@ -40,12 +40,12 @@ class Tweet < ApplicationRecord
       image_path = URI.join(request.url, self.image.url(:large)).to_s
 
       response = image_annotator.safe_search_detection image: image_path
-      unless response.nil?
-        score = 0.0
+      score = 0.0
 
-        response.responses.each do |res|
-          safe_search = res.safe_search_annotation
+      response.responses.each do |res|
+        safe_search = res.safe_search_annotation
 
+        unless safe_search.nil?
           adult = likelihood.const_get(safe_search.adult).to_f / likelihood::VERY_LIKELY
           spoof = likelihood.const_get(safe_search.spoof).to_f / likelihood::VERY_LIKELY
           medical = likelihood.const_get(safe_search.medical).to_f / likelihood::VERY_LIKELY
@@ -54,12 +54,10 @@ class Tweet < ApplicationRecord
 
           score = [score, adult, spoof, medical, violence, racy].max
         end
-
-        self.sensitivity = score
-        return
-      else
-        self.sensitivity = 0.0
       end
+
+      self.sensitivity = score
+      return
     else
       self.sensitivity = 0.0
       return

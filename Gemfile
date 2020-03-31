@@ -55,6 +55,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
+gem "grpc" "=1.23.1"
 gem "google-cloud-vision"
 gem "recaptcha"
 
@@ -74,7 +75,6 @@ gem 'twitter-text'
 
 gem 'loadcss-rails'
 gem 'bootstrap', '~> 4.4.1'
-gem 'jquery-rails'
 
 gem 'font-awesome-sass', '~> 5.12.0'
 

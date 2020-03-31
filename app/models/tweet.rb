@@ -1,7 +1,8 @@
 class Tweet < ApplicationRecord
   include Twitter::TwitterText::Extractor
 
-  before_create :format_content, :set_context
+  before_create :format_content, :set_context, :set_sensitivity
+  after_create :tweet_after
 
   belongs_to :user
   belongs_to :parent, class_name: 'Tweet', foreign_key: :parent_id, primary_key: :id, counter_cache: :res_count, optional: true
@@ -30,48 +31,6 @@ class Tweet < ApplicationRecord
     self.avatar = open(url)
   end
 
-  def set_sensitivity(request)
-    if self.image?
-      require "google/cloud/vision"
-
-      image_annotator = Google::Cloud::Vision::ImageAnnotator.new
-      likelihood = Google::Cloud::Vision::V1::Likelihood
-
-      image_path = URI.join(request.url, self.image.url(:large)).to_s
-
-      response = image_annotator.safe_search_detection image: image_path
-      score = 0.0
-
-      response.responses.each do |res|
-        safe_search = res.safe_search_annotation
-
-        unless safe_search.nil?
-          adult = likelihood.const_get(safe_search.adult).to_f / likelihood::VERY_LIKELY
-          spoof = likelihood.const_get(safe_search.spoof).to_f / likelihood::VERY_LIKELY
-          medical = likelihood.const_get(safe_search.medical).to_f / likelihood::VERY_LIKELY
-          violence = likelihood.const_get(safe_search.violence).to_f / likelihood::VERY_LIKELY
-          racy = likelihood.const_get(safe_search.racy).to_f / likelihood::VERY_LIKELY
-
-          score = [score, adult, spoof, medical, violence, racy].max
-        end
-      end
-
-      self.sensitivity = score
-      return
-    else
-      self.sensitivity = 0.0
-      return
-    end
-  end
-
-  after_create do
-    extract_hashtags(self.content).uniq.map do |tag|
-      Tag.find_or_create_by(user_id: self.user_id, tweet_id: self.id, tag_string: tag, create_datetime: Time.current)
-    end
-    User.find_by(id: self.user_id).update_last_tweet()
-    User.find_by(id: self.user_id).add_points(1)
-  end
-
   private
     def format_content
       self.content.gsub!(/[\r\n|\r|\n]/, " ")
@@ -81,5 +40,44 @@ class Tweet < ApplicationRecord
       self.context = Tweet.find(self.parent_id).context + 1
     end
 
+    def set_sensitivity
+      if self.image?
+        require "google/cloud/vision"
+
+        image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+        likelihood = Google::Cloud::Vision::V1::Likelihood
+
+        response = image_annotator.safe_search_detection image: self.image.staged_path(:large)
+        score = 0.0
+
+        response.responses.each do |res|
+          safe_search = res.safe_search_annotation
+
+          adult = likelihood.const_get(safe_search.adult).to_f / likelihood::VERY_LIKELY
+          spoof = likelihood.const_get(safe_search.spoof).to_f / likelihood::VERY_LIKELY
+          medical = likelihood.const_get(safe_search.medical).to_f / likelihood::VERY_LIKELY
+          violence = likelihood.const_get(safe_search.violence).to_f / likelihood::VERY_LIKELY
+          racy = likelihood.const_get(safe_search.racy).to_f / likelihood::VERY_LIKELY
+
+          score = [score, adult, spoof, medical, violence, racy].max
+        end
+
+        self.sensitivity = score
+      else
+        self.sensitivity = 0.0
+      end
+
+      if 0.5 <= self.sensitivity
+        self.nsfw = true
+      end
+    end
+
+    def tweet_after
+      extract_hashtags(self.content).uniq.map do |tag|
+        Tag.find_or_create_by(user_id: self.user_id, tweet_id: self.id, tag_string: tag, create_datetime: Time.current)
+      end
+      User.find_by(id: self.user_id).update_last_tweet()
+      User.find_by(id: self.user_id).add_points(1)
+    end
 
 end

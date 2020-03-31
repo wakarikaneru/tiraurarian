@@ -102,11 +102,6 @@ class TweetsController < ApplicationController
       @tweet.humanity =  0.0
     end
 
-    @tweet.set_sensitivity(request)
-    if 0.5 <= @tweet.sensitivity
-      @tweet.nsfw = true
-    end
-
     if @tweet.text.content.blank?
       @tweet.text = nil
     else

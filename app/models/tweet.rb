@@ -45,13 +45,15 @@ class Tweet < ApplicationRecord
       response.responses.each do |res|
         safe_search = res.safe_search_annotation
 
-        adult = likelihood.const_get(safe_search.adult).to_f / likelihood::VERY_LIKELY
-        spoof = likelihood.const_get(safe_search.spoof).to_f / likelihood::VERY_LIKELY
-        medical = likelihood.const_get(safe_search.medical).to_f / likelihood::VERY_LIKELY
-        violence = likelihood.const_get(safe_search.violence).to_f / likelihood::VERY_LIKELY
-        racy = likelihood.const_get(safe_search.racy).to_f / likelihood::VERY_LIKELY
+        unless safe_search.nil?
+          adult = likelihood.const_get(safe_search.adult).to_f / likelihood::VERY_LIKELY
+          spoof = likelihood.const_get(safe_search.spoof).to_f / likelihood::VERY_LIKELY
+          medical = likelihood.const_get(safe_search.medical).to_f / likelihood::VERY_LIKELY
+          violence = likelihood.const_get(safe_search.violence).to_f / likelihood::VERY_LIKELY
+          racy = likelihood.const_get(safe_search.racy).to_f / likelihood::VERY_LIKELY
 
-        score = [score, adult, spoof, medical, violence, racy].max
+          score = [score, adult, spoof, medical, violence, racy].max
+        end
       end
 
       self.sensitivity = score

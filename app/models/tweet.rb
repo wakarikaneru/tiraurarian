@@ -30,7 +30,7 @@ class Tweet < ApplicationRecord
     self.avatar = open(url)
   end
 
-  def set_sensitivity!
+  def set_sensitivity(request)
     if self.image?
       require "google/cloud/vision"
 

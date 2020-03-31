@@ -96,7 +96,11 @@ class TweetsController < ApplicationController
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
-    @tweet.humanity = Recaptcha.api_verification({secret: Recaptcha.configuration.secret_key, response: recaptcha_response_token("tweet")})['score']
+    if verify_recaptcha(action: 'tweet', minimum_score: 0.5)
+      @tweet.humanity =  1.0
+    else
+      @tweet.humanity =  0.0
+    end
 
     if @tweet.text.content.blank?
       @tweet.text = nil

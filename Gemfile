@@ -55,6 +55,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
+gem "google-cloud-vision"
 gem "recaptcha"
 
 gem 'devise'

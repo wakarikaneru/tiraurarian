@@ -63,13 +63,14 @@ class Tweet < ApplicationRecord
         end
 
         self.sensitivity = score
+
+        if likelihood::LIKELY.to_f / likelihood::VERY_LIKELY.to_f <= self.sensitivity
+          self.nsfw = true
+        end
       else
         self.sensitivity = 0.0
       end
 
-      if likelihood::LIKELY.to_f / likelihood::VERY_LIKELY.to_f <= self.sensitivity
-        self.nsfw = true
-      end
     end
 
     def tweet_after

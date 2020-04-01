@@ -1,7 +1,7 @@
 class Tweet < ApplicationRecord
   include Twitter::TwitterText::Extractor
 
-  before_create :format_content, :set_context
+  before_create :format_content, :set_context, :set_sensitivity
   after_create :tweet_after
 
   belongs_to :user

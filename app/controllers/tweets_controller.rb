@@ -265,12 +265,12 @@ class TweetsController < ApplicationController
           adult_tweets  = Tweet.where(adult: 5)
           racy_tweets  = Tweet.where(racy: 5)
           tweets = Tweet.none.or(adult_tweets).or(racy_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets)
         else
           tweets = Tweet.none
-          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
       else
         tweets = Tweet.all.where.not(user_id: my_mutes)

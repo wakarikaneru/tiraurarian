@@ -269,7 +269,7 @@ class TweetsController < ApplicationController
           tags = Tweet.none.or(tweets)
         else
           tweets = Tweet.none
-          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
       else
         tweets = Tweet.all.where.not(user_id: my_mutes)

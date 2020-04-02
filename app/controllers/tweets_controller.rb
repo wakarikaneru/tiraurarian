@@ -263,7 +263,8 @@ class TweetsController < ApplicationController
       when "adult" then
         if user_signed_in? && current_user.sub_points?(1000) then
           adult_tweets  = Tweet.where(adult: 5)
-          tweets = Tweet.none.or(adult_tweets).where.not(user_id: my_mutes)
+          racy_tweets  = Tweet.where(racy: 5)
+          tweets = Tweet.none.or(adult_tweets).or(racy_tweets).where.not(user_id: my_mutes)
           @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets)

@@ -60,6 +60,12 @@ class Tweet < ApplicationRecord
           racy = likelihood.const_get(safe_search.racy).to_f / likelihood::VERY_LIKELY
 
           score = [score, adult, spoof, medical, violence, racy].max
+
+          self.adult = [self.adult, likelihood.const_get(safe_search.adult)].max
+          self.spoof = [self.spoof, likelihood.const_get(safe_search.spoof)].max
+          self.medical = [self.medical, likelihood.const_get(safe_search.medical)].max
+          self.violence = [self.violence, likelihood.const_get(safe_search.violence)].max
+          self.racy = [self.racy, likelihood.const_get(safe_search.racy)].max
         end
 
         self.sensitivity = score

@@ -38,6 +38,11 @@ class TweetDashboard < Administrate::BaseDashboard
     nsfw: Field::Boolean,
     humanity: Field::Number,
     sensitivity: Field::Number,
+    adult: Field::Number,
+    spoof: Field::Number,
+    medical: Field::Number,
+    violence: Field::Number,
+    racy: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -85,6 +90,11 @@ class TweetDashboard < Administrate::BaseDashboard
   nsfw
   humanity
   sensitivity
+  adult
+  spoof
+  medical
+  violence
+  racy
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -118,6 +128,11 @@ class TweetDashboard < Administrate::BaseDashboard
   nsfw
   humanity
   sensitivity
+  adult
+  spoof
+  medical
+  violence
+  racy
   ].freeze
 
   # COLLECTION_FILTERS

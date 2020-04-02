@@ -7,12 +7,15 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     case params[:mode]
-      when "mypage", "follow", "bookmark" then
-        respond_to do |format|
-          format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
-          format.json { head :no_content }
+      when "mypage", "follow", "bookmark", "adult" then
+        unless user_signed_in?
+          respond_to do |format|
+            format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
+            format.json { head :no_content }
+          end
         end
     end
+
     #@hot_tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").order("max(id) desc").limit(15)
     @hot_tags = Tag.none
 
@@ -257,11 +260,27 @@ class TweetsController < ApplicationController
 
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
         end
+      when "adult" then
+        if user_signed_in? && current_user.sub_points?(1000) then
+          adult_tweets  = Tweet.where(adult: 5)
+          tweets = Tweet.none.or(adult_tweets).where.not(user_id: my_mutes)
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+
+          tags = Tweet.none.or(tweets)
+        else
+          tweets = Tweet.none
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+        end
       else
         tweets = Tweet.all.where.not(user_id: my_mutes)
         @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+    end
+
+    @show_nsfw = false
+    if params[:mode] == "adult"
+        @show_nsfw = true
     end
 
     @show_list = "true" == params[:show_list]

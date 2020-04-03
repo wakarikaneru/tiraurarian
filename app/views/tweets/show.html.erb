@@ -90,7 +90,7 @@
 
       <div class="content">
         <div class="content-content word-break">
-          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=", class: "link-item").html_safe %>
+          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content_selected_language(params[:locale])), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=", class: "link-item").html_safe %>
         </div>
       </div>
 

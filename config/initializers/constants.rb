@@ -1,4 +1,6 @@
 module Constants
+  TRANSLATE_LANGUAGE = ["ja", "en", "zh"]
+
   NOTICE_RETENTION_PERIOD = 7.days
   MESSAGE_RETENTION_PERIOD = 30.days
 

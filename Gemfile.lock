@@ -96,6 +96,18 @@ GEM
       sassc (>= 1.11)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    google-cloud-core (1.5.0)
+      google-cloud-env (~> 1.0)
+      google-cloud-errors (~> 1.0)
+    google-cloud-env (1.3.1)
+      faraday (>= 0.17.3, < 2.0)
+    google-cloud-errors (1.0.0)
+    google-cloud-translate (2.3.0)
+      faraday (>= 0.17.3, < 2.0)
+      google-cloud-core (~> 1.2)
+      google-gax (~> 1.8)
+      googleapis-common-protos (>= 1.3.9, < 2.0)
+      googleapis-common-protos-types (>= 1.0.4, < 2.0)
     google-cloud-vision (0.38.0)
       google-gax (~> 1.8)
       googleapis-common-protos (>= 1.3.9, < 2.0)
@@ -311,6 +323,7 @@ DEPENDENCIES
   devise
   devise-i18n
   font-awesome-sass (~> 5.12.0)
+  google-cloud-translate
   google-cloud-vision
   jbuilder (~> 2.5)
   jquery-rails

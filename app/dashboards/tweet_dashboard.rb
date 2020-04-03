@@ -19,6 +19,9 @@ class TweetDashboard < Administrate::BaseDashboard
     id: Field::Number,
     parent_id: Field::Number,
     content: Field::String,
+    content_ja: Field::String,
+    content_en: Field::String,
+    content_zh: Field::String,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -35,6 +38,8 @@ class TweetDashboard < Administrate::BaseDashboard
     avatar_updated_at: Field::DateTime,
     bad_count: Field::Number,
     context: Field::Number,
+    language: Field::String,
+    language_confidence: Field::Number,
     nsfw: Field::Boolean,
     humanity: Field::Number,
     sensitivity: Field::Number,
@@ -71,6 +76,9 @@ class TweetDashboard < Administrate::BaseDashboard
   id
   parent_id
   content
+  content_ja
+  content_en
+  content_zh
   create_datetime
   created_at
   updated_at
@@ -87,6 +95,8 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
+  language
+  language_confidence
   nsfw
   humanity
   sensitivity
@@ -111,6 +121,9 @@ class TweetDashboard < Administrate::BaseDashboard
   tags
   parent_id
   content
+  content_ja
+  content_en
+  content_zh
   create_datetime
   image_file_name
   image_content_type
@@ -125,6 +138,8 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
+  language
+  language_confidence
   nsfw
   humanity
   sensitivity

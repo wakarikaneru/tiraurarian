@@ -1,7 +1,7 @@
 class Tweet < ApplicationRecord
   include Twitter::TwitterText::Extractor
 
-  before_create :format_content, :set_context, :set_sensitivity
+  before_create :format_content, :set_context, :set_translate, :set_sensitivity
   after_create :tweet_after
 
   belongs_to :user
@@ -29,6 +29,56 @@ class Tweet < ApplicationRecord
 
   def avatar_from_url(url)
     self.avatar = open(url)
+  end
+
+  def content_selected_language(language)
+    case language
+      when "ja" then
+        if self.language == language || self.language_confidence <= 0.5
+          return self.content
+        else
+          return get_native_content(language)
+        end
+      when "en" then
+        if self.language == language || self.language_confidence <= 0.5
+          return self.content
+        else
+          return get_native_content(language)
+        end
+      when "zh" then
+        if self.language == language || self.language_confidence <= 0.5
+          return self.content
+        else
+          return get_native_content(language)
+        end
+      else
+        return self.content
+    end
+  end
+
+  def get_native_content(language)
+    case language
+      when "ja" then
+        unless self.content_ja.blank?
+          return self.content_ja
+        else
+          return self.content
+        end
+      when "en" then
+        unless self.content_en.blank?
+          return self.content_en
+        else
+          return self.content
+        end
+      when "zh" then
+        unless self.content_zh.blank?
+          return self.content_zh
+        else
+          return self.content
+        end
+      else
+        return self.content
+    end
   end
 
   private
@@ -75,6 +125,34 @@ class Tweet < ApplicationRecord
         end
       else
         self.sensitivity = 0.0
+      end
+
+    end
+
+    def set_translate
+      require "google/cloud/translate"
+
+      translate_v2 = Google::Cloud::Translate.new version: :v2
+
+      content = self.content
+
+      detection = translate_v2.detect content
+      self.language = detection.language
+      self.language_confidence = detection.confidence
+
+      Constants::TRANSLATE_LANGUAGE.each do |language|
+        case language
+          when "ja" then
+            translation = translate_v2.translate content, to: language
+            self.content_ja = translation.text.inspect
+          when "en" then
+            translation = translate_v2.translate content, to: language
+            self.content_en = translation.text.inspect
+          when "zh" then
+            translation = translate_v2.translate content, to: language
+            self.content_zh = translation.text.inspect
+        end
+
       end
 
     end

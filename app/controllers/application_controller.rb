@@ -2,9 +2,26 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :detect_locale
+  before_action :set_locale
   before_action :access_log
   before_action :notification_count
   before_action :create_thumb
+
+  def detect_locale
+    if params[:locale].blank?
+      I18n.locale = request.headers['Accept-Language'].scan(/\A[a-z]{2}/).first
+      redirect_to root_path
+    end
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options = {})
+    { locale: I18n.locale }.merge options
+  end
 
   def notification
     render json: @notification

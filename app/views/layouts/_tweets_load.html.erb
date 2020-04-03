@@ -32,7 +32,7 @@
                     <% if tweet.parent.present? %>
                       <div class="content-parent-text word-break">
                         <% if !tweet.parent.nsfw %>
-                          <%= tweet.parent.content %>
+                          <%= tweet.parent.content_selected_language(params[:locale]) %>
                         <% else %>
                           <i class="fas fa-exclamation-circle"></i>
                         <% end %>
@@ -54,7 +54,7 @@
                 <% end %>
                 <div class="content-content word-break">
                   <% if tweet.text.present? %><i class="fas fa-file"></i><% end %>
-                  <%= tweet.content %>
+                  <%= tweet.content_selected_language(params[:locale]) %>
                 </div>
               </div>
 

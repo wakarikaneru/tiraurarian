@@ -21,15 +21,9 @@ class ApplicationController < ActionController::Base
   end
 
   def active_users
-    if user_signed_in?
-      @active_users = User.where(id: current_user.id) + User.where("access_datetime > ?", 10.minutes.ago).where.not(id: current_user.id).where.not(id: 0).joins(:access_logs).order("access_logs.id desc").distinct
-      active_users_ips = AccessLog.where("access_datetime > ?", 10.minutes.ago).where.not(user_id: 0).select(:ip_address).distinct
-      @active_anonyms_count = AccessLog.where("access_datetime > ?", 10.minutes.ago).where(user_id: 0).where.not(ip_address: request.remote_ip).where.not(ip_address: active_users_ips).select(:ip_address).distinct.count
-    else
-      @active_users = User.joins(:access_logs).where("access_datetime > ?", 10.minutes.ago).where.not(id: 0).order("access_logs.id desc").distinct
-      active_users_ips = AccessLog.where("access_datetime > ?", 10.minutes.ago).where.not(user_id: 0).select(:ip_address)
-      @active_anonyms_count = 1 + AccessLog.where("access_datetime > ?", 10.minutes.ago).where(user_id: 0).where.not(ip_address: request.remote_ip).where.not(ip_address: active_users_ips).select(:ip_address).distinct.count
-    end
+
+    @active_users = User.none
+    @active_anonyms_count = 0
     @active_users_count = @active_users.count
     @active_total_count = @active_users_count + @active_anonyms_count
 

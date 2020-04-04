@@ -144,13 +144,13 @@ class Tweet < ApplicationRecord
         case language
           when "ja" then
             translation = translate_v2.translate content, to: language
-            self.content_ja = translation.text
+            self.content_ja = CGI.unescapeHTML(translation.text)
           when "en" then
             translation = translate_v2.translate content, to: language
-            self.content_en = translation.text
+            self.content_en = CGI.unescapeHTML(translation.text)
           when "zh" then
             translation = translate_v2.translate content, to: language
-            self.content_zh = translation.text
+            self.content_zh = CGI.unescapeHTML(translation.text)
         end
 
       end

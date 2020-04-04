@@ -94,6 +94,12 @@
         </div>
       </div>
 
+      <div class="content-desc">
+        <div class="content-content word-break">
+          <%= @tweet.content %>
+        </div>
+      </div>
+
       <% if @tweet.text.present? %>
         <%= link_to @tweet.text, target: :_blank, class: "link-item-hukidasi" do %>
           <div class="content-text">

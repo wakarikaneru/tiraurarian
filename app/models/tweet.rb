@@ -144,13 +144,13 @@ class Tweet < ApplicationRecord
         case language
           when "ja" then
             translation = translate_v2.translate content, to: language
-            self.content_ja = translation.text.inspect
+            self.content_ja = translation.text
           when "en" then
             translation = translate_v2.translate content, to: language
-            self.content_en = translation.text.inspect
+            self.content_en = translation.text
           when "zh" then
             translation = translate_v2.translate content, to: language
-            self.content_zh = translation.text.inspect
+            self.content_zh = translation.text
         end
 
       end

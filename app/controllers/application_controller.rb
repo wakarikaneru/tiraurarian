@@ -39,7 +39,18 @@ class ApplicationController < ActionController::Base
 
   def load
     @load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
-    @load_str = "低負荷"
+    case @load
+      when 0..200
+        @load_str = "低負荷"
+      when 201..400
+        @load_str = "中負荷"
+      when 401..600
+        @load_str = "高負荷"
+      when 601..800
+        @load_str = "やばい"
+      else
+        @load_str = "サーバーがあぶない"
+    end
     render partial: "layouts/load"
   end
 

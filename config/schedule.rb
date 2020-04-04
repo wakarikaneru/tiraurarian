@@ -29,6 +29,10 @@ set :output, 'log/crontab.log'
 rails_env = ENV['RAILS_ENV'] || :development
 set :environment, rails_env
 
+every 1.minutes do
+  rake 'log_stat:log_stat'
+end
+
 every 1.days, at: '23:59' do
   rake 'collect_points:collect_points'
 end

@@ -16,9 +16,12 @@ class ApplicationController < ActionController::Base
   end
 
   def stat
-    load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
-    active_users = AccessLog.where("access_datetime > ?", 10.minutes.ago).select(:ip_address).distinct.count
-    @stat = {datetime: Time.current.to_s, load: load, users: active_users}
+    stat = Stat.order(id: :desc).first
+    if stat.present?
+      @stat = {datetime: stat.datetime.to_s, load: stat.load, users: stat.users}
+    else
+      @stat = {}
+    end
     render json: @stat
   end
 

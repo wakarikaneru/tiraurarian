@@ -37,13 +37,17 @@ class ApplicationController < ActionController::Base
   def offline
   end
 
-  def active_users
+  def load
+    @load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
+    @load_str = "低負荷"
+    render partial: "layouts/load"
+  end
 
+  def active_users
     @active_users = User.none
     @active_anonyms_count = 0
     @active_users_count = @active_users.count
     @active_total_count = @active_users_count + @active_anonyms_count
-
     render partial: "layouts/active_users"
   end
 

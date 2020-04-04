@@ -103,11 +103,9 @@
       <% end %>
 
       <% if @tweet.image? %>
-        <%= link_to @tweet.image.url(:large), target: :_blank, class: "link-item-image" do %>
-          <div class="content-image">
-            <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
-          </div>
-        <% end %>
+        <a data-toggle="modal" data-target="#imageModal">
+          <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
+        </a>
       <% end %>
 
       <div class="content-desc">
@@ -160,3 +158,16 @@
 <%= render_async load_path(mode: "tweet", id: @tweet.id,  page: 1, show_list: "false", show_parent: "false", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
   <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>
 <% end %>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= image_tag @tweet.image.url(:large), class: "w-100" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>

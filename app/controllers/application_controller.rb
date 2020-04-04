@@ -16,13 +16,12 @@ class ApplicationController < ActionController::Base
   end
 
   def stat
-    stat = Stat.order(id: :desc).first
-    if stat.present?
-      @stat = {datetime: stat.datetime.to_s, load: stat.load, users: stat.users}
-    else
-      @stat = {}
+    stat = Stat.order(id: :desc).limit(60)
+    stats = []
+    stat.map do |s|
+      stats.push({datetime: s.datetime.to_s, load: s.load, users: s.users})
     end
-    render json: @stat
+    render json: stats
   end
 
   def offline

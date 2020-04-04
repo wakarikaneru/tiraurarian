@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :access_logs
+    resources :stats
     resources :controls
 
     resources :tweets

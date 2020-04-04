@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  datetime: 2020-04-05 07:49:07
+  load: 1
+  users: 1
+
+two:
+  datetime: 2020-04-05 07:49:07
+  load: 1
+  users: 1

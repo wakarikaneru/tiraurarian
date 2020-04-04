@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   get 'notification', to: 'application#notification'
-  get 'active_users', to: 'application#active_users'
+  get 'server_load', to: 'application#load'
   get 'stat', to: 'application#stat'
   get 'offline', to: 'application#offline'
 

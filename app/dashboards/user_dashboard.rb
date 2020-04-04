@@ -33,6 +33,7 @@ class UserDashboard < Administrate::BaseDashboard
     login_id: Field::String,
     email: Field::String,
     last_tweet: Field::DateTime,
+    last_check_res: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -75,6 +76,7 @@ class UserDashboard < Administrate::BaseDashboard
   login_id
   email
   last_tweet
+  last_check_res
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -103,6 +105,7 @@ class UserDashboard < Administrate::BaseDashboard
   login_id
   email
   last_tweet
+  last_check_res
   ].freeze
 
   # COLLECTION_FILTERS

@@ -17,6 +17,8 @@ class MypageController < ApplicationController
       @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent).page(params[:page]).per(60)
 
       @tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
+
+      User.find(current_user.id).update(last_check_res: my_tweets_res.maximum(:id))
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }

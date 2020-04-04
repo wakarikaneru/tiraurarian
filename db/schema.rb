@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_220015) do
+ActiveRecord::Schema.define(version: 2020_04_04_070701) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 2020_04_03_220015) do
     t.string "login_id", default: "", null: false
     t.string "email", default: "", null: false
     t.datetime "last_tweet"
+    t.integer "last_check_res", default: 0
     t.index ["login_id"], name: "index_users_on_login_id", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

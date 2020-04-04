@@ -1,0 +1,11 @@
+<div class="tweet-container<%= if show_list then ' list' end %>">
+
+  <% if tweets.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% tweets.map do |tweet| %>
+    <%= render partial: "/layouts/tweet", locals: { tweet: tweet, show_parent: show_parent} %>
+  <% end %>
+
+</div>

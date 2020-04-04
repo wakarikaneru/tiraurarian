@@ -147,7 +147,7 @@ class TweetsController < ApplicationController
     end
   end
 
-  def load
+  def async
     if user_signed_in? then
       my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
     else
@@ -288,7 +288,7 @@ class TweetsController < ApplicationController
     @show_parent = "true" == params[:show_parent]
     @infinite_scroll = "true" == params[:infinite_scroll]
 
-    render partial: "layouts/tweets_load"
+    render partial: "layouts/tweets_async"
   end
 
   private

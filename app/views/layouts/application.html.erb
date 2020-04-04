@@ -174,7 +174,7 @@
         </div>
 
         <div class="active-user-info">
-          <%= render_async server_load_path, interval: 60000, error_message: "Offline" do %>
+          <%= render_async load_path, interval: 60000, error_message: "Offline" do %>
             <i class="fa fa-spinner fa-pulse"></i>
           <% end %>
         </div>

@@ -1,0 +1,15 @@
+<div class="tweet-container infinite_scroll">
+
+  <% if @tweets.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% @tweets.map do |tweet| %>
+    <%= render partial: "/layouts/tweet", locals: { tweet: tweet, show_parent: @show_parent } %>
+  <% end %>
+
+</div>
+
+<% if (params[:page].to_i) < @tweets.total_pages %>
+  <div class="d-none"><%= link_to "next", tweets_async_path(mode: params[:mode], id: params[:id], page: 1 + params[:page].to_i, show_list: "false", show_parent: "true", infinite_scroll: "true"), class: "next" %></div>
+<% end %>

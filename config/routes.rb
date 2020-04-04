@@ -5,12 +5,12 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   get 'notification', to: 'application#notification'
-  get 'server_load', to: 'application#load'
+  get 'load', to: 'application#load'
   get 'stat', to: 'application#stat'
   get 'offline', to: 'application#offline'
 
   resources :tweets
-  get 'load', to: 'tweets#load'
+  get 'tweets_async', to: 'tweets#async'
   resources :texts
   resources :tags
   resources :bookmarks

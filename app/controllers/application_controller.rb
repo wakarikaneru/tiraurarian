@@ -47,9 +47,11 @@ class ApplicationController < ActionController::Base
       when 401..600
         @load_str = "高負荷"
       when 601..800
+        @load_str = "超負荷"
+      when 801..1000
         @load_str = "やばい"
       else
-        @load_str = "サーバーがあぶない"
+        @load_str = "未知の領域"
     end
     render partial: "layouts/load"
   end

@@ -26,12 +26,12 @@
 
     <%= csrf_meta_tags %>
 
-    <%= preload_link_tag 'application.css', media: 'all', 'data-turbolinks-track': 'reload', onload: "this.onload=null;this.rel='stylesheet'" %>
+    <%= preload_link_tag 'application.css', media: 'all', onload: "this.onload=null;this.rel='stylesheet'" %>
     <noscript><link rel="stylesheet" href="<%= stylesheet_path('application') %>"></noscript>
-    <script src="/js/cssrelpreload.js"  data-turbolinks-track="reload"></script>
-    <link rel="stylesheet" media='all' href="/css/loading.css" data-turbolinks-track="reload">
-    <%= javascript_include_tag 'application', async: 'async', 'data-turbolinks-track': 'reload' %>
-    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2', 'data-turbolinks-track': 'reload' %>
+    <script src="/js/cssrelpreload.js"></script>
+    <link rel="stylesheet" media='all' href="/css/loading.css">
+    <%= javascript_include_tag 'application', async: 'async' %>
+    <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
 
     <!-- iOS_PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">

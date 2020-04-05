@@ -1,4 +1,4 @@
-<%= form_with url: remit_points_path, method: :post do %>
+<%= form_with url: remit_points_path, method: :post, local: true do %>
   <%= hidden_field_tag :user_id, user_id %>
   <div class="input-group">
     <%= text_field_tag :point, "", class: "form-control", placeholder: "VARTH", size: 10 %>

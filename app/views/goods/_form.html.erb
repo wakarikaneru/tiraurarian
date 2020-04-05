@@ -1,4 +1,4 @@
-<%= form_with model: good do |f| %>
+<%= form_with model: good, local: true do |f| %>
   <% if good.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(good.errors.count, "error") %> prohibited this good from being saved:</h2>

@@ -1,2 +1,5 @@
-$('#tweet-container-async').prepend("<%= j(render partial: '/layouts/tweet', locals: { tweet: @tweet, show_parent: @show_parent }) %>");
-$('#tweet-content-form').val('')
+<% if @tweet.id.present? %>
+  $('#tweet-container-async').prepend("<%= j(render partial: '/layouts/tweet', locals: { tweet: @tweet, show_parent: @show_parent }) %>");
+  $('#tweet-content-form').val('')
+  $('#tweet-<%= @tweet.id %>').hide().fadeIn(250);
+<% end %>

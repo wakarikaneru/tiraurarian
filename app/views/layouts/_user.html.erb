@@ -23,7 +23,7 @@
 
           <% if followed.present? %>
 
-            <%= form_with model: followed, method: :delete do |form| %>
+            <%= form_with model: followed, method: :delete, local: true do |form| %>
               <%= form.hidden_field :target_id %>
               <%= form.button type: "submit", class: "change-hover-button btn btn-primary rounded-pill m-1" do %>
                 <span>フォロー中</span>
@@ -36,7 +36,7 @@
             <% follow = Follow.new %>
             <% follow.target_id = user.id %>
 
-            <%= form_with model: follow do |form| %>
+            <%= form_with model: follow, local: true do |form| %>
               <%= form.hidden_field :target_id %>
               <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                 <span>フォロー</span>
@@ -50,7 +50,7 @@
 
           <% if muted.present? %>
 
-            <%= form_with model: muted, method: :delete do |form| %>
+            <%= form_with model: muted, method: :delete, local: true do |form| %>
               <%= form.hidden_field :target_id %>
               <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                 <i class="fas fa-eye"></i>
@@ -62,7 +62,7 @@
             <% mute = Mute.new %>
             <% mute.target_id = user.id %>
 
-            <%= form_with model: mute do |form| %>
+            <%= form_with model: mute, local: true do |form| %>
               <%= form.hidden_field :target_id %>
               <%= form.button type: "submit", class: "btn btn-danger rounded-pill m-1" do %>
                 <i class="fas fa-eye-slash"></i>

@@ -1,4 +1,4 @@
-const CACHE_NAME = "tirauraria-cache-v0";
+const CACHE_NAME = "tirauraria-cache-v0.1";
 
 console.log('Hello from service-worker.js');
 

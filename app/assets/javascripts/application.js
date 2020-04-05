@@ -11,13 +11,13 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require_tree .
+//= require rails-ujs
 //= require bootstrap-sprockets
 //= require infinite-scroll.pkgd.min
+//= require_tree .
 
 document.addEventListener("tweet-loaded", function(event) {
-  new InfiniteScroll( '.tweet-container.infinite_scroll', {
+  new InfiniteScroll('.tweet-container.infinite_scroll', {
     path: "a.next",
     append: ".tweet",
     history: false,

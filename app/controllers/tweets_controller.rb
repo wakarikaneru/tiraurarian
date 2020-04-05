@@ -117,15 +117,18 @@ class TweetsController < ApplicationController
         if @tweet.save
           format.html { redirect_back(fallback_location: root_path, notice: "つぶやきました。" )}
           format.json { render :show, status: :created, location: @tweet }
+          format.js
         else
           format.html { render :new }
           format.json { render json: @tweet.errors, status: :unprocessable_entity }
+          format.js
         end
       end
     else
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "短時間での同一内容の投稿は禁止です。" )}
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -181,7 +184,7 @@ class TweetsController < ApplicationController
         else
           res_tweets = Tweet.where(parent_id: params[:id])
           tweets = Tweet.none.or(res_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent, :text).page(params[:page]).per(60)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         end
       when "path" then
@@ -191,7 +194,7 @@ class TweetsController < ApplicationController
         else
           res_tweets = Tweet.where(parent_id: params[:id])
           tweets = Tweet.none.or(res_tweets).where.not(user_id: my_mutes)
-          @tweets = Tweet.none.or(tweets).order(id: :asc).includes(:user, :parent, :text)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text)
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
         end
       when "user" then
@@ -284,7 +287,8 @@ class TweetsController < ApplicationController
         @show_nsfw = true
     end
 
-    @show_list = "true" == params[:show_list]
+    @list = "true" == params[:list]
+    @reverse = "true" == params[:reverse]
     @show_parent = "true" == params[:show_parent]
     @infinite_scroll = "true" == params[:infinite_scroll]
 

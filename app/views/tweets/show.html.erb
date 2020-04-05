@@ -1,5 +1,5 @@
 <% if @root_tweets.any? %>
-  <%= render partial: "/layouts/tweets_sync", locals: { tweets: @root_tweets, show_list: true, show_parent: false } %>
+  <%= render partial: "/layouts/tweets_sync", locals: { tweets: @root_tweets, list: true, reverse: true, show_parent: false } %>
 <% end %>
 
 <div class="tweet-container">
@@ -25,14 +25,14 @@
 
           <div>
             <% if @bookmarked.present? %>
-            <%= form_for(@bookmarked, method: :delete) do |form| %>
+            <%= form_with model: @bookmarked, method: :delete, local: true do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
               <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                 <i class="fas fa-bookmark"></i>
               <% end %>
             <% end %>
             <% else %>
-              <%= form_for(@bookmark) do |form| %>
+              <%= form_with model: @bookmark, local: true do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
                   <i class="fas fa-bookmark"></i>
@@ -43,14 +43,14 @@
 
           <div>
             <% if @gooded.present? %>
-              <%= form_for(@gooded, method: :delete) do |form| %>
+              <%= form_with model: @gooded, method: :delete do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                   <i class="fas fa-thumbs-up"></i>
                 <% end %>
               <% end %>
             <% else %>
-            <%= form_for(@good) do |form| %>
+            <%= form_with model: @good, local: true do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
               <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
                 <i class="fas fa-thumbs-up"></i>
@@ -61,14 +61,14 @@
 
           <div>
             <% if @baded.present? %>
-            <%= form_for(@baded, method: :delete) do |form| %>
+            <%= form_with model: @baded, method: :delete, local: true do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
               <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                 <i class="fas fa-thumbs-down"></i>
               <% end %>
             <% end %>
             <% else %>
-              <%= form_for(@bad) do |form| %>
+              <%= form_with model: @bad, local: true do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
                   <i class="fas fa-thumbs-down"></i>
@@ -161,7 +161,7 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 
-<%= render_async tweets_async_path(mode: "tweet", id: @tweet.id,  page: 1, show_list: "false", show_parent: "false", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
+<%= render_async tweets_async_path(mode: "tweet", id: @tweet.id,  page: 1, list: "false", reverse: "false", show_parent: "false", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
   <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>
 <% end %>
 

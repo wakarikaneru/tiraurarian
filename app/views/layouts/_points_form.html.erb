@@ -1,9 +1,9 @@
-<%= form_tag(remit_points_path, role: "form", method: :post) do %>
+<%= form_with url: remit_points_path, method: :post, local: true do %>
   <%= hidden_field_tag :user_id, user_id %>
   <div class="input-group">
     <%= text_field_tag :point, "", class: "form-control", placeholder: "VARTH", size: 10 %>
     <div class="input-group-append">
-      <%= button_tag type: "submit", class: "change-active-button btn btn-secondary" do %>
+      <%= button_tag type: "submit", class: "change-disabled-button btn btn-secondary" do %>
         <span>送信</span>
         <i class="fa fa-spinner fa-pulse"></i>
       <% end %>

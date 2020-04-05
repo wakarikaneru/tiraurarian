@@ -1,4 +1,4 @@
-<%= form_for(point) do |f| %>
+<%= form_with model: point, local: true do |f| %>
   <% if point.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(point.errors.count, "error") %> prohibited this point from being saved:</h2>

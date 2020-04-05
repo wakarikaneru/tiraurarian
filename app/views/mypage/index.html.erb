@@ -6,7 +6,7 @@
   </div>
 
   <%= render partial: "/layouts/user", locals: { user: current_user, tags: @tags, show_control: false } %>
-  <%= render_async tweets_async_path(mode: "mypage", page: 1, show_list: "false", show_parent: "true", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
+  <%= render_async tweets_async_path(mode: "mypage", page: 1, list: "false", reverse: "false",  show_parent: "true", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
     <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>
   <% end %>
 <% end %>

@@ -94,12 +94,18 @@ h5{
 }
 
 .nothing{
+  display: none;
+
   margin: 8px auto;
   padding: 16px;
 
   width: 100%;
 
   text-align: center;
+}
+
+.nothing:only-child{
+  display: block;
 }
 
 .login-user-info-container{

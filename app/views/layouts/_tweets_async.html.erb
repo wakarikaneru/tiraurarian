@@ -1,8 +1,6 @@
 <div id="tweet-container-async" class="tweet-container<%= if @list then ' list' end %><%= if @reverse then ' reverse' end %> infinite_scroll">
 
-  <% if @tweets.blank? %>
-    <div class="nothing">データがありません</div>
-  <% end %>
+  <div class="nothing">データがありません</div>
 
   <% @tweets.map do |tweet| %>
     <%= render partial: "/layouts/tweet", locals: { tweet: tweet, show_parent: @show_parent } %>

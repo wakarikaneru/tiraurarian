@@ -1,4 +1,4 @@
-<%= form_for(mute) do |f| %>
+<%= form_with model: mute do |f| %>
   <% if mute.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(mute.errors.count, "error") %> prohibited this mute from being saved:</h2>

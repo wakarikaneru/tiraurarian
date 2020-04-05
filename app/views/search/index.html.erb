@@ -1,7 +1,7 @@
 <div class="title">検索</div>
 
 <div id="tweet-form" class="tweet-form">
-  <%= form_tag("/search", method: "get", class: "form-horizontal", role: "form") do %>
+  <%= form_with url: "/search", method: "get", class: "form-horizontal", local: true do %>
     <div class="input-group">
       <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
       <div class="input-group-append">
@@ -31,11 +31,11 @@
 
   <div id="tags" class="tab-pane">
     <h1>タグ検索</h1>
-    <%= render partial: "/layouts/tweets_sync", locals: { tweets: @tweets_tag, show_list: false, show_parent: true } %>
+    <%= render partial: "/layouts/tweets_sync", locals: { tweets: @tweets_tag, list: false, reverse: false,  show_parent: true } %>
   </div>
 
   <div id="tweets" class="tab-pane">
     <h1>つぶやき検索</h1>
-    <%= render partial: "/layouts/tweets_sync", locals: { tweets: @tweets_tweet, show_list: false, show_parent: true } %>
+    <%= render partial: "/layouts/tweets_sync", locals: { tweets: @tweets_tweet, list: false, reverse: false,  show_parent: true } %>
   </div>
 </div>

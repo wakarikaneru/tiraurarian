@@ -141,7 +141,7 @@
               <li class="nav-item"><%= link_to "管理", admin_root_path(), class: "nav-link" %></li>
             <% end %>
           </ul>
-          <%= form_tag("/search", method: "get", class: "form-inline", role: "form") do %>
+          <%= form_with url: "/search", method: "get", class: "form-inline", local: true do %>
             <div class="input-group">
               <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "検索ワード" %>
               <div class="input-group-append">

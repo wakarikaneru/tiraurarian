@@ -1,4 +1,4 @@
-<%= form_for(card) do |f| %>
+<%= form_with model: card do |f| %>
   <% if card.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>

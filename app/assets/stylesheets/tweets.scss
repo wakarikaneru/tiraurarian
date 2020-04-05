@@ -41,6 +41,14 @@
   justify-content: center;
 }
 
+.tweet-container.reverse{
+  flex-flow: row-reverse wrap-reverse;
+}
+
+.tweet-container.list.reverse{
+  flex-flow: column-reverse wrap-reverse;
+}
+
 .tweet{
   max-width: 100%;
 

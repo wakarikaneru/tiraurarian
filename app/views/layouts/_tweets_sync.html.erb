@@ -1,4 +1,4 @@
-<div class="tweet-container<%= if show_list then ' list' end %>">
+<div id="tweet-container-sync" class="tweet-container<%= if list then ' list' end %><%= if reverse then ' reverse' end %>">
 
   <% if tweets.blank? %>
     <div class="nothing">データがありません</div>

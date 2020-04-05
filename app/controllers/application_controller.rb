@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
         message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
 
         my_tweets = Tweet.where(user_id: current_user.id)
-        my_tweets_res = Tweet.where(id: (current_user.last_check_res + 1)..Float::INFINITY).where(parent_id: my_tweets)
+        my_tweets_res = Tweet.where(id: (current_user.last_check_res + 1)..Float::INFINITY).where(parent_id: my_tweets).where.not(user_id: current_user.id)
         @res_count = my_tweets_res.count
       else
         notice_records = Notice.none

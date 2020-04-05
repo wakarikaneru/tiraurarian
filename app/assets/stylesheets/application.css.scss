@@ -493,12 +493,33 @@ img.thumb{
   display: block;
   height: 0;
 }
-.change-active-button:active :first-child, .change-active-button:focus :first-child{
+.change-active-button:active :first-child{
   overflow: hidden;
   display: block;
   height: 0;
 }
-.change-active-button:active :last-child, .change-active-button:focus :last-child{
+.change-active-button:active :last-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+
+.change-disabled-button :first-child{
+  overflow: hidden;
+  display: block;
+  height: auto;
+}
+.change-disabled-button :last-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-disabled-button:disabled :first-child{
+  overflow: hidden;
+  display: block;
+  height: 0;
+}
+.change-disabled-button:disabled :last-child{
   overflow: hidden;
   display: block;
   height: auto;

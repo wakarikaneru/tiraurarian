@@ -1,4 +1,4 @@
-<%= form_for(control) do |f| %>
+<%= form_with model:control do |f| %>
   <% if control.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(control.errors.count, "error") %> prohibited this control from being saved:</h2>

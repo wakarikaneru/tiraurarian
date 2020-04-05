@@ -34,19 +34,19 @@ class Tweet < ApplicationRecord
   def content_selected_language(language)
     case language
       when "ja" then
-        if self.language == language || self.language_confidence <= 0.5
+        if self.language == language || self.language_confidence <= 0.9
           return self.content
         else
           return get_native_content(language)
         end
       when "en" then
-        if self.language == language || self.language_confidence <= 0.5
+        if self.language == language || self.language_confidence <= 0.9
           return self.content
         else
           return get_native_content(language)
         end
       when "zh" then
-        if self.language == language || self.language_confidence <= 0.5
+        if self.language == language || self.language_confidence <= 0.9
           return self.content
         else
           return get_native_content(language)

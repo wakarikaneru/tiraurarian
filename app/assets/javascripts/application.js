@@ -17,7 +17,7 @@
 //= require infinite-scroll.pkgd.min
 
 document.addEventListener("tweet-loaded", function(event) {
-  new InfiniteScroll( '.tweet-container.infinite_scroll', {
+  new InfiniteScroll('.tweet-container.infinite_scroll', {
     path: "a.next",
     append: ".tweet",
     history: false,

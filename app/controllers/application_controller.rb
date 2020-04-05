@@ -8,7 +8,10 @@ class ApplicationController < ActionController::Base
   before_action :create_thumb
 
   def detect_locale
-    I18n.locale = request.headers['Accept-Language'].scan(/\A[a-z]{2}/).first
+    acceptLanguage = request.headers['Accept-Language']
+    unless acceptLanguage.nil?
+      I18n.locale = acceptLanguage.scan(/\A[a-z]{2}/).first
+    end
   end
 
   def notification

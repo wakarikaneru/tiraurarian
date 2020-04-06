@@ -31,7 +31,8 @@ class ApplicationController < ActionController::Base
   end
 
   def load
-    @load = AccessLog.where("access_datetime > ?", 10.minutes.ago).count
+    stat = Stat.order(id: :desc).first
+    @load = stat.load
     case @load
       when 0..200
         @load_str = "低負荷"

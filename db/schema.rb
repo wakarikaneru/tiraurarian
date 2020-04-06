@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_224907) do
+ActiveRecord::Schema.define(version: 2020_04_06_091554) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -142,6 +142,13 @@ ActiveRecord::Schema.define(version: 2020_04_04_224907) do
     t.datetime "datetime"
     t.integer "load"
     t.integer "users"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "number", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

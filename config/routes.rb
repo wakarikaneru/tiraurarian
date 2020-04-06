@@ -38,6 +38,10 @@ Rails.application.routes.draw do
 
   resources :mypage
 
+  get 'stock', to: 'stocks#index'
+  post 'stock/purchase', to: 'stocks#purchase'
+  post 'stock/sale', to: 'stocks#sale'
+
   get 'info/index'
   get 'info/howtouse'
   get 'info/termsofservice'

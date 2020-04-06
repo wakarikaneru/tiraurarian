@@ -70,11 +70,12 @@ class Stock < ApplicationRecord
     name = Control.find_or_create_by(key: "company_name")
     name.update(value: "株式会社チラウラリア##{count_s}")
 
-    price = Control.find_or_create_by(key: "stock_price")
-    price.update(value: (1000 + Random.rand * 500).to_s)
-
     price_target = Control.find_or_create_by(key: "stock_price_target")
-    price_target.update(value: (1000 + Random.rand * 500).to_s)
+    price_target_f = (1000 + Random.rand * 9000)
+    price_target.update(value: price_target_f.to_s)
+
+    price = Control.find_or_create_by(key: "stock_price")
+    price.update(value: (price_target_f * (Random.rand - 0.5)).to_s)
   end
 
   # 倒産

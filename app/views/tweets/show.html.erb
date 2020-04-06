@@ -1,5 +1,5 @@
 <% if @root_tweets.any? %>
-  <%= render partial: "/layouts/tweets_sync", locals: { tweets: @root_tweets, list: true, reverse: true, show_parent: false } %>
+  <%= render partial: "/layouts/tweets_sync", locals: { tweets: @root_tweets, list: true, reverse: false, show_parent: false } %>
 <% end %>
 
 <div class="tweet-container">

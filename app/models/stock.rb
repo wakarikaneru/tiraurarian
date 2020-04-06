@@ -49,7 +49,7 @@ class Stock < ApplicationRecord
     price_target_f = price_target.value.to_f
 
     price_f = price_f + ((price_target_f - price_f) * 0.001)
-    price_f = price_f + ((Stock.rand + Stock.rand + Stock.rand + Stock.rand) / 4) * 100
+    price_f = price_f + ((Stock.rand + Stock.rand + Stock.rand + Stock.rand) / 4) * (price_target_f / 10)
 
     price.update(value: price_f.to_s)
 
@@ -71,7 +71,7 @@ class Stock < ApplicationRecord
     name.update(value: "株式会社チラウラリア##{count_s}")
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
-    price_target_f = (1000 + Random.rand * 9000)
+    price_target_f = (Random.rand(100..10000))
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")

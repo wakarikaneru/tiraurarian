@@ -130,6 +130,12 @@
               </div>
             </li>
             <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">遊ぶ</a>
+              <div class="dropdown-menu">
+                <%= link_to stock_path(), class: "dropdown-item" do %>株式投資<% end %>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">開発支援</a>
               <div class="dropdown-menu">
                 <%= link_to "https://github.com/wakarikaneru/tiraurarian", target: :_blank, class: "dropdown-item" do %><i class="fab fa-github"></i> GitHub<% end %>

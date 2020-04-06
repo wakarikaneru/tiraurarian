@@ -1,0 +1,49 @@
+<div class="title">チラウラリア証券</div>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>遊び方</h1>
+    <p>株を買ったり売ったりすることができます。そして、株の値段はリアルタイムで変動します。</p>
+    <p>つまり、株が安いときに購入して、株が高いときに売却すれば、その差額を儲けることができます。</p>
+    <p>うまく売買して、億万長者を目指しましょう！</p>
+    <br />
+    <p>株式投資にはリスクがあります。自己責任でお楽しみください。</p>
+  </div>
+</div>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1><%= @name %></h1>
+    <h2>現在の株価 <%= @price %>va</h2>
+    <h3>所持株数 <%= @stock.number %>株</h3>
+    <h3>所持VARTH <%= current_user.point.point %>va</h3>
+    <p>最大で<%= current_user.point.point / @price %>株買うことができます。</p>
+    <p><%= @stock.number %>株売却すると<%= @stock.number * @price %>VARTHになります。</p>
+    <div class="row m-4">
+      <div class="col-md m-2">
+        <%= form_with url: stock_purchase_path, method: :post, local: true do %>
+          <div class="input-group">
+            <%= text_field_tag :point, "", class: "form-control", placeholder: "株数", size: 10 %>
+            <div class="input-group-append">
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-info" do %>
+                <span>購入する</span>
+                <i class="fa fa-spinner fa-pulse"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md m-2">
+        <%= form_with url: stock_sale_path, method: :post, local: true do %>
+          <div class="input-group">
+            <%= text_field_tag :point, "", class: "form-control", placeholder: "株数", size: 10 %>
+            <div class="input-group-append">
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                <span>売却する</span>
+                <i class="fa fa-spinner fa-pulse"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

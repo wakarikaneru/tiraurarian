@@ -75,7 +75,7 @@ class Stock < ApplicationRecord
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
-    price.update(value: (price_target_f * (Random.rand - 0.5)).to_s)
+    price.update(value: (price_target_f * (1 + (Random.rand - 0.5))).to_s)
   end
 
   # 倒産

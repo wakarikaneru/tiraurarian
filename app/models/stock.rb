@@ -8,6 +8,9 @@ class Stock < ApplicationRecord
     unless 0 < num
       return false
     end
+
+    Stock.fluctuation
+
     price = Control.find_or_create_by(key: "stock_price")
     price_i = price.value.to_i
     total = price_i * num
@@ -26,6 +29,9 @@ class Stock < ApplicationRecord
     unless 0 < num
       return false
     end
+
+    Stock.fluctuation
+
     stock = Stock.find_or_create_by(user_id: user.id)
     if num <= stock.number
       stock.number = stock.number - num
@@ -54,7 +60,7 @@ class Stock < ApplicationRecord
     price.update(value: price_f.to_s)
 
     # 倒産
-    if price_f < (price_target_f / 4) || (Random.rand * (60 * 24)) < 1
+    if price_f < (price_target_f / 4) || (Random.rand * (60 * 24 * 7)) < 1
       Stock.bankruptcy
       Stock.listing
     end

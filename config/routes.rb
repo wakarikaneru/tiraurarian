@@ -64,14 +64,16 @@ Rails.application.routes.draw do
     resources :follows
     resources :mutes
 
+    resources :notices
+    resources :messages
+
     resources :points
 
     resources :card_boxes
     resources :cards
     resources :card_decks
 
-    resources :notices
-    resources :messages
+    resources :stocks
 
     resources :thumbs
 

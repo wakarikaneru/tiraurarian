@@ -1,4 +1,30 @@
-<div class="title">高額納税者ランキング</div>
+<div class="title">高額納税者殿堂入り</div>
+<div class="users-container">
+  <% if @taxpayer_hofs.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% @taxpayer_hofs.map do |hof| %>
+
+    <div class="users">
+      <div>
+        <%= link_to hof.user, class: "link-item-image" do %>
+          <%= image_tag hof.user.avatar.url(:thumb), class: "user-img" %>
+        <% end %>
+      </div>
+
+      <div class="users-info">
+        <div class="users-name"><%= hof.user.name %></div>
+        <div class="users-desc">納税額: <%= hof.tax %></div>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>
+
+
+<div class="title">昨日の高額納税者ランキング</div>
 <div class="users-container">
   <% if @taxpayers.blank? %>
     <div class="nothing">データがありません</div>
@@ -9,9 +35,7 @@
     <div class="users">
       <div>
         <%= link_to tax.user, class: "link-item-image" do %>
-          <% if tax.user.present? %>
-            <%= image_tag tax.user.avatar.url(:thumb), class: "user-img" %>
-          <% end %>
+          <%= image_tag tax.user.avatar.url(:thumb), class: "user-img" %>
         <% end %>
       </div>
 

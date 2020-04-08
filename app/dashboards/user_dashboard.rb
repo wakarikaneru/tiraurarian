@@ -13,6 +13,7 @@ class UserDashboard < Administrate::BaseDashboard
     texts: Field::HasMany,
     follows: Field::HasMany,
     goods: Field::HasMany,
+    bads: Field::HasMany,
     tags: Field::HasMany,
     point: Field::HasOne,
     notices: Field::HasMany,
@@ -56,6 +57,7 @@ class UserDashboard < Administrate::BaseDashboard
   texts
   follows
   goods
+  bads
   tags
   point
   notices
@@ -88,6 +90,7 @@ class UserDashboard < Administrate::BaseDashboard
   texts
   follows
   goods
+  bads
   tags
   point
   notices

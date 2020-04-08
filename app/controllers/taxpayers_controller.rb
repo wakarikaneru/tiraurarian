@@ -1,0 +1,2 @@
+class TaxpayersController < ApplicationController
+end

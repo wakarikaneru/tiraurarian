@@ -71,6 +71,7 @@ Rails.application.routes.draw do
 
     resources :points
     resources :taxpayers
+    resources :taxpayer_hofs
 
     resources :card_boxes
     resources :cards

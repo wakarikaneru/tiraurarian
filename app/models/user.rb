@@ -81,7 +81,7 @@ class User < ApplicationRecord
     all_user = User.all
     all_count = all_user.count
 
-    max_pt = 1000000 + (all_count * 1000)
+    max_pt = 10000000 + (all_count * 10000)
 
     all_pt = Point.all.sum(:point)
     distribute_ratio = Constants::DISTRIBUTE_RATIO
@@ -114,7 +114,7 @@ class User < ApplicationRecord
     all_user = User.all
     all_count = all_user.count
 
-    max_pt = 1000000 + (all_count * 1000)
+    max_pt = 10000000 + (all_count * 10000)
     all_pt = Point.all.sum(:point)
     d_pt = [0, all_pt - max_pt].max
     over_ratio = d_pt.to_f / (d_pt.to_f + max_pt.to_f)

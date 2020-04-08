@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :texts
   has_many :follows, dependent: :destroy
   has_many :goods, dependent: :destroy
+  has_many :bads, dependent: :destroy
   has_many :tags
   has_one :point, dependent: :destroy
 

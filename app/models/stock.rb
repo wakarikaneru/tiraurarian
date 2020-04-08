@@ -58,7 +58,7 @@ class Stock < ApplicationRecord
     price.update(value: price_f.to_s)
 
     # 倒産
-    if price_f < (price_target_f / 4) || (Random.rand * (60 * 24 * 7)) < 1
+    if price_f < (price_target_f / 4) || (Random.rand * (60 * 24)) < 1
       Stock.bankruptcy
       Stock.listing
     end

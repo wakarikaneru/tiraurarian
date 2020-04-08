@@ -110,7 +110,15 @@ class User < ApplicationRecord
   # 税金を徴収
   def self.collect_points
 
-    tax_ratio = Constants::TAX_RATIO
+    all_user = User.all
+    all_count = all_user.count
+
+    max_pt = 1000000 + (all_count * 1000)
+    all_pt = Point.all.sum(:point)
+    d_pt = [0, all_pt - max_pt].max
+    over_ratio = d_pt.to_f / (d_pt.to_f + max_pt.to_f)
+
+    tax_ratio = [Constants::TAX_RATIO, over_ratio].max
 
     User.all.find_each do |user|
       if user.point.present?

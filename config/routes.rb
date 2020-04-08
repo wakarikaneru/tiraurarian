@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   post 'stock/purchase', to: 'stocks#purchase'
   post 'stock/sale', to: 'stocks#sale'
 
+  get 'taxpayers', to: 'taxpayers#index'
+
   get 'info/index'
   get 'info/howtouse'
   get 'info/termsofservice'
@@ -68,6 +70,7 @@ Rails.application.routes.draw do
     resources :messages
 
     resources :points
+    resources :taxpayers
 
     resources :card_boxes
     resources :cards

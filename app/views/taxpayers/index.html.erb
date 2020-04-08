@@ -1,0 +1,26 @@
+<div class="title">高額納税者ランキング</div>
+<div class="users-container">
+  <% if @taxpayers.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% @taxpayers.map do |tax| %>
+
+    <div class="users">
+      <div>
+        <%= link_to tax.user, class: "link-item-image" do %>
+          <% if tax.user.present? %>
+            <%= image_tag tax.user.avatar.url(:thumb), class: "user-img" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="users-info">
+        <div class="users-name"><%= tax.user.name %></div>
+        <div class="users-desc">納税額: <%= tax.tax %></div>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

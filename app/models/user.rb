@@ -121,11 +121,14 @@ class User < ApplicationRecord
 
     tax_ratio = [Constants::TAX_RATIO, over_ratio].max
 
+    Taxpayer.delete_all
+
     User.all.find_each do |user|
       if user.point.present?
         pt = [(user.point.point * tax_ratio).floor, Constants::TAX_MIN].max
         if user.sub_points?(pt)
           Notice.generate(user.id, 0, "チラウラリア", "チラウラリア税として#{pt}vaを納付しました。")
+          Taxpayer.generate(user.id, pt)
         end
       end
     end

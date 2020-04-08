@@ -16,7 +16,6 @@ class Stock < ApplicationRecord
       stock = Stock.find_or_create_by(user_id: user.id)
       stock.number = stock.number + num
       stock.save!
-      Stock.fluctuation
       return true
     else
       return false
@@ -37,7 +36,6 @@ class Stock < ApplicationRecord
       price_i = price.value.to_i
       total = price_i * num
       user.add_points(total)
-      Stock.fluctuation
       return true
     else
       return false

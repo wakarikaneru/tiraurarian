@@ -132,6 +132,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">遊ぶ</a>
               <div class="dropdown-menu">
+                <%= link_to gambling_path(), class: "dropdown-item" do %>公営賭博<% end %>
                 <%= link_to stock_path(), class: "dropdown-item" do %>株式投資<% end %>
                 <%= link_to taxpayers_path(), class: "dropdown-item" do %>高額納税者ランキング<% end %>
               </div>

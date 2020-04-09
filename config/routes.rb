@@ -42,6 +42,10 @@ Rails.application.routes.draw do
   post 'stock/purchase', to: 'stocks#purchase'
   post 'stock/sale', to: 'stocks#sale'
 
+  get 'gambling', to: 'gambling#index'
+  get 'gambling/gambling', to: 'gambling#gambling'
+  post 'gambling/gambling', to: 'gambling#gambling'
+
   get 'taxpayers', to: 'taxpayers#index'
 
   get 'info/index'
@@ -78,6 +82,7 @@ Rails.application.routes.draw do
     resources :card_decks
 
     resources :stocks
+    resources :gambling_results
 
     resources :thumbs
 

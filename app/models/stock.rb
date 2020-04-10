@@ -47,16 +47,19 @@ class Stock < ApplicationRecord
     price = Control.find_or_create_by(key: "stock_price")
     price_f = price.value.to_f
 
-    price_target = Control.find_or_create_by(key: "stock_price_target")
-    price_target_f = price_target.value.to_f
-
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
     economy_f = ((economy_f + (([Stock.rand, Stock.rand].sum / 2.0) * 10)) * 0.999)
     economy.update(value: economy_f.to_s)
 
-    price_f = price_f + economy_f
+    coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
+    coefficient_f = coefficient.value.to_f
+
+    price_target = Control.find_or_create_by(key: "stock_price_target")
+    price_target_f = price_target.value.to_f
+
+    price_f = price_f + economy_f * coefficient_f
     price_f = price_f + ((price_target_f - price_f) * 0.001)
     price_f = price_f + ([Stock.rand, Stock.rand, Stock.rand, Stock.rand, Stock.rand].sum / 5.0) * (price_target_f / 10)
 
@@ -78,6 +81,10 @@ class Stock < ApplicationRecord
 
     name = Control.find_or_create_by(key: "company_name")
     name.update(value: "株式会社チラウラリア##{count_s}")
+
+    coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
+    coefficient_f = (Random.rand * 3) - 1
+    coefficient.update(value: coefficient_f.to_s)
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = (Random.rand(100..10000))

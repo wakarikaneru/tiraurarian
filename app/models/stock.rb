@@ -87,7 +87,7 @@ class Stock < ApplicationRecord
     coefficient.update(value: coefficient_f.to_s)
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
-    price_target_f = (Random.rand(100..10000))
+    price_target_f = (Random.rand(1000..10000))
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")

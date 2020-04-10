@@ -53,7 +53,7 @@ class Stock < ApplicationRecord
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
-    economy_f = ((economy_f + Stock.rand) * 0.999)
+    economy_f = ((economy_f + (([Stock.rand, Stock.rand].sum / 2.0) * 10)) * 0.999)
     economy.update(value: economy_f.to_s)
 
     price_f = price_f + economy_f

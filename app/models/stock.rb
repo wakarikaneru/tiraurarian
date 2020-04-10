@@ -50,8 +50,15 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
+    economy = Control.find_or_create_by(key: "stock_economy")
+    economy_f = economy.value.to_f
+
+    economy_f = ((economy_f + Stock.rand) * 0.99)
+    economy.update(value: economy_f.to_s)
+
+    price_f = price_f + economy_f
     price_f = price_f + ((price_target_f - price_f) * 0.001)
-    price_f = price_f + ((Stock.rand + Stock.rand + Stock.rand + Stock.rand) / 4) * (price_target_f / 10)
+    price_f = price_f + ([Stock.rand, Stock.rand, Stock.rand, Stock.rand, Stock.rand].sum / 5.0) * (price_target_f / 10)
 
     price.update(value: price_f.to_s)
 

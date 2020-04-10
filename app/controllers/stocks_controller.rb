@@ -15,11 +15,11 @@ class StocksController < ApplicationController
         @economy = "超景気"
       elsif 1 < economy_f
         @economy = "好景気"
-      elsif economy_f < 1
+      elsif economy_f < -1
         @economy = "不景気"
-      elsif economy_f < 5
+      elsif economy_f < -5
         @economy = "深刻な不景気"
-      elsif economy_f < 10
+      elsif economy_f < -10
         @economy = "世界恐慌"
       else
         @economy = "普通"

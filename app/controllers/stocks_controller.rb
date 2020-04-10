@@ -6,6 +6,25 @@ class StocksController < ApplicationController
 
       @name = Control.find_by(key: "company_name").value
       @price = Control.find_by(key: "stock_price").value.to_i
+
+      economy_f = Control.find_by(key: "stock_economy").value.to_f
+
+      if 10 < economy_f
+        @economy = "神景気"
+      elsif 5 < economy_f
+        @economy = "超景気"
+      elsif 1 < economy_f
+        @economy = "好景気"
+      elsif economy_f < 1
+        @economy = "不景気"
+      elsif economy_f < 5
+        @economy = "深刻な不景気"
+      elsif economy_f < 10
+        @economy = "世界恐慌"
+      else
+        @economy = "普通"
+      end
+
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path, alert: "ログインしてください。" }

@@ -69,10 +69,11 @@
     </div>
     <div class='container-fluid'>
       <% if user_signed_in? %>
-        <% notice_count_i = [@notice_count, 99].min %>
-        <% message_count_i = [@message_count, 99].min %>
-        <% total_count_i = [@total_count, 99].min %>
-        <% res_count_i = [@res_count, 99].min %>
+        <% n = notification_counts() %>
+        <% notice_count_i = [n[:notice], 99].min %>
+        <% message_count_i = [n[:message], 99].min %>
+        <% total_count_i = [n[:total], 99].min %>
+        <% res_count_i = [n[:res], 99].min %>
 
         <% if 0 < notice_count_i %>
           <% notice_count = notice_count_i.to_s %>

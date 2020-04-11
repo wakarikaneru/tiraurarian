@@ -4,8 +4,8 @@ module ApplicationHelper
       notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
       message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
 
-      my_tweets = Tweet.where(user_id: current_user.id)
-      my_tweets_res = Tweet.where(id: (current_user.last_check_res + 1)..Float::INFINITY).where(parent_id: my_tweets).where.not(user_id: current_user.id)
+      my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
+      my_tweets_res = Tweet.joins(:parent).where("? < tweets.id", current_user.last_check_res).where(parents_tweets: {user_id: current_user.id}).where.not(user_id: current_user.id).where.not(user_id: my_mutes).order(id: :desc)
       res_count = my_tweets_res.count
     else
       notice_records = Notice.none

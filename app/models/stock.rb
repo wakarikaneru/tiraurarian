@@ -50,7 +50,12 @@ class Stock < ApplicationRecord
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
-    economy_f = ((economy_f + (([Stock.rand, Stock.rand].sum / 2.0) * 10)) * 0.999)
+    if (Random.rand * (60 * 24 * 7)) < 1
+      economy_f = Stock.rand(1) * 200
+    else
+      economy_f = ((economy_f + Stock.rand(1) * 10) * 0.99)
+    end
+
     economy.update(value: economy_f.to_s)
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
@@ -61,7 +66,7 @@ class Stock < ApplicationRecord
 
     price_f = price_f + economy_f * coefficient_f
     price_f = price_f + ((price_target_f - price_f) * 0.001)
-    price_f = price_f + ([Stock.rand, Stock.rand, Stock.rand, Stock.rand, Stock.rand].sum / 5.0) * (price_target_f / 10)
+    price_f = price_f + Stock.rand(10) * (price_target_f / 2)
 
     price.update(value: price_f.to_s)
     StockLog.generate(price_f.to_i)
@@ -92,6 +97,8 @@ class Stock < ApplicationRecord
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
+    price_f = (price_target_f + (price_target_f * Stock.rand(1)) / 2)
+    price.update(value: price_f.to_s)
   end
 
   # 倒産
@@ -108,8 +115,12 @@ class Stock < ApplicationRecord
     StockLog.delete_all
   end
 
-  def self.rand
-    return Random.rand - Random.rand
+  def self.rand(n = 1)
+    a = []
+    n.times do
+      a.push(Random.rand - Random.rand)
+    end
+    return a.sum / a.length
   end
 
 end

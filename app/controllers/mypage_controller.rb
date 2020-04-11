@@ -7,13 +7,11 @@ class MypageController < ApplicationController
 
     if user_signed_in? then
       my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
-
-      my_tweets = Tweet.where(user_id: current_user.id)
-      my_tweets_res = Tweet.where(parent_id: my_tweets).where.not(user_id: current_user.id)
+      my_tweets_res = Tweet.joins(:parent).where(parents_tweets: {user_id: current_user.id}).where.not(user_id: current_user.id).where.not(user_id: my_mutes).order(id: :desc)
 
       @tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
 
-      User.find(current_user.id).update(last_check_res: my_tweets_res.maximum(:id))
+      User.find(current_user.id).update(last_check_res: my_tweets_res.first.id)
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }

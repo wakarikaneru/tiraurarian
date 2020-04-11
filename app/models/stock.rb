@@ -64,6 +64,7 @@ class Stock < ApplicationRecord
     price_f = price_f + ([Stock.rand, Stock.rand, Stock.rand, Stock.rand, Stock.rand].sum / 5.0) * (price_target_f / 10)
 
     price.update(value: price_f.to_s)
+    StockLog.generate(price_f.to_i)
 
     # 倒産
     if price_f < (price_target_f / 4) || (Random.rand * (60 * 24)) < 1
@@ -91,7 +92,6 @@ class Stock < ApplicationRecord
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
-    price.update(value: (price_target_f * (1 + (Random.rand - 0.5))).to_s)
   end
 
   # 倒産
@@ -105,6 +105,7 @@ class Stock < ApplicationRecord
     end
 
     Stock.delete_all
+    StockLog.delete_all
   end
 
   def self.rand

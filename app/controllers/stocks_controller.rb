@@ -25,6 +25,8 @@ class StocksController < ApplicationController
         @economy = "普通"
       end
 
+      @stock_log = StockLog.where("? <= datetime", 1.hour.ago).order(id: :desc)
+
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path, alert: "ログインしてください。" }

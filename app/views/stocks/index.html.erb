@@ -14,7 +14,7 @@
     <h1><%= @name %></h1>
     <div class="w-100">
       <%= javascript_include_tag "chartkick", "Chart.bundle" %>
-      <%= line_chart @stock_log.pluck(:datetime, :point), curve: false, min: nil, xmin: 1.hour.ago, thousands: ",", suffix: "va", defer: true %>
+      <%= line_chart @stock_log.pluck(:datetime, :point), curve: false, points: false, min: nil, xmin: 1.hour.ago, thousands: ",", suffix: "va", defer: true %>
     </div>
     <h2>現在の景気 <%= @economy %></h2>
     <h2>現在の株価 <%= @price %>va</h2>

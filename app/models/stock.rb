@@ -89,7 +89,7 @@ class Stock < ApplicationRecord
     name.update(value: "株式会社チラウラリア##{count_s}")
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
-    coefficient_f = (Random.rand * 3) - 1
+    coefficient_f = (Stock.rand(5) * 2) + 1
     coefficient.update(value: coefficient_f.to_s)
 
     price_target = Control.find_or_create_by(key: "stock_price_target")

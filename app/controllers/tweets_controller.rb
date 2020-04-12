@@ -7,7 +7,7 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     case params[:mode]
-      when "mypage", "follow", "bookmark", "adult" then
+      when "mypage", "follow", "bookmark" then
         unless user_signed_in?
           respond_to do |format|
             format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }

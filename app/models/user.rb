@@ -47,6 +47,10 @@ class User < ApplicationRecord
     self.update(last_tweet: Time.current)
   end
 
+  def is_premium()
+    return Premium.where(user_id: self.id).where("? <= limit_datetime", Time.current).present?
+  end
+
   def add_points(pt = 0)
     points = Point.find_or_create_by(user_id: self.id)
     points.increment!(:point, pt)

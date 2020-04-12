@@ -82,12 +82,20 @@ class ApplicationController < ActionController::Base
     end
 
     def check_premium
-      @is_premium = Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+      if user_signed_in?
+        @is_premium = Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+      else
+        @is_premium = false
+      end
     end
 
     def authenticate_premium!
-      unless Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
-        redirect_to premium_path, alert: "プレミアム会員専用ページです。"
+      if user_signed_in?
+        unless Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+          redirect_to premium_path, alert: "プレミアム会員専用ページです。"
+        end
+      else
+        redirect_to new_user_session_path, alert: 'ログインしてください。'
       end
     end
 

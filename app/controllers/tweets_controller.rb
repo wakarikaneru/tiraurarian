@@ -14,6 +14,14 @@ class TweetsController < ApplicationController
             format.json { head :no_content }
           end
         end
+      when "image", "image_adult"
+        unless @is_premium
+          respond_to do |format|
+            format.html { redirect_to premium_path, alert: 'プレミアム会員登録してください。' }
+            format.json { head :no_content }
+          end
+        end
+
     end
 
     #@hot_tags = Tag.select("tags.*, count(id)").where(tweet_id: tags).group(:tag_string).order("count(id) desc").order("max(id) desc").limit(15)
@@ -263,11 +271,25 @@ class TweetsController < ApplicationController
 
           tags = Tweet.where("create_datetime > ?", 1.day.ago)
         end
-      when "adult" then
-        if user_signed_in? && current_user.sub_points?(1000) then
+      when "image" then
+        if user_signed_in? && @is_premium then
+          image_tweets  = Tweet.where("? < image_file_size", 0)
+          tweets = Tweet.none.or(image_tweets).where.not(user_id: my_mutes)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
+
+          tags = Tweet.none.or(tweets)
+        else
+          tweets = Tweet.none
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+        end
+      when "image_adult" then
+        if user_signed_in? && @is_premium then
           adult_tweets  = Tweet.where(adult: 5)
           racy_tweets  = Tweet.where(racy: 5)
-          tweets = Tweet.none.or(adult_tweets).or(racy_tweets).where.not(user_id: my_mutes)
+          adult_weak_tweets  = Tweet.where(adult: 4)
+          racy_weak_tweets  = Tweet.where(racy: 4)
+
+          tweets = Tweet.none.or(adult_tweets).or(racy_tweets).or(adult_weak_tweets).or(racy_weak_tweets).where.not(user_id: my_mutes)
           @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets)
@@ -283,7 +305,7 @@ class TweetsController < ApplicationController
     end
 
     @show_nsfw = false
-    if params[:mode] == "adult"
+    if params[:mode] == "image_adult"
         @show_nsfw = true
     end
 

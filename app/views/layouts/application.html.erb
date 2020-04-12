@@ -120,6 +120,8 @@
                 <%= link_to "リーフ", tweets_path(mode: "leaf"), class: "dropdown-item" %>
                 <%= link_to "ルート", tweets_path(mode: "root"), class: "dropdown-item" %>
                 <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
+                <%= link_to tweets_path(mode: "image"), class: "dropdown-item" do %><i class="fas fa-lock"></i> 画像<% end %>
+                <%= link_to tweets_path(mode: "image_adult"), class: "dropdown-item" do %><i class="fas fa-lock"></i> 大人の画像<% end %>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -164,6 +166,9 @@
       <div class='login-user-info-container'>
         <div class='login-user-info'>
           <% if user_signed_in? %>
+            <% if @is_premium %>
+              <i class="fas fa-unlock"></i>
+            <% end %>
             <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
             <span> | </span>
             <% if current_user.point.present? %>

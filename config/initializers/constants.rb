@@ -9,6 +9,9 @@ module Constants
   TAX_RATIO = 0.01
   TAX_MIN = 1
 
+  PREMIUM_PRICE = 50000
+  PREMIUM_LIMIT = 1.days
+
   CARD_ELEMENTS = ["無", "火", "風", "土", "水", "光", "闇"]
   CARD_ELEMENTALS = ["ボイド", "サラマンダー", "シルフ", "ノーム", "ウンディーネ", "光の精霊", "闇の精霊"]
 

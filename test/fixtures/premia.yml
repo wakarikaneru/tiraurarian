@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  limit_datetime: 2020-04-12 10:28:21
+  create_datetime: 2020-04-12 10:28:21
+
+two:
+  user_id: 1
+  limit_datetime: 2020-04-12 10:28:21
+  create_datetime: 2020-04-12 10:28:21

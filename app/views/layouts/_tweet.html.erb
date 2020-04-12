@@ -16,7 +16,7 @@
 
   <div class="tweet-right">
     <%= link_to tweet, class: "link-item-hukidasi" do %>
-      <% if !tweet.nsfw %>
+      <% if !tweet.nsfw || @show_nsfw %>
         <div class="hukidasi">
           <% if show_parent && tweet.parent_id? && tweet.parent_id != 0 %>
             <div class="content-desc">

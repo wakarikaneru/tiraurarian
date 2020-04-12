@@ -1,0 +1,18 @@
+
+<div class="title">チラウラリア プレミアム</div>
+<% unless @is_premium %>
+  <div class="tweet-container list">
+    <div class="hukidasi width-full">
+      <h1>プレミアム会員登録</h1>
+      <p><%= Constants::PREMIUM_PRICE %>va支払うことで、1日間プレミアム会員になることができます。</p>
+      <div class="m-4"><%= link_to premium_create_path, method: :post, class: "btn btn-primary w-100" do %>プレミアム登録<% end %></div>
+    </div>
+  </div>
+<% else %>
+  <div class="tweet-container list">
+    <div class="hukidasi width-full">
+      <h1>あなたはすでにプレミアム会員です。</h1>
+      <p>引き続き、チラウラリアをお楽しみください。</p>
+    </div>
+  </div>
+<% end %>

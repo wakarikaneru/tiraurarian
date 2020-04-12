@@ -2,9 +2,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :detect_locale
   before_action :access_log
+  before_action :detect_locale
   before_action :create_thumb
+  before_action :check_premium
 
   def detect_locale
     acceptLanguage = request.headers['Accept-Language']
@@ -77,6 +78,16 @@ class ApplicationController < ActionController::Base
       if Thumb.find_by(key: key).present?
       else
         CreateThumbJob.perform_later(key)
+      end
+    end
+
+    def check_premium
+      @is_premium = Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+    end
+
+    def authenticate_premium!
+      unless Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+        redirect_to premium_path, alert: "プレミアム会員専用ページです。"
       end
     end
 

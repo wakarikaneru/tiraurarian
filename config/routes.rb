@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   resources :notices
   resources :messages
 
+  get 'premium', to: 'premium#index'
+  post 'premium/create', to: 'premium#create'
+
   resources :card_boxes
   resources :cards
   resources :card_decks
@@ -72,6 +75,8 @@ Rails.application.routes.draw do
 
     resources :notices
     resources :messages
+
+    resources :premia
 
     resources :points
     resources :taxpayers

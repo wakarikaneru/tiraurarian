@@ -11,7 +11,7 @@ class MypageController < ApplicationController
 
       @tags = Tag.where(user_id: current_user.id).group(:tag_string).order("max(create_datetime) desc").limit(15)
 
-      User.find(current_user.id).update(last_check_res: my_tweets_res.first.id)
+      current_user.update(last_check_res: my_tweets_res.first.id)
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }

@@ -7,7 +7,8 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 5.2.4.3'
+
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.18', '< 0.6.0'
 # Use Puma as the app server
@@ -53,9 +54,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
-gem "google-cloud-vision"
-gem "google-cloud-translate"
-gem "recaptcha"
+gem "google-cloud-vision", "~> 0.38.0"
+gem "google-cloud-translate", "~> 2.3.0"
+gem "recaptcha", "~> 5.5.0"
 
 gem 'devise'
 gem 'devise-i18n'
@@ -66,7 +67,7 @@ gem 'whenever'
 gem 'paperclip'
 
 gem 'ransack'
-gem 'kaminari'
+gem "kaminari", ">= 1.2.1"
 gem 'render_async'
 
 gem 'twitter-text'
@@ -76,4 +77,4 @@ gem 'bootstrap', '~> 4.4.1'
 
 gem 'font-awesome-sass', '~> 5.12.0'
 
-gem "chartkick"
+gem "chartkick", ">= 3.4.0"

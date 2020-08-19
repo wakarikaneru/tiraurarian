@@ -199,7 +199,7 @@ GEM
       activerecord (>= 5.2.1)
     popper_js (1.16.0)
     public_suffix (4.0.3)
-    puma (3.12.4)
+    puma (3.12.6)
     rack (2.2.3)
     rack-attack (6.2.2)
       rack (>= 1.0, < 3)

@@ -66,7 +66,7 @@ GEM
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.1.1)
-    chartkick (3.3.1)
+    chartkick (3.4.0)
     chronic (0.10.2)
     climate_control (0.2.0)
     coffee-rails (4.2.2)
@@ -76,7 +76,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     crass (1.0.6)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
@@ -136,7 +136,7 @@ GEM
     grpc (1.28.0)
       google-protobuf (~> 3.11)
       googleapis-common-protos-types (~> 1.0)
-    i18n (1.8.2)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.0)
     jbuilder (2.10.0)
@@ -147,23 +147,23 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.3.0)
     jwt (2.2.1)
-    kaminari (1.2.0)
+    kaminari (1.2.1)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.0)
-      kaminari-activerecord (= 1.2.0)
-      kaminari-core (= 1.2.0)
-    kaminari-actionview (1.2.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
       actionview
-      kaminari-core (= 1.2.0)
-    kaminari-activerecord (1.2.0)
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
       activerecord
-      kaminari-core (= 1.2.0)
-    kaminari-core (1.2.0)
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     loadcss-rails (2.0.1)
-    loofah (2.4.0)
+    loofah (2.6.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -178,14 +178,14 @@ GEM
     mimemagic (0.3.4)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.0)
+    minitest (5.14.1)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     multi_json (1.14.1)
     multipart-post (2.1.1)
     mysql2 (0.5.3)
     nio4r (2.5.2)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
     os (1.1.0)
@@ -317,16 +317,16 @@ DEPENDENCIES
   bcrypt (= 3.1.12)
   bootstrap (~> 4.4.1)
   byebug
-  chartkick
+  chartkick (>= 3.4.0)
   coffee-rails (~> 4.2)
   devise
   devise-i18n
   font-awesome-sass (~> 5.12.0)
-  google-cloud-translate
-  google-cloud-vision
+  google-cloud-translate (~> 2.3.0)
+  google-cloud-vision (~> 0.38.0)
   jbuilder (~> 2.5)
   jquery-rails
-  kaminari
+  kaminari (>= 1.2.1)
   listen (~> 3.0.5)
   loadcss-rails
   mysql2 (>= 0.3.18, < 0.6.0)
@@ -335,7 +335,7 @@ DEPENDENCIES
   rack-attack
   rails (~> 5.2)
   ransack
-  recaptcha
+  recaptcha (~> 5.5.0)
   render_async
   sass-rails (~> 5.0)
   spring

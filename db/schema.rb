@@ -23,14 +23,6 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "admins", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "permission"
-    t.datetime "create_datetime"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "bads", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
@@ -282,6 +274,8 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "email", default: ""
+    t.string "login_id", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -294,8 +288,6 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
     t.bigint "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.text "description"
-    t.string "login_id", default: "", null: false
-    t.string "email", default: "", null: false
     t.datetime "last_tweet"
     t.integer "last_check_res", default: 0
     t.index ["login_id"], name: "index_users_on_login_id", unique: true

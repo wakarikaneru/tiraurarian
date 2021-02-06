@@ -21,7 +21,7 @@ class CardsController < ApplicationController
   # DELETE /cards/1
   # DELETE /cards/1.json
   def destroy
-    if @card.in?(@used_cards)
+    if !@card.in?(@used_cards)
       @card.destroy
       respond_to do |format|
         format.html { redirect_to cards_url, notice: 'カードを削除しました' }

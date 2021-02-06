@@ -44,7 +44,6 @@ class CardBattleController < ApplicationController
   def battle
     @failure = false
     @card_king = CardKing.where(rule: @rule).order(id: :desc).first
-    @card_king_name = @card_king.user.name
     @card_king_deck = @card_king.card_deck
     if current_user == @card_king.user
       respond_to do |format|
@@ -104,6 +103,7 @@ class CardBattleController < ApplicationController
 
       return
     end
+    @card_king_name = @card_king.user.name
 
     @king_cards = @card_king_deck.getCard(true)
 

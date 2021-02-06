@@ -1,0 +1,120 @@
+<% if @failure%>
+  <div class="title"><%= Constants::CARD_RULE_NAME[@rule] %>王者に認定</div>
+  <%= render partial: "/layouts/card_nav" %>
+  <div class="tweet-container list">
+    <div class="tweet">
+      <div class="hukidasi">
+        <h1>【勝者】<%= current_user.name %></h1>
+        <div class="content">
+          <%= render partial: "/layouts/card_list", locals: { cards: @card_deck.getCard, deletable: false, used_cards: Card.none } %>
+        </div>
+        <div class="content m-2">
+          <p>第<%= @card_king.getGeneration %>代王者になりました！<br />
+          賞金として<%= Constants::CARD_PRIZE %>va手に入れた</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+
+<div class="title"><%= Constants::CARD_RULE_NAME[@rule] %>王座戦</div>
+<%= render partial: "/layouts/card_nav" %>
+
+<h1 class="text-center"><%= Constants::CARD_RULE_NAME[@rule] %>王座戦</h1>
+<h2 class="text-center">選手入場</h2>
+
+<div class="tweet-container list">
+  <div class="tweet-reverse">
+    <div class="hukidasi reverse">
+      <h1>【王者】<%= @card_king.user.name %></h1>
+      <h3>総合戦闘力 <%= @card_king_deck.getTotalPower %></h3>
+      <div class="content">
+        <%= render partial: "/layouts/card_list", locals: { cards: @card_king_deck.getCard, deletable: false, used_cards: Card.none } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="tweet">
+    <div class="hukidasi">
+      <h1>【挑戦者】<%= current_user.name %></h1>
+      <h3>総合戦闘力 <%= @card_deck.getTotalPower %></h3>
+      <div class="content">
+        <%= render partial: "/layouts/card_list", locals: { cards: @card_deck.getCard, deletable: false, used_cards: Card.none } %>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="text-center">試合開始</h2>
+
+<h3 class="text-center mt-4">第1試合</h3>
+<%= render partial: "/layouts/card_battle", locals: { card_1: @cards[0], card_2: @king_cards[0], result: @results[0] } %>
+
+<h3 class="text-center mt-4">第2試合</h3>
+<%= render partial: "/layouts/card_battle", locals: { card_1: @cards[1], card_2: @king_cards[1], result: @results[1] } %>
+
+<h3 class="text-center mt-4">第3試合</h3>
+<%= render partial: "/layouts/card_battle", locals: { card_1: @cards[2], card_2: @king_cards[2], result: @results[2] } %>
+
+<h2 class="text-center mt-4">試合結果</h2>
+
+<% if @winner == 1 %>
+  <h1 class="text-center">【挑戦者】<%= current_user.name %>の勝利！</h1>
+<% end %>
+<% if @winner == 0 %>
+  <h1 class="text-center">引き分け！</h1>
+<% end %>
+<% if @winner == -1 %>
+  <h1 class="text-center">【王者】<%= @card_king.user.name %>の勝利！</h1>
+<% end %>
+
+<div class="tweet-container list">
+
+  <% if @winner == -1 or @winner == 0 %>
+    <div class="tweet-reverse">
+      <div class="hukidasi reverse">
+        <h1>【防衛】<%= @card_king.user.name %></h1>
+        <div class="content">
+          <%= render partial: "/layouts/card_list", locals: { cards: @card_king_deck.getCard, deletable: false, used_cards: Card.none } %>
+        </div>
+        <div class="content m-2">
+          <p>王者<%= @card_king.user.name %>が<%= @defense %>回目の防衛に成功<br />
+          賞金として<%= Constants::CARD_PRIZE %>va手に入れた</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @winner == 1 %>
+    <div class="tweet">
+      <div class="hukidasi">
+        <h1>【勝者】<%= current_user.name %></h1>
+        <div class="content">
+          <%= render partial: "/layouts/card_list", locals: { cards: @card_deck.getCard, deletable: false, used_cards: Card.none } %>
+        </div>
+        <div class="content m-2">
+          <p>第<%= @generation %>代王者になりました！<br />
+          賞金として<%= Constants::CARD_PRIZE %>va手に入れた</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @destroy == 1 %>
+    <div class="tweet">
+      <div class="hukidasi">
+        <h3>悲しいお知らせ</h3>
+        <div class="content">
+          <p>カード[<%= @cards[@card_destroy].displayName %>]は砕け散った…<br>
+          デッキは解体されました。</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+
+<%= render partial: "/layouts/card_nav" %>
+
+<% end %>

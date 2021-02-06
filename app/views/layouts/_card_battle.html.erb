@@ -1,0 +1,40 @@
+<div class="tweet-container card-battle">
+
+  <div class="hukidasi w-75">
+    <div class="d-flex justify-content-around">
+      <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none } %>
+      <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none } %>
+    </div>
+
+    <div class="tweet-container list">
+      <% result[:log].map do |log| %>
+        <% if log[0] == 1 %>
+          <div class="tweet">
+            <div class="hukidasi">
+              <div class="content">
+                <%= log[1] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% if log[0] == -1 %>
+          <div class="tweet-reverse">
+            <div class="hukidasi">
+              <div class="content">
+                <%= log[1] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if log[0] == 0 %>
+          <h3 class="text-center">
+            <%= log[1] %>
+          </h3>
+        <% end %>
+
+      <% end %>
+    </div>
+  </div>
+
+</div>

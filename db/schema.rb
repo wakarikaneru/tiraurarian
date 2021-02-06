@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_012821) do
+ActiveRecord::Schema.define(version: 2021_02_06_082634) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
     t.string "method"
     t.string "referer"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "admins", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "permission"
+    t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -41,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
 
   create_table "card_boxes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "size"
+    t.integer "size", default: 10
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,12 +58,22 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
   create_table "card_decks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "card_box_id"
     t.integer "rule"
-    t.integer "card_1"
-    t.integer "card_2"
-    t.integer "card_3"
+    t.integer "card_1_id"
+    t.integer "card_2_id"
+    t.integer "card_3_id"
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "card_kings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "rule"
+    t.integer "user_id"
+    t.integer "card_deck_id"
+    t.integer "defense", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "last_challenger_id"
   end
 
   create_table "cards", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

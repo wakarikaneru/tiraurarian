@@ -1,3 +1,28 @@
 // Place all the styles related to the cards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card-battle .uraria-card{
+  width: 120px;
+}
+.card-battle .uraria-deck{
+  width: 240px;
+}
+
+.card-battle .card-name{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card-battle .content-image{
+  position:  relative;
+}
+
+.card-battle .badge_float{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(10%, 0%);
+  font-size: 1rem;
+}

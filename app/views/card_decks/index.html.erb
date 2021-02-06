@@ -1,35 +1,10 @@
-<p id="notice"><%= notice %></p>
+<div class="title">カードデッキ</div>
+<%= render partial: "/layouts/card_nav" %>
 
-<h1>Card Decks</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Card 1</th>
-      <th>Card 2</th>
-      <th>Card 3</th>
-      <th>Create datetime</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @card_decks.map do |card_deck| %>
-      <tr>
-        <td><%= card_deck.user_id %></td>
-        <td><%= card_deck.card_1 %></td>
-        <td><%= card_deck.card_2 %></td>
-        <td><%= card_deck.card_3 %></td>
-        <td><%= card_deck.create_datetime %></td>
-        <td><%= link_to 'Show', card_deck %></td>
-        <td><%= link_to 'Edit', edit_card_deck_path(card_deck) %></td>
-        <td><%= link_to 'Destroy', card_deck, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Card Deck', new_card_deck_path %>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <p>ここでは、カードデッキを確認・作成することができます</p>
+    <p>不要なデッキは解体することができます</p>
+  </div>
+</div>
+<%= render partial: "/layouts/card_deck_list", locals: { decks: @card_decks, deletable: false } %>

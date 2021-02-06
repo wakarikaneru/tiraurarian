@@ -1,0 +1,42 @@
+<%= form_with model: card_deck, class: "form-horizontal", role: "form", local: true do |f| %>
+
+  <% if card_deck.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(card_deck.errors.count, "error") %>
+        prohibited this tweet from being saved:</h2>
+
+      <ul>
+        <% card_deck.errors.full_messages.map do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label text-sm-right">先鋒</label>
+    <div class="col">
+      <%= f.collection_select :card_1_id, @cards, :id, :displayNameWithAbility, {include_blank: "選択して下さい"}, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label text-sm-right">次鋒</label>
+    <div class="col">
+      <%= f.collection_select :card_2_id, @cards, :id, :displayNameWithAbility, {include_blank: "選択して下さい"}, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label text-sm-right">大将</label>
+    <div class="col">
+      <%= f.collection_select :card_3_id, @cards, :id, :displayNameWithAbility, {include_blank: "選択して下さい"}, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="form-group row">
+      <div class="offset-sm-2 col">
+        <div><%= f.submit "作成", class: "btn btn-accent" %></div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

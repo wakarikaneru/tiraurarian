@@ -49,6 +49,12 @@ Rails.application.routes.draw do
   get 'gambling/gambling', to: 'gambling#gambling'
   post 'gambling/gambling', to: 'gambling#gambling'
 
+  get 'card_battle', to: 'card_battle#index'
+  get 'card_battle/standby', to: 'card_battle#standby'
+  get 'card_battle/battle', to: 'card_battle#battle'
+  post 'card_battle/purchase', to: 'card_battle#purchase'
+  post 'card_battle/expand_box', to: 'card_battle#expand_box'
+
   get 'taxpayers', to: 'taxpayers#index'
 
   get 'info/index'
@@ -82,6 +88,7 @@ Rails.application.routes.draw do
     resources :taxpayers
     resources :taxpayer_hofs
 
+    resources :card_kings
     resources :card_boxes
     resources :cards
     resources :card_decks

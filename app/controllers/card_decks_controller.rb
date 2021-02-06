@@ -1,24 +1,19 @@
 class CardDecksController < ApplicationController
-  before_action :set_card_deck, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_card_deck, only: [:destroy]
+  before_action :set_card, only: [:new, :create]
 
   # GET /card_decks
   # GET /card_decks.json
   def index
-    @card_decks = CardDeck.all
-  end
-
-  # GET /card_decks/1
-  # GET /card_decks/1.json
-  def show
+    @card_box = CardBox.find_or_create_by(user_id: current_user.id)
+    @card_decks = CardDeck.where(card_box_id: @card_box);
   end
 
   # GET /card_decks/new
   def new
+    @card_box = CardBox.find_or_create_by(user_id: current_user.id)
     @card_deck = CardDeck.new
-  end
-
-  # GET /card_decks/1/edit
-  def edit
   end
 
   # POST /card_decks
@@ -26,27 +21,18 @@ class CardDecksController < ApplicationController
   def create
     @card_deck = CardDeck.new(card_deck_params)
 
-    respond_to do |format|
-      if @card_deck.save
-        format.html { redirect_to @card_deck, notice: 'Card deck was successfully created.' }
-        format.json { render :show, status: :created, location: @card_deck }
-      else
-        format.html { render :new }
-        format.json { render json: @card_deck.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    if user_signed_in? then
+      card_box = CardBox.find_or_create_by(user_id: current_user.id)
+      @card_deck.card_box_id = card_box.id
 
-  # PATCH/PUT /card_decks/1
-  # PATCH/PUT /card_decks/1.json
-  def update
-    respond_to do |format|
-      if @card_deck.update(card_deck_params)
-        format.html { redirect_to @card_deck, notice: 'Card deck was successfully updated.' }
-        format.json { render :show, status: :ok, location: @card_deck }
-      else
-        format.html { render :edit }
-        format.json { render json: @card_deck.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @card_deck.save
+          format.html { redirect_to card_decks_url, notice: "デッキを作成しました。" }
+          format.json { render :show, status: :created, location: @card_deck }
+        else
+          format.html { render :new }
+          format.json { render json: @card_deck.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -54,10 +40,17 @@ class CardDecksController < ApplicationController
   # DELETE /card_decks/1
   # DELETE /card_decks/1.json
   def destroy
-    @card_deck.destroy
-    respond_to do |format|
-      format.html { redirect_to card_decks_url, notice: 'Card deck was successfully destroyed.' }
-      format.json { head :no_content }
+    if !@card_deck.isKing?
+      @card_deck.destroy
+      respond_to do |format|
+        format.html { redirect_to card_decks_url, notice: 'デッキを解体しました。' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to cards_url, alert: "カードは使用中です" }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -67,8 +60,20 @@ class CardDecksController < ApplicationController
       @card_deck = CardDeck.find(params[:id])
     end
 
+    def set_card
+      card_box = CardBox.find_or_create_by(user_id: current_user.id)
+
+      my_deck = CardDeck.where(card_box_id: card_box);
+      used_card_1 = Card.where(id: my_deck.select(:card_1_id))
+      used_card_2 = Card.where(id: my_deck.select(:card_2_id))
+      used_card_3 = Card.where(id: my_deck.select(:card_3_id))
+      used_card = Card.none.or(used_card_1).or(used_card_2).or(used_card_3)
+
+      @cards = Card.where(card_box_id: card_box.id).where.not(id: used_card).order(:element).order(power: :desc)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def card_deck_params
-      params.require(:card_deck).permit(:user_id, :card_1, :card_2, :card_3, :create_datetime)
+      params.require(:card_deck).permit(:card_box_id, :card_1_id, :card_2_id, :card_3_id, :create_datetime)
     end
 end

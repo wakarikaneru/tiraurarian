@@ -1,5 +1,15 @@
-<h1>New Card Deck</h1>
+<div class="title">デッキ作成</div>
+<%= render partial: "/layouts/card_nav" %>
 
-<%= render 'form', card_deck: @card_deck %>
+<div id="tweet-form" class="tweet-form">
+  <div class="prompt">デッキ作成</div>
+  <div>
+    <p>カードを3枚選択して、デッキを作成します。</p>
+    <p>同じカードは複数回使えません。</p>
+    <p>他のデッキで使っているカードは使えません。</p>
+  </div>
+  <div class ="m-4">
+    <%= render partial: "/layouts/card_deck_form", locals: { card_deck: @card_deck, user_id: params[:user_id] } %>
+  </div>
 
-<%= link_to 'Back', card_decks_path %>
+</div>

@@ -1,0 +1,28 @@
+<div class="title">カードバトル</div>
+<%= render partial: "/layouts/card_nav" %>
+
+<div class="tweet-container">
+    <div class="hukidasi">
+      <h1 class="text-center"><%= Constants::CARD_RULE_NAME[@card_king.rule] %></h1>
+      <div class="content">
+        合計戦闘力が最大<%= Constants::CARD_RULE[@card_king.rule]%>までの<br />
+        デッキが挑戦できる王座です。
+      </div>
+      <div class="content">
+        <% if @card_king.user.present? %>
+          <div class="content-image">
+            <%= image_tag @card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+          </div>
+          <div class="content-content word-break">
+            <div>第<%= @card_king.getGeneration %>代王者</div>
+            <div><%= @card_king.user.name %></div>
+            <div></div>
+            <div>防衛回数<%= @card_king.defense %>回</div>
+          </div>
+        <% else %>
+        <% end %>
+      </div>
+    </div>
+</div>
+
+<%= render partial: "/layouts/card_deck_list_simple", locals: { decks: @card_decks, rule: @rule } %>

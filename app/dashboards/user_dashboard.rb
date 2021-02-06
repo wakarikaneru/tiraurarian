@@ -18,7 +18,10 @@ class UserDashboard < Administrate::BaseDashboard
     point: Field::HasOne,
     notices: Field::HasMany,
     messages: Field::HasMany,
+    card_box: Field::HasOne,
     id: Field::Number,
+    email: Field::String,
+    login_id: Field::String,
     encrypted_password: Field::String,
     reset_password_token: Field::String,
     reset_password_sent_at: Field::DateTime,
@@ -31,8 +34,6 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_file_size: Field::Number,
     avatar_updated_at: Field::DateTime,
     description: Field::Text,
-    login_id: Field::String,
-    email: Field::String,
     last_tweet: Field::DateTime,
     last_check_res: Field::Number,
   }.freeze
@@ -62,7 +63,10 @@ class UserDashboard < Administrate::BaseDashboard
   point
   notices
   messages
+  card_box
   id
+  email
+  login_id
   encrypted_password
   reset_password_token
   reset_password_sent_at
@@ -75,8 +79,6 @@ class UserDashboard < Administrate::BaseDashboard
   avatar_file_size
   avatar_updated_at
   description
-  login_id
-  email
   last_tweet
   last_check_res
   ].freeze
@@ -95,6 +97,9 @@ class UserDashboard < Administrate::BaseDashboard
   point
   notices
   messages
+  card_box
+  email
+  login_id
   encrypted_password
   reset_password_token
   reset_password_sent_at
@@ -105,8 +110,6 @@ class UserDashboard < Administrate::BaseDashboard
   avatar_file_size
   avatar_updated_at
   description
-  login_id
-  email
   last_tweet
   last_check_res
   ].freeze

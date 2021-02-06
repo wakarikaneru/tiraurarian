@@ -9,8 +9,7 @@
           <%= render partial: "/layouts/card_list", locals: { cards: @card_deck.getCard, deletable: false, used_cards: Card.none } %>
         </div>
         <div class="content m-2">
-          <p>第<%= @card_king.getGeneration %>代王者になりました！<br />
-          賞金として<%= Constants::CARD_PRIZE %>va手に入れた</p>
+          <p>第<%= @card_king.getGeneration %>代王者になりました！</p>
         </div>
       </div>
     </div>

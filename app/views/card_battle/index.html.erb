@@ -36,7 +36,7 @@
       </div>
       <% if user_signed_in? %>
         <div class="content-desc text-center">
-          <% if card_king.user.id == current_user.id %>
+          <% if !card_king.user.blank? or card_king.user.id == current_user.id %>
             <div class="btn btn-success rounded-pill m-1">あなたが王者です</div>
           <% else %>
             <%= link_to card_battle_standby_path(rule: card_king.rule), class: "btn btn-danger rounded-pill m-1" do %>挑戦する<% end %>

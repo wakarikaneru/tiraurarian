@@ -44,6 +44,7 @@ class CardBattleController < ApplicationController
   def battle
     @failure = false
     @card_king = CardKing.where(rule: @rule).order(id: :desc).first
+    @card_king_name = @card_king.user.name
     @card_king_deck = @card_king.card_deck
     if current_user == @card_king.user
       respond_to do |format|
@@ -74,6 +75,14 @@ class CardBattleController < ApplicationController
     unless @card_deck.isValid?(current_user, @rule.to_i)
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "デッキが異常です。" )}
+        format.json { head :no_content }
+      end
+      return
+    end
+
+    if @card_deck.isKing?
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "現在王座についているデッキでは挑戦できません。" )}
         format.json { head :no_content }
       end
       return

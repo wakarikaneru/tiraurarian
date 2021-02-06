@@ -25,7 +25,7 @@
 <div class="tweet-container list">
   <div class="tweet-reverse">
     <div class="hukidasi reverse">
-      <h1>【王者】<%= @card_king.user.name %></h1>
+      <h1>【王者】<%= @card_king_name %></h1>
       <h3>総合戦闘力 <%= @card_king_deck.getTotalPower %></h3>
       <div class="content">
         <%= render partial: "/layouts/card_list", locals: { cards: @card_king_deck.getCard, deletable: false, used_cards: Card.none } %>
@@ -65,7 +65,7 @@
   <h1 class="text-center">引き分け！</h1>
 <% end %>
 <% if @winner == -1 %>
-  <h1 class="text-center">【王者】<%= @card_king.user.name %>の勝利！</h1>
+  <h1 class="text-center">【王者】<%= @card_king_name %>の勝利！</h1>
 <% end %>
 
 <div class="tweet-container list">
@@ -73,12 +73,12 @@
   <% if @winner == -1 or @winner == 0 %>
     <div class="tweet-reverse">
       <div class="hukidasi reverse">
-        <h1>【防衛】<%= @card_king.user.name %></h1>
+        <h1>【防衛】<%= @card_king_name %></h1>
         <div class="content">
           <%= render partial: "/layouts/card_list", locals: { cards: @card_king_deck.getCard, deletable: false, used_cards: Card.none } %>
         </div>
         <div class="content m-2">
-          <p>王者<%= @card_king.user.name %>が<%= @defense %>回目の防衛に成功<br />
+          <p>王者<%= @card_king_name %>が<%= @defense %>回目の防衛に成功<br />
           賞金として<%= Constants::CARD_PRIZE %>va手に入れた</p>
         </div>
       </div>

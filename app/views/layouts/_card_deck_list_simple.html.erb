@@ -15,7 +15,7 @@
         </ul>
       </div>
       <div class="content-desc text-right">
-        <% if deck.isValid?(current_user, rule.to_i) %>
+        <% if deck.isValid?(current_user, rule.to_i) and !deck.isKing? %>
           <%= link_to card_battle_battle_path(rule: @rule, deck: deck), class: "btn btn-danger rounded-pill m-1" do %>挑戦する<% end %>
         <% else %>
           <div class="btn btn-danger disabled rounded-pill m-1">使用できません</div>

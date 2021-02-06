@@ -1,0 +1,27 @@
+<div class="tweet-container card-battle">
+
+  <% if decks.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% decks.map do |deck| %>
+    <div class="hukidasi uraria-deck">
+      <h3>総合戦闘力 <%= deck.getTotalPower %></h3>
+      <div class="content">
+        <ul class="list-group w-100">
+          <li class="list-group-item"><div class="card-name"><%= deck.card_1.displayNameWithAbility %></div></li>
+          <li class="list-group-item"><div class="card-name"><%= deck.card_2.displayNameWithAbility %></div></li>
+          <li class="list-group-item"><div class="card-name"><%= deck.card_3.displayNameWithAbility %></div></li>
+        </ul>
+      </div>
+      <div class="content-desc text-right">
+        <% if deck.isValid?(current_user, rule.to_i) %>
+          <%= link_to card_battle_battle_path(rule: @rule, deck: deck), class: "btn btn-danger rounded-pill m-1" do %>挑戦する<% end %>
+        <% else %>
+          <div class="btn btn-danger disabled rounded-pill m-1">使用できません</div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

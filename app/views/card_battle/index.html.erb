@@ -1,0 +1,116 @@
+<div class="title">チラウラリア公営カードゲーム施設「カードバトル」</div>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>遊び方</h1>
+    <p>ここでは、手持ちのチラウラリアカード（通称：ウラリアカード）を使ってゲームをお楽しみいただけます。</p>
+    <p>ウラリアカードをお持ちでない方は、VARTHを使ってカードパックを購入することができます。</p>
+    <br />
+    <p>カードゲームは、適度に楽しむ遊びです。</p>
+  </div>
+</div>
+
+<div class="tweet-container">
+  <% @card_kings.map do |card_king| %>
+    <div class="hukidasi">
+      <h1><%= Constants::CARD_RULE_NAME[card_king.rule] %></h1>
+      <div class="content">
+        合計戦闘力が最大<%= Constants::CARD_RULE[card_king.rule]%>までの<br />
+        デッキが挑戦できる王座です。
+      </div>
+      <div class="content d-flex justify-content-center">
+        <% if card_king.user.present? %>
+          <div class="content-image">
+            <%= image_tag card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+          </div>
+          <div class="content-content word-break">
+            <div>第<%= card_king.getGeneration %>代王者</div>
+            <div><%= card_king.user.name %></div>
+            <div></div>
+            <div>防衛回数<%= card_king.defense %>回</div>
+          </div>
+        <% else %>
+          <div class="text-center">
+            空位
+          </div>
+        <% end %>
+      </div>
+      <% if user_signed_in? %>
+        <div class="content-desc text-center">
+          <% if card_king.id == current_user.id %>
+            <div class="btn btn-success rounded-pill m-1">あなたが王者です</div>
+          <% else %>
+            <%= link_to card_battle_standby_path(rule: card_king.rule), class: "btn btn-danger rounded-pill m-1" do %>挑戦する<% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="tweet-container">
+  <% if @user.present? %>
+    <div class="hukidasi">
+      <h1>ユーザー情報</h1>
+      <h3>所持VARTH <%= current_user.point.point %>va</h3>
+      <h3>カードBOX</h3>
+      <ul>
+        <li>カード所持数 <%= @count %>/<%= @box.size %>枚</li>
+        <li>総バトル数 - 回</li>
+        <li>勝ち - 回</li>
+        <li>負け - 回</li>
+        <li>引き分け - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[0] %> 戴冠回数 - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[0] %> 防衛回数 - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[1] %> 戴冠回数 - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[1] %> 防衛回数 - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[2] %> 戴冠回数 - 回</li>
+        <li><%= Constants::CARD_RULE_NAME[2] %> 防衛回数 - 回</li>
+      </ul>
+    </div>
+    <div class="hukidasi">
+      <h1>カード情報</h1>
+      <div class="m-4">
+        <h3>カード購入</h3>
+        <p>ウラリアカードは<%= Constants::CARD_PACK %>枚入で<%= Constants::CARD_PRICE %>vaです<br />
+        現在<%= @max_buy %>パック分の空きがあります</p>
+        <%= form_with url: card_battle_purchase_path, method: :post, local: true do %>
+          <div class="input-group">
+            <%= text_field_tag :point, "", class: "form-control", placeholder: "パック数", size: 10 %>
+            <div class="input-group-append">
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-info" do %>
+                <span>購入する</span>
+                <i class="fa fa-spinner fa-pulse"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="m-4">
+        <h3>カードBOX拡張</h3>
+        <p>カードBOX拡張は1枚分で<%= Constants::CARD_BOX_EXPAND_PRICE %>vaです</p>
+        <%= form_with url: card_battle_expand_box_path, method: :post, local: true do %>
+          <div class="input-group">
+            <%= text_field_tag :point, "", class: "form-control", placeholder: "拡張数", size: 10 %>
+            <div class="input-group-append">
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                <span>拡張する</span>
+                <i class="fa fa-spinner fa-pulse"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="m-4"><%= link_to card_decks_path, class: "btn btn-primary w-100" do %>デッキ作成<% end %></div>
+      <div class="m-4"><%= link_to cards_path, class: "btn btn-primary w-100" do %>カードBOXを見る<% end %></div>
+    </div>
+  <% end %>
+</div>
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>遊び方</h1>
+    <p>3枚のカードを使ってデッキを作り、相手のデッキと戦わせるゲームです。</p>
+    <p>カードを1枚ずつ戦わせて、戦闘力の高いほうが勝ちです。3枚戦わせて、勝った回数の多いほうが勝者となります。</p>
+    <p>ただし、デッキの合計戦闘力には上限があります。うまく考えて配分しましょう。</p>
+    <p>その他、カードの属性などの要素により、戦闘力が変動します。研究してみましょう！</p>
+  </div>
+</div>

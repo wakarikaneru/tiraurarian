@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_012821) do
+ActiveRecord::Schema.define(version: 2021_02_06_082634) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
 
   create_table "card_boxes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "size"
+    t.integer "size", default: 10
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -58,12 +58,22 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
   create_table "card_decks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "card_box_id"
     t.integer "rule"
-    t.integer "card_1"
-    t.integer "card_2"
-    t.integer "card_3"
+    t.integer "card_1_id"
+    t.integer "card_2_id"
+    t.integer "card_3_id"
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "card_kings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "rule"
+    t.integer "user_id"
+    t.integer "card_deck_id"
+    t.integer "defense", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "last_challenger_id"
   end
 
   create_table "cards", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -282,6 +292,8 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "email", default: ""
+    t.string "login_id", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -294,8 +306,6 @@ ActiveRecord::Schema.define(version: 2020_04_12_012821) do
     t.bigint "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.text "description"
-    t.string "login_id", default: "", null: false
-    t.string "email", default: "", null: false
     t.datetime "last_tweet"
     t.integer "last_check_res", default: 0
     t.index ["login_id"], name: "index_users_on_login_id", unique: true

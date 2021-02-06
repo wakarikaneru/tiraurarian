@@ -87,7 +87,11 @@ class Tweet < ApplicationRecord
     end
 
     def set_context
-      self.context = Tweet.find(self.parent_id).context + 1
+      if Tweet.find_by(id: self.parent_id).present?
+        self.context = Tweet.find(self.parent_id).context + 1
+      else
+        self.context = 0
+      end
     end
 
     def set_sensitivity

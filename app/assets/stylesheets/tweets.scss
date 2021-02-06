@@ -118,8 +118,8 @@
   align-items: center;
   justify-content: center;
 
-    color: var(--color-5);
-    background-color: var(--color-5r);
+  color: var(--color-5);
+  background-color: var(--color-5r);
 }
 
 .tweet-reverse .hukidasi{
@@ -276,15 +276,15 @@
 }
 
 .good-list{
-    margin: 8px;
-    padding: 0px;
+  margin: 8px;
+  padding: 0px;
 
-    display: flex;
+  display: flex;
 
-    flex-flow: row wrap;
-    align-items: flex-end;
-    align-content: flex-start;
-    justify-content: center;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  align-content: flex-start;
+  justify-content: center;
 }
 
 .good-user-img{

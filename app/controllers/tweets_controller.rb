@@ -20,11 +20,12 @@ class TweetsController < ApplicationController
             format.html { redirect_to new_user_session_path, alert: 'ログインしてください。' }
             format.json { head :no_content }
           end
-        end
-        unless @is_premium
-          respond_to do |format|
-            format.html { redirect_to premium_path, alert: 'プレミアム会員登録してください。' }
-            format.json { head :no_content }
+        else
+          unless @is_premium
+            respond_to do |format|
+              format.html { redirect_to premium_path, alert: 'プレミアム会員登録してください。' }
+              format.json { head :no_content }
+            end
           end
         end
 

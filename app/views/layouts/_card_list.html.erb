@@ -1,0 +1,11 @@
+<div class="tweet-container card-battle">
+
+  <% if cards.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <% cards.map do |card| %>
+    <%= render partial: "/layouts/card", locals: { card: card, deletable: deletable, used_cards: Card.none } %>
+  <% end %>
+
+</div>

@@ -21,15 +21,22 @@ class CardsController < ApplicationController
   # DELETE /cards/1
   # DELETE /cards/1.json
   def destroy
-    if !@card.in?(@used_cards)
-      @card.destroy
-      respond_to do |format|
-        format.html { redirect_to cards_url, notice: 'カードを削除しました' }
-        format.json { head :no_content }
+    if @card.card_box.user == current_user
+      if !@card.in?(@used_cards)
+        @card.destroy
+        respond_to do |format|
+          format.html { redirect_to cards_url, notice: 'カードを削除しました。' }
+          format.json { head :no_content }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to cards_url, alert: "カードは使用中です。" }
+          format.json { head :no_content }
+        end
       end
     else
       respond_to do |format|
-        format.html { redirect_to cards_url, alert: "カードは使用中です" }
+        format.html { redirect_to cards_url, alert: "自分のカードではありません。" }
         format.json { head :no_content }
       end
     end

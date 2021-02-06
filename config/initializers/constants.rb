@@ -17,7 +17,7 @@ module Constants
   CARD_PACK = 5
   CARD_BOX_EXPAND_PRICE = 1000
 
-  CARD_PRIZE = 100
+  CARD_PRIZE = 1000
 
   CARD_RULE = [300, 200, 100]
   CARD_RULE_NAME = ["スーパーヘビー級", "ヘビー級", "ジュニア級"]

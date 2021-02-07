@@ -55,6 +55,9 @@ Rails.application.routes.draw do
   post 'card_battle/purchase', to: 'card_battle#purchase'
   post 'card_battle/expand_box', to: 'card_battle#expand_box'
 
+  get 'card/dumpsite', to: 'cards#dumpsite'
+  post 'card/dump', to: 'cards#dump'
+
   get 'taxpayers', to: 'taxpayers#index'
 
   get 'info/index'

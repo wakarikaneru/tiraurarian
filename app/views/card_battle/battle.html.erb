@@ -47,6 +47,10 @@
 
 <h2 class="text-center">試合開始</h2>
 
+<% if @environment.present? %>
+  <h5 class="text-center mt-4"><%= @environment %></h5>
+<% end %>
+
 <h3 class="text-center mt-4">第1試合</h3>
 <%= render partial: "/layouts/card_battle", locals: { card_1: @cards[0], card_2: @king_cards[0], result: @results[0] } %>
 

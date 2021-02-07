@@ -27,6 +27,7 @@ class Card < ApplicationRecord
 
     return "[" + e + "] " + n
   end
+
   # 表示名
   def displayNameWithAbility
     e = Constants::CARD_ELEMENTS[element]
@@ -76,6 +77,49 @@ class Card < ApplicationRecord
     return card
   end
 
+  def self.generateRare(id = 0)
+    card_box = CardBox.find_or_create_by(user_id: id)
+
+    card = Card.new
+    card.card_box_id = card_box.id
+    card.model_id = User.offset(rand(User.count)).first.id
+    card.element = rand(0..9)
+    card.power = (rand() * 101).floor
+    card.create_datetime = Time.current
+    card.save!
+
+    return card
+  end
+
+  def self.getEnvironmentText
+    # 環境をテキストで表示する
+    element_moku_f = Control.find_or_create_by(key: "card_env_moku").value.to_f
+    element_ka_f = Control.find_or_create_by(key: "card_env_ka").value.to_f
+    element_do_f = Control.find_or_create_by(key: "card_env_do").value.to_f
+    element_kin_f = Control.find_or_create_by(key: "card_env_kin").value.to_f
+    element_sui_f = Control.find_or_create_by(key: "card_env_sui").value.to_f
+
+    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0]
+    max_element = environment.index(environment.max)
+    max_element_name = Constants::CARD_ELEMENTS[max_element]
+
+    if environment.max < 0
+      return "気は静かだ…"
+    end
+
+    if 10 < environment.max
+      return "≪" + max_element_name + "≫の気が極限まで高まっている…！！！"
+    elsif 5 < environment.max
+      return "≪" + max_element_name + "≫の気が最高潮まで高まっている…！！"
+    elsif 2.5 < environment.max
+      return "≪" + max_element_name + "≫の気がかなり高まっている…！"
+    elsif 1 < environment.max
+      return "≪" + max_element_name + "≫の気が高まっている…"
+    end
+
+    return ""
+  end
+
   def self.battle(card_1 = Card.none, card_2 = Card.none)
     ret = {"result": 0, "log": []}
 
@@ -92,6 +136,7 @@ class Card < ApplicationRecord
     ret[:log].push([1, card_1.displayName + "の攻撃力は" + card_1_power.to_s + "だ！"])
     ret[:log].push([-1, card_2.displayName + "の攻撃力は" + card_2_power.to_s + "だ！"])
 
+    # 環境の影響
     element_moku_f = Control.find_or_create_by(key: "card_env_moku").value.to_f
     element_ka_f = Control.find_or_create_by(key: "card_env_ka").value.to_f
     element_do_f = Control.find_or_create_by(key: "card_env_do").value.to_f
@@ -111,12 +156,35 @@ class Card < ApplicationRecord
     #ret[:log].push([1, card_1.displayName + "の環境攻撃力は" + card_1_environment_power.to_s + "だ！"])
     #ret[:log].push([-1, card_2.displayName + "の環境攻撃力は" + card_2_environment_power.to_s + "だ！"])
 
+    # 調子
     card_1_random_power = (rand() - rand()) * 10
+    if 5 < card_1_random_power
+      ret[:log].push([1, card_1.displayName + "は絶好調だ！"])
+    elsif 2.5 < card_1_random_power
+      ret[:log].push([1, card_1.displayName + "は調子が良さそうだ！"])
+    end
+    if card_1_random_power < -5
+      ret[:log].push([1, card_1.displayName + "は絶不調のようだ…"])
+    elsif card_1_random_power < -2.5
+      ret[:log].push([1, card_1.displayName + "は調子が悪そうだ…"])
+    end
+
     card_2_random_power = (rand() - rand()) * 10
+    if 5 < card_2_random_power
+      ret[:log].push([-1, card_2.displayName + "は絶好調だ！"])
+    elsif 2.5 < card_2_random_power
+      ret[:log].push([-1, card_2.displayName + "は調子が良さそうだ！"])
+    end
+    if card_2_random_power < -5
+      ret[:log].push([-1, card_2.displayName + "は絶不調のようだ…"])
+    elsif card_2_random_power < -2.5
+      ret[:log].push([-1, card_2.displayName + "は調子が悪そうだ…"])
+    end
 
     #ret[:log].push([1, card_1.displayName + "のランダム攻撃力は" + card_1_random_power.to_s + "になった！"])
     #ret[:log].push([-1, card_2.displayName + "のランダム攻撃力は" + card_2_random_power.to_s + "になった！"])
 
+    # 属性の相性
     card_1_effect_power = 0
     card_1_effect = Constants::CARD_EFFFECT[card_1.element][card_2.element]
     if card_1_effect == 1
@@ -143,8 +211,36 @@ class Card < ApplicationRecord
     end
     #ret[:log].push([-1, card_2.displayName + "の属性攻撃力は" + card_2_effect_power.to_s + "だ！"])
 
-    card_1_total_power = [(card_1_power + card_1_environment_power + card_1_random_power + card_1_effect_power).floor, 0].max
-    card_2_total_power = [(card_2_power + card_2_environment_power + card_2_random_power + card_2_effect_power).floor, 0].max
+    # 召喚
+    card_1_summon_power = 0
+    if card_1.element != 10
+      if rand() < 0.1
+        ret[:log].push([1, card_1.displayName + "は精霊を召喚しようとしている…"])
+        if rand() < 0.1
+          ret[:log].push([1, card_1.displayName + "は精霊≪" + Constants::CARD_ELEMENTALS[card_1.element] + "≫を召喚した！！"])
+          card_1_summon_power = 100
+        else
+          ret[:log].push([1, card_1.displayName + "は精霊の召喚に失敗した…"])
+        end
+      end
+    end
+
+    card_2_summon_power = 0
+    if card_2.element != 10
+      if rand() < 0.1
+        ret[:log].push([-1, card_2.displayName + "は精霊を召喚しようとしている…"])
+        if rand() < 0.1
+          ret[:log].push([-1, card_2.displayName + "は精霊≪" + Constants::CARD_ELEMENTALS[card_2.element] + "≫を召喚した！！"])
+          card_2_summon_power = 100
+        else
+          ret[:log].push([-1, card_2.displayName + "は精霊の召喚に失敗した…"])
+        end
+      end
+    end
+
+    # 合計
+    card_1_total_power = [(card_1_power + card_1_environment_power + card_1_random_power + card_1_effect_power + card_1_summon_power).floor, 0].max
+    card_2_total_power = [(card_2_power + card_2_environment_power + card_2_random_power + card_2_effect_power + card_2_summon_power).floor, 0].max
 
     ret[:log].push([1, card_1.displayName + "の攻撃力は" + card_1_total_power.to_s + "になった！"])
     ret[:log].push([-1, card_2.displayName + "の攻撃力は" + card_2_total_power.to_s + "になった！"])

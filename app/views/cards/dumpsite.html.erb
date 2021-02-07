@@ -1,0 +1,16 @@
+<div class="title">カードBOX</div>
+<%= render partial: "/layouts/card_nav" %>
+
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <p>ここでは、手持ちの不要なカードをまとめて捨てることができます</p>
+  </div>
+</div>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <li>カード所持数 <%= @count %>/<%= @box.size %></li>
+  </div>
+</div>
+<%= render partial: "/layouts/card_dumpsite_list", locals: { cards: @cards, deletable: true, used_cards: @used_cards  } %>
+
+<%= render partial: "/layouts/card_nav" %>

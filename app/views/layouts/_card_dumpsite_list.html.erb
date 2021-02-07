@@ -1,0 +1,47 @@
+<div class="tweet-container-list card-battle">
+
+  <% if cards.blank? %>
+    <div class="nothing">データがありません</div>
+  <% end %>
+
+  <%= form_tag("/card/dump", method: "post", class: "form-horizontal", role: "form",) do %>
+    <% cards.map do |card| %>
+      <div class="hukidasi p-1 width-full">
+        <div class="content">
+          <div class="content-image">
+            <% user = User.find_by(id: card.model_id) %>
+            <% if user.present? %>
+              <%= image_tag user.avatar.url(:thumb), class: "user-img image_x24" %>
+            <% else %>
+              <%= image_tag "/images/broken-image.png", class: "user-img image_x24" %>
+            <% end %>
+          </div>
+          <div class="content-content">
+            <%= card.displayNameWithAbility %>
+          </div>
+          <div class="content-other">
+            <% if card.in?(used_cards) %>
+              <div class="form-group form-check">
+                使用中です
+              </div>
+            <% else %>
+              <div class="form-group form-check">
+                <%= check_box_tag "cards[]", card.id, false, {class: "form-check-input"} %>
+                <%= label_tag card, '削除', {class: "form-check-label"} %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="actions m-4">
+      <div class="form-group row">
+        <div class="col text-right">
+          <div><%= submit_tag "選択したカードを削除", class: "btn btn-danger" %></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

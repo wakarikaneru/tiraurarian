@@ -35,7 +35,7 @@ class CardDecksController < ApplicationController
       card_box = CardBox.find_or_create_by(user_id: current_user.id)
       @card_deck.card_box_id = card_box.id
 
-      if !@card_deck.getCard.in?(@used_cards)
+      if !@card_deck.card_1.in?(@used_cards) and !@card_deck.card_2.in?(@used_cards) and !@card_deck.card_3.in?(@used_cards)
         respond_to do |format|
           if @card_deck.save
             format.html { redirect_to card_decks_url, notice: "デッキを作成しました。" }

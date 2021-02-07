@@ -45,7 +45,7 @@ class CardBattleController < ApplicationController
     @failure = false
     @card_king = CardKing.where(rule: @rule).order(id: :desc).first
     @card_king_deck = @card_king.card_deck
-    if current_user == @card_king.user and false
+    if current_user == @card_king.user
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "自分とは闘えません。" )}
         format.json { head :no_content }
@@ -53,7 +53,7 @@ class CardBattleController < ApplicationController
       return
     end
 
-    if current_user == @card_king.last_challenger and false
+    if current_user == @card_king.last_challenger
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "連続挑戦はできません。" )}
         format.json { head :no_content }

@@ -34,6 +34,12 @@
           </div>
         <% end %>
       </div>
+
+      <% if card_king.last_challenger.present? %>
+        <div class="content-desc text-center">
+          最終挑戦者: <%= card_king.last_challenger.name %>
+        </div>
+      <% end %>
       <% if user_signed_in? %>
         <div class="content-desc text-center">
           <% if card_king.user.blank? %>
@@ -113,6 +119,11 @@
     <p>3枚のカードを使ってデッキを作り、相手のデッキと戦わせるゲームです。</p>
     <p>カードを1枚ずつ戦わせて、戦闘力の高いほうが勝ちです。3枚戦わせて、勝った回数の多いほうが勝者となります。</p>
     <p>ただし、デッキの合計戦闘力には上限があります。うまく考えて配分しましょう。</p>
-    <p>その他、カードの属性などの要素により、戦闘力が変動します。研究してみましょう！</p>
+    <p>その他、カードの属性などの要素により、戦闘力が変動します。</p>
+    <p>最強を目指せ！</p>
+  </div>
+  <div class="hukidasi">
+    <h1>注意</h1>
+    <p>王者に挑戦して負けると、挑んだデッキのカードが壊れる可能性があります。</p>
   </div>
 </div>

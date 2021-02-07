@@ -19,11 +19,59 @@ class CardDecksController < ApplicationController
   def creater
     @card_box = CardBox.find_or_create_by(user_id: current_user.id)
     @card_deck = CardDeck.new
-    @card_list = Array.new(11).map{Array.new()}
+    @card_lists = Array.new(11).map{Array.new()}
 
     @cards.each{|card|
-      @card_list[card.element].push(card)
+      @card_lists[card.element].push(card)
     }
+
+    @card_1 = Card.find_by(id: params[:card_1])
+    @card_2 = Card.find_by(id: params[:card_2])
+    @card_3 = Card.find_by(id: params[:card_3])
+
+    @card_1_w = Card.where(id: params[:card_1])
+    @card_2_w = Card.where(id: params[:card_2])
+    @card_3_w = Card.where(id: params[:card_3])
+
+    @disabled_cards = @used_cards.or(@card_1_w).or(@card_2_w).or(@card_3_w)
+
+    @card_power_total = 0
+    if @card_1.present?
+      @card_power_total += @card_1.power
+    end
+    if @card_2.present?
+      @card_power_total += @card_2.power
+    end
+    if @card_3.present?
+      @card_power_total += @card_3.power
+    end
+
+    if params[:complete]
+      @card_deck.card_1 = @card_1
+      @card_deck.card_2 = @card_2
+      @card_deck.card_3 = @card_3
+
+      card_box = CardBox.find_or_create_by(user_id: current_user.id)
+      @card_deck.card_box_id = card_box.id
+      @card_deck.create_datetime = Time.current
+
+      if !@card_deck.card_1.in?(@used_cards) and !@card_deck.card_2.in?(@used_cards) and !@card_deck.card_3.in?(@used_cards)
+        respond_to do |format|
+          if @card_deck.save
+            format.html { redirect_to card_decks_url, notice: "デッキを作成しました。" }
+            format.json { render :show, status: :created, location: @card_deck }
+          else
+            format.html { redirect_back(fallback_location: root_path, alert: "デッキを作成できませんでした。" )}
+            format.json { head :no_content }
+          end
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, alert: "デッキを作成できませんでした。" )}
+          format.json { head :no_content }
+        end
+      end
+    end
   end
 
   # POST /card_decks

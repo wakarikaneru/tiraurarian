@@ -5,6 +5,7 @@
 .card-battle .uraria-card{
   width: 120px;
 }
+
 .card-battle .uraria-deck{
   width: 240px;
 }
@@ -19,8 +20,9 @@
   position:  relative;
 }
 
-.card-battle .badge_float{
+.card-battle .uraria-card .badge_float{
   position: absolute;
+  top: auto;
   bottom: 0;
   right: 0;
   transform: translate(10%, 0%);

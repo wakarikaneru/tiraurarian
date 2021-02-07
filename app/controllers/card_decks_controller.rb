@@ -1,7 +1,7 @@
 class CardDecksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_card_deck, only: [:destroy]
-  before_action :set_card, only: [:new, :create]
+  before_action :set_card, only: [:new, :create, :creater]
 
   # GET /card_decks
   # GET /card_decks.json
@@ -16,6 +16,16 @@ class CardDecksController < ApplicationController
     @card_deck = CardDeck.new
   end
 
+  def creater
+    @card_box = CardBox.find_or_create_by(user_id: current_user.id)
+    @card_deck = CardDeck.new
+    @card_list = Array.new(11).map{Array.new()}
+
+    @cards.each{|card|
+      @card_list[card.element].push(card)
+    }
+  end
+
   # POST /card_decks
   # POST /card_decks.json
   def create
@@ -25,13 +35,20 @@ class CardDecksController < ApplicationController
       card_box = CardBox.find_or_create_by(user_id: current_user.id)
       @card_deck.card_box_id = card_box.id
 
-      respond_to do |format|
-        if @card_deck.save
-          format.html { redirect_to card_decks_url, notice: "デッキを作成しました。" }
-          format.json { render :show, status: :created, location: @card_deck }
-        else
-          format.html { render :new }
-          format.json { render json: @card_deck.errors, status: :unprocessable_entity }
+      if !@card_deck.getCard.in?(@used_cards)
+        respond_to do |format|
+          if @card_deck.save
+            format.html { redirect_to card_decks_url, notice: "デッキを作成しました。" }
+            format.json { render :show, status: :created, location: @card_deck }
+          else
+            format.html { redirect_back(fallback_location: root_path, alert: "デッキを作成できませんでした。" )}
+            format.json { head :no_content }
+          end
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, alert: "デッキを作成できませんでした。" )}
+          format.json { head :no_content }
         end
       end
     end
@@ -74,9 +91,9 @@ class CardDecksController < ApplicationController
       used_card_1 = Card.where(id: my_deck.select(:card_1_id))
       used_card_2 = Card.where(id: my_deck.select(:card_2_id))
       used_card_3 = Card.where(id: my_deck.select(:card_3_id))
-      used_card = Card.none.or(used_card_1).or(used_card_2).or(used_card_3)
 
-      @cards = Card.where(card_box_id: card_box.id).where.not(id: used_card).order(:element).order(power: :desc)
+      @used_cards = Card.none.or(used_card_1).or(used_card_2).or(used_card_3)
+      @cards = Card.where(card_box_id: card_box.id).where.not(id: @used_cards).order(:element).order(power: :desc)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

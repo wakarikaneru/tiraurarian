@@ -21,11 +21,11 @@
           </div>
           <div class="content-other">
             <% if card.in?(used_cards) %>
-              <div class="form-group form-check">
+              <div class="form-group form-check m-1">
                 使用中です
               </div>
             <% else %>
-              <div class="form-group form-check">
+              <div class="form-group form-check m-1">
                 <%= check_box_tag "cards[]", card.id, false, {class: "form-check-input"} %>
                 <%= label_tag card, '削除', {class: "form-check-label"} %>
               </div>

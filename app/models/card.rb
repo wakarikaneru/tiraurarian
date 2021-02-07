@@ -42,6 +42,16 @@ class Card < ApplicationRecord
     return "[" + e + "][" + p + "] " + n
   end
 
+  # ゾンビ判定
+  def isZombie?
+    m = User.find_by(id: model_id)
+    if m.present?
+      return false
+    else
+      return true
+    end
+  end
+
   # カードを購入
   def self.purchase?(user = User.none, num = 0)
     unless 0 < num
@@ -213,7 +223,7 @@ class Card < ApplicationRecord
 
     # 召喚
     card_1_summon_power = 0
-    if card_1.element != 10
+    if card_1.element != 10 and !card_1.isZombie?
       if rand() < 0.1
         ret[:log].push([1, card_1.displayName + "は精霊を召喚しようとしている…"])
         if rand() < 0.1
@@ -226,7 +236,7 @@ class Card < ApplicationRecord
     end
 
     card_2_summon_power = 0
-    if card_2.element != 10
+    if card_2.element != 10 and !card_2.isZombie?
       if rand() < 0.1
         ret[:log].push([-1, card_2.displayName + "は精霊を召喚しようとしている…"])
         if rand() < 0.1

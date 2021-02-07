@@ -1,28 +1,37 @@
 <div class="hukidasi uraria-card">
-  <div class="card-name"><%= card.displayNameWithElement %></div>
-  <div class="content">
-    <div class="content-image">
-      <% user = User.find_by(id: card.model_id) %>
-      <% if user.present? %>
-        <%= image_tag user.avatar.url(:thumb), class: "user-img image_x64" %>
-        <div class="badge badge-pill badge-primary badge_float"><%= card.power %></div>
-      <% else %>
-        <%= image_tag "/images/broken-image.png", class: "user-img image_x64" %>
-        <div class="badge badge-pill badge-primary badge_float"><%= card.power %></div>
-      <% end %>
-    </div>
-  </div>
-  <% if deletable %>
-    <div class="content-desc text-center">
-      <% if card.in?(used_cards) %>
-        <div class="btn btn-success rounded-pill m-1">
-          <i class="fas fa-check"></i>
-        </div>
-      <% else %>
-        <%= link_to card, method: :delete, class: "btn btn-danger rounded-pill m-1", data: { confirm: "本当に削除しますか？" } do %>
-          <i class="fas fa-trash"></i>
+  <% if card.present? %>
+    <div class="card-name"><%= card.displayNameWithElement %></div>
+    <div class="content">
+      <div class="content-image">
+        <% user = User.find_by(id: card.model_id) %>
+        <% if user.present? %>
+          <%= image_tag user.avatar.url(:thumb), class: "user-img image_x64" %>
+          <div class="badge badge-pill badge-primary badge_float"><%= card.power %></div>
+        <% else %>
+          <%= image_tag "/images/broken-image.png", class: "user-img image_x64" %>
+          <div class="badge badge-pill badge-primary badge_float"><%= card.power %></div>
         <% end %>
-      <% end %>
+      </div>
+    </div>
+    <% if deletable %>
+      <div class="content-desc text-center">
+        <% if card.in?(used_cards) %>
+          <div class="btn btn-success rounded-pill m-1">
+            <i class="fas fa-check"></i>
+          </div>
+        <% else %>
+          <%= link_to card, method: :delete, class: "btn btn-danger rounded-pill m-1", data: { confirm: "本当に削除しますか？" } do %>
+            <i class="fas fa-trash"></i>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="card-name">[空]</div>
+    <div class="content">
+      <div class="content-image">
+        <%= image_tag "/images/broken-image.png", class: "user-img image_x64" %>
+      </div>
     </div>
   <% end %>
 </div>

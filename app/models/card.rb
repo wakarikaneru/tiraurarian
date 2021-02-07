@@ -42,6 +42,11 @@ class Card < ApplicationRecord
     return "[" + e + "][" + p + "] " + n
   end
 
+  # 自分のカードか判定
+  def isOwn?
+    return card_box.user == current_user
+  end
+
   # ゾンビ判定
   def isZombie?
     m = User.find_by(id: model_id)

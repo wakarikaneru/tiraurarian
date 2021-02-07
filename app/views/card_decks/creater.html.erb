@@ -1,0 +1,114 @@
+<div class="title">デッキ作成</div>
+<%= render partial: "/layouts/card_nav" %>
+
+<div class="tweet-container-list card-battle">
+  <%= form_tag("/card_deck/creater", method: "get", class: "form-horizontal", role: "form") do %>
+
+    <% card_1 = Card.find_by(id: params[:card_1]) %>
+    <% card_2 = Card.find_by(id: params[:card_2]) %>
+    <% card_3 = Card.find_by(id: params[:card_3]) %>
+
+    <%= hidden_field_tag :card_1, params[:card_1] %>
+    <%= hidden_field_tag :card_2, params[:card_2] %>
+    <%= hidden_field_tag :card_3, params[:card_3] %>
+
+    <% complete = false %>
+
+    <% target = "card_1" %>
+    <% if params[:card_1].blank? %>
+      <% target = "card_1" %>
+    <% elsif params[:card_2].blank? %>
+      <% target = "card_2" %>
+    <% elsif params[:card_3].blank? %>
+      <% target = "card_3" %>
+    <% else %>
+      <% complete = true %>
+    <% end %>
+
+    <% first = true %>
+    <% active = 0 %>
+
+    <div class="hukidasi w-100">
+      <div class="hukidasi m-2 mb-4">
+        <div class="d-flex justify-content-around p-2">
+          <%= button_tag(type: "submit", name: "card_1", value: "", class: "btn m-0 p-0") do %>
+            <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none } %>
+          <% end%>
+          <%= button_tag(type: "submit", name: "card_2", value: "", class: "btn m-0 p-0") do %>
+            <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none } %>
+          <% end%>
+          <%= button_tag(type: "submit", name: "card_3", value: "", class: "btn m-0 p-0") do %>
+            <%= render partial: "/layouts/card", locals: { card: card_3, deletable: false, used_cards: Card.none } %>
+          <% end%>
+        </div>
+
+        <div class="hukidasi">
+          <div class="text-center">
+            合計戦闘力: <%= @card_power_total %>
+          </div>
+        </div>
+      </div>
+
+      <% if complete %>
+        <div class="m-4 text-center">
+          <%= button_tag(type: "submit", name: "complete", value: 1, class: "btn btn-primary rounded-pill m-1") do %>
+            デッキを作成する
+          <% end%>
+        </div>
+      <% elsif @cards.present? %>
+        <div class="m-4 text-center">
+          カードを選んでください
+        </div>
+        <ul class="nav nav-tabs nav-justified">
+          <% @card_lists.length.times do |index| %>
+            <% if @card_lists[index].present? %>
+              <% class_text = "nav-link" %>
+              <% if first %>
+                <% first = false %>
+                <% active = index %>
+                <% class_text = class_text + " active" %>
+              <% end %>
+              <li class="nav-item">
+                <a href="#e<%= index %>" class="<%= class_text %>" data-toggle="tab">
+                  <div><%= Constants::CARD_ELEMENTS[index] %></div>
+                  <div class="badge badge-pill badge-primary"><%= @card_lists[index].size %></div>
+                </a>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+
+        <div class="tab-content">
+          <% @card_lists.length.times do |index| %>
+            <% class_text = "tab-pane" %>
+            <% if index == active %>
+            <% class_text = class_text + " active" %>
+            <% end %>
+            <div class="<%= class_text %>" id="e<%= index %>">
+              <div class="d-flex flex-wrap">
+                <% @card_lists[index].map do |card| %>
+                  <% if !card.in?(@disabled_cards) %>
+                    <%= button_tag(type: "submit", name: target, value: card.id, class: "btn m-1 p-0") do %>
+                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none } %>
+                    <% end%>
+                  <% else %>
+                    <%= button_tag(type: "submit", name: target, value: card.id, class: "btn m-1 p-0", disabled: true) do %>
+                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none } %>
+                    <% end%>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      <% else %>
+        <div class="m-4 text-center">
+          カードがありません
+        </div>
+      <% end %>
+
+    </div>
+
+  <% end %>
+</div>

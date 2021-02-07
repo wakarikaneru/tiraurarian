@@ -58,6 +58,8 @@ Rails.application.routes.draw do
   get 'card/dumpsite', to: 'cards#dumpsite'
   post 'card/dump', to: 'cards#dump'
 
+  get 'card_deck/creater', to: 'card_decks#creater'
+
   get 'taxpayers', to: 'taxpayers#index'
 
   get 'info/index'

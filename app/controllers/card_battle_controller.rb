@@ -45,7 +45,7 @@ class CardBattleController < ApplicationController
     @failure = false
     @card_king = CardKing.where(rule: @rule).order(id: :desc).first
     @card_king_deck = @card_king.card_deck
-    if current_user == @card_king.user
+    if current_user == @card_king.user and false
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "自分とは闘えません。" )}
         format.json { head :no_content }
@@ -53,7 +53,7 @@ class CardBattleController < ApplicationController
       return
     end
 
-    if current_user == @card_king.last_challenger
+    if current_user == @card_king.last_challenger and false
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "連続挑戦はできません。" )}
         format.json { head :no_content }
@@ -107,6 +107,8 @@ class CardBattleController < ApplicationController
 
     @king_cards = @card_king_deck.getCard(true)
 
+    @environment = Card.getEnvironmentText
+
     @results = []
     @cards.length.times { |i|
     	@results.push(Card.battle(@cards[i], @king_cards[i]))
@@ -153,8 +155,7 @@ class CardBattleController < ApplicationController
     @destroy = 0
     @card_destroy = 0
     if @winner == -1
-      rand = rand(0..99)
-      if rand < 10
+      if rand() < Constants::CARD_DESTROY_RATIO
         @destroy = 1
 
         @card_destroy = rand(0..2)

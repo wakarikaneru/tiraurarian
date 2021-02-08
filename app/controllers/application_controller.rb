@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate_premium!
       if user_signed_in?
-        unless Premium.where(user_id: current_user.id).where("? <= limit_datetime", Time.current).present?
+        unless check_premium
           redirect_to premium_path, alert: "プレミアム会員専用ページです。"
         end
       else

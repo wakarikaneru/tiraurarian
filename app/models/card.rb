@@ -112,6 +112,7 @@ class Card < ApplicationRecord
         else
           self.element = rand(0..9)
         end
+        self.rare = 1
         self.save!
         CardGetResult.generate(user.id, self.id)
         return true

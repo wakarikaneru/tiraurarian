@@ -9,6 +9,7 @@ class CardKingDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
+    last_challenger: Field::BelongsTo.with_options(class_name: "User"),
     card_deck: Field::BelongsTo,
     id: Field::Number,
     rule: Field::Number,
@@ -25,15 +26,16 @@ class CardKingDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   user
+  last_challenger
   card_deck
   id
-  rule
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   user
+  last_challenger
   card_deck
   id
   rule
@@ -48,6 +50,7 @@ class CardKingDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
   user
+  last_challenger
   card_deck
   rule
   defense

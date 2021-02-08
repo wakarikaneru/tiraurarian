@@ -14,6 +14,9 @@ class CardDeckDashboard < Administrate::BaseDashboard
     card_3: Field::BelongsTo.with_options(class_name: "Card"),
     id: Field::Number,
     rule: Field::Number,
+    card_1_id: Field::Number,
+    card_2_id: Field::Number,
+    card_3_id: Field::Number,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -40,6 +43,9 @@ class CardDeckDashboard < Administrate::BaseDashboard
   card_3
   id
   rule
+  card_1_id
+  card_2_id
+  card_3_id
   create_datetime
   created_at
   updated_at
@@ -54,6 +60,9 @@ class CardDeckDashboard < Administrate::BaseDashboard
   card_2
   card_3
   rule
+  card_1_id
+  card_2_id
+  card_3_id
   create_datetime
   ].freeze
 

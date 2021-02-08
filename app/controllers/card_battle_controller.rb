@@ -57,7 +57,7 @@ class CardBattleController < ApplicationController
       return
     end
 
-    if current_user == @card_king.last_challenger
+    if current_user == @card_king.last_challenger and false
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "連続挑戦はできません。" )}
         format.json { head :no_content }
@@ -127,6 +127,15 @@ class CardBattleController < ApplicationController
 
     if 0 < wins
       @winner = 1
+    elsif wins < 0
+      @winner = -1
+    else
+      @winner = 0
+    end
+
+    # 商品贈呈
+    if @winner == 1
+      Notice.generate(@card_king.user_id, 0, "カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から陥落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
 
       new_king = CardKing.new
       new_king.rule = @rule
@@ -136,16 +145,7 @@ class CardBattleController < ApplicationController
       new_king.save!
       @card_king = new_king
       current_user.add_points(Constants::CARD_PRIZE)
-    elsif wins < 0
-      @winner = -1
-
-      @card_king.last_challenger = current_user
-      @card_king.defense = @card_king.defense + 1
-      @card_king.save!
-      @card_king.user.add_points(Constants::CARD_PRIZE)
     else
-      @winner = 0
-
       @card_king.last_challenger = current_user
       @card_king.defense = @card_king.defense + 1
       @card_king.save!

@@ -4,7 +4,7 @@ class CardBox < ApplicationRecord
   has_many :cards, foreign_key: :card_box_id, primary_key: :id
   has_many :card_decks, foreign_key: :card_box_id, primary_key: :id
 
-  # カードを購入
+  # カードBOXを拡張
   def self.expand?(user = User.none, num = 0)
     unless 0 < num
       return false

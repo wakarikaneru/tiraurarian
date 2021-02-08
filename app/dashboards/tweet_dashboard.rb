@@ -19,9 +19,6 @@ class TweetDashboard < Administrate::BaseDashboard
     id: Field::Number,
     parent_id: Field::Number,
     content: Field::String,
-    content_ja: Field::String,
-    content_en: Field::String,
-    content_zh: Field::String,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -38,16 +35,19 @@ class TweetDashboard < Administrate::BaseDashboard
     avatar_updated_at: Field::DateTime,
     bad_count: Field::Number,
     context: Field::Number,
-    language: Field::String,
-    language_confidence: Field::Number,
     nsfw: Field::Boolean,
-    humanity: Field::Number,
-    sensitivity: Field::Number,
+    humanity: Field::Number.with_options(decimals: 2),
+    sensitivity: Field::Number.with_options(decimals: 2),
     adult: Field::Number,
     spoof: Field::Number,
     medical: Field::Number,
     violence: Field::Number,
     racy: Field::Number,
+    content_ja: Field::String,
+    content_en: Field::String,
+    content_zh: Field::String,
+    language: Field::String,
+    language_confidence: Field::Number.with_options(decimals: 2),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -56,9 +56,10 @@ class TweetDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  id
-  content
   user
+  parent
+  tweets
+  text
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -75,9 +76,6 @@ class TweetDashboard < Administrate::BaseDashboard
   id
   parent_id
   content
-  content_ja
-  content_en
-  content_zh
   create_datetime
   created_at
   updated_at
@@ -94,8 +92,6 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
-  language
-  language_confidence
   nsfw
   humanity
   sensitivity
@@ -104,6 +100,11 @@ class TweetDashboard < Administrate::BaseDashboard
   medical
   violence
   racy
+  content_ja
+  content_en
+  content_zh
+  language
+  language_confidence
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -120,9 +121,6 @@ class TweetDashboard < Administrate::BaseDashboard
   tags
   parent_id
   content
-  content_ja
-  content_en
-  content_zh
   create_datetime
   image_file_name
   image_content_type
@@ -137,8 +135,6 @@ class TweetDashboard < Administrate::BaseDashboard
   avatar_updated_at
   bad_count
   context
-  language
-  language_confidence
   nsfw
   humanity
   sensitivity
@@ -147,6 +143,11 @@ class TweetDashboard < Administrate::BaseDashboard
   medical
   violence
   racy
+  content_ja
+  content_en
+  content_zh
+  language
+  language_confidence
   ].freeze
 
   # COLLECTION_FILTERS

@@ -16,6 +16,7 @@ class CardBoxDashboard < Administrate::BaseDashboard
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    medal: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -41,6 +42,7 @@ class CardBoxDashboard < Administrate::BaseDashboard
   create_datetime
   created_at
   updated_at
+  medal
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -52,6 +54,7 @@ class CardBoxDashboard < Administrate::BaseDashboard
   card_decks
   size
   create_datetime
+  medal
   ].freeze
 
   # COLLECTION_FILTERS

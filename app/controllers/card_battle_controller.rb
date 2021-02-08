@@ -9,8 +9,10 @@ class CardBattleController < ApplicationController
       @user = current_user
       @box = CardBox.find_or_create_by(user_id: current_user.id)
       @cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
-      @count = Card.where(card_box_id: @box.id).count
+      @unidentified_cards = Card.where(card_box_id: @box.id).where(element: 9).order(:element).order(power: :desc)
+      @count = @cards.count
       @max_buy = [((@box.size - @count) / Constants::CARD_PACK).floor , 0].max
+      @card_get_result = CardGetResult.where(user_id: current_user.id)
     end
 
     card_king_0 = CardKing.where(rule: 0).order(id: :desc).first
@@ -31,7 +33,6 @@ class CardBattleController < ApplicationController
 
     @card_kings = [card_king_0, card_king_1, card_king_2]
 
-    @card_get_result = CardGetResult.where(user_id: current_user.id)
 
   end
 
@@ -135,7 +136,7 @@ class CardBattleController < ApplicationController
 
     # 商品贈呈
     if @winner == 1
-      Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から陥落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
+      Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から転落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
 
       new_king = CardKing.new
       new_king.rule = @rule
@@ -150,6 +151,12 @@ class CardBattleController < ApplicationController
       @card_king.defense = @card_king.defense + 1
       @card_king.save!
       @card_king.user.add_points(Constants::CARD_PRIZE)
+
+      if @card_king.defense % 10 == 0
+        king_box = CardBox.find_or_create_by(user_id: @card_king.user_id)
+        king_box.add_medals(1)
+        Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座を" + @card_king.defense.to_s + "回防衛に成功しました。" + " 商品としてカードメダルを1枚手に入れました。")
+      end
     end
 
     @defense = @card_king.defense
@@ -170,7 +177,7 @@ class CardBattleController < ApplicationController
   end
 
   def purchase
-    num_str = params[:point]
+    num_str = params[:num]
     num = num_str.to_i
     if user_signed_in?
       if Card.purchase?(current_user, num)
@@ -187,8 +194,44 @@ class CardBattleController < ApplicationController
     end
   end
 
+  def gacha
+    num_str = params[:num]
+    num = num_str.to_i
+    if user_signed_in?
+      if Card.gacha?(current_user, num)
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, notice: "ガチャを#{num}回まわしました。")}
+          format.json { head :no_content }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, alert: "ガチャを回せませんでした。" )}
+          format.json { head :no_content }
+        end
+      end
+    end
+  end
+
+  def judge
+    id_str = params[:id]
+    id = id_str.to_i
+    if user_signed_in?
+      if Card.find_by(id: id).judge?(current_user)
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, notice: "カードの属性を鑑定しました。")}
+          format.json { head :no_content }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, alert: "鑑定できませんでした。" )}
+          format.json { head :no_content }
+        end
+      end
+    end
+  end
+
   def expand_box
-    num_str = params[:point]
+    num_str = params[:num]
     num = num_str.to_i
     if user_signed_in?
       if CardBox.expand?(current_user, num)

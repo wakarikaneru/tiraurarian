@@ -23,4 +23,17 @@ class CardBox < ApplicationRecord
       return false
     end
   end
+
+  def add_medals(medal = 0)
+    increment!(:medal, medal)
+  end
+
+  def sub_medals?(medal = 0)
+    if self.medal < medal
+      false
+    else
+      decrement!(:medal, medal)
+      true
+    end
+  end
 end

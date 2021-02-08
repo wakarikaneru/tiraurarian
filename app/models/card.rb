@@ -77,6 +77,49 @@ class Card < ApplicationRecord
         return false
       end
     end
+    return false
+  end
+
+  # メダルでカードを購入
+  def self.gacha?(user = User.none, num = 0)
+    unless 0 < num
+      return false
+    end
+
+    box = CardBox.find_or_create_by(user_id: user.id)
+    if Card.where(card_box_id: box.id).count + num <= box.size
+      if box.sub_medals?(num)
+        for num in 1..num do
+          c = Card.generateRare(user.id)
+          CardGetResult.generate(user.id, c.id)
+        end
+        return true
+      else
+        return false
+      end
+    end
+    return false
+  end
+
+  # カードを鑑定する
+  def judge?(user = User.none)
+    box = CardBox.find_or_create_by(user_id: user.id)
+    price = Constants::CARD_JUDGE_PRICE
+    if self.element == 9
+      if user.sub_points?(price)
+        if rand() < 0.01.to_f
+          self.element = 10
+        else
+          self.element = rand(0..9)
+        end
+        self.save!
+        CardGetResult.generate(user.id, self.id)
+        return true
+      else
+        return false
+      end
+    end
+    return false
   end
 
   def self.generate(id = 0)

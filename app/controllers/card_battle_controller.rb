@@ -135,7 +135,7 @@ class CardBattleController < ApplicationController
 
     # 商品贈呈
     if @winner == 1
-      Notice.generate(@card_king.user_id, 0, "カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から陥落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
+      Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から陥落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
 
       new_king = CardKing.new
       new_king.rule = @rule

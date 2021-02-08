@@ -5,8 +5,8 @@
     <div class="hukidasi width-full">
       <h1>入手したカード</h1>
       <div class="d-flex flex-wrap">
-        <% @card_get_result.map do |card| %>
-          <%= render partial: "/layouts/card", locals: { card: Card.find_by(id: card["id"]), deletable: false, used_cards: Card.none } %>
+        <% @card_get_result.map do |result| %>
+          <%= render partial: "/layouts/card", locals: { card: Card.find_by(id: result.card_id), deletable: false, used_cards: Card.none } %>
         <% end %>
       </div>
     </div>

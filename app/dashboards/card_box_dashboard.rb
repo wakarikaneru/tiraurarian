@@ -26,8 +26,6 @@ class CardBoxDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   user
-  cards
-  card_decks
   id
   ].freeze
 
@@ -35,8 +33,6 @@ class CardBoxDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   user
-  cards
-  card_decks
   id
   size
   create_datetime

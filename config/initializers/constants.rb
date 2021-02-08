@@ -20,7 +20,7 @@ module Constants
 
   CARD_PRIZE = 1000
   CARD_DESTROY_RATIO = 0.2
-  CARD_HOF_COUNT = 10
+  CARD_HOF_COUNT = 30
 
   CARD_RULE = [300, 200, 100]
   CARD_RULE_NAME = ["スーパーヘビー級", "ヘビー級", "ジュニア級"]

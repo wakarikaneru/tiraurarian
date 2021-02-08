@@ -2,6 +2,7 @@ class CardBattleController < ApplicationController
   before_action :authenticate_user!, only: [:standby, :battle, :purchase, :expand_box]
   before_action :set_rule, only: [:standby, :battle]
   before_action :set_card_deck_id, only: [:battle]
+  after_action :reset_card_get_result, only: [:index]
 
   def index
     if user_signed_in?
@@ -29,6 +30,9 @@ class CardBattleController < ApplicationController
     end
 
     @card_kings = [card_king_0, card_king_1, card_king_2]
+
+    @card_get_result = CardGetResult.where(user_id: current_user.id)
+
   end
 
   def standby
@@ -171,7 +175,7 @@ class CardBattleController < ApplicationController
     if user_signed_in?
       if Card.purchase?(current_user, num)
         respond_to do |format|
-          format.html { redirect_back(fallback_location: root_path, notice: "#{num}パック(#{num * Constants::CARD_PACK}枚)購入しました。" )}
+          format.html { redirect_back(fallback_location: root_path, notice: "#{num}パック(#{num * Constants::CARD_PACK}枚)購入しました。")}
           format.json { head :no_content }
         end
       else
@@ -214,5 +218,9 @@ class CardBattleController < ApplicationController
 
     def set_card_deck_id
       @card_deck_id = params[:deck]
+    end
+
+    def reset_card_get_result
+      CardGetResult.where(user_id: current_user.id).destroy_all
     end
 end

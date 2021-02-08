@@ -69,7 +69,8 @@ class Card < ApplicationRecord
     if Card.where(card_box_id: box.id).count + Constants::CARD_PACK * num <= box.size
       if user.sub_points?(total)
         for num in 1..Constants::CARD_PACK * num do
-          Card.generate(user.id)
+          c = Card.generate(user.id)
+          CardGetResult.generate(user.id, c.id)
         end
         return true
       else
@@ -86,6 +87,7 @@ class Card < ApplicationRecord
     card.model_id = User.offset(rand(User.count)).first.id
     card.element = rand(1..7)
     card.power = ((rand() + rand()) / 2 * 101).floor
+    card.rare = rand() < 0.01.to_f
     card.create_datetime = Time.current
     card.save!
 
@@ -100,6 +102,7 @@ class Card < ApplicationRecord
     card.model_id = User.offset(rand(User.count)).first.id
     card.element = rand(0..9)
     card.power = (rand() * 101).floor
+    card.rare = rand() < 0.1.to_f
     card.create_datetime = Time.current
     card.save!
 

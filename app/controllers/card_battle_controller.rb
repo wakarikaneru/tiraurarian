@@ -223,7 +223,7 @@ class CardBattleController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { redirect_back(fallback_location: root_path, alert: "カードの属性を鑑定しました。" )}
+          format.html { redirect_back(fallback_location: root_path, alert: "鑑定できませんでした。" )}
           format.json { head :no_content }
         end
       end

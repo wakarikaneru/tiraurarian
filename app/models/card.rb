@@ -144,7 +144,11 @@ class Card < ApplicationRecord
     card = Card.new
     card.card_box_id = card_box.id
     card.model_id = User.offset(rand(User.count)).first.id
-    card.element = rand(1..7)
+    if rand() < 0.1.to_f
+      card.element = 9
+    else
+      card.element = rand(1..7)
+    end
     card.power = (rand() * 101).floor
     card.rare = rand() < 0.1.to_f
     card.create_datetime = Time.current

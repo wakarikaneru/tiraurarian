@@ -16,6 +16,7 @@ module Constants
   CARD_PRICE = 1000
   CARD_PACK = 5
   CARD_BOX_EXPAND_PRICE = 1000
+  CARD_JUDGE_PRICE = 10000
 
   CARD_PRIZE = 1000
   CARD_DESTROY_RATIO = 0.2
@@ -23,7 +24,7 @@ module Constants
 
   CARD_RULE = [300, 200, 100]
   CARD_RULE_NAME = ["スーパーヘビー級", "ヘビー級", "ジュニア級"]
-  CARD_ELEMENTS = ["無", "木", "火", "土", "金", "水", "光", "闇", "全", "??", "神"]
+  CARD_ELEMENTS = ["無", "木", "火", "土", "金", "水", "光", "闇", "全", "？", "神"]
   CARD_ELEMENTALS = ["ボイド", "青龍", "朱雀", "麒麟", "白虎", "玄武", "コスモス", "カオス", "神", "正体不明", "真理"]
 
   CARD_EFFFECT = [ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

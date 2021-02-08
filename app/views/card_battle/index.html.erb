@@ -3,7 +3,7 @@
 <% if @card_get_result.present? %>
   <div class="tweet-container list card-battle">
     <div class="hukidasi width-full">
-      <h1>入手したカード</h1>
+      <h1>新規入手カード一覧</h1>
       <div class="d-flex flex-wrap">
         <% @card_get_result.map do |result| %>
           <%= render partial: "/layouts/card", locals: { card: Card.find_by(id: result.card_id), deletable: false, used_cards: Card.none } %>
@@ -90,16 +90,16 @@
       </ul>
     </div>
     <div class="hukidasi">
-      <h1>カード情報</h1>
+      <h1>カード売り場</h1>
       <div class="m-4">
         <h3>カード購入</h3>
         <p>ウラリアカードは<%= Constants::CARD_PACK %>枚入で<%= Constants::CARD_PRICE %>vaです<br />
         現在<%= @max_buy %>パック分の空きがあります</p>
         <%= form_with url: card_battle_purchase_path, method: :post, local: true do %>
           <div class="input-group">
-            <%= text_field_tag :point, "", class: "form-control", placeholder: "パック数", size: 10 %>
+            <%= text_field_tag :num, "", class: "form-control", placeholder: "パック数", size: 10 %>
             <div class="input-group-append">
-              <%= button_tag type: "submit", class: "change-disabled-button btn btn-info" do %>
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-primary" do %>
                 <span>購入する</span>
                 <i class="fa fa-spinner fa-pulse"></i>
               <% end %>
@@ -112,7 +112,7 @@
         <p>カードBOX拡張は1枚分で<%= Constants::CARD_BOX_EXPAND_PRICE %>vaです</p>
         <%= form_with url: card_battle_expand_box_path, method: :post, local: true do %>
           <div class="input-group">
-            <%= text_field_tag :point, "", class: "form-control", placeholder: "拡張数", size: 10 %>
+            <%= text_field_tag :num, "", class: "form-control", placeholder: "拡張数", size: 10 %>
             <div class="input-group-append">
               <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
                 <span>拡張する</span>
@@ -122,10 +122,58 @@
           </div>
         <% end %>
       </div>
-      <div class="m-4"><%= link_to card_decks_path, class: "btn btn-primary w-100" do %>デッキ作成<% end %></div>
+    </div>
+    <div class="hukidasi">
+      <h1>カード情報</h1>
+      <div class="m-4"><%= link_to card_decks_path, class: "btn btn-primary w-100" do %>デッキを見る<% end %></div>
       <div class="m-4"><%= link_to cards_path, class: "btn btn-primary w-100" do %>カードBOXを見る<% end %></div>
       <div class="m-4"><%= link_to card_dumpsite_path, class: "btn btn-danger w-100" do %>不法投棄<% end %></div>
     </div>
+    <% if 0 < @box.medal %>
+      <div class="hukidasi">
+        <h1>メダルガチャ</h1>
+        <div class="m-4">
+          <h3>ガチャを回す</h3>
+          <p>メダル1枚で1枚のカードが出てきます<br />
+          レアなカードが出てくるチャンス…！？<br />
+          現在メダルを<%= @box.medal %>枚持っています</p>
+          <%= form_with url: card_battle_gacha_path, method: :post, local: true do %>
+            <div class="input-group">
+              <%= text_field_tag :num, "", class: "form-control", placeholder: "回数", size: 10 %>
+              <div class="input-group-append">
+                <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                  <span>ガチャ！</span>
+                  <i class="fa fa-spinner fa-pulse"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <% if 0 < @unidentified_cards.count %>
+      <div class="hukidasi">
+        <h1>カード鑑定所</h1>
+        <div class="m-4">
+          <h3>カードを鑑定する</h3>
+          <p>[<%= Constants::CARD_ELEMENTS[9] %>]カードの属性を鑑定します<br />
+          <%= Constants::CARD_JUDGE_PRICE %>vaで[<%= Constants::CARD_ELEMENTS[9] %>]カードを1枚鑑定できます<br />
+          超レアな属性が出てくるチャンス…！？<br />
+          現在[<%= Constants::CARD_ELEMENTS[9] %>]カードを<%= @unidentified_cards.count %>枚持っています</p>
+          <%= form_with url: card_battle_judge_path, method: :post, local: true do %>
+            <div class="input-group">
+              <%= select_tag :id, options_from_collection_for_select(@unidentified_cards, :id, :displayNameWithAbility), class: "form-control", placeholder: "回数" %>
+              <div class="input-group-append">
+                <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                  <span>鑑定する</span>
+                  <i class="fa fa-spinner fa-pulse"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
 <div class="tweet-container">

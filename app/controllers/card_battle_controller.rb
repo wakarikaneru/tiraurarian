@@ -57,7 +57,7 @@ class CardBattleController < ApplicationController
       return
     end
 
-    if current_user == @card_king.last_challenger and false
+    if current_user == @card_king.last_challenger
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "連続挑戦はできません。" )}
         format.json { head :no_content }

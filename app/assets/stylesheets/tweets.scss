@@ -310,3 +310,17 @@
 .tweet-addition[aria-expanded="true"] :first-child {
   display: none;
 }
+
+#imageModal .modal-dialog{
+}
+
+#imageModal .modal-content{
+}
+
+#imageModal .modal-body{
+}
+
+#imageModal img{
+  max-height: calc(90vh - 200px);
+  object-fit: scale-down;
+}

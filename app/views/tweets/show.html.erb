@@ -166,10 +166,12 @@
 <% end %>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-body">
-        <%= image_tag @tweet.image.url(:large), class: "w-100" %>
+      <div class="modal-body text-center">
+        <%= link_to @tweet.image.url, target: :_blank do %>
+          <%= image_tag @tweet.image.url(:large), class: "fit" %>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>

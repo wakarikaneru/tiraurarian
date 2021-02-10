@@ -1,4 +1,10 @@
-<div class="hukidasi uraria-card">
+<% rare = "" %>
+<% if card.present? %>
+  <% if card.rare %>
+    <% rare = " kira" %>
+  <% end %>
+<% end %>
+<div class="hukidasi uraria-card<%= rare %>">
   <% if card.present? %>
     <div class="card-name"><%= card.displayNameWithElement %></div>
     <div class="content">

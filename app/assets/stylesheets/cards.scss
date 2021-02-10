@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .card-battle .uraria-card{
-  margin: 8px;
+  margin: 4px;
   width: 120px;
 }
 
@@ -33,24 +33,5 @@
 
 .card-battle .kira{
   position:  relative;
-  box-shadow: 0 0 16px 0 rgba(255, 255, 127, 0.5) inset, 0 0 8px 0 rgba(255, 255, 127, 0.5), 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.card-battle .kira::after {
-  content: '';
-  position: absolute;
-  top: -100px;
-  left: -100px;
-  width: 50px;
-  height: 50px;
-  color: #ffffff;
-  transform: rotate(45deg);
-  animation: kira 2s ease-in-out infinite;
-}
-
-@keyframes kira {
-  0% { transform: scale(0) rotate(45deg); opacity: 0; }
-  80% { transform: scale(0) rotate(45deg); opacity: 0.5; }
-  81% { transform: scale(4) rotate(45deg); opacity: 1; }
-  100% { transform: scale(50) rotate(45deg); opacity: 0; }
+  box-shadow: 0 0 16px 0 rgba(255, 255, 127, 0.5) inset, 0 0 4px 0 rgba(255, 255, 127, 0.5), 0px 4px 4px rgba(0, 0, 0, 0.5);
 }

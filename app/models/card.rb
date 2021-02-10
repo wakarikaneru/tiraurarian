@@ -108,7 +108,11 @@ class Card < ApplicationRecord
     if self.element == 9
       if user.sub_points?(price)
         if rand() < 0.01.to_f
-          self.element = 10
+          if rand(0..1) == 0
+            self.element = 10
+          else
+            self.element = 11
+          end
         else
           self.element = rand(0..9)
         end
@@ -165,7 +169,7 @@ class Card < ApplicationRecord
     element_kin_f = Control.find_or_create_by(key: "card_env_kin").value.to_f
     element_sui_f = Control.find_or_create_by(key: "card_env_sui").value.to_f
 
-    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0]
+    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0, 0]
     max_element = environment.index(environment.max)
     max_element_name = Constants::CARD_ELEMENTS[max_element]
 
@@ -209,7 +213,7 @@ class Card < ApplicationRecord
     element_kin_f = Control.find_or_create_by(key: "card_env_kin").value.to_f
     element_sui_f = Control.find_or_create_by(key: "card_env_sui").value.to_f
 
-    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0]
+    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0]
 
     card_1_environment_power = 0
     card_2_environment_power = 0
@@ -279,7 +283,7 @@ class Card < ApplicationRecord
 
     # 召喚
     card_1_summon_power = 0
-    if card_1.element != 10 and !card_1.isZombie?
+    if !(card_1.element == 10 or card_1.element == 11) and !card_1.isZombie?
       if rand() < 0.1
         ret[:log].push([1, card_1.displayName + "は精霊を召喚しようとしている…"])
         if rand() < 0.1

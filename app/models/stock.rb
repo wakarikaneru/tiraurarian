@@ -65,7 +65,7 @@ class Stock < ApplicationRecord
     price_target_f = price_target.value.to_f
 
     price_f = price_f + economy_f * coefficient_f
-    price_f = price_f + ((price_target_f - price_f) * 0.001)
+    price_f = price_f + ((price_target_f - price_f) * 0.01)
     price_f = price_f + Stock.rand(10) * (price_target_f / 2)
 
     price.update(value: price_f.to_s)

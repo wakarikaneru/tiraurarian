@@ -8,9 +8,117 @@
 </div>
 <div class="tweet-container list">
   <div class="hukidasi width-full">
-    <li>カード所持数 <%= @count %>/<%= @box.size %></li>
+    <div class="m-2">
+      カード所持数 <%= @count %>/<%= @box.size %>
+    </div>
+  </div>
+  <div class="hukidasi width-full">
+    <div class="m-2">
+      <h3>一括チェック</h3>
+      <div class="row">
+        <label class="col-sm-auto col-form-label m-1">戦闘力</label>
+        <div class="col-sm-auto form-inline m-1">
+          <input type="number" id="atk1" min="1" max="100" class="form-control" placeholder="From"><span class="">～</span><input type="number" id="atk2" min="1" max="100" class="form-control" placeholder="To">
+        </div>
+        <div class="col-sm-auto m-1">
+          <select id="operation" class="form-control">
+            <option value="to">を</option>
+            <option value="other">以外を</option>
+          </select>
+        </div>
+        <div class="col-sm-auto m-1">
+          <input type="button" id="chkbtn" class="btn btn-secondary" value="チェックする" onclick="set()">
+          <input type="button" id="clrbtn" class="btn btn-secondary" value="解除する" onclick="reset()">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 <%= render partial: "/layouts/card_dumpsite_list", locals: { cards: @cards, deletable: true, used_cards: @used_cards  } %>
 
 <%= render partial: "/layouts/card_nav" %>
+
+<script type="text/javascript">
+  function set() {
+		var atk1 = $('#atk1').val();
+		var atk2 = $('#atk2').val();
+		var iAtk1 = parseInt(atk1);
+		var iAtk2 = parseInt(atk2);
+
+		if(iAtk1 < 0) {
+			return;
+		}
+		if(iAtk2 < 0) {
+			return;
+		}
+		if(iAtk1 > iAtk2) {
+      var temp = iAtk1;
+      iAtk1 = iAtk2;
+      iAtk2 = temp;
+		}
+		operation = $('#operation').val();
+		$('form').find('.hukidasi').each(
+			function(index, element){
+				var atk = element.innerText.split(/\[|\]/)[3];
+				var iAtk = parseInt(atk, 10);
+				switch (operation) {
+				case 'to':
+					if(iAtk1 <= iAtk && iAtk2 >= iAtk){
+						$(this).find('.form-check-input').prop('checked', true);
+					}
+					break;
+				case 'other':
+					if(iAtk1 <= iAtk && iAtk2 >= iAtk){
+						;
+					}
+					else{
+						$(this).find('.form-check-input').prop('checked', true);
+					}
+					break;
+				}
+			}
+		)
+  }
+
+  function reset(){
+		var atk1 = $('#atk1').val();
+		var atk2 = $('#atk2').val();
+		var iAtk1 = parseInt(atk1);
+		var iAtk2 = parseInt(atk2);
+
+		if(iAtk1 < 0) {
+			return;
+		}
+		if(iAtk2 < 0) {
+			return;
+		}
+		if(iAtk1 > iAtk2) {
+      var temp = iAtk1;
+      iAtk1 = iAtk2;
+      iAtk2 = temp;
+		}
+		operation = $('#operation').val();
+		$('form').find('.hukidasi').each(
+			function(index, element){
+				var atk = element.innerText.split(/\[|\]/)[3];
+				var iAtk = parseInt(atk, 10);
+				switch (operation) {
+				case 'to':
+					if(iAtk1 <= iAtk && iAtk2 >= iAtk){
+						$(this).find('.form-check-input').prop('checked', false);
+					}
+					break;
+				case 'other':
+					if(iAtk1 <= iAtk && iAtk2 >= iAtk){
+						;
+					}
+					else{
+						$(this).find('.form-check-input').prop('checked', false);
+					}
+					break;
+				}
+			}
+		)
+  }
+</script>

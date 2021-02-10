@@ -19,7 +19,7 @@ class CardDecksController < ApplicationController
   def creater
     @card_box = CardBox.find_or_create_by(user_id: current_user.id)
     @card_deck = CardDeck.new
-    @card_lists = Array.new(11).map{Array.new()}
+    @card_lists = Array.new(Constants::CARD_ELEMENTS.size).map{Array.new()}
 
     @cards.each{|card|
       @card_lists[card.element].push(card)

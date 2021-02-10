@@ -58,7 +58,7 @@ class CardBattleController < ApplicationController
       return
     end
 
-    if current_user == @card_king.last_challenger
+    if current_user == @card_king.last_challenger and false
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "連続挑戦はできません。" )}
         format.json { head :no_content }
@@ -125,11 +125,19 @@ class CardBattleController < ApplicationController
     }
 
     @winner = 0
+    @is_user_is_god_killer = false
+    @is_king_is_god_killer = false
 
     if 0 < wins
       @winner = 1
+      if @card_king_deck.isContainGod?
+        @is_user_is_god_killer = true
+      end
     elsif wins < 0
       @winner = -1
+      if @card_deck.isContainGod?
+        @is_king_is_god_killer = true
+      end
     else
       @winner = 0
     end
@@ -150,6 +158,9 @@ class CardBattleController < ApplicationController
       current_user.add_points(Constants::CARD_PRIZE)
       my_box.add_medals(1)
 
+      if @is_user_is_god_killer
+        my_box.add_medals(10)
+      end
     else
       @card_king.last_challenger = current_user
       @card_king.defense = @card_king.defense + 1
@@ -160,6 +171,12 @@ class CardBattleController < ApplicationController
         king_box = CardBox.find_or_create_by(user_id: @card_king.user_id)
         king_box.add_medals(1)
         Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座を" + @card_king.defense.to_s + "回防衛に成功しました。" + " 商品としてカードメダルを1枚手に入れました。")
+      end
+
+      if @is_king_is_god_killer
+        king_box = CardBox.find_or_create_by(user_id: @card_king.user_id)
+        king_box.add_medals(10)
+        Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", "神のカードを倒しました。" + " 商品としてカードメダルを10枚手に入れました。")
       end
     end
 
@@ -268,6 +285,8 @@ class CardBattleController < ApplicationController
     end
 
     def reset_card_get_result
-      CardGetResult.where(user_id: current_user.id).destroy_all
+      if user_signed_in?
+        CardGetResult.where(user_id: current_user.id).destroy_all
+      end
     end
 end

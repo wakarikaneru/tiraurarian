@@ -233,16 +233,30 @@
               <% end %>
             </li>
             <li class="nav-item col">
+              <%= link_to stock_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-chart-line"></i>
+              <% end %>
+            </li>
+            <li class="nav-item col">
+              <%= link_to gambling_path(), class:"btn btn-secondary rounded-pill" do %>
+                <i class="fas fa-dice"></i>
+              <% end %>
+            </li>
+            <% if false %>
+            <li class="nav-item col">
               <%= link_to messages_path(), class:"btn btn-secondary rounded-pill" do %>
                 <i class="fas fa-envelope"></i>
                 <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
               <% end %>
             </li>
+            <% end %>
+            <% if false %>
             <li class="nav-item col">
               <%= link_to search_index_path(), class:"btn btn-secondary rounded-pill" do %>
                 <i class="fas fa-search"></i>
               <% end %>
             </li>
+            <% end %>
             <li class="nav-item col">
               <% if user_signed_in? %>
                 <%= link_to mypage_index_path(), class: "btn btn-secondary rounded-pill" do %>

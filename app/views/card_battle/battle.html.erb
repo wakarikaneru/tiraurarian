@@ -62,6 +62,10 @@
 
 <h2 class="text-center mt-4">試合結果</h2>
 
+<% if @is_user_is_god_killer or @is_king_is_god_killer %>
+  <h1 class="text-center">───神は死んだ───</h1>
+<% end %>
+
 <% if @winner == 1 %>
   <h1 class="text-center">【挑戦者】<%= current_user.name %>の勝利！</h1>
 <% end %>
@@ -101,6 +105,12 @@
           賞金として<%= Constants::CARD_PRIZE %>va手に入れた<br />
           カードメダルを1枚手に入れた</p>
         </div>
+        <% if @is_user_is_god_killer %>
+          <div class="content m-2">
+            <p>神のカードを倒した！！<br />
+            カードメダルを10枚手に入れた</p>
+          </div>
+        <% end %>
       </div>
     </div>
   <% end %>

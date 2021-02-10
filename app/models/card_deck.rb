@@ -29,6 +29,15 @@ class CardDeck < ApplicationRecord
     return powers.sum
   end
 
+  def isContainGod?()
+    elements = []
+    elements[0] = card_1.element
+    elements[1] = card_2.element
+    elements[2] = card_3.element
+
+    return elements.include?(11)
+  end
+
   def isValid?(user = User.none, rule = 0)
     unless user == card_box.user
       return false

@@ -169,7 +169,7 @@ class Card < ApplicationRecord
     element_kin_f = Control.find_or_create_by(key: "card_env_kin").value.to_f
     element_sui_f = Control.find_or_create_by(key: "card_env_sui").value.to_f
 
-    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0, 0]
+    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0, 0, 0]
     max_element = environment.index(environment.max)
     max_element_name = Constants::CARD_ELEMENTS[max_element]
 
@@ -213,7 +213,7 @@ class Card < ApplicationRecord
     element_kin_f = Control.find_or_create_by(key: "card_env_kin").value.to_f
     element_sui_f = Control.find_or_create_by(key: "card_env_sui").value.to_f
 
-    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0]
+    environment = [0, element_moku_f, element_ka_f, element_do_f, element_kin_f, element_sui_f, 0, 0, 0, 0, 0, 0]
 
     card_1_environment_power = 0
     card_2_environment_power = 0

@@ -138,6 +138,8 @@ class CardBattleController < ApplicationController
     if @winner == 1
       Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から転落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
 
+      my_box = CardBox.find_or_create_by(user_id: current_user.id)
+
       new_king = CardKing.new
       new_king.rule = @rule
       new_king.user_id = current_user.id
@@ -146,6 +148,8 @@ class CardBattleController < ApplicationController
       new_king.save!
       @card_king = new_king
       current_user.add_points(Constants::CARD_PRIZE)
+      my_box.add_medals(1)
+
     else
       @card_king.last_challenger = current_user
       @card_king.defense = @card_king.defense + 1

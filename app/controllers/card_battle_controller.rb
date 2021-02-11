@@ -2,7 +2,7 @@ class CardBattleController < ApplicationController
   before_action :authenticate_user!, only: [:standby, :battle, :purchase, :expand_box]
   before_action :set_rule, only: [:standby, :battle]
   before_action :set_card_deck_id, only: [:battle]
-  after_action :reset_card_get_result, only: [:index]
+  after_action :reset_new_cards, only: [:index]
 
   def index
     if user_signed_in?
@@ -12,7 +12,7 @@ class CardBattleController < ApplicationController
       @unidentified_cards = Card.where(card_box_id: @box.id).where(element: 9).order(:element).order(power: :desc)
       @count = @cards.count
       @max_buy = [((@box.size - @count) / Constants::CARD_PACK).floor , 0].max
-      @card_get_result = CardGetResult.where(user_id: current_user.id)
+      @new_cards = Card.where(card_box_id: @box.id).where(new: true)
     end
 
     card_king_0 = CardKing.where(rule: 0).order(id: :desc).first
@@ -284,9 +284,9 @@ class CardBattleController < ApplicationController
       @card_deck_id = params[:deck]
     end
 
-    def reset_card_get_result
+    def reset_new_cards
       if user_signed_in?
-        CardGetResult.where(user_id: current_user.id).destroy_all
+        Card.where(card_box_id: @box.id).where(new: true).update_all(new: false)
       end
     end
 end

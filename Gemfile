@@ -54,6 +54,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
+gem 'activerecord-import'
+
 gem "google-cloud-vision", "~> 0.38.0"
 gem "google-cloud-translate", "~> 2.3.0"
 gem "recaptcha", "~> 5.5.0"

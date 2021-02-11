@@ -1,8 +1,6 @@
 class Card < ApplicationRecord
   belongs_to :card_box
 
-  has_one :card_deck
-
   # 表示名
   def displayName
     m = User.find_by(id: model_id)
@@ -68,10 +66,7 @@ class Card < ApplicationRecord
     total = price * num
     if Card.where(card_box_id: box.id).count + Constants::CARD_PACK * num <= box.size
       if user.sub_points?(total)
-        for num in 1..Constants::CARD_PACK * num do
-          c = Card.generate(user.id)
-          CardGetResult.generate(user.id, c.id)
-        end
+        Card.generate(user.id, Constants::CARD_PACK * num)
         return true
       else
         return false
@@ -89,10 +84,7 @@ class Card < ApplicationRecord
     box = CardBox.find_or_create_by(user_id: user.id)
     if Card.where(card_box_id: box.id).count + num <= box.size
       if box.sub_medals?(num)
-        for num in 1..num do
-          c = Card.generateRare(user.id)
-          CardGetResult.generate(user.id, c.id)
-        end
+        Card.generateRare(user.id, num)
         return true
       else
         return false
@@ -116,9 +108,9 @@ class Card < ApplicationRecord
         else
           self.element = rand(0..9)
         end
-        self.rare = 1
+        self.rare = true
+        self.new = true
         self.save!
-        CardGetResult.generate(user.id, self.id)
         return true
       else
         return false
@@ -127,38 +119,48 @@ class Card < ApplicationRecord
     return false
   end
 
-  def self.generate(id = 0)
+  def self.generate(id = 0, num = 0)
     card_box = CardBox.find_or_create_by(user_id: id)
 
-    card = Card.new
-    card.card_box_id = card_box.id
-    card.model_id = User.offset(rand(User.count)).first.id
-    card.element = rand(1..7)
-    card.power = ((rand() + rand()) / 2 * 101).floor
-    card.rare = rand() < 0.01.to_f
-    card.create_datetime = Time.current
-    card.save!
+    cards = []
+    num.times do
+      card = Card.new
+      card.card_box_id = card_box.id
+      card.model_id = User.offset(rand(User.count)).first.id
+      card.element = rand(1..7)
+      card.power = ((rand() + rand()) / 2 * 101).floor
+      card.rare = rand() < 0.01.to_f
+      card.new = true
+      card.create_datetime = Time.current
+      cards << card
+    end
+    Card.import(cards)
 
-    return card
+    return cards
   end
 
-  def self.generateRare(id = 0)
+  def self.generateRare(id = 0, num = 0)
     card_box = CardBox.find_or_create_by(user_id: id)
 
-    card = Card.new
-    card.card_box_id = card_box.id
-    card.model_id = User.offset(rand(User.count)).first.id
-    if rand() < 0.1.to_f
-      card.element = 9
-    else
-      card.element = rand(1..7)
+    cards = []
+    num.times do
+      card = Card.new
+      card.card_box_id = card_box.id
+      card.model_id = User.offset(rand(User.count)).first.id
+      if rand() < 0.1.to_f
+        card.element = 9
+      else
+        card.element = rand(1..7)
+      end
+      card.power = (rand() * 101).floor
+      card.rare = rand() < 0.1.to_f
+      card.new = true
+      card.create_datetime = Time.current
+      cards << card
     end
-    card.power = (rand() * 101).floor
-    card.rare = rand() < 0.1.to_f
-    card.create_datetime = Time.current
-    card.save!
+    Card.import(cards)
 
-    return card
+    return cards
   end
 
   def self.getEnvironmentText

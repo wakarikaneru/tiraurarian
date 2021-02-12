@@ -24,7 +24,7 @@
 
 <div class="tweet-container list">
   <div class="tweet-reverse">
-    <div class="hukidasi reverse">
+    <div class="hukidasi">
       <h1>【王者】<%= @card_king_name %></h1>
       <h3>総合戦闘力 <%= @card_king_deck.getTotalPower %></h3>
       <div class="content">
@@ -80,7 +80,7 @@
 
   <% if @winner == -1 or @winner == 0 %>
     <div class="tweet-reverse">
-      <div class="hukidasi reverse">
+      <div class="hukidasi">
         <h1>【防衛】<%= @card_king_name %></h1>
         <div class="content">
           <%= render partial: "/layouts/card_list", locals: { cards: @card_king_deck.getCard, deletable: false, used_cards: Card.none } %>

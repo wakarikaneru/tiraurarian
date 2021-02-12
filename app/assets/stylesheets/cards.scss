@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.card-battle .uraria-card{
+.card-battle .hukidasi.uraria-card{
   margin: 4px;
   width: 120px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
@@ -32,7 +32,7 @@
   font-size: 1rem;
 }
 
-.card-battle .uraria-card.kira{
+.card-battle .hukidasi.uraria-card.kira{
   position:  relative;
   box-shadow: 0 0 16px 0 rgba(255, 255, 127, 0.5) inset, 0 0 4px 0 rgba(255, 255, 127, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.5);
 }

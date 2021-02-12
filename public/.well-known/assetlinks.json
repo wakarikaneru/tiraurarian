@@ -1,5 +1,10 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "me.tirauraria.tiraurariaapp",
-               "sha256_cert_fingerprints": ["6F:7F:32:3B:9C:63:5D:F4:7B:9C:42:83:7A:18:CD:6B:1A:B1:8C:85:36:43:2A:AC:EE:EB:28:77:C7:63:6F:DA"] }
+  "target": {
+    "namespace": "android_app",
+    "package_name": "me.tirauraria.tiraurariaapp",
+    "sha256_cert_fingerprints": [
+      "95:AF:BB:0D:51:E4:81:A5:47:F2:61:71:34:F9:0B:98:7D:9E:81:78:E8:09:2F:5C:15:85:07:C7:79:A5:5E:DA"
+    ]
+  }
 }]

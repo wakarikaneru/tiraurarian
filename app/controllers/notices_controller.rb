@@ -11,7 +11,7 @@ class NoticesController < ApplicationController
       my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
       receive_notices = Notice.where(user_id: current_user.id)
 
-      notices = Notice.none.or(receive_notices)
+      notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
       @notices = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
     else
@@ -42,7 +42,6 @@ class NoticesController < ApplicationController
         format.json { head :no_content }
       end
     end
-
   end
 
   private
@@ -55,7 +54,7 @@ class NoticesController < ApplicationController
       my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
       receive_notices = Notice.where(user_id: current_user.id)
 
-      notices = Notice.none.or(receive_notices)
+      notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
       notices.update(read_flag: true)
     end
 end

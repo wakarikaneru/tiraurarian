@@ -112,10 +112,17 @@ class ApplicationController < ActionController::Base
 
     def notification_counts
       if user_signed_in? then
-        notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
-        message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
-
         my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
+
+        receive_notices = Notice.where(user_id: current_user.id).where(read_flag: false)
+        notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
+
+        receive_messages = Message.where(user_id: current_user.id).where(read_flag: false)
+        messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
+
+        notice_records = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
+        message_records = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
+
         my_tweets_res = Tweet.joins(:parent).where("? < tweets.id", current_user.last_check_res).where(parents_tweets: {user_id: current_user.id}).where.not(user_id: current_user.id).where.not(user_id: my_mutes).order(id: :desc)
         res_count = my_tweets_res.count
       else

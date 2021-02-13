@@ -30,7 +30,7 @@
     <div class="col">
       <div class="input-group">
 
-        <%= f.text_field :content, id:"tweet-content-form", class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください" %>
+        <%= f.text_field :content, id:"tweet-content-form", class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください", autocomplete: "off" %>
 
         <div class="input-group-append">
           <%= f.button type: "submit", class: "change-disabled-button btn btn-accent", data: { disable: true } do %>
@@ -52,7 +52,7 @@
   <div class="collapse" id="text">
     <%= f.fields_for :text do |t| %>
       <div class="form-group mt-3">
-        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "テキストを入力してください" %>
+        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "テキストを入力してください", autocomplete: "off" %>
       </div>
     <% end %>
   </div>

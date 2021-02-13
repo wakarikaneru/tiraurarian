@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :access_log
   before_action :detect_locale
+  before_action :user_point
   before_action :create_thumb
   before_action :check_premium
 
@@ -78,6 +79,14 @@ class ApplicationController < ActionController::Base
       if Thumb.find_by(key: key).present?
       else
         CreateThumbJob.perform_later(key)
+      end
+    end
+
+    def user_point
+      if user_signed_in?
+        @user_points = Point.find_or_create_by(user_id: current_user.id)
+      else
+        @user_points = 0
       end
     end
 

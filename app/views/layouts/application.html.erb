@@ -171,11 +171,7 @@
             <% end %>
             <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
             <span> | </span>
-            <% if current_user.point.present? %>
-              <span><%= current_user.point.point %> va</span>
-            <% else %>
-              <span>0 va</span>
-            <% end %>
+            <span><%= @user_points %> va</span>
             <span> | </span>
             <span><%= link_to "設定", edit_user_registration_path %></span>
             <span> | </span>

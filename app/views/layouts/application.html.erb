@@ -69,10 +69,9 @@
     </div>
     <div class='container-fluid'>
       <% if user_signed_in? %>
-        <% n = notification_counts() %>
+        <% n = @notification %>
         <% notice_count_i = [n[:notice], 99].min %>
         <% message_count_i = [n[:message], 99].min %>
-        <% total_count_i = [n[:total], 99].min %>
         <% res_count_i = [n[:res], 99].min %>
 
         <% if 0 < notice_count_i %>
@@ -87,17 +86,12 @@
           <% message_count = "" %>
         <% end %>
 
-        <% if 0 < total_count_i %>
-          <% total_count = total_count_i.to_s %>
-        <% else %>
-          <% total_count = "" %>
-        <% end %>
-
         <% if 0 < res_count_i %>
           <% res_count = res_count_i.to_s %>
         <% else %>
           <% res_count = "" %>
         <% end %>
+        <% res_count = "" %>
       <% end %>
 
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
@@ -109,7 +103,7 @@
           <% end %>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-          <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-danger"><%= res_count %></span><span class="badge badge-pill badge-primary"><%= total_count %></span>
+          <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-danger"><%= message_count %></span><span class="badge badge-pill badge-primary"><%= notice_count %></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navberContent">
@@ -125,11 +119,11 @@
               </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-danger"><%= res_count %></span><span class="badge badge-pill badge-primary"><%= total_count %></span></a>
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-danger"><%= message_count %></span><span class="badge badge-pill badge-primary"><%= notice_count %></span></a>
               <div class="dropdown-menu">
                 <%= link_to mypage_index_path(), class: "dropdown-item" do %>マイページ <span class="badge badge-pill badge-danger"><%= res_count %></span><% end %>
                 <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="badge badge-pill badge-primary"><%= notice_count %></span><% end %>
-                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-primary"><%= message_count %></span><% end %>
+                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-danger"><%= message_count %></span><% end %>
               </div>
             </li>
             <li class="nav-item dropdown">

@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
 
     def user_point
       if user_signed_in?
-        @user_points = Point.find_or_create_by(user_id: current_user.id)
+        @user_points = Point.find_or_create_by(user_id: current_user.id).point
       else
         @user_points = 0
       end

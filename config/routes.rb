@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get 'card_battle/battle', to: 'card_battle#battle'
   post 'card_battle/purchase', to: 'card_battle#purchase'
   post 'card_battle/gacha', to: 'card_battle#gacha'
+  post 'card_battle/trial_gacha', to: 'card_battle#trial_gacha'
   post 'card_battle/judge', to: 'card_battle#judge'
   post 'card_battle/expand_box', to: 'card_battle#expand_box'
 

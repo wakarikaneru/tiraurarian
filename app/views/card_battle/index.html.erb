@@ -151,6 +151,24 @@
         </div>
       </div>
     <% end %>
+    <% if @box.trial %>
+      <div class="hukidasi">
+        <h1>おためしガチャ</h1>
+        <div class="m-4">
+          <h3>ガチャを回す</h3>
+          <p>1日1回、無料でガチャを回せます！<br />
+          レアなカードが出てくるチャンス…！？</p>
+          <%= form_with url: card_battle_trial_gacha_path, method: :post, local: true do %>
+            <div class="input-group">
+              <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger w-100" do %>
+                <span>ガチャ！</span>
+                <i class="fa fa-spinner fa-pulse"></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     <% if 0 < @unidentified_cards.count %>
       <div class="hukidasi">
         <h1>カード鑑定所</h1>

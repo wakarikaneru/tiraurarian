@@ -93,6 +93,21 @@ class Card < ApplicationRecord
     return false
   end
 
+  # お試しガチャ
+  def self.trialGacha?(user = User.none)
+
+    box = CardBox.find_or_create_by(user_id: user.id)
+    if Card.where(card_box_id: box.id).count + 1 <= box.size
+      if box.use_trial?()
+        Card.generateRare(user.id, 1)
+        return true
+      else
+        return false
+      end
+    end
+    return false
+  end
+
   # カードを鑑定する
   def judge?(user = User.none)
     box = CardBox.find_or_create_by(user_id: user.id)
@@ -351,5 +366,5 @@ class Card < ApplicationRecord
     element_kin.update(value: element_kin_f.to_s)
     element_sui.update(value: element_sui_f.to_s)
   end
-
+  
 end

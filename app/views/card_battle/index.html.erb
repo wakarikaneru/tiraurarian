@@ -73,7 +73,7 @@
   <% if @user.present? %>
     <div class="hukidasi">
       <h1>ユーザー情報</h1>
-      <h3>所持VARTH <%= current_user.point.point %>va</h3>
+      <h3>所持VARTH <%= @user_points %>va</h3>
       <h3>カードBOX</h3>
       <ul>
         <li>カード所持数 <%= @count %>/<%= @box.size %>枚</li>

@@ -18,7 +18,7 @@
 
 <div class="tweet-container list">
   <div class="hukidasi width-full">
-    <h3>所持VARTH <%= current_user.point.point %>va</h3>
+    <h3>所持VARTH <%= @user_points %>va</h3>
 
     <%= form_with url: gambling_gambling_path, method: :post, local: true do %>
         <div class="row m-4">

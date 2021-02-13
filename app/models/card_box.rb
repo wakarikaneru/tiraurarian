@@ -36,4 +36,19 @@ class CardBox < ApplicationRecord
       true
     end
   end
+
+  def use_trial?()
+    if !self.trial
+      false
+    else
+      self.trial = false
+      save!
+      true
+    end
+  end
+
+  # お試しガチャ復活
+  def self.get_trial
+    CardBox.all.update_all(trial: true)
+  end
 end

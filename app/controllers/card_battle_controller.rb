@@ -233,6 +233,22 @@ class CardBattleController < ApplicationController
     end
   end
 
+  def trial_gacha
+    if user_signed_in?
+      if Card.trialGacha?(current_user)
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, notice: "おためしガチャをまわしました。")}
+          format.json { head :no_content }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path, alert: "ガチャを回せませんでした。" )}
+          format.json { head :no_content }
+        end
+      end
+    end
+  end
+
   def judge
     id_str = params[:id]
     id = id_str.to_i

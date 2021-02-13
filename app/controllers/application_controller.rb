@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :access_log
   before_action :detect_locale
+  before_action :notification_counts
   before_action :user_point
   before_action :create_thumb
   before_action :check_premium
@@ -106,6 +107,27 @@ class ApplicationController < ActionController::Base
       else
         redirect_to new_user_session_path, alert: 'ログインしてください。'
       end
+    end
+
+
+    def notification_counts
+      if user_signed_in? then
+        notice_records = Notice.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
+        message_records = Message.where(user_id: current_user.id, read_flag: false).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
+
+        my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
+        my_tweets_res = Tweet.joins(:parent).where("? < tweets.id", current_user.last_check_res).where(parents_tweets: {user_id: current_user.id}).where.not(user_id: current_user.id).where.not(user_id: my_mutes).order(id: :desc)
+        res_count = my_tweets_res.count
+      else
+        notice_records = Notice.none
+        message_records = Message.none
+        res_count = 0
+      end
+
+      notice_count = notice_records.count
+      message_count = message_records.count
+
+      @notification = {datetime: Time.current.to_s, res: res_count, notice: notice_count, message: message_count}
     end
 
 end

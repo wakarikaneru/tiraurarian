@@ -2,8 +2,8 @@
 
   <div class="hukidasi w-75">
     <div class="d-flex justify-content-around">
-      <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none } %>
-      <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none } %>
+      <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none, is_destroy: false } %>
+      <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none, is_destroy: false } %>
     </div>
 
     <div class="tweet-container list">

@@ -32,13 +32,13 @@
       <div class="hukidasi m-2 mb-4">
         <div class="d-flex justify-content-around p-2">
           <%= button_tag(type: "submit", name: "card_1", value: "", class: "btn m-0 p-0") do %>
-            <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none } %>
+            <%= render partial: "/layouts/card", locals: { card: card_1, deletable: false, used_cards: Card.none, is_destroy: false } %>
           <% end%>
           <%= button_tag(type: "submit", name: "card_2", value: "", class: "btn m-0 p-0") do %>
-            <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none } %>
+            <%= render partial: "/layouts/card", locals: { card: card_2, deletable: false, used_cards: Card.none, is_destroy: false } %>
           <% end%>
           <%= button_tag(type: "submit", name: "card_3", value: "", class: "btn m-0 p-0") do %>
-            <%= render partial: "/layouts/card", locals: { card: card_3, deletable: false, used_cards: Card.none } %>
+            <%= render partial: "/layouts/card", locals: { card: card_3, deletable: false, used_cards: Card.none, is_destroy: false } %>
           <% end%>
         </div>
 
@@ -89,11 +89,11 @@
                 <% @card_lists[index].map do |card| %>
                   <% if !card.in?(@disabled_cards) %>
                     <%= button_tag(type: "submit", name: target, value: card.id, class: "btn m-1 p-0") do %>
-                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none } %>
+                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none, is_destroy: false } %>
                     <% end%>
                   <% else %>
                     <%= button_tag(type: "submit", name: target, value: card.id, class: "btn m-1 p-0", disabled: true) do %>
-                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none } %>
+                      <%= render partial: "/layouts/card", locals: { card: card, deletable: false, used_cards: Card.none, is_destroy: false } %>
                     <% end%>
                   <% end %>
                 <% end %>

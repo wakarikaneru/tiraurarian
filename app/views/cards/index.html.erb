@@ -12,4 +12,4 @@
     <li>カード所持数 <%= @count %>/<%= @box.size %></li>
   </div>
 </div>
-<%= render partial: "/layouts/card_list", locals: { cards: @cards, deletable: true, used_cards: @used_cards  } %>
+<%= render partial: "/layouts/card_list", locals: { cards: @cards, deletable: true, used_cards: @used_cards, is_destroy: false } %>

@@ -4,7 +4,10 @@
     <% rare = " kira" %>
   <% end %>
 <% end %>
-<div class="hukidasi uraria-card<%= rare %>">
+
+<% destroy = is_destroy ? " broken" : "" %>
+
+<div class="hukidasi uraria-card<%= rare %><%= destroy %>">
   <% if card.present? %>
     <div class="card-name"><%= card.displayNameWithElement %></div>
     <div class="content">

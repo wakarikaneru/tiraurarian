@@ -20,7 +20,9 @@ class TweetsController < ApplicationController
           my_tweets_res = Tweet.where(parent_id: my_tweets)
           res_records = Tweet.none.or(my_tweets_res).where.not("id <= ?", current_user.last_check_res).where.not(user_id: current_user.id)
 
-          current_user.update(last_check_res: res_records.first.id)
+          if res_records.present?
+            current_user.update(last_check_res: res_records.first.id)
+          end
         end
       when "image", "image_adult"
         unless user_signed_in?

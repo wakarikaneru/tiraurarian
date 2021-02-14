@@ -5,7 +5,7 @@
   <% end %>
 
   <% cards.map do |card| %>
-    <%= render partial: "/layouts/card", locals: { card: card, deletable: deletable, used_cards: used_cards } %>
+    <%= render partial: "/layouts/card", locals: { card: card, deletable: deletable, used_cards: used_cards, is_destroy: is_destroy } %>
   <% end %>
 
 </div>

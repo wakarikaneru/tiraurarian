@@ -32,7 +32,48 @@
   font-size: 1rem;
 }
 
-.card-battle .hukidasi.uraria-card.kira{
-  position:  relative;
-  box-shadow: 0 0 16px 0 rgba(255, 255, 127, 0.5) inset, 0 0 4px 0 rgba(255, 255, 127, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.5);
+.card-battle .hukidasi.uraria-card.kira:not(.broken){
+  position: relative;
+  box-shadow: 0 0 24px 0 rgba(255, 255, 127, 0.5) inset, 0 0 4px 0 rgba(255, 255, 127, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-battle .hukidasi.uraria-card.kira:not(.broken)::after{
+  content: "";
+  display: block;
+  width: 10px;
+  height: 100%;
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  background-color: #FFF;
+  opacity: 0;
+  transform: rotate(45deg);
+  animation: reflect 2s ease-in-out infinite;
+  -webkit-transform: rotate(45deg);
+  -webkit-animation: reflect 2s ease-out infinite;
+}
+
+@keyframes reflect {
+  0% { transform: scale(0) rotate(45deg); opacity: 0; }
+  50% { transform: scale(0) rotate(45deg); opacity: 0.5; }
+  51% { transform: scale(0) rotate(45deg); opacity: 0.5; }
+  100% { transform: scale(100) rotate(45deg); opacity: 0; }
+}
+
+.card-battle .hukidasi.uraria-card.broken{
+  position: relative;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.5) inset, 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-battle .hukidasi.uraria-card.broken::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-image: url("/images/broken.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }

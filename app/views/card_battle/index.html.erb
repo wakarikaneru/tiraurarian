@@ -6,7 +6,7 @@
       <h1>新規入手カード一覧</h1>
       <div class="d-flex flex-wrap">
         <% @new_cards.map do |card| %>
-          <%= render partial: "/layouts/card", locals: { card: Card.find_by(id: card.id), deletable: false, used_cards: Card.none } %>
+          <%= render partial: "/layouts/card", locals: { card: Card.find_by(id: card.id), deletable: false, used_cards: Card.none, is_destroy: false } %>
         <% end %>
       </div>
     </div>

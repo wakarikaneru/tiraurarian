@@ -51,6 +51,12 @@ class Tweet < ApplicationRecord
         else
           return get_native_content(language)
         end
+      when "ru" then
+        if self.language == language || self.language_confidence <= 0.9
+          return self.content
+        else
+          return get_native_content(language)
+        end
       else
         return self.content
     end
@@ -73,6 +79,12 @@ class Tweet < ApplicationRecord
       when "zh" then
         unless self.content_zh.blank?
           return self.content_zh
+        else
+          return self.content
+        end
+      when "ru" then
+        unless self.content_ru.blank?
+          return self.content_ru
         else
           return self.content
         end
@@ -155,6 +167,9 @@ class Tweet < ApplicationRecord
           when "zh" then
             translation = translate_v2.translate content, to: language
             self.content_zh = CGI.unescapeHTML(translation.text)
+          when "ru" then
+            translation = translate_v2.translate content, to: language
+            self.content_ru = CGI.unescapeHTML(translation.text)
         end
 
       end

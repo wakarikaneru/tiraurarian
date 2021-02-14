@@ -46,6 +46,7 @@ class TweetDashboard < Administrate::BaseDashboard
     content_ja: Field::String,
     content_en: Field::String,
     content_zh: Field::String,
+    content_ru: Field::String,
     language: Field::String,
     language_confidence: Field::Number.with_options(decimals: 2),
   }.freeze
@@ -103,6 +104,7 @@ class TweetDashboard < Administrate::BaseDashboard
   content_ja
   content_en
   content_zh
+  content_ru
   language
   language_confidence
   ].freeze
@@ -146,6 +148,7 @@ class TweetDashboard < Administrate::BaseDashboard
   content_ja
   content_en
   content_zh
+  content_ru
   language
   language_confidence
   ].freeze

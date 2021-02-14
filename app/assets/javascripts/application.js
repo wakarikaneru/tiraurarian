@@ -44,5 +44,5 @@ var getNotice = function(){
 
 getNotice();
 $(function(){
-  setInterval(getNotice, 60000);
+  setInterval(getNotice, 10000);
 });

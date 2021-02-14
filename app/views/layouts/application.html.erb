@@ -103,14 +103,15 @@
           <% end %>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-          <span class="navbar-toggler-icon"></span> <span class="message_count badge badge-pill badge-danger"></span><span class="notice_count badge badge-pill badge-primary"></span>
+          <span class="navbar-toggler-icon"></span> <span class="res_count badge badge-pill badge-info"></span><span class="message_count badge badge-pill badge-danger"></span><span class="notice_count badge badge-pill badge-primary"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navberContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">つぶやき</a>
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">つぶやき <span class="res_count badge badge-pill badge-info"></span></a>
               <div class="dropdown-menu">
+                <%= link_to tweets_path(mode: "res"), class: "dropdown-item" do %>レス <span class="res_count badge badge-pill badge-info"></span><% end %>
                 <%= link_to "リーフ", tweets_path(mode: "leaf"), class: "dropdown-item" %>
                 <%= link_to "ルート", tweets_path(mode: "root"), class: "dropdown-item" %>
                 <%= link_to "Good", tweets_path(mode: "good"), class: "dropdown-item" %>
@@ -121,7 +122,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="message_count badge badge-pill badge-danger"></span><span class="notice_count badge badge-pill badge-primary"></span></a>
               <div class="dropdown-menu">
-                <%= link_to mypage_index_path(), class: "dropdown-item" do %>マイページ <span class="res_count badge badge-pill badge-danger"></span><% end %>
+                <%= link_to mypage_index_path(), class: "dropdown-item" do %>マイページ<% end %>
                 <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="notice_count badge badge-pill badge-primary"></span><% end %>
                 <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="message_count badge badge-pill badge-danger"></span><% end %>
               </div>
@@ -247,11 +248,25 @@
               <% end %>
             </li>
             <% end %>
+            <% if false %>
             <li class="nav-item col">
               <% if user_signed_in? %>
                 <%= link_to mypage_index_path(), class: "btn btn-secondary rounded-pill" do %>
                   <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x32" %>
                   <div class="res_count badge badge-pill badge-danger badge_float"></div>
+                <% end %>
+              <% else %>
+                <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>
+                  <i class="fas fa-sign-in-alt"></i>
+                <% end %>
+              <% end %>
+            </li>
+            <% end %>
+            <li class="nav-item col">
+              <% if user_signed_in? %>
+                <%= link_to tweets_path(mode: "res"), class: "btn btn-secondary rounded-pill" do %>
+                  <i class="fas fa-reply"></i>
+                  <div class="res_count badge badge-pill badge-info badge_float"></div>
                 <% end %>
               <% else %>
                 <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>

@@ -237,6 +237,24 @@ class TweetsController < ApplicationController
           tweets = Tweet.none
           @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
         end
+      when "res" then
+        if user_signed_in? then
+          my_tweets = Tweet.where(user_id: current_user.id)
+          my_tweets_res = Tweet.where(parent_id: my_tweets)
+
+          tweets = Tweet.none.or(my_tweets_res).where.not(user_id: current_user.id).where.not(user_id: my_mutes)
+          @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
+
+          tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
+
+          if @tweets.present?
+            current_user.update(last_check_res: @tweets.first.id)
+          end
+
+        else
+          tweets = Tweet.none
+          @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)
+        end
       when "follow" then
         if user_signed_in? then
           tweets = Tweet.where(user_id: Follow.where(user_id: current_user.id).select(:target_id)).where.not(user_id: my_mutes)

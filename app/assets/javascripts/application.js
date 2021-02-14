@@ -36,8 +36,8 @@ var getNotice = function(){
       $('.message_count').text(data.message? data.message : "");
       $('.res_count').text(data.res? data.res : "");
 
-      notifyTitle = data.notice + data.message
-      $('title').text(notifyTitle? "(" + notifyTitle + ")チラウラリア" : "チラウラリア");
+      notifyTitle = data.notice + data.message + data.res
+      $('title').text(notifyTitle? "(" + notifyTitle + ") チラウラリア" : "チラウラリア");
     }
   );
 }

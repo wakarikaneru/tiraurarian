@@ -123,16 +123,20 @@ class ApplicationController < ActionController::Base
         notice_records = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
         message_records = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
 
-        my_tweets_res = Tweet.joins(:parent).where("? < tweets.id", current_user.last_check_res).where(parents_tweets: {user_id: current_user.id}).where.not(user_id: current_user.id).where.not(user_id: my_mutes).order(id: :desc)
-        res_count = my_tweets_res.count
+
+        my_tweets = Tweet.where(user_id: current_user.id)
+        my_tweets_res = Tweet.where(parent_id: my_tweets)
+        res_records = Tweet.none.or(my_tweets_res).where.not("id <= ?", current_user.last_check_res).where.not(user_id: current_user.id).where.not(user_id: my_mutes)
+
       else
         notice_records = Notice.none
         message_records = Message.none
-        res_count = 0
+        res_count = Tweet.none
       end
 
       notice_count = notice_records.count
       message_count = message_records.count
+      res_count = res_records.count
 
       @notification = {datetime: Time.current.to_s, res: res_count, notice: notice_count, message: message_count}
     end

@@ -168,9 +168,7 @@ class CardBattleController < ApplicationController
       @card_king.user.add_points(Constants::CARD_PRIZE)
 
       if @card_king.defense % 10 == 0
-        king_box = CardBox.find_or_create_by(user_id: @card_king.user_id)
-        king_box.add_medals(1)
-        Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座を" + @card_king.defense.to_s + "回防衛に成功しました。" + " 商品としてカードメダルを1枚手に入れました。")
+        Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座を" + @card_king.defense.to_s + "回防衛に成功しました。")
       end
 
       if @is_king_is_god_killer

@@ -26,3 +26,20 @@ document.addEventListener("tweet-loaded", function(event) {
     loadOnScroll: true,
   })
 });
+
+$(function(){
+  setInterval((function(){
+    $.getJSON(
+      '/notification',
+      function(data) {
+        //console.log(data);
+        $('.notice_count').text(data.notice? data.notice : "");
+        $('.message_count').text(data.message? data.message : "");
+        $('.res_count').text(data.res? data.res : "");
+
+        notifyTitle = data.notice + data.message
+        $('title').text(notifyTitle? "（" + notifyTitle + "）チラウラリア" : "チラウラリア");
+      }
+    );
+  }()),60000);
+});

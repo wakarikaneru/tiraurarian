@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :destroy]
-  prepend_before_action :set_read, only: [:index]
 
   # GET /messages
   # GET /messages.json
@@ -11,9 +10,11 @@ class MessagesController < ApplicationController
     if user_signed_in? then
       my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
       receive_messages = Message.where(user_id: current_user.id)
-      
+
       messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
       @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
+
+      messages.update(read_flag: true)
 
       send_messages = Message.where(sender_id: current_user.id)
       @send_messages = Message.none.or(send_messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
@@ -120,14 +121,6 @@ class MessagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
-    end
-
-    def set_read
-      my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
-      receive_messages = Message.where(user_id: current_user.id)
-
-      messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
-      messages.update(read_flag: true)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

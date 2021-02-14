@@ -1,6 +1,5 @@
 class NoticesController < ApplicationController
   before_action :set_notice, only: [:show, :destroy]
-  prepend_before_action :set_read, only: [:index]
 
   # GET /notices
   # GET /notices.json
@@ -13,6 +12,8 @@ class NoticesController < ApplicationController
 
       notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
       @notices = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
+
+      notices.update(read_flag: true)
 
     else
       respond_to do |format|
@@ -48,13 +49,5 @@ class NoticesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_notice
       @notice = Notice.find(params[:id])
-    end
-
-    def set_read
-      my_mutes = Mute.where(user_id: current_user.id).select(:target_id)
-      receive_notices = Notice.where(user_id: current_user.id)
-
-      notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
-      notices.update(read_flag: true)
     end
 end

@@ -103,7 +103,7 @@
           <% end %>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navberContent">
-          <span class="navbar-toggler-icon"></span> <span class="badge badge-pill badge-danger"><%= message_count %></span><span class="badge badge-pill badge-primary"><%= notice_count %></span>
+          <span class="navbar-toggler-icon"></span> <span class="message_count badge badge-pill badge-danger"></span><span class="notice_count badge badge-pill badge-primary"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navberContent">
@@ -119,11 +119,11 @@
               </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="badge badge-pill badge-danger"><%= message_count %></span><span class="badge badge-pill badge-primary"><%= notice_count %></span></a>
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">ユーザー <span class="message_count badge badge-pill badge-danger"></span><span class="notice_count badge badge-pill badge-primary"></span></a>
               <div class="dropdown-menu">
-                <%= link_to mypage_index_path(), class: "dropdown-item" do %>マイページ <span class="badge badge-pill badge-danger"><%= res_count %></span><% end %>
-                <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="badge badge-pill badge-primary"><%= notice_count %></span><% end %>
-                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="badge badge-pill badge-danger"><%= message_count %></span><% end %>
+                <%= link_to mypage_index_path(), class: "dropdown-item" do %>マイページ <span class="res_count badge badge-pill badge-danger"></span><% end %>
+                <%= link_to notices_path(), class: "dropdown-item" do %>通知 <span class="notice_count badge badge-pill badge-primary"></span><% end %>
+                <%= link_to messages_path(), class: "dropdown-item" do %>メッセージ <span class="message_count badge badge-pill badge-danger"></span><% end %>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -178,7 +178,7 @@
         </div>
 
         <div class="active-user-info">
-          <%= render_async load_path, interval: 60000, error_message: "Offline" do %>
+          <%= render_async load_path, interval: 60000, retry_count: 5, retry_delay: 120000, error_message: "Offline" do %>
             <i class="fa fa-spinner fa-pulse"></i>
           <% end %>
         </div>
@@ -219,7 +219,7 @@
             <li class="nav-item col">
               <%= link_to notices_path(), class:"btn btn-secondary rounded-pill" do %>
                 <i class="fas fa-bell"></i>
-                <div class="badge badge-pill badge-primary badge_float"><%= notice_count %></div>
+                <div class="notice_count badge badge-pill badge-primary badge_float"></div>
               <% end %>
             </li>
             <li class="nav-item col">
@@ -236,7 +236,7 @@
             <li class="nav-item col">
               <%= link_to messages_path(), class:"btn btn-secondary rounded-pill" do %>
                 <i class="fas fa-envelope"></i>
-                <div class="badge badge-pill badge-primary badge_float"><%= message_count %></div>
+                <div class="message_count badge badge-pill badge-primary badge_float"></div>
               <% end %>
             </li>
             <% end %>
@@ -251,7 +251,7 @@
               <% if user_signed_in? %>
                 <%= link_to mypage_index_path(), class: "btn btn-secondary rounded-pill" do %>
                   <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x32" %>
-                  <div class="badge badge-pill badge-danger badge_float"><%= res_count %></div>
+                  <div class="res_count badge badge-pill badge-danger badge_float"></div>
                 <% end %>
               <% else %>
                 <%= link_to new_user_session_path(), class:"btn btn-secondary rounded-pill" do %>

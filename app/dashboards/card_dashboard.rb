@@ -12,6 +12,7 @@ class CardDashboard < Administrate::BaseDashboard
     id: Field::Number,
     model_id: Field::Number,
     element: Field::Number,
+    sub_element: Field::Number,
     power: Field::Number,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
@@ -30,6 +31,7 @@ class CardDashboard < Administrate::BaseDashboard
   id
   model_id
   element
+  sub_element
   power
   new
   ].freeze
@@ -41,6 +43,7 @@ class CardDashboard < Administrate::BaseDashboard
   id
   model_id
   element
+  sub_element
   power
   create_datetime
   created_at
@@ -56,6 +59,7 @@ class CardDashboard < Administrate::BaseDashboard
   card_box
   model_id
   element
+  sub_element
   power
   create_datetime
   rare

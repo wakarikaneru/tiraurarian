@@ -41,5 +41,5 @@ $(function(){
         $('title').text(notifyTitle? "(" + notifyTitle + ")チラウラリア" : "チラウラリア");
       }
     );
-  }()),60000);
+  }()), 60000);
 });

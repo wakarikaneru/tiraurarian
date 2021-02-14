@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
       else
         notice_records = Notice.none
         message_records = Message.none
-        res_count = Tweet.none
+        res_records = Tweet.none
       end
 
       notice_count = notice_records.count

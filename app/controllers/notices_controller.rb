@@ -13,7 +13,7 @@ class NoticesController < ApplicationController
       notices = Notice.none.or(receive_notices).where.not(sender_id: my_mutes)
       @notices = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
-      notices.update(read_flag: true)
+      @notices.update(read_flag: true)
 
     else
       respond_to do |format|

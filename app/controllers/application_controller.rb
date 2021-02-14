@@ -36,15 +36,15 @@ class ApplicationController < ActionController::Base
     stat = Stat.order(id: :desc).first
     @load = stat.load
     case @load
-      when 0..200
+    when 0..500
         @load_str = "低負荷"
-      when 201..400
+      when 501..1000
         @load_str = "中負荷"
-      when 401..600
+      when 1001..1500
         @load_str = "高負荷"
-      when 601..800
+      when 1501..2000
         @load_str = "超負荷"
-      when 801..1000
+      when 2001..2500
         @load_str = "やばい"
       else
         @load_str = "未知の領域"

@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
       messages = Message.none.or(receive_messages).where.not(sender_id: my_mutes)
       @messages = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)
 
-      messages.update(read_flag: true)
+      @messages.update(read_flag: true)
 
       send_messages = Message.where(sender_id: current_user.id)
       @send_messages = Message.none.or(send_messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago).order(create_datetime: :desc)

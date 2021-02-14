@@ -14,6 +14,16 @@ class TweetsController < ApplicationController
             format.json { head :no_content }
           end
         end
+      when "res"
+        if user_signed_in?
+          if @tweets.present?
+            my_tweets = Tweet.where(user_id: current_user.id)
+            my_tweets_res = Tweet.where(parent_id: my_tweets)
+            res_records = Tweet.none.or(my_tweets_res).where.not("id <= ?", current_user.last_check_res).where.not(user_id: current_user.id).where.not(user_id: my_mutes)
+
+            current_user.update(last_check_res: res_records.first.id)
+          end
+        end
       when "image", "image_adult"
         unless user_signed_in?
           respond_to do |format|
@@ -246,11 +256,6 @@ class TweetsController < ApplicationController
           @tweets = Tweet.none.or(tweets).order(id: :desc).includes(:user, :parent, :text).page(params[:page]).per(60)
 
           tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
-
-          if @tweets.present?
-            current_user.update(last_check_res: @tweets.first.id)
-          end
-
         else
           tweets = Tweet.none
           @tweets = Tweet.none.or(tweets).includes(:user, :parent, :text).page(params[:page]).per(60)

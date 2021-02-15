@@ -201,10 +201,6 @@ class Card < ApplicationRecord
     max_element = environment.index(environment.max)
     max_element_name = Constants::CARD_ELEMENTS[max_element]
 
-    if environment.max < 0
-      return "気は静かだ…"
-    end
-
     if 10 < environment.max
       return "≪" + max_element_name + "≫の気が極限まで高まっている…！！！"
     elsif 5 < environment.max
@@ -213,6 +209,10 @@ class Card < ApplicationRecord
       return "≪" + max_element_name + "≫の気がかなり高まっている…！"
     elsif 1 < environment.max
       return "≪" + max_element_name + "≫の気が高まっている…"
+    end
+
+    if environment.sum < 0
+      return "辺りは異様に静かだ…"
     end
 
     return ""

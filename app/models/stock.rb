@@ -51,16 +51,16 @@ class Stock < ApplicationRecord
     economy_f = economy.value.to_f
 
     if (Random.rand * (60 * 12)) < 1
-      economy_f = Stock.rand(1) * 200
+      economy_f = dist_rand(1) * 200
     else
-      economy_f = ((economy_f + Stock.rand(2) * 10) * 0.99)
+      economy_f = ((economy_f + dist_rand(2) * 10) * 0.99)
     end
 
     economy.update(value: economy_f.to_s)
 
     appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
     appearance_economy_f = appearance_economy.value.to_f
-    appearance_economy_f = ((economy_f + Stock.rand(1) * 10) * 0.99)
+    appearance_economy_f = ((economy_f + dist_rand(1) * 10) * 0.99)
 
     appearance_economy.update(value: appearance_economy_f.to_s)
 
@@ -72,7 +72,7 @@ class Stock < ApplicationRecord
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0
     price_f = price_f + ((price_target_f - price_f) * 0.01)
-    price_f = price_f + Stock.rand(10) * (price_target_f / 2.0)
+    price_f = price_f + dist_rand(10) * (price_target_f / 2.0)
 
     price.update(value: price_f.to_s)
     StockLog.generate(price_f.to_i)
@@ -92,7 +92,7 @@ class Stock < ApplicationRecord
     count.update(value: count_s)
 
     name = Control.find_or_create_by(key: "company_name")
-    name.update(value: "株式会社チラウラリア##{count_s}")
+    name.update(value: Stock.randomName)
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
     coefficient_f = 1 - (Random.rand * Random.rand) * 2
@@ -103,7 +103,7 @@ class Stock < ApplicationRecord
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
-    price_f = price_target_f + ((price_target_f * Stock.rand(1)) / 2)
+    price_f = price_target_f + ((price_target_f * dist_rand(1)) / 2)
     price.update(value: price_f.to_s)
   end
 
@@ -121,7 +121,7 @@ class Stock < ApplicationRecord
     StockLog.delete_all
   end
 
-  def self.rand(n = 1)
+  def self.dist_rand(n = 1)
     a = []
     n.times do
       a.push(Random.rand - Random.rand)
@@ -129,4 +129,29 @@ class Stock < ApplicationRecord
     return a.sum / a.length
   end
 
+  def self.randomName()
+    a = []
+
+    if Random.rand() < 0.5
+      a << "ウラリア"
+    else
+      a << "チラウラリア"
+    end
+
+    a << Constants::STOCK_COMPANY_NAME_ELEMENTS.sample(Random.rand(1..3))
+
+    a.shuffle!
+
+    if Random.rand() < 0.1
+      a << Constants::STOCK_COMPANY_NAME_ELEMENTS_AFTER.sample()
+    end
+
+    if Random.rand() < 0.5
+      a.prepend("株式会社")
+    else
+      a.append("株式会社")
+    end
+
+    return a.join
+  end
 end

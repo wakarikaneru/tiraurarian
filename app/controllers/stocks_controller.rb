@@ -41,10 +41,6 @@ class StocksController < ApplicationController
     render json: @stock_log.pluck(:datetime, :point)
   end
 
-  def chart
-    render partial: "chart"
-  end
-
   def purchase
     num_str = params[:point]
     num = num_str.to_i

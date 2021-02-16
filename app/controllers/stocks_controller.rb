@@ -8,6 +8,7 @@ class StocksController < ApplicationController
       @price = Control.find_by(key: "stock_price").value.to_i
 
       economy_f = Control.find_by(key: "stock_economy").value.to_f
+      economy_f += Control.find_by(key: "stock_appearance_economy").value.to_f
 
       if 100 < economy_f
         @economy = "神景気"
@@ -38,6 +39,10 @@ class StocksController < ApplicationController
   def stock_log
     @stock_log = StockLog.where("? <= datetime", 1.hour.ago).order(id: :desc)
     render json: @stock_log.pluck(:datetime, :point)
+  end
+
+  def chart
+    render partial: "chart"
   end
 
   def purchase

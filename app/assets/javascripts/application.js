@@ -42,7 +42,7 @@ var getNotice = function(){
   );
 }
 
-getNotice();
 $(function(){
+  getNotice();
   setInterval(getNotice, 10000);
 });

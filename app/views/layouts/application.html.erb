@@ -26,11 +26,11 @@
 
     <%= csrf_meta_tags %>
 
-    <%= preload_link_tag 'application.css', media: 'all', onload: "this.onload=null;this.rel='stylesheet'" %>
+    <link rel="stylesheet" href="<%= stylesheet_path('application') %>">
     <noscript><link rel="stylesheet" href="<%= stylesheet_path('application') %>"></noscript>
     <script src="/js/cssrelpreload.js"></script>
     <link rel="stylesheet" media='all' href="/css/loading.css">
-    <%= javascript_include_tag 'application', async: 'async' %>
+    <%= javascript_include_tag 'application' %>
     <%= preload_link_tag 'font-awesome/fa-solid-900.woff2' %>
 
     <!-- iOS_PWA -->

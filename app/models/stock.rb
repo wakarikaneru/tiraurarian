@@ -50,13 +50,19 @@ class Stock < ApplicationRecord
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
-    if (Random.rand * (60 * 24 * 7)) < 1
+    if (Random.rand * (60 * 12)) < 1
       economy_f = Stock.rand(1) * 200
     else
-      economy_f = ((economy_f + Stock.rand(1) * 10) * 0.99)
+      economy_f = ((economy_f + Stock.rand(2) * 10) * 0.99)
     end
 
     economy.update(value: economy_f.to_s)
+
+    appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
+    appearance_economy_f = appearance_economy.value.to_f
+    appearance_economy_f = ((economy_f + Stock.rand(1) * 10) * 0.99)
+
+    appearance_economy.update(value: appearance_economy_f.to_s)
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
     coefficient_f = coefficient.value.to_f
@@ -64,9 +70,9 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    price_f = price_f + economy_f * coefficient_f
+    price_f = price_f + (economy_f * coefficient_f) * 1.0
     price_f = price_f + ((price_target_f - price_f) * 0.01)
-    price_f = price_f + Stock.rand(10) * (price_target_f / 2)
+    price_f = price_f + Stock.rand(10) * (price_target_f / 2.0)
 
     price.update(value: price_f.to_s)
     StockLog.generate(price_f.to_i)
@@ -89,7 +95,7 @@ class Stock < ApplicationRecord
     name.update(value: "株式会社チラウラリア##{count_s}")
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
-    coefficient_f = (Stock.rand(5) * 2) + 1
+    coefficient_f = 1 - (Random.rand * Random.rand) * 2
     coefficient.update(value: coefficient_f.to_s)
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
@@ -97,7 +103,7 @@ class Stock < ApplicationRecord
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
-    price_f = (price_target_f + (price_target_f * Stock.rand(1)) / 2)
+    price_f = price_target_f + ((price_target_f * Stock.rand(1)) / 2)
     price.update(value: price_f.to_s)
   end
 

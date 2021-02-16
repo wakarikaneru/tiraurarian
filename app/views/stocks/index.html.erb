@@ -14,7 +14,7 @@
     <h1><%= @name %></h1>
     <div class="w-100">
       <%= javascript_include_tag "chartkick", "Chart.bundle" %>
-      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 1, defer: true %>
+      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 10, defer: true %>
     </div>
     <h5>（<%= Time.current.strftime("%Y年%m月%d日 %H:%M:%S") %>時点の情報です）</h5>
     <h2>現在の景気 <%= @economy %></h2>

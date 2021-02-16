@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   resources :mypage
 
   get 'stock', to: 'stocks#index'
+  get 'stock/stock_log', to: 'stocks#stock_log'
   post 'stock/purchase', to: 'stocks#purchase'
   post 'stock/sale', to: 'stocks#sale'
 

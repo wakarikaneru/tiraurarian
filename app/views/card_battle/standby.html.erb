@@ -2,27 +2,108 @@
 <%= render partial: "/layouts/card_nav" %>
 
 <div class="tweet-container">
-    <div class="hukidasi">
-      <h1 class="text-center"><%= Constants::CARD_RULE_NAME[@card_king.rule] %></h1>
-      <div class="content m-4">
-        合計戦闘力が最大<%= Constants::CARD_RULE[@card_king.rule]%>までの<br />
-        デッキが挑戦できる王座です。
-      </div>
-      <div class="content">
-        <% if @card_king.user.present? %>
-          <div class="content-image">
-            <%= image_tag @card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+
+  <div class="hukidasi">
+    <h1>歴代の王者</h1>
+    <div class="d-flex justify-content-center">
+      <% if @legend_card_kings.present? %>
+        <% @legend_card_kings.map do |card_king| %>
+          <div class="content d-flex justify-content-center m-2">
+            <% if card_king.user.present? %>
+              <div class="content-image">
+                <%= image_tag card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+              </div>
+              <div class="content-content word-break">
+                <div>第<%= card_king.getGeneration %>代王者</div>
+                <div><%= card_king.user.name %></div>
+                <div></div>
+                <div>防衛回数 <%= card_king.defense %>回</div>
+                <div>防衛期間 <%= distance_of_time_in_words(card_king.updated_at, card_king.created_at) %></div>
+              </div>
+            <% else %>
+              <div class="text-center">
+                空位
+              </div>
+            <% end %>
           </div>
-          <div class="content-content word-break">
-            <div>第<%= @card_king.getGeneration %>代王者</div>
-            <div><%= @card_king.user.name %></div>
-            <div></div>
-            <div>防衛回数<%= @card_king.defense %>回</div>
-          </div>
-        <% else %>
         <% end %>
-      </div>
+      <% else %>
+        <div class="content d-flex justify-content-center m-2">
+          <div class="text-center">
+            まだいません。あなたが王者になりましょう！
+          </div>
+        </div>
+      <% end %>
     </div>
+  </div>
+  <div class="hukidasi">
+    <h1>今日の王者</h1>
+    <div class="d-flex justify-content-center">
+      <% if @today_card_kings.present? %>
+        <% @today_card_kings.map do |card_king| %>
+          <div class="content d-flex justify-content-center m-2">
+            <% if card_king.user.present? %>
+              <div class="content-image">
+                <%= image_tag card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+              </div>
+              <div class="content-content word-break">
+                <div>第<%= card_king.getGeneration %>代王者</div>
+                <div><%= card_king.user.name %></div>
+                <div></div>
+                <div>防衛回数 <%= card_king.defense %>回</div>
+                <div>防衛期間 <%= distance_of_time_in_words(card_king.updated_at, card_king.created_at) %></div>
+              </div>
+            <% else %>
+              <div class="text-center">
+                空位
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="content d-flex justify-content-center m-2">
+          <div class="text-center">
+            まだいません。あなたが王者になりましょう！
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1 class="text-center"><%= Constants::CARD_RULE_NAME[@card_king.rule] %></h1>
+    <div class="content m-4">
+      合計戦闘力が最大<%= Constants::CARD_RULE[@card_king.rule]%>までの<br />
+      デッキが挑戦できる王座です。
+    </div>
+    <div class="content">
+      <% if @card_king.user.present? %>
+        <div class="content-image">
+          <%= image_tag @card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
+        </div>
+        <div class="content-content word-break">
+          <div>第<%= @card_king.getGeneration %>代王者</div>
+          <div><%= @card_king.user.name %></div>
+          <div></div>
+          <div>防衛回数<%= @card_king.defense %>回</div>
+          <div>防衛期間<%= time_ago_in_words(@card_king.created_at) %></div>
+        </div>
+      <% else %>
+        <div class="text-center">
+          空位
+        </div>
+      <% end %>
+    </div>
+
+    <% if @card_king.last_challenger.present? %>
+      <div class="content-desc text-center">
+        <div>最終挑戦者: <%= @card_king.last_challenger.name %></div>
+        <div><%= time_ago_in_words(@card_king.updated_at) %>前</div>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <%= render partial: "/layouts/card_deck_list_simple", locals: { decks: @card_decks, rule: @rule } %>

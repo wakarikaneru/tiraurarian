@@ -33,7 +33,6 @@ class CardBattleController < ApplicationController
 
     @card_kings = [card_king_0, card_king_1, card_king_2]
 
-
   end
 
   def standby
@@ -44,6 +43,8 @@ class CardBattleController < ApplicationController
     end
 
     @card_king = CardKing.where(rule: @rule).order(id: :desc).first
+    @today_card_kings = CardKing.where(updated_at: Time.zone.now.all_day).where(rule: @rule).order(defense: :desc).limit(3)
+    @legend_card_kings = CardKing.where(rule: @rule).order(defense: :desc).limit(3)
   end
 
   def battle
@@ -144,6 +145,9 @@ class CardBattleController < ApplicationController
 
     # 商品贈呈
     if @winner == 1
+      @card_king.last_challenger = current_user
+      @card_king.save!
+
       Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から転落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
 
       my_box = CardBox.find_or_create_by(user_id: current_user.id)

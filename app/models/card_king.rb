@@ -4,7 +4,7 @@ class CardKing < ApplicationRecord
   belongs_to :card_deck, optional: true
 
   def getGeneration
-    return CardKing.where(rule: rule).count
+    return CardKing.where(rule: rule).where(id: -Float::INFINITY..id).count
   end
 
   def self.establish(rule = 0)

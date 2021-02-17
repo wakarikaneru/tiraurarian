@@ -109,6 +109,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def authenticate_admin!
+      # TODO Add authentication logic here.
+      if user_signed_in? && current_user.id == 1
+      else
+        redirect_to root_path
+      end
+    end
 
     def notification_counts
       if user_signed_in? then

@@ -11,7 +11,7 @@
 </div>
 <div class="tweet-container list">
   <div class="hukidasi width-full">
-    <h1><%= @name %></h1>
+    <h1>株の情報</h1>
     <div class="w-100">
       <%= javascript_include_tag "chartkick", "Chart.bundle" %>
       <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 10, defer: true %>

@@ -1,0 +1,9 @@
+<div class="title"><%= @user.name %>にカードを送信</div>
+
+<div id="tweet-form" class="tweet-form">
+  <div class="prompt">カードを送信</div>
+  <div>カードの送付には<%= Constants::CARD_SEND_PRICE %>vaかかります。</div>
+  <div class="m-2">
+    <%= render partial: "/layouts/send_card_form", locals: { user_id: @user.id, cards: @sendable_cards } %>
+  </div>
+</div>

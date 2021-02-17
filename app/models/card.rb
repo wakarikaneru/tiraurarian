@@ -41,8 +41,8 @@ class Card < ApplicationRecord
   end
 
   # 自分のカードか判定
-  def isOwn?
-    return card_box.user == current_user
+  def isOwn?(user = User.none)
+    return card_box.user == user
   end
 
   # ゾンビ判定
@@ -125,6 +125,22 @@ class Card < ApplicationRecord
           self.sub_element = rand(0..8)
         end
         self.rare = true
+        self.new = true
+        self.save!
+        return true
+      else
+        return false
+      end
+    end
+    return false
+  end
+
+  # カードを送信する
+  def send?(user = User.none, target_user = User.none)
+    price = Constants::CARD_SEND_PRICE
+    if isOwn?(user)
+      if user.sub_points?(price)
+        self.card_box = CardBox.find_or_create_by(user_id: target_user.id)
         self.new = true
         self.save!
         return true

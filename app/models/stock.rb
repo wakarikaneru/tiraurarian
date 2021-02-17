@@ -138,7 +138,7 @@ class Stock < ApplicationRecord
       a << "チラウラリア"
     end
 
-    a << Constants::STOCK_COMPANY_NAME_ELEMENTS.sample(Random.rand(1..3))
+    a.concat(Constants::STOCK_COMPANY_NAME_ELEMENTS.sample(Random.rand(1..3)))
 
     a.shuffle!
 

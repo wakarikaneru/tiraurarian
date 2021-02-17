@@ -42,8 +42,8 @@ Rails.application.routes.draw do
   resources :mypage
 
   get 'stock', to: 'stocks#index'
+  get 'stock/info', to: 'stocks#info'
   get 'stock/stock_log', to: 'stocks#stock_log'
-  get 'stock/chart', to: 'stocks#chart'
   post 'stock/purchase', to: 'stocks#purchase'
   post 'stock/sale', to: 'stocks#sale'
 
@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   post 'card_battle/judge', to: 'card_battle#judge'
   post 'card_battle/expand_box', to: 'card_battle#expand_box'
 
+  get 'card/select_send_card', to: 'cards#select_send_card'
   get 'card/dumpsite', to: 'cards#dumpsite'
   post 'card/dump', to: 'cards#dump'
 

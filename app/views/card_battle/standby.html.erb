@@ -87,8 +87,8 @@
           <div>第<%= @card_king.getGeneration %>代王者</div>
           <div><%= @card_king.user.name %></div>
           <div></div>
-          <div>防衛回数<%= @card_king.defense %>回</div>
-          <div>防衛期間<%= time_ago_in_words(@card_king.created_at) %></div>
+          <div>防衛回数 <%= @card_king.defense %>回</div>
+          <div>防衛期間 <%= time_ago_in_words(@card_king.created_at) %></div>
         </div>
       <% else %>
         <div class="text-center">

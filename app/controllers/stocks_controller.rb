@@ -16,6 +16,7 @@ class StocksController < ApplicationController
 
   def info
     @stock = Stock.find_or_create_by(user_id: current_user.id)
+    @name = Control.find_by(key: "company_name").value
     @price = Control.find_by(key: "stock_price").value.to_i
 
     economy_f = Control.find_by(key: "stock_economy").value.to_f

@@ -1,35 +1,20 @@
 class CardsController < ApplicationController
-  before_action :set_card, only: [:destroy]
-  before_action :get_used_cards, only: [:index, :dumpsite, :dump, :destroy]
+  before_action :authenticate_user!, only: [:index, :dumpsite, :dump, :select_send_card, :send_card, :destroy]
+  before_action :set_card, only: [:send_card, :destroy]
+  before_action :get_used_cards, only: [:index, :dumpsite, :dump, :select_send_card, :send_card, :destroy]
 
   # GET /cards
   # GET /cards.json
   def index
-    if user_signed_in?
-      @box = CardBox.find_or_create_by(user_id: current_user.id)
-      @cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
-      @count = Card.where(card_box_id: @box.id).count
-
-    else
-      respond_to do |format|
-        format.html { redirect_to new_user_session_path, alert: "ログインしてください。" }
-        format.json { head :no_content }
-      end
-    end
+    @box = CardBox.find_or_create_by(user_id: current_user.id)
+    @cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
+    @count = Card.where(card_box_id: @box.id).count
   end
 
   def dumpsite
-    if user_signed_in?
-      @box = CardBox.find_or_create_by(user_id: current_user.id)
-      @cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
-      @count = Card.where(card_box_id: @box.id).count
-
-    else
-      respond_to do |format|
-        format.html { redirect_to new_user_session_path, alert: "ログインしてください。" }
-        format.json { head :no_content }
-      end
-    end
+    @box = CardBox.find_or_create_by(user_id: current_user.id)
+    @cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
+    @count = Card.where(card_box_id: @box.id).count
   end
 
   def dump
@@ -58,6 +43,52 @@ class CardsController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: @count_success.to_s + "枚のカードを削除しました。 " + @count_fail.to_s + "枚のカードは削除できませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def select_send_card
+    @box = CardBox.find_or_create_by(user_id: current_user.id)
+    @user = User.find_by(id: params[:user_id])
+
+    if @user.present?
+      cards = Card.where(card_box_id: @box.id).order(:element).order(power: :desc)
+      @sendable_cards = cards.where.not(id: @used_cards)
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "ユーザーが存在しません。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def send_card
+    @user = User.find_by(id: params[:user_id])
+    if @card.card_box.user == current_user
+      if !@card.in?(@used_cards)
+        if @card.send?(current_user, @user)
+          Notice.generate(current_user.id, @user.id, @user.name, "カード[" + @card.displayNameWithAbility + "]を送信しました。")
+          Notice.generate(@user.id, current_user.id, current_user.name, "カード[" + @card.displayNameWithAbility + "]を受け取りました。")
+          respond_to do |format|
+            format.html { redirect_back(fallback_location: root_path, notice: @user.name + "にカード[" + @card.displayNameWithAbility + "]を送信しました。" )}
+            format.json { head :no_content }
+          end
+        else
+          respond_to do |format|
+            format.html { redirect_back(fallback_location: root_path, alert: "カードを送信できませんでした。" )}
+            format.json { head :no_content }
+          end
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to cards_url, alert: "カードは使用中です。" }
+          format.json { head :no_content }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to cards_url, alert: "自分のカードではありません。" }
         format.json { head :no_content }
       end
     end

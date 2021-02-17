@@ -1,0 +1,15 @@
+<%= form_with url: card_send_card_path, method: :post, local: true do %>
+
+  <%= hidden_field_tag :user_id, user_id %>
+
+  <div class="input-group">
+    <%= select_tag :id, options_from_collection_for_select(cards, :id, :displayNameWithAbility), class: "form-control", placeholder: "回数" %>
+    <div class="input-group-append">
+      <%= button_tag type: "submit", class: "change-disabled-button btn btn-accent", data: { disable: true } do %>
+        <span>送信</span>
+        <i class="fa fa-spinner fa-pulse"></i>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

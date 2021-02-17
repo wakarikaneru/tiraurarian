@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   post 'card_battle/expand_box', to: 'card_battle#expand_box'
 
   get 'card/select_send_card', to: 'cards#select_send_card'
+  post 'card/send_card', to: 'cards#send_card'
   get 'card/dumpsite', to: 'cards#dumpsite'
   post 'card/dump', to: 'cards#dump'
 

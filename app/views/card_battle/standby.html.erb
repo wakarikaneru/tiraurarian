@@ -5,10 +5,10 @@
 
   <div class="hukidasi">
     <h1>歴代の王者</h1>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex flex-wrap justify-content-center">
       <% if @legend_card_kings.present? %>
         <% @legend_card_kings.map do |card_king| %>
-          <div class="content d-flex flex-wrap justify-content-center m-2">
+          <div class="content d-flex justify-content-center m-2">
             <% if card_king.user.present? %>
               <div class="content-image">
                 <%= image_tag card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>
@@ -38,10 +38,10 @@
   </div>
   <div class="hukidasi">
     <h1>今日の王者</h1>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex flex-wrap justify-content-center">
       <% if @today_card_kings.present? %>
         <% @today_card_kings.map do |card_king| %>
-          <div class="content d-flex flex-wrap justify-content-center m-2">
+          <div class="content d-flex justify-content-center m-2">
             <% if card_king.user.present? %>
               <div class="content-image">
                 <%= image_tag card_king.user.avatar.url(:thumb), class: "user-img image_x64" %>

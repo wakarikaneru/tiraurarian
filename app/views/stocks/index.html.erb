@@ -13,8 +13,8 @@
   <div class="hukidasi width-full">
     <h1>株の情報</h1>
     <div class="w-100">
-      <%= javascript_include_tag "chartkick", "Chart.bundle" %>
-      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 10, defer: true %>
+      <%= javascript_include_tag "chartkick", "/js/highcharts.js" %>
+      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 10, library: { chart: { backgroundColor: "rgba(0,0,0,0)" }, time: { useUTC: false }, plotOptions: { series: { animation: false } } }, defer: true %>
     </div>
 
     <div>

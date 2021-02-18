@@ -20,6 +20,9 @@ module Tiraurarian
     # security
     config.middleware.use Rack::Attack
 
+    # queue
+    config.active_job.queue_adapter = :async
+
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       html_tag
     end

@@ -60,7 +60,7 @@ class Stock < ApplicationRecord
 
     appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
     appearance_economy_f = appearance_economy.value.to_f
-    appearance_economy_f = ((economy_f + dist_rand(1) * 10) * 0.99)
+    appearance_economy_f = ((economy_f + dist_rand(2) * 10) * 0.9)
 
     appearance_economy.update(value: appearance_economy_f.to_s)
 
@@ -82,7 +82,26 @@ class Stock < ApplicationRecord
       Stock.bankruptcy
       Stock.listing
     end
+  end
 
+  # 株価変動（簡易版）
+  def self.fluctuation_mini
+    price = Control.find_or_create_by(key: "stock_price")
+    price_f = price.value.to_f
+
+    price_target = Control.find_or_create_by(key: "stock_price_target")
+    price_target_f = price_target.value.to_f
+
+    price_f = price_f + dist_rand(10) * (price_target_f / 2.0)
+
+    price.update(value: price_f.to_s)
+    StockLog.generate(price_f.to_i)
+
+    # 倒産
+    if price_f < (price_target_f / 2)
+      Stock.bankruptcy
+      Stock.listing
+    end
   end
 
   # 株式上場(初期化)

@@ -1,0 +1,3 @@
+class TiramonBattle < ApplicationRecord
+
+end

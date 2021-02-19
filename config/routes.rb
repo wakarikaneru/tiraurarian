@@ -67,6 +67,9 @@ Rails.application.routes.draw do
 
   get 'card_deck/creater', to: 'card_decks#creater'
 
+  resources :tiramons
+  get 'tiramon_battle', to: 'tiramon_battles#index'
+
   get 'taxpayers', to: 'taxpayers#index'
 
   get 'info/index'
@@ -110,6 +113,10 @@ Rails.application.routes.draw do
     resources :gambling_results
 
     resources :thumbs
+
+    resources :tiramons
+    resources :tiramon_moves
+    resources :tiramon_battles
 
     root to: "controls#index"
   end

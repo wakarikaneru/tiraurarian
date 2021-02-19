@@ -1,0 +1,70 @@
+<div class="tweet-container">
+
+  <div class="hukidasi w-100 m-4">
+
+    <div class="tweet-container list">
+      <% @result[:log].map do |log| %>
+        <% if log[0] == 1 %>
+          <div class="tweet">
+            <div class="hukidasi">
+              <div class="content">
+                <%= log[1] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% if log[0] == -1 %>
+          <div class="tweet-reverse">
+            <div class="hukidasi">
+              <div class="content">
+                <%= log[1] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if log[0] == 0 %>
+          <h3 class="text-center">
+            <%= log[1] %>
+          </h3>
+        <% end %>
+
+        <% if log[0] == nil %>
+          <div class="hukidasi w-100 d-flex justify-content-around">
+            <% log[1].map do |tiramon| %>
+              <% mhp = [100, 0].max %>
+              <% mmp = [100, 0].max %>
+              <% msp = [100, 0].max %>
+              <% hp = [tiramon[:hp] / tiramon[:max_hp] * 100, 0].max %>
+              <% mp = [tiramon[:mp] / tiramon[:max_mp] * 100, 0].max %>
+              <% sp = [tiramon[:sp] / tiramon[:max_sp] * 100, 0].max %>
+              <% thp = [tiramon[:temp_hp] / tiramon[:max_hp] * 100, 0].max %>
+              <% tmp = [tiramon[:temp_mp] / tiramon[:max_mp] * 100, 0].max %>
+              <% tsp = [tiramon[:temp_sp] / tiramon[:max_sp] * 100, 0].max %>
+
+              <div class="hukidasi w-100 m-2">
+                <div>
+                  <div class="text-center"><%= tiramon[:name] %></div>
+                  <div class="progress m-2">
+                    <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
+                    <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
+                  </div>
+                  <div class="progress m-2">
+                    <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
+                    <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
+                  </div>
+                  <div class="progress m-2">
+                    <div class="progress-bar" style="width:<%= tmp %>%"><%= tmp.to_i %>%</div>
+                    <div class="progress-bar bg-danger" style="width:<%= mp - tmp %>%"></div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

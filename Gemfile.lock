@@ -100,6 +100,8 @@ GEM
     ffi (1.14.2)
     font-awesome-sass (5.12.0)
       sassc (>= 1.11)
+    gimei (0.5.1)
+      romaji
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-cloud-core (1.5.0)
@@ -249,6 +251,8 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rly (0.2.3)
+    romaji (0.2.4)
+      rake (>= 0.8.0)
     ruby2_keywords (0.0.4)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -328,6 +332,7 @@ DEPENDENCIES
   devise
   devise-i18n
   font-awesome-sass (~> 5.12.0)
+  gimei
   google-cloud-translate (~> 2.3.0)
   google-cloud-vision (~> 0.38.0)
   jbuilder (~> 2.5)

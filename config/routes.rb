@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   get 'card_deck/creater', to: 'card_decks#creater'
 
   resources :tiramons
+  get 'tiramon/get', to: 'tiramons#get'
   get 'tiramon_battle', to: 'tiramon_battles#index'
 
   get 'taxpayers', to: 'taxpayers#index'

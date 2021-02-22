@@ -1,8 +1,151 @@
 class Tiramon < ApplicationRecord
   belongs_to :user
 
+  def self.generate
+  end
+
+  def self.generateData(level)
+    power = level / 100.0
+    data = {
+      name: Gimei.male.kanji,
+      height: 1.81,
+      weight: 101,
+      bmi: 25,
+      abilities: {
+        vital: [100, 100, 100],
+        recovery: [100, 100, 100],
+        speed: 100,
+        intuition: 0.0,
+      },
+      skills: {
+        attack: [1.0, 1.0, 1.0],
+        defense: [1.0, 1.0, 1.0],
+      },
+      style: {
+        tactics: {
+          intuition: 1.0,
+          study: 1.0,
+          flexible: 1.0,
+          wary: 1.0,
+        },
+        wary: [100, 100, 100],
+      },
+      train: {
+        level: 0.0,
+        abilities: {
+          vital: [1.0, 1.0, 1.0],
+          recovery: [1.0, 1.0, 1.0],
+          speed: 1.0,
+          intuition: 1.0,
+        },
+        skills: {
+          attack: [1.0, 1.0, 1.0],
+          defense: [1.0, 1.0, 1.0],
+        },
+      },
+      "moves": [
+        [
+          [102001, 103001, 201001, 301006, 305006, 302004],
+          [000001, 103001, 201001, 203001, 301006, 305007],
+          [103003, 106027, 203001, 205001, 301006, 305007],
+          [103003, 106027, 203001, 205011, 305007, 305001],
+        ],
+        [
+          [102001, 103001, 201001, 301006, 305006, 302004],
+          [000001, 103001, 201001, 203001, 301006, 305007],
+          [103003, 106027, 203001, 205001, 301006, 305007],
+          [103003, 106027, 203001, 205011, 305007, 305001],
+        ],
+        [
+          [102001, 103001, 201001, 301006, 305006, 302004],
+          [000001, 103001, 201001, 203001, 301006, 305007],
+          [103003, 106027, 203001, 205001, 301006, 305007],
+          [103003, 106027, 203001, 205011, 305007, 305001],
+        ],
+        [
+          [102001, 103001, 201001, 301006, 305006, 302004],
+          [000001, 103001, 201001, 203001, 301006, 305007],
+          [103003, 106027, 203001, 205001, 301006, 305007],
+          [103003, 106027, 203001, 205011, 305007, 305001],
+        ],
+      ]
+    }
+
+    data[:bmi] = (30.0 + 8.0 * Tiramon.dist_rand(1))
+    data[:height] = 1.75 + (0.25 * Tiramon.dist_rand(1))
+    data[:weight] = data[:height] ** 2 * data[:bmi]
+
+    data[:abilities][:vital] = [100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2)]
+    data[:abilities][:recovery] = [100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2)]
+    data[:abilities][:speed] = 100 + 50 * Tiramon.dist_rand(2)
+    data[:abilities][:intuition] = Tiramon.power_rand(4)
+    data[:skills][:attack] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
+    data[:skills][:defense] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
+
+    data[:train][:abilities][:vital] = [0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2)]
+    data[:train][:abilities][:recovery] = [0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2)]
+    data[:train][:abilities][:speed] = 0.5 + power * Tiramon.power_rand(2)
+    data[:train][:abilities][:intuition] = 0.5 + power * Tiramon.power_rand(2)
+    data[:train][:skills][:attack] = [0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2)]
+    data[:train][:skills][:defense] = [0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2), 0.5 + power * Tiramon.power_rand(2)]
+
+    data[:train][:level] = Tiramon.getLevel(data)
+
+    return data
+  end
+
+  def self.getLevel(data)
+    a = []
+    a.concat(data[:train][:abilities][:vital])
+    a.concat(data[:train][:abilities][:recovery])
+    a << data[:train][:abilities][:speed]
+    a << data[:train][:abilities][:intuition]
+    a.concat(data[:train][:skills][:attack])
+    a.concat(data[:train][:skills][:defense])
+
+    return (a.sum(0.0) / a.length) * 100 - 50
+  end
+
   def getData
     return eval(data)
+  end
+
+  def self.getBattleData(d)
+    t = {
+      name: d[:name],
+      level: d[:train][:level],
+      height: d[:height].to_f,
+      weight: d[:weight].to_f,
+      bmi: d[:bmi].to_f,
+      max_hp: d[:abilities][:vital][0].to_f * d[:train][:abilities][:vital][0].to_f,
+      max_mp: d[:abilities][:vital][1].to_f * d[:train][:abilities][:vital][1].to_f,
+      max_sp: d[:abilities][:vital][2].to_f * d[:train][:abilities][:vital][2].to_f,
+      recovery_hp: d[:abilities][:recovery][0].to_f * d[:train][:abilities][:recovery][0].to_f,
+      recovery_mp: d[:abilities][:recovery][1].to_f * d[:train][:abilities][:recovery][1].to_f,
+      recovery_sp: d[:abilities][:recovery][2].to_f * d[:train][:abilities][:recovery][2].to_f,
+      hp: d[:abilities][:vital][0].to_f * d[:train][:abilities][:vital][0].to_f,
+      mp: d[:abilities][:vital][1].to_f * d[:train][:abilities][:vital][1].to_f,
+      sp: d[:abilities][:vital][2].to_f * d[:train][:abilities][:vital][2].to_f,
+      temp_hp: d[:abilities][:vital][0].to_f * d[:train][:abilities][:vital][0].to_f,
+      temp_mp: d[:abilities][:vital][1].to_f * d[:train][:abilities][:vital][1].to_f,
+      temp_sp: d[:abilities][:vital][2].to_f * d[:train][:abilities][:vital][2].to_f,
+      speed: d[:abilities][:speed].to_f * d[:train][:abilities][:speed].to_f,
+      intuition: d[:abilities][:intuition].to_f * d[:train][:abilities][:intuition].to_f,
+      attack: d[:skills][:attack],
+      defense: d[:skills][:defense],
+      tactics: d[:style][:tactics],
+      study: [0, 0, 0],
+      flexible: [0, 0, 0],
+      wary: d[:style][:wary],
+      moves: d[:moves],
+      ko: false,
+    }
+
+    t[:bmi] = t[:weight] / (t[:height] ** 2)
+    t[:attack] = [d[:skills][:attack][0] * d[:train][:skills][:attack][0], d[:skills][:attack][1] * d[:train][:skills][:attack][1], d[:skills][:attack][2] * d[:train][:skills][:attack][2]]
+    t[:defense] = [d[:skills][:defense][0] * d[:train][:skills][:defense][0], d[:skills][:defense][1] * d[:train][:skills][:defense][1], d[:skills][:defense][2] * d[:train][:skills][:defense][2]]
+
+    return t
   end
 
   def self.battle(tiramon_1 = Card.none, tiramon_2 = Card.none)
@@ -17,74 +160,67 @@ class Tiramon < ApplicationRecord
       ret[:log].push([0, "試合不成立！"])
     end
 
-    t = tiramon_1
-    d = t.getData
-    t_1 = {
-      name: d[:name],
-      max_hp: d[:abilities][0].to_f,
-      max_mp: d[:abilities][2].to_f,
-      max_sp: d[:abilities][4].to_f,
-      recovery_hp: d[:abilities][1].to_f,
-      recovery_mp: d[:abilities][3].to_f,
-      recovery_sp: d[:abilities][5].to_f,
-      hp: d[:abilities][0].to_f,
-      mp: d[:abilities][2].to_f,
-      sp: d[:abilities][4].to_f,
-      temp_hp: d[:abilities][0].to_f,
-      temp_mp: d[:abilities][2].to_f,
-      temp_sp: d[:abilities][4].to_f,
-      speed: d[:abilities][6].to_f,
-      attack: d[:attack],
-      defense: d[:defense],
-      moves: d[:moves],
-      wariness: [0, 0, 0],
-      ko: false,
-    }
+    ret[:log].push([0, "選手入場！！！"])
 
-    t = tiramon_2
-    d = t.getData
-    t_2 = {
-      name: d[:name],
-      max_hp: d[:abilities][0].to_f,
-      max_mp: d[:abilities][2].to_f,
-      max_sp: d[:abilities][4].to_f,
-      recovery_hp: d[:abilities][1].to_f,
-      recovery_mp: d[:abilities][3].to_f,
-      recovery_sp: d[:abilities][5].to_f,
-      hp: d[:abilities][0].to_f,
-      mp: d[:abilities][2].to_f,
-      sp: d[:abilities][4].to_f,
-      temp_hp: d[:abilities][0].to_f,
-      temp_mp: d[:abilities][2].to_f,
-      temp_sp: d[:abilities][4].to_f,
-      speed: d[:abilities][6].to_f,
-      attack: d[:attack],
-      defense: d[:defense],
-      moves: d[:moves],
-      wariness: [0, 0, 0],
-      ko: false,
-    }
+    t_1 = Tiramon.getBattleData(tiramon_1.getData)
+    t_2 = Tiramon.getBattleData(tiramon_2.getData)
+
+    ret[:log].push([-1, "赤コーナー！"])
+    ret[:log].push([-1, (t_2[:height] * 100).to_i.to_s + "センチ " + (t_2[:weight]).to_i.to_s + "kg！"])
+    ret[:log].push([-1, t_2[:name] + "！！！"])
+    ret[:log].push([0, "歓声が上がる！！！"])
+
+    ret[:log].push([1, "青コーナー！"])
+    ret[:log].push([1, (t_1[:height] * 100).to_i.to_s + "センチ " + (t_1[:weight]).to_i.to_s + "kg！"])
+    ret[:log].push([1, t_1[:name] + "！！！"])
+    ret[:log].push([0, "歓声が上がる！！！"])
 
     # 勝負は試合の前から始まっている…
-    t_1[:wariness] = (Vector.elements(t_2[:attack]) * t_1[:max_hp]).to_a
-    t_2[:wariness] = (Vector.elements(t_1[:attack]) * t_2[:max_hp]).to_a
+    t_1[:study] = (Vector.elements(t_2[:attack]).normalize).to_a
+    t_2[:study] = (Vector.elements(t_1[:attack]).normalize).to_a
 
-    ret[:log].push([0, t_1[:name] + "対" + t_2[:name] + "の試合開始！"])
+    ret[:log].push([0, "…"])
+    ret[:log].push([0, "60分1本勝負！"])
+    ret[:log].push([0, t_1[:name] + " 対 " + t_2[:name] + "！"])
+    ret[:log].push([0,  "試合開始！"])
+    ret[:log].push([0,  "ゴングが鳴った！！！"])
     # ret[:log].push([nil, [t_1.clone, t_2.clone]])
 
+    draw = false
     turn_count = 0
-    while !t_1[:ko] and !t_2[:ko]
+    time_count = 0.second
+    last_move = ""
+    while !t_1[:ko] and !t_2[:ko] and !draw
 
       turn_count += 1
       turn = 0
+
+      if turn_count % 1 == 0
+        ret[:log].push([nil, [t_1.clone, t_2.clone]])
+      end
 
       t_1_move_power_hp = [t_1[:temp_hp] / t_1[:max_hp], 0.0].max
       t_1_move_power_sp = [t_1[:temp_sp] / t_1[:max_sp], 0.0].max
       t_2_move_power_hp = [t_2[:temp_hp] / t_2[:max_hp], 0.0].max
       t_2_move_power_sp = [t_2[:temp_sp] / t_2[:max_sp], 0.0].max
 
-      t_1_move_power = [t_1[:speed] * t_1_move_power_sp, 0.0].max
-      t_2_move_power = [t_2[:speed] * t_2_move_power_sp, 0.0].max
+      t_1_pride = Tiramon.get_pride(t_1)
+      t_2_pride = Tiramon.get_pride(t_2)
+
+      t_1_motivation = [t_2_pride / t_1_pride, 2.0, 0.1].sort.second
+      t_2_motivation = [t_1_pride / t_2_pride, 2.0, 0.1].sort.second
+
+      #ret[:log].push([1, t_1_pride / 2])
+      #ret[:log].push([-1, t_2_pride / 2])
+
+      ret[:log].push([1, Tiramon.get_message(Constants::TIRAMON_MOTIVATION, t_1_motivation / 2)])
+      ret[:log].push([-1, Tiramon.get_message(Constants::TIRAMON_MOTIVATION, t_2_motivation / 2)])
+
+      t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_motivation, 0.0].max
+      t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_motivation, 0.0].max
+
+      #ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
+      #ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])
 
       if t_1_move_power <= 0 and t_2_move_power <= 0
         turn = 0
@@ -100,167 +236,308 @@ class Tiramon < ApplicationRecord
         defender = t_1
       end
 
-      if turn_count % 1 == 0
-        ret[:log].push([nil, [t_1.clone, t_2.clone]])
-      end
-
       if turn == 0
 
-        ret[:log].push([0, "お互いに倒れて動けない…！"])
-        # SP回復
-        attacker[:temp_sp] += attacker[:max_sp] / 10
-        defender[:temp_sp] += defender[:max_sp] / 10
+        ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_DOUBLE_DOWN, rand())])
 
       elsif 0 < attacker[:temp_sp]
 
-        ret[:log].push([turn, attacker[:name] + "が動いた！"])
+        # 仕掛ける
+        ret[:log].push([turn, attacker[:name] + Tiramon.get_message(Constants::TIRAMON_MOVE, rand())])
 
         attacker_hp = [((1 - attacker[:temp_hp] / attacker[:max_hp]) * 4).to_i, 3].min
         defender_hp = [((1 - defender[:temp_hp] / defender[:max_hp]) * 4).to_i, 3].min
         moves = attacker[:moves][attacker_hp][defender_hp]
         move = moves.sample
 
-        move_data = move_list.find{|m| m[:id] == move}
+        move_data = TiramonMove.getMoveData(move_list.find{|m| m[:id] == move})
+        last_move = move_data[:name]
 
-        ret[:log].push([turn, move_data[:name] + "！"])
+        #ret[:log].push([turn, move_data[:name] + "を狙っている！"])
 
-        damage = [[[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]]]
+        damage = {hp: 0.0, thp: 0.0, mp: 0.0, tmp: 0.0, sp: 0.0, tsp: 0.0}
 
-        move_data[:damage].length.times { |layer|
-          move_data[:damage][layer].length.times { |type|
-            move_data[:damage][layer][type].length.times { |element|
-            	damage[layer][type][element] += move_data[:damage][layer][type][element] * attacker[:attack][element].to_f / defender[:defense][element].to_f
-            }
-          }
+        3.times { |element|
+        	damage[:hp] += move_data[:damage][:hp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+        	damage[:thp] += move_data[:damage][:thp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+        	damage[:mp] += move_data[:damage][:mp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+        	damage[:tmp] += move_data[:damage][:tmp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+        	damage[:sp] += move_data[:damage][:sp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+        	damage[:tsp] += move_data[:damage][:tsp][element] * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
         }
+        #ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
 
-        # 警戒心(tempダメージのみを警戒する)
-        damage_element = []
-        damage_element[0] = damage[0][1][0] + damage[1][1][0] + damage[2][1][0]
-        damage_element[1] = damage[0][1][1] + damage[1][1][1] + damage[2][1][1]
-        damage_element[2] = damage[0][1][2] + damage[1][1][2] + damage[2][1][2]
+        damage_physical = damage[:hp] + damage[:thp]
+        if 0 < damage_physical
 
-        # 警戒心が上昇
-        defender[:wariness][0] += damage_element[0]
-        defender[:wariness][1] += damage_element[1]
-        defender[:wariness][2] += damage_element[2]
+          ret[:log].push([turn, "[" + Constants::TIRAMON_ELEMENTS[move_data[:element]] + "]属性の行動のようだ！"])
 
-        # 命中率の計算
-        wariness = 0
-        damage_vector = Vector.elements(damage_element)
-        if !damage_vector.zero?
-          damage_vector = damage_vector.normalize
+          damage_pride = Tiramon.get_pride(defender) / 5
+          damage_risk = Tiramon.get_risk(damage)
+          ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RISK, (damage_risk / damage_pride))])
+
+          # 攻撃の要素を分類
+          damage_element = []
+          damage_element[0] = move_data[:damage][:element_0]
+          damage_element[1] = move_data[:damage][:element_1]
+          damage_element[2] = move_data[:damage][:element_2]
+          damage_vector = Vector.elements(damage_element)
+          #ret[:log].push([turn, "攻撃は" + damage_vector.to_s ])
+
+          # 命中率の計算
+          # 攻撃側の技の属性
+          attack_vector = Vector.elements(damage_element)
+          attack_vector = attack_vector.zero? ? attack_vector : attack_vector.normalize
+          #ret[:log].push([turn, "攻撃属性は" + attack_vector.to_s ])
+
+          # 守備側の構え
+          # 体力に応じて回避力が下がる
+          avoid_hp = [defender[:temp_hp] / defender[:max_hp], 1.0, 0.0].sort.second
+          avoid_sp = [defender[:temp_sp] / defender[:max_sp], 1.0, 0.0].sort.second
+
+          # プロレス的なところ
+          pride = Tiramon.get_pride(defender) / 5
+          #ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
+          #ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
+          fear = [damage_risk / pride, 2.0, 0.0].sort.second
+          #ret[:log].push([-turn, "回避率(恐怖)" + ((fear) * 100).to_i.to_s + "%" ])
+          #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
+          avoid_puroresu = [fear * avoid_hp, 0.99, 0.01].sort.second
+
+          # シュート
+          # 勘
+          intuition = [[defender[:intuition], 0.0].max, 1.0].min
+          intuition_vector = (Vector.elements(attack_vector) * (intuition) + Vector.elements([rand(), rand(), rand()]).normalize * (1 - intuition))
+          intuition_vector = intuition_vector.zero? ? intuition_vector : intuition_vector.normalize
+          #ret[:log].push([-turn, "勘は" + intuition_vector.to_s ])
+
+          # 相手に合わせて
+          study_vector = Vector.elements(defender[:study])
+          study_vector = study_vector.zero? ?study_vector : study_vector.normalize
+          #ret[:log].push([-turn, "研究は" + study_vector.to_s ])
+
+          # 試合中の経験
+          flexible_vector = Vector.elements(defender[:flexible])
+          flexible_vector = flexible_vector.zero? ? flexible_vector : flexible_vector.normalize
+          #ret[:log].push([-turn, "経験は" + flexible_vector.to_s ])
+
+          # 作戦
+          wary_vector = Vector.elements(defender[:wary])
+          wary_vector = wary_vector.zero? ? wary_vector : wary_vector.normalize
+          #ret[:log].push([-turn, "警戒は" + wary_vector.to_s ])
+
+          defence_vector = intuition_vector * defender[:tactics][:intuition] + study_vector * defender[:tactics][:study] + flexible_vector * defender[:tactics][:flexible] + wary_vector * defender[:tactics][:wary]
+          defence_vector = defence_vector.zero? ? defence_vector : defence_vector.normalize
+          #ret[:log].push([-turn, "防御属性は" + defence_vector.to_s ])
+
+          defence_array = defence_vector.to_a
+          ret[:log].push([-turn, "[" + Constants::TIRAMON_ELEMENTS[defence_array.index(defence_array.max)] + "]属性を警戒している！"])
+
+          wariness = attack_vector.dot(defence_vector)
+
+          # 臨機応変に対応する
+          defender[:flexible] = (flexible_vector + damage_vector).normalize * defender[:max_hp]
+
+          #ret[:log].push([-turn, "回避率(読み合い)" + ((wariness) * 100).to_i.to_s + "%" ])
+          #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
+          #ret[:log].push([-turn, "回避率倍率(スタミナ)" + ((avoid_sp) * 100).to_i.to_s + "%" ])
+          avoid_shoot = [wariness * avoid_hp * avoid_sp, 0.99, 0.01].sort.second
+
+          #ret[:log].push([-turn, "回避率(プロレス)" + ((avoid_puroresu) * 100).to_i.to_s + "%" ])
+          #ret[:log].push([-turn, "回避率(シュート)" + ((avoid_shoot) * 100).to_i.to_s + "%" ])
+
+          avoid_array = [avoid_puroresu, avoid_shoot]
+          fail_index = avoid_array.index(avoid_array.max)
+          fail = avoid_array.max
+
+          #ret[:log].push([turn, "命中率" + ((1 - fail) * 100).to_i.to_s + "%" ])
+
+          if fail_index == 0
+            ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_HIT_RATE_PURORESU, (1 - fail))])
+          elsif fail_index ==1
+            ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_HIT_RATE_SHOOT, (1 - fail))])
+          end
+
+        else
+          fail = 0
         end
-        ret[:log].push([turn, "属性は" + damage_vector.to_s ])
 
-        wariness_vector = Vector.elements(defender[:wariness])
-        if !wariness_vector.zero?
-          wariness_vector = wariness_vector.normalize
-        end
-        ret[:log].push([-turn, "警戒は" + wariness_vector.to_s ])
+        if rand() < fail
 
-        wariness = damage_vector.dot(wariness_vector)
-
-        avoid_hp = (1 + [defender[:temp_hp] / defender[:max_hp], 0.0].max) / 2
-        avoid_sp = (1 + [defender[:temp_sp] / defender[:max_sp], 0.0].max) / 2
-
-        ret[:log].push([turn, "命中率" + ((1 - wariness * avoid_hp) * 100).to_i.to_s + "%" ])
-
-        if rand() < wariness * avoid_hp * avoid_sp
-
-          ret[:log].push([-turn, "攻撃を読んでいた！"])
+          ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_FAIL_ATTACK, rand())])
 
           # SP消費
           attacker[:temp_sp] -= attacker[:temp_sp] / 2
           # SP回復
-          defender[:temp_sp] += (defender[:max_sp] - defender[:temp_sp]) / 2
+          defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2
 
         else
 
-          # ダメージを与える
-          sp_damage = (1 + [attacker[:temp_sp] / attacker[:max_sp], 0.0].max) / 2
-          random_damage = 1 + (rand()-rand()) / 2
-          ret[:log].push([turn, sp_damage.to_s + " * " + random_damage.to_s + "ダメージ補正！"])
-          defender[:hp] -= damage[0][0].sum * sp_damage * random_damage
-          defender[:temp_hp] -= damage[0].flatten.sum * sp_damage * random_damage
-          defender[:mp] -= damage[1][0].sum * sp_damage * random_damage
-          defender[:temp_mp] -= damage[1].flatten.sum * sp_damage * random_damage
-          defender[:sp] -= damage[2][0].sum * sp_damage * random_damage
-          defender[:temp_sp] -= damage[2].flatten.sum * sp_damage * random_damage
+          ret[:log].push([turn, move_data[:name] + Tiramon.get_message(Constants::TIRAMON_SUCCESS_ATTACK, rand())])
 
-          total_damage = damage.flatten.sum * sp_damage * random_damage
+          if 0 < damage_physical
 
-          ret[:log].push([turn, (total_damage / defender[:max_hp] * 100).to_i.to_s + "%のダメージを与えた！"])
+            # ダメージを与える
+            weight_damage = attacker[:weight] / defender[:weight]
+            #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
+            if 1 < weight_damage
+              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_damage - 1) * 2, 1.0, 0.0].sort.second)])
+            end
+
+            kiai_rand = Tiramon.power_rand(2)
+            kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2) / attacker[:max_sp]
+            kiai_damage = (1 + kiai) / 2
+            #ret[:log].push([turn, kiai_damage.to_s + "気合補正！"])
+            ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2)])
+
+            random_damage = 1 + (rand()-rand()) / 2
+            #ret[:log].push([turn, random_damage.to_s + "ランダム補正！"])
+            if 1 < random_damage
+              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RANDOM_DAMAGE, (random_damage - 1) * 2)])
+            end
+
+            damage_magnification = weight_damage * kiai_damage * random_damage
+            #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
+
+          else
+
+            damage_magnification = 1
+
+          end
+
+          defender[:hp] -= damage[:hp] * damage_magnification
+          defender[:temp_hp] -= (damage[:thp] + damage[:hp]) * damage_magnification
+          defender[:mp] -= damage[:mp] * damage_magnification
+          defender[:temp_mp] -= (damage[:tmp] +  damage[:mp]) * damage_magnification
+          defender[:sp] -= damage[:sp] * damage_magnification
+          defender[:temp_sp] -= (damage[:tsp] + damage[:sp]) * damage_magnification
+
+          total_damage = damage.values.inject(:+) * damage_magnification
+
+          #ret[:log].push([turn, (total_damage / defender[:max_hp] * 100).to_i.to_s + "%のダメージを与えた！"])
+          ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (total_damage / defender[:max_hp]) / 2)])
 
           # 自爆ダメージ
+          bmi_damage = 0.5 + ((22.0 - attacker[:bmi]).abs / 9.0)
+          #ret[:log].push([turn, bmi_damage.to_s + "BMI補正！"])
+
           self_damage = move_data[:self_damage]
-          attacker[:hp] -= self_damage[0][0]
-          attacker[:temp_hp] -= self_damage[0].sum
-          attacker[:mp] -= self_damage[1][0]
-          attacker[:temp_mp] -= self_damage[1].sum
-          attacker[:sp] -= self_damage[2][0]
-          attacker[:temp_sp] -= self_damage[2].sum
+          attacker[:hp] -= self_damage[:hp]
+          attacker[:temp_hp] -= self_damage[:thp] + self_damage[:hp]
+          attacker[:mp] -= self_damage[:mp]
+          attacker[:temp_mp] -= self_damage[:tmp] + self_damage[:mp]
+          attacker[:sp] -= (self_damage[:sp]) * bmi_damage
+          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp]) * bmi_damage
         end
       else
 
-        ret[:log].push([turn, attacker[:name] + "は疲れて動けない！"])
-
-        # SP回復
-        attacker[:temp_sp] += attacker[:recovery_sp] / 10
-        defender[:temp_sp] += defender[:recovery_sp] / 10
+        ret[:log].push([turn, attacker[:name] + Tiramon.get_message(Constants::TIRAMON_TIERD, rand())])
 
       end
 
       [defender, attacker].each{ |t|
-
-        t[:hp] = [t[:max_hp] / 8, [t[:hp], t[:max_hp]].min].max
-        t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min].max
-        t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min].max
+        # MPがマイナスになるとバグるため
+        t[:temp_mp] = [0, t[:temp_mp], t[:mp]].sort.second
 
         # 肉体的ダメージが限界の場合、精神に影響する
+        mp_damage_by_hp = 0
         if t[:temp_hp] < 0
-          t[:temp_mp] += t[:temp_hp] / 10 * 2
-          t[:mp] += t[:temp_hp] / 10
+          mp_damage_by_hp = -t[:temp_hp] / 5
+
+          t[:temp_mp] -= mp_damage_by_hp * 2
+          t[:mp] -= mp_damage_by_hp
         end
 
-        # 大きな精神ダメージを受けた場合、KOになる可能性がある
+        t[:hp] = [t[:max_hp] / 8, [t[:hp], t[:max_hp]].min, t[:max_hp]].sort.second
+        t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min, t[:max_mp]].sort.second
+        t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
+
+        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
+        t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
+        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2]
+
+        # 肉体ダメージ由来の大きな精神ダメージを受けた場合、KOになる可能性がある
         if t[:temp_mp] < 0
-          ko_chance = (-t[:temp_mp] / t[:mp])
+          ko_chance = (mp_damage_by_hp / t[:mp])
           t[:ko] = rand() < ko_chance
         end
-
-        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] / 20
-        t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] / 40
-        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] / 10
 
         t[:temp_hp] = [0, [t[:temp_hp], t[:hp]].min].max
         t[:temp_mp] = [0, [t[:temp_mp], t[:mp]].min].max
         t[:temp_sp] = [t[:temp_sp], t[:sp]].min
 
-        t[:wariness].length.times { |layer|
-          t[:wariness][layer] = t[:wariness][layer] * 0.9
-        }
       }
 
       # 攻撃側が自分の攻撃で負けないようにする
       attacker[:ko] = false
 
       if defender[:ko]
-        ret[:log].push([-turn, defender[:name] + "はギブアップ！"])
+        ret[:log].push([-turn, defender[:name] + Tiramon.get_message(Constants::TIRAMON_GIVE_UP, rand())])
       elsif defender[:temp_mp] == 0
-        ret[:log].push([-turn, defender[:name] + "は根性で踏みとどまった！！"])
+        ret[:log].push([-turn, defender[:name] + Tiramon.get_message(Constants::TIRAMON_GUTS, rand())])
+      end
+
+      # 時間経過
+      time_count += 30.second
+      if 60.minute < time_count
+        draw = true
       end
     end
 
     ret[:log].push([nil, [t_1.clone, t_2.clone]])
     ret[:log].push([0, "試合終了！"])
 
-    if t_2[:temp_mp] < t_1[:temp_mp]
-      ret[:log].push([0, t_1[:name] + "の勝利！！"])
+    if draw
+      ret[:result] = 0
+      ret[:log].push([0, "引き分け！！"])
+    elsif t_2[:ko]
+      ret[:result] = 1
+      ret[:log].push([0, Time.at(time_count).utc.strftime("%M分%S秒") + "、" + last_move + "で" + t_1[:name] + "の勝利！！"])
+    elsif t_1[:ko]
+      ret[:result] = -1
+      ret[:log].push([0, Time.at(time_count).utc.strftime("%M分%S秒") + "、" + last_move + "で" + t_2[:name] + "の勝利！！"])
     else
-      ret[:log].push([0, t_2[:name] + "の勝利！！"])
+      ret[:result] = 0
+      ret[:log].push([0, "試合は闇に葬られた…"])
     end
 
     return ret
   end
+
+  def self.get_pride(t = {})
+    return [t[:hp] * 40, t[:temp_hp] * 2, t[:mp] * 200, t[:temp_mp] * 20, t[:sp] * 40, [t[:temp_sp] * 1, 0.0].max].sum.to_f
+  end
+
+  def self.get_risk(d = {})
+    return [d[:hp] * 40, d[:thp] * 2, d[:mp] * 200, d[:tmp] * 20, d[:sp] * 40, d[:tsp] * 1].sum
+  end
+
+  def self.get_message(a = [], n = 0.0)
+    r = a[[(a.length.to_f * n).to_i, a.length - 1, 0].sort.second]
+
+    if r.instance_of?(Array)
+      return r.flatten.sample
+    else
+      return r
+    end
+  end
+
+  def self.dist_rand(n = 1)
+    a = []
+    r = Random.new
+    n.times do
+      a.push(r.rand() - r.rand())
+    end
+    return a.sum / a.length
+  end
+
+  def self.power_rand(n = 1)
+    a = []
+    r = Random.new
+    n.times do
+      a.push(r.rand())
+    end
+    return a.inject(:*)
+  end
+
 end

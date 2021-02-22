@@ -13,6 +13,8 @@ class TiramonDashboard < Administrate::BaseDashboard
     data: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    move: Field::Text,
+    experience: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -35,6 +37,8 @@ class TiramonDashboard < Administrate::BaseDashboard
   data
   created_at
   updated_at
+  move
+  experience
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -43,6 +47,8 @@ class TiramonDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
   user
   data
+  move
+  experience
   ].freeze
 
   # COLLECTION_FILTERS

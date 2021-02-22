@@ -9,11 +9,11 @@ class TiramonMoveDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    move_id: Field::Number,
     name: Field::String,
     data: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    move_id: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -23,29 +23,29 @@ class TiramonMoveDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   id
-  move_id
   name
   data
+  created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   id
-  move_id
   name
   data
   created_at
   updated_at
+  move_id
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  move_id
   name
   data
+  move_id
   ].freeze
 
   # COLLECTION_FILTERS

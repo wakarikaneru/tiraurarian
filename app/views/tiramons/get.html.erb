@@ -1,0 +1,56 @@
+<div class="tweet-container list">
+  <div class="hukidasi width-full word-break">
+    <h1>チラモン情報</h1>
+
+    <div class="d-flex flex-row flex-wrap">
+
+      <div class="hukidasi m-2">基本情報:
+        <ul>
+          <li>名前: <%= @disp_data[:name] %></li>
+          <li>Lv: <%= @disp_data[:level].to_i %></li>
+          <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
+          <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2">基礎能力:
+        <ul>
+          <li>体力: <%= (@disp_data[:hp]).to_i %></li>
+          <li>精神力: <%= (@disp_data[:mp]).to_i %></li>
+          <li>スタミナ: <%= (@disp_data[:sp]).to_i %></li>
+          <li>スピード: <%= (@disp_data[:speed]).to_i %></li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2">回復力:
+        <ul>
+          <li>体力: <%= (@disp_data[:recovery_hp]).to_i %></li>
+          <li>精神力: <%= (@disp_data[:recovery_mp]).to_i %></li>
+          <li>スタミナ: <%= (@disp_data[:recovery_sp]).to_i %></li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2 d-flex flex-row flex-wrap">技術力:
+        <div class="hukidasi m-2">攻撃:
+          <ul>
+            <li>打: <%= (@disp_data[:attack][0] * 100).to_i %></li>
+            <li>投: <%= (@disp_data[:attack][1] * 100).to_i %></li>
+            <li>極: <%= (@disp_data[:attack][2] * 100).to_i %></li>
+          </ul>
+        </div>
+        <div class="hukidasi m-2">防御:
+          <ul>
+            <li>打: <%= (@disp_data[:defense][0] * 100).to_i %></li>
+            <li>投: <%= (@disp_data[:defense][1] * 100).to_i %></li>
+            <li>極: <%= (@disp_data[:defense][2] * 100).to_i %></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<%= @json %>

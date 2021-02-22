@@ -80,3 +80,4 @@ gem 'bootstrap', '~> 4.4.1'
 gem 'font-awesome-sass', '~> 5.12.0'
 
 gem "chartkick", ">= 3.4.0"
+gem 'gimei'

@@ -92,6 +92,18 @@
   </div>
 </div>
 
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>トレーナー情報</h1>
+    <h3>所持VARTH <%= @user_points %>va</h3>
+    <ul>
+      <li>トレーナーレベル: <%= @tiramon_trainer.level %></li>
+      <li>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></li>
+      <li>行動ポイント: <%= @tiramon_trainer.move %></li>
+    </ul>
+    <div class="m-4"><%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>トレーナー情報<% end %></div>
+  </div>
+</div>
 
 <div class="tweet-container">
 </div>

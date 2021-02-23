@@ -2,6 +2,7 @@ class TiramonBattlesController < ApplicationController
   before_action :set_tiramon_battle, only: [:show]
 
   def index
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
     @next_battle = TiramonBattle.where("datetime > ?", Time.current).order(datetime: :asc).first
     @battles = TiramonBattle.where("datetime < ?", Time.current).order(id: :desc).limit(10)
   end

@@ -1,10 +1,25 @@
 class TiramonBattlesController < ApplicationController
+  before_action :authenticate_user!, only: [:index, :battle]
   before_action :set_tiramon_battle, only: [:show]
 
   def index
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
-    @next_battle = TiramonBattle.where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles = TiramonBattle.where("datetime < ?", Time.current).order(id: :desc).limit(10)
+
+    @next_battle = []
+    @battles = []
+
+    @next_battle[0] = TiramonBattle.where(rank: 0).where("datetime > ?", Time.current).order(datetime: :asc).first
+    @battles[0] = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+
+    @next_battle[1] = TiramonBattle.where(rank: 1).where("datetime > ?", Time.current).order(datetime: :asc).first
+    @battles[1] = TiramonBattle.where(rank: 1).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+
+    @next_battle[2] = TiramonBattle.where(rank: 2).where("datetime > ?", Time.current).order(datetime: :asc).first
+    @battles[2] = TiramonBattle.where(rank: 2).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+
+    @next_battle[3] = TiramonBattle.where(rank: 3).where("datetime > ?", Time.current).order(datetime: :asc).first
+    @battles[3] = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+
   end
 
   def show

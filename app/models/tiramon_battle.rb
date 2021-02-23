@@ -7,9 +7,10 @@ class TiramonBattle < ApplicationRecord
     return eval(data)
   end
 
-  def self.generate(t_1 = Tiramon.none, t_2 = Tiramon.none, datetime = Time.current)
+  def self.generate(rank = -1, t_1 = Tiramon.none, t_2 = Tiramon.none, datetime = Time.current)
     battle = TiramonBattle.new
     battle.datetime = datetime
+    battle.rank = rank
     battle.red = t_1.id
     battle.blue = t_2.id
     result = Tiramon.battle(t_2, t_1)
@@ -19,12 +20,18 @@ class TiramonBattle < ApplicationRecord
     battle.save!
   end
 
-  def self.match_make
-    tiramons = Tiramon.where.not(tiramon_trainer: nil).sample(2)
-    if tiramons.size == 2
-      tiramon_1 = tiramons[0]
-      tiramon_2 = tiramons[1]
-      TiramonBattle.generate(tiramon_1, tiramon_2, 10.minute.since)
+  def self.match_make(rank = 0)
+    last_battle = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(id: :desc).first
+
+    if last_battle.present?
+      champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
+      tiramon = Tiramon.where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+    else
+      tiramons = Tiramon.where.not(tiramon_trainer: nil).sample(2)
+      champion = tiramons[0]
+      tiramon = tiramons[1]
     end
+
+    TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
   end
 end

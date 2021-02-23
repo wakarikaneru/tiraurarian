@@ -67,6 +67,9 @@ module Constants
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ]
 
+  TIRAMON_RULE_NAME = ["チャンピオンシップ", "ヘビー級", "ジュニア級", "アンダーマッチ"]
+  TIRAMON_FIGHT_TERM = [1.day, 4.hour, 1.hour, 10.minute]
+
   TIRAMON_NAME = "野生のチラモン"
 
   TIRAMON_MOVE_VALUE = [40, 2, 200, 20, 40, 1]

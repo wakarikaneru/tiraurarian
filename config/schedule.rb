@@ -53,8 +53,17 @@ every 1.days, at: '00:00' do
   rake 'get_trial:get_trial'
 end
 
+every 1.days, at: '18:00' do
+  rake 'tiramon_battle_match_make:championship'
+end
+every 4.hours do
+  rake 'tiramon_battle_match_make:heavy'
+end
+every 1.hour do
+  rake 'tiramon_battle_match_make:junior'
+end
 every 10.minutes do
-  rake 'tiramon_battle_match_make:tiramon_battle_match_make'
+  rake 'tiramon_battle_match_make:under_match'
 end
 
 every 1.days, at: '00:00' do

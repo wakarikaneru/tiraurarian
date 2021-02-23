@@ -215,7 +215,7 @@ class Tiramon < ApplicationRecord
     ret[:log].push([0, t_1[:name] + " 対 " + t_2[:name] + "！"])
     ret[:log].push([0,  "試合開始！"])
     ret[:log].push([0,  "ゴングが鳴った！！！"])
-    # ret[:log].push([nil, [t_1.clone, t_2.clone]])
+    # ret[:log].push([2, [t_1.clone, t_2.clone]])
 
     draw = false
     turn_count = 0
@@ -227,7 +227,7 @@ class Tiramon < ApplicationRecord
       turn = 0
 
       if turn_count % 1 == 0
-        ret[:log].push([nil, [t_1.clone, t_2.clone]])
+        ret[:log].push([2, [t_1.clone, t_2.clone]])
       end
 
       t_1_move_power_hp = [t_1[:temp_hp] / t_1[:max_hp], 0.0].max
@@ -526,7 +526,7 @@ class Tiramon < ApplicationRecord
       end
     end
 
-    ret[:log].push([nil, [t_1.clone, t_2.clone]])
+    ret[:log].push([2, [t_1.clone, t_2.clone]])
     ret[:log].push([0, "試合終了！"])
 
     if draw

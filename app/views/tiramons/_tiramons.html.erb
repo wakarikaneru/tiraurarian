@@ -3,23 +3,29 @@
     <div class="nothing">チラモンがいません</div>
   <% end %>
 
-  <% tiramons.map do |tiramon| %>
-    <% data = tiramon.getData2 %>
+  <div class="d-flex flex-row flex-wrap">
+    <% tiramons.map do |tiramon| %>
+      <% data = tiramon.getData %>
 
-    <%= link_to tiramon, class: "link-item-hukidasi" do %>
-      <div class="users">
-        <div>
-          <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
-        </div>
+      <%= link_to tiramon, class: "link-item-hukidasi" do %>
+        <div class="users m-2">
+          <div>
+            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          </div>
 
-        <div class="users-info">
-          <div class="users-name"><%= data[:name] %></div>
-          <div class="users-desc"><%= (data[:height] * 100).to_i %> cm</div>
-          <div class="users-desc"><%= data[:weight].to_i %> kg</div>
+          <div class="users-info">
+            <div class="users-name"><%= data[:name] %></div>
+            <div class="users-desc"><%= data[:train][:level].to_i %> Lv</div>
+            <div class="users-desc"><%= (data[:height] * 100).to_i %> cm</div>
+            <div class="users-desc"><%= data[:weight].to_i %> kg</div>
+            <% if inNegotiation %>
+              <div class="users-desc">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
+
     <% end %>
-
-  <% end %>
+  </div>
 
 </div>

@@ -52,3 +52,7 @@ end
 every 1.days, at: '00:00' do
   rake 'get_trial:get_trial'
 end
+
+every 10.minutes do
+  rake 'tiramon_battle_match_make'
+end

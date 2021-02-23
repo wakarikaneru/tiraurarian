@@ -11,9 +11,9 @@ class TiramonBattle < ApplicationRecord
     battle = TiramonBattle.new
     battle.datetime = datetime
     battle.rank = rank
-    battle.red = t_1.id
-    battle.blue = t_2.id
-    result = Tiramon.battle(t_2, t_1)
+    battle.red = t_2.id
+    battle.blue = t_1.id
+    result = Tiramon.battle(t_1, t_2)
     battle.result = result[:result]
     battle.data = result.to_json
 

@@ -435,6 +435,7 @@ class Tiramon < ApplicationRecord
           #ret[:log].push([turn, random_damage.to_s + "ランダム補正！"])
 
           if 0 < damage_physical
+
             damage_magnification = weight_damage * kiai_damage * random_damage
             #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
 
@@ -457,9 +458,21 @@ class Tiramon < ApplicationRecord
           defender[:temp_sp] -= (damage[:tsp] + damage[:sp]) * damage_magnification
 
           total_damage = damage.values.inject(:+) * damage_magnification
+          damage_ratio = total_damage / defender[:max_hp]
+
+          if 0.5 < damage_ratio / 2
+            # カットイン演出
+            if move_data[:element] == 0
+              ret[:log].push([3, "/images/tiramon/da.png"])
+            elsif move_data[:element] == 1
+              ret[:log].push([3, "/images/tiramon/nage.png"])
+            elsif move_data[:element] == 2
+              ret[:log].push([3, "/images/tiramon/kime.png"])
+            end
+          end
 
           #ret[:log].push([turn, (total_damage / defender[:max_hp] * 100).to_i.to_s + "%のダメージを与えた！"])
-          ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (total_damage / defender[:max_hp]) / 2)])
+          ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (damage_ratio) / 2)])
 
           # 自爆ダメージ
 

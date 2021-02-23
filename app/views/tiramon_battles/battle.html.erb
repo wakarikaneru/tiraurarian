@@ -31,7 +31,7 @@
           </h3>
         <% end %>
 
-        <% if log[0] == nil %>
+        <% if log[0] == 2 %>
           <div class="hukidasi w-100 d-flex justify-content-around">
             <% log[1].map do |tiramon| %>
               <% mhp = [100, 0].max %>
@@ -60,9 +60,21 @@
             <% end %>
           </div>
         <% end %>
+
+
+        <% if log[0] == 3 %>
+          <div class="w-100 text-center">
+            <div class="content-image">
+              <%= image_tag log[1], class: "w-50" %>
+            </div>
+          </div>
+        <% end %>
+
       <% end %>
     </div>
 
   </div>
 
 </div>
+
+<%= render partial: "/layouts/tiramon_nav" %>

@@ -3,7 +3,7 @@ class Tiramon < ApplicationRecord
 
   def self.generate(trainer = TiramonTrainer.none, min_level = 1, max_level = 10)
     tiramon = Tiramon.new
-    tiramon.data = Tiramon.generateData(min_level, max_level)
+    tiramon.data = Tiramon.generateData(min_level, max_level).to_json
 
     move_list = TiramonMove.first.getData
     tiramon.move = Tiramon.get_moves(tiramon.getData)

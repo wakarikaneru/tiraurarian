@@ -10,86 +10,94 @@
 </div>
 
 <div class="tweet-container">
-  <% if @next_battle.present? %>
-    <div class="hukidasi">
-      <h1>次の試合</h1>
+  <% @next_battle.map.with_index do |next_battle, index| %>
+    <% rank = index %>
+    <% if next_battle.present? %>
+      <div class="hukidasi">
+        <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
+        <h2>次の試合</h2>
 
-      <div class="d-flex flex-wrap justify-content-center">
+        <div class="d-flex flex-wrap justify-content-center">
 
-        <% t = @next_battle.blue_tiramon.getData %>
-        <div class="content d-flex justify-content-center m-2">
-          <div class="content-image">
-            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          <% t = next_battle.blue_tiramon.getData %>
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-image">
+              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+            </div>
+            <div class="content-content word-break">
+              <div><%= t[:name] %></div>
+              <div></div>
+              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= (t[:height]*100).to_i %> cm</div>
+              <div><%= t[:weight].to_i %> kg</div>
+            </div>
           </div>
-          <div class="content-content word-break">
-            <div><%= t[:name] %></div>
-            <div></div>
-            <div><%= t[:train][:level].to_i %> Lv</div>
-            <div><%= (t[:height]*100).to_i %> cm</div>
-            <div><%= t[:weight].to_i %> kg</div>
+
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-content word-break">
+              <div>VS</div>
+            </div>
           </div>
+
+          <% t = next_battle.red_tiramon.getData %>
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-image">
+              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+            </div>
+            <div class="content-content word-break">
+              <div><%= t[:name] %></div>
+              <div></div>
+              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= (t[:height]*100).to_i %> cm</div>
+              <div><%= t[:weight].to_i %> kg</div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="content d-flex justify-content-center m-2">
-          <div class="content-content word-break">
-            <div>VS</div>
-          </div>
-        </div>
 
-        <% t = @next_battle.red_tiramon.getData %>
-        <div class="content d-flex justify-content-center m-2">
-          <div class="content-image">
-            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
-          </div>
-          <div class="content-content word-break">
-            <div><%= t[:name] %></div>
-            <div></div>
-            <div><%= t[:train][:level].to_i %> Lv</div>
-            <div><%= (t[:height]*100).to_i %> cm</div>
-            <div><%= t[:weight].to_i %> kg</div>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-content text-center word-break">
+              <div><%= next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
+            </div>
           </div>
         </div>
 
       </div>
-
-
-      <div class="d-flex flex-wrap justify-content-center">
-        <div class="content d-flex justify-content-center m-2">
-          <div class="content-content text-center word-break">
-            <div><%= @next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <% end %>
   <% end %>
-
 
 </div>
 
 <div class="tweet-container">
-  <div class="hukidasi">
-    <h1>試合結果(最新<%= @battles.count %>件)</h1>
-    <% if @battles.present? %>
-      <% @battles.map do |battle| %>
-        <% blue = battle.blue_tiramon.getData %>
-        <% red = battle.red_tiramon.getData %>
-          <div class="content d-flex justify-content-center m-2">
-            <div class="content-content text-center word-break">
-              <div><%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %>
-                <%= link_to battle do %><%= blue[:name] %> VS <%= red[:name] %><% end %>
+  <% @battles.map.with_index do |battles, index| %>
+    <% rank = index %>
+
+    <div class="hukidasi">
+      <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
+      <h2>試合結果(最新<%= battles.count %>件)</h2>
+      <% if battles.present? %>
+        <% battles.map do |battle| %>
+          <% blue = battle.blue_tiramon.getData %>
+          <% red = battle.red_tiramon.getData %>
+            <div class="content d-flex justify-content-center m-2">
+              <div class="content-content text-center word-break">
+                <div><%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %>
+                  <%= link_to battle do %><%= blue[:name] %> VS <%= red[:name] %><% end %>
+                </div>
               </div>
             </div>
+        <% end %>
+      <% else %>
+        <div class="content d-flex flex-wrap justify-content-center m-2">
+          <div class="text-center">
+            まだありません。
           </div>
-      <% end %>
-    <% else %>
-      <div class="content d-flex flex-wrap justify-content-center m-2">
-        <div class="text-center">
-          まだありません。
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <div class="tweet-container">

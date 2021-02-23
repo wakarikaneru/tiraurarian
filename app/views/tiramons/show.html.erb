@@ -1,8 +1,66 @@
+<%= render partial: "/layouts/tiramon_nav" %>
+
 <div class="tweet-container list">
   <div class="hukidasi width-full word-break">
     <h1>チラモン情報</h1>
-    <div>名前: <%= @data[:name] %></div>
-    <div>身長: <%= @data[:height]*100.floor %>cm</div>
-    <div>体重: <%= @data[:weight] %>kg</div>
+    <% if !@my_tiramon %>
+      <div>ゲット前のチラモンの情報は大まかな値です</div>
+    <% end %>
+
+    <div class="d-flex flex-row flex-wrap">
+
+      <div class="hukidasi m-2">基本情報:
+        <ul>
+          <li>名前: <%= @disp_data[:name] %></li>
+          <li>Lv: <%= @disp_data[:level].to_i %></li>
+          <li>身長: <%= Tiramon.about((@disp_data[:height] * 100), @about).to_i  %>cm</li>
+          <li>体重: <%= Tiramon.about((@disp_data[:weight]), @about).to_i %>kg</li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2">基礎能力:
+        <ul>
+          <li>体力: <%= Tiramon.about((@disp_data[:hp]), @about).to_i %></li>
+          <li>精神力: <%= Tiramon.about((@disp_data[:mp]), @about).to_i %></li>
+          <li>スタミナ: <%= Tiramon.about((@disp_data[:sp]), @about).to_i %></li>
+          <li>スピード: <%= Tiramon.about((@disp_data[:speed]), @about).to_i %></li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2">回復力:
+        <ul>
+          <li>体力: <%= Tiramon.about((@disp_data[:recovery_hp]), @about).to_i %></li>
+          <li>精神力: <%= Tiramon.about((@disp_data[:recovery_mp]), @about).to_i %></li>
+          <li>スタミナ: <%= Tiramon.about((@disp_data[:recovery_sp]), @about).to_i %></li>
+        </ul>
+      </div>
+
+      <div class="hukidasi m-2 d-flex flex-row flex-wrap">
+        <div class="hukidasi m-2">技術力-攻撃:
+          <ul>
+            <li>打: <%= Tiramon.about((@disp_data[:attack][0] * 100), @about).to_i %></li>
+            <li>投: <%= Tiramon.about((@disp_data[:attack][1] * 100), @about).to_i %></li>
+            <li>極: <%= Tiramon.about((@disp_data[:attack][2] * 100), @about).to_i %></li>
+          </ul>
+        </div>
+        <div class="hukidasi m-2">技術力-防御:
+          <ul>
+            <li>打: <%= Tiramon.about((@disp_data[:defense][0] * 100), @about).to_i %></li>
+            <li>投: <%= Tiramon.about((@disp_data[:defense][1] * 100), @about).to_i %></li>
+            <li>極: <%= Tiramon.about((@disp_data[:defense][2] * 100), @about).to_i %></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <% if !@my_tiramon and 1 <= @tiramon_trainer.tiramon_ball %>
+      <div class="text-center">
+        <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary rounded-pill m-1", data: { confirm: "本当にゲットしますか？" } do %>
+          ゲットする！(チラモンボール: 残り<%= @tiramon_trainer.tiramon_ball %>)
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 </div>

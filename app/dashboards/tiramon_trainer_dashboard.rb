@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class TiramonBattleDashboard < Administrate::BaseDashboard
+class TiramonTrainerDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,16 +8,14 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    user: Field::BelongsTo,
     id: Field::Number,
-    datetime: Field::DateTime,
-    red: Field::Number,
-    blue: Field::Number,
-    result: Field::Number,
-    result_str: Field::String,
-    data: Field::Text,
+    level: Field::Number,
+    experience: Field::Number,
+    tiramon_ball: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    schedule: Field::DateTime,
+    move: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -26,38 +24,34 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
+  user
   id
-  datetime
-  red
-  blue
+  level
+  experience
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
+  user
   id
-  datetime
-  red
-  blue
-  result
-  result_str
-  data
+  level
+  experience
+  tiramon_ball
   created_at
   updated_at
-  schedule
+  move
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  datetime
-  red
-  blue
-  result
-  result_str
-  data
-  schedule
+  user
+  level
+  experience
+  tiramon_ball
+  move
   ].freeze
 
   # COLLECTION_FILTERS
@@ -72,10 +66,10 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how tiramon battles are displayed
+  # Overwrite this method to customize how tiramon trainers are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(tiramon_battle)
-  #   "TiramonBattle ##{tiramon_battle.id}"
+  # def display_resource(tiramon_trainer)
+  #   "TiramonTrainer ##{tiramon_trainer.id}"
   # end
 end

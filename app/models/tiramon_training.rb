@@ -1,0 +1,2 @@
+class TiramonTraining < ApplicationRecord
+end

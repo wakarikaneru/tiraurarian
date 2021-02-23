@@ -1,0 +1,33 @@
+<%= render partial: "/layouts/tiramon_nav" %>
+
+<div class="title">チラモントレーナー情報</div>
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>トレーナー情報</h1>
+    <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
+    <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
+  </div>
+</div>
+
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>チラモン</h1>
+    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @tiramons, inNegotiation: false } %>
+  </div>
+</div>
+
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>交渉中のチラモン</h1>
+    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @negotiations_tiramons, inNegotiation: true } %>
+    <div>
+      <% if 0 < @tiramon_trainer.move %>
+        <div class="text-center">
+          <%= link_to tiramon_scout_path, method: :post, class: "btn btn-primary rounded-pill m-1" do %>
+            探索する！(行動ポイント: 残り<%= @tiramon_trainer.move %>)
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

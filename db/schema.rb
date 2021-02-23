@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_021238) do
+ActiveRecord::Schema.define(version: 2021_02_23_105217) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -249,9 +249,10 @@ ActiveRecord::Schema.define(version: 2021_02_21_021238) do
     t.integer "blue"
     t.integer "result"
     t.string "result_str"
-    t.text "data"
+    t.text "data", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "schedule"
   end
 
   create_table "tiramon_moves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -262,6 +263,23 @@ ActiveRecord::Schema.define(version: 2021_02_21_021238) do
     t.integer "move_id"
   end
 
+  create_table "tiramon_trainers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "level", default: 0
+    t.integer "experience", default: 0
+    t.integer "tiramon_ball", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "move", default: 0
+  end
+
+  create_table "tiramon_trainings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "level", default: 0
+    t.text "training"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tiramons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.text "data"
@@ -269,6 +287,11 @@ ActiveRecord::Schema.define(version: 2021_02_21_021238) do
     t.datetime "updated_at", null: false
     t.text "move"
     t.integer "experience", default: 0
+    t.integer "tiramon_trainer_id"
+    t.text "get_move"
+    t.datetime "act"
+    t.datetime "get_limit"
+    t.integer "right"
   end
 
   create_table "tweets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

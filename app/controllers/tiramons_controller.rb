@@ -1,19 +1,57 @@
 class TiramonsController < ApplicationController
-  before_action :set_tiramon, only: [:show]
+  before_action :authenticate_user!, only: [:index, :get, :show]
+  before_action :set_tiramon, only: [:show, :get]
 
   def index
     @tiramons = Tiramon.where(user_id: current_user)
   end
 
+  def scout
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    if @tiramon_trainer.move?
+      @tiramon = Tiramon.generate(@tiramon_trainer, 5, 15)
+      @data = @tiramon.getData
+      @disp_data = Tiramon.getBattleData(@data)
+      @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
+
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "チラモンを発見しました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "行動ポイントが足りません。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def get
-    @data = Tiramon.generateData(25)
-    @disp_data = Tiramon.getBattleData(@data)
-    @json = @data.to_json
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    if @tiramon.get?(@tiramon_trainer)
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "ゲットしました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "ゲットできませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
   end
 
   def show
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
     @data = @tiramon.getData
-    @disp_data = @tiramon.getData2
+    @disp_data = Tiramon.getBattleData(@data)
+
+    @my_tiramon = @tiramon.tiramon_trainer_id == @tiramon_trainer.id
+    if @my_tiramon
+      @about = 1
+    else
+      @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
+    end
   end
 
   private

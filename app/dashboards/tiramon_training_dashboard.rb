@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class TiramonBattleDashboard < Administrate::BaseDashboard
+class TiramonTrainingDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,15 +9,10 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    datetime: Field::DateTime,
-    red: Field::Number,
-    blue: Field::Number,
-    result: Field::Number,
-    result_str: Field::String,
-    data: Field::Text,
+    level: Field::Number,
+    training: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    schedule: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,37 +22,27 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
   id
-  datetime
-  red
-  blue
+  level
+  training
+  created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
   id
-  datetime
-  red
-  blue
-  result
-  result_str
-  data
+  level
+  training
   created_at
   updated_at
-  schedule
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  datetime
-  red
-  blue
-  result
-  result_str
-  data
-  schedule
+  level
+  training
   ].freeze
 
   # COLLECTION_FILTERS
@@ -72,10 +57,10 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how tiramon battles are displayed
+  # Overwrite this method to customize how tiramon trainings are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(tiramon_battle)
-  #   "TiramonBattle ##{tiramon_battle.id}"
+  # def display_resource(tiramon_training)
+  #   "TiramonTraining ##{tiramon_training.id}"
   # end
 end

@@ -1,0 +1,2 @@
+module TiramonTrainersHelper
+end

@@ -1,66 +1,113 @@
-<div class="tweet-container">
+<div class="title">チラウラリア公営チラモン闘技場「P.W.D.」</div>
 
-  <div class="hukidasi w-100 m-4">
-
-    <div class="tweet-container list">
-      <% @result[:log].map do |log| %>
-        <% if log[0] == 1 %>
-          <div class="tweet">
-            <div class="hukidasi">
-              <div class="content">
-                <%= log[1] %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-        <% if log[0] == -1 %>
-          <div class="tweet-reverse">
-            <div class="hukidasi">
-              <div class="content">
-                <%= log[1] %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-
-        <% if log[0] == 0 %>
-          <h3 class="text-center">
-            <%= log[1] %>
-          </h3>
-        <% end %>
-
-        <% if log[0] == nil %>
-          <div class="hukidasi w-100 d-flex justify-content-around">
-            <% log[1].map do |tiramon| %>
-              <% mhp = [100, 0].max %>
-              <% mmp = [100, 0].max %>
-              <% msp = [100, 0].max %>
-              <% hp = [tiramon[:hp] / tiramon[:max_hp] * 100, 0].max %>
-              <% mp = [tiramon[:mp] / tiramon[:max_mp] * 100, 0].max %>
-              <% sp = [tiramon[:sp] / tiramon[:max_sp] * 100, 0].max %>
-              <% thp = [tiramon[:temp_hp] / tiramon[:max_hp] * 100, 0].max %>
-              <% tmp = [tiramon[:temp_mp] / tiramon[:max_mp] * 100, 0].max %>
-              <% tsp = [tiramon[:temp_sp] / tiramon[:max_sp] * 100, 0].max %>
-
-              <div class="hukidasi w-100 m-2">
-                <div>
-                  <div class="text-center"><%= tiramon[:name] %></div>
-                  <div class="progress m-2">
-                    <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
-                    <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
-                  </div>
-                  <div class="progress m-2">
-                    <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
-                    <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>遊び方</h1>
+    <p>チラウラリアモンスター(通称チラモン)を育て、あいてのチラモンと闘わせるゲームです。</p>
+    <p>チラモンを育て、技を教え、戦術を練ると、チラモンは自分で考え、闘います。</p>
+    <p>最強のチラモンを育て上げ、「チラモンマスター」を目指しましょう！</p>
   </div>
+</div>
 
+<div class="tweet-container">
+  <% if @next_battle.present? %>
+    <div class="hukidasi">
+      <h1>次の試合</h1>
+
+      <div class="d-flex flex-wrap justify-content-center">
+
+        <% t = @next_battle.blue_tiramon.getData %>
+        <div class="content d-flex justify-content-center m-2">
+          <div class="content-image">
+            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          </div>
+          <div class="content-content word-break">
+            <div><%= t[:name] %></div>
+            <div></div>
+            <div><%= t[:train][:level].to_i %> Lv</div>
+            <div><%= (t[:height]*100).to_i %> cm</div>
+            <div><%= t[:weight].to_i %> kg</div>
+          </div>
+        </div>
+
+        <div class="content d-flex justify-content-center m-2">
+          <div class="content-content word-break">
+            <div>VS</div>
+          </div>
+        </div>
+
+        <% t = @next_battle.red_tiramon.getData %>
+        <div class="content d-flex justify-content-center m-2">
+          <div class="content-image">
+            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          </div>
+          <div class="content-content word-break">
+            <div><%= t[:name] %></div>
+            <div></div>
+            <div><%= t[:train][:level].to_i %> Lv</div>
+            <div><%= (t[:height]*100).to_i %> cm</div>
+            <div><%= t[:weight].to_i %> kg</div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="d-flex flex-wrap justify-content-center">
+        <div class="content d-flex justify-content-center m-2">
+          <div class="content-content text-center word-break">
+            <div><%= @next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+
+
+</div>
+
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>試合結果(最新<%= @battles.count %>件)</h1>
+    <% if @battles.present? %>
+      <% @battles.map do |battle| %>
+        <% blue = battle.blue_tiramon.getData %>
+        <% red = battle.red_tiramon.getData %>
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-content text-center word-break">
+              <div><%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %>
+                <%= link_to battle do %><%= blue[:name] %> VS <%= red[:name] %><% end %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    <% else %>
+      <div class="content d-flex flex-wrap justify-content-center m-2">
+        <div class="text-center">
+          まだありません。
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="tweet-container">
+</div>
+
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>遊び方</h1>
+    <p>はじめまして！<br />チラウラリア モンスターの せかいへ<br />ようこそ！</p>
+    <p>わたしの なまえは <%= Gimei.last %><br />みんなからは チラモン はかせと<br />したわれて おるよ</p>
+    <p>この せかいには<br />チラウラリア モンスターと よばれる</p>
+    <p>いきもの たちが<br />いたるところに すんでいる！</p>
+    <p>その チラモン という いきものを<br />ひとは ペットに したり<br />しょうぶに つかったり・・・</p>
+    <p>そして・・・</p>
+    <p>わたしは この チラモンの<br />けんきゅうを してる というわけだ</p>
+    <br />
+    <p>いよいよ これから<br />きみの ものがたりの はじまりだ！</p>
+    <p>ゆめと ぼうけんと！<br />チラウラリア モンスターの せかいへ！<br />レッツ ゴー！</p>
+  </div>
 </div>

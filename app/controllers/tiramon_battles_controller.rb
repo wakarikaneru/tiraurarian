@@ -9,16 +9,16 @@ class TiramonBattlesController < ApplicationController
     @battles = []
 
     @next_battle[0] = TiramonBattle.where(rank: 0).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[0] = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+    @battles[0] = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(id: :desc).limit(5)
 
     @next_battle[1] = TiramonBattle.where(rank: 1).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[1] = TiramonBattle.where(rank: 1).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+    @battles[1] = TiramonBattle.where(rank: 1).where("datetime < ?", Time.current).order(id: :desc).limit(5)
 
     @next_battle[2] = TiramonBattle.where(rank: 2).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[2] = TiramonBattle.where(rank: 2).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+    @battles[2] = TiramonBattle.where(rank: 2).where("datetime < ?", Time.current).order(id: :desc).limit(5)
 
     @next_battle[3] = TiramonBattle.where(rank: 3).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[3] = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+    @battles[3] = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(id: :desc).limit(5)
 
   end
 

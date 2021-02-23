@@ -14,11 +14,11 @@
     <h1>株の情報</h1>
     <div class="w-100">
       <%= javascript_include_tag "chartkick", "/js/highcharts.js" %>
-      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 10, library: { chart: { backgroundColor: "rgba(0,0,0,0)" }, time: { useUTC: false }, plotOptions: { series: { animation: false } } }, defer: true %>
+      <%= line_chart stock_stock_log_path, id: "stock-chart", curve: false, points: false, min: nil, thousands: ",", suffix: "va", refresh: 60, library: { chart: { backgroundColor: "rgba(0,0,0,0)" }, time: { useUTC: false }, plotOptions: { series: { animation: false } } }, defer: true %>
     </div>
 
     <div>
-      <%= render_async stock_info_path, interval: 10000, retry_count: 5, retry_delay: 120000, error_message: "Offline" do %>
+      <%= render_async stock_info_path, interval: 60000, retry_count: 5, retry_delay: 60000, error_message: "Offline" do %>
         <i class="fa fa-spinner fa-pulse"></i>
       <% end %>
     </div>

@@ -14,7 +14,7 @@ class TiramonBattle < ApplicationRecord
     battle.blue = t_2.id
     result = Tiramon.battle(t_2, t_1)
     battle.result = result[:result]
-    battle.data = result
+    battle.data = result.to_json
 
     battle.save!
   end

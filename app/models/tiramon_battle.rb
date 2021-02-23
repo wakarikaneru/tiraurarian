@@ -21,7 +21,7 @@ class TiramonBattle < ApplicationRecord
   end
 
   def self.match_make(rank = 0)
-    last_battle = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(id: :desc).first
+    last_battle = TiramonBattle.where(rank: rank).order(id: :desc).first
 
     if last_battle.present?
       champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon

@@ -42,7 +42,7 @@ class StocksController < ApplicationController
   end
 
   def stock_log
-    @stock_log = StockLog.where("? <= datetime", 12.hour.ago).order(id: :desc)
+    @stock_log = StockLog.where("? <= datetime", 3.hour.ago).order(id: :desc)
     render json: @stock_log.pluck(:datetime, :point)
   end
 

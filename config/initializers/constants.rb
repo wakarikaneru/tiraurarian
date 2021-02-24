@@ -68,7 +68,7 @@ module Constants
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ]
 
   TIRAMON_RULE_NAME = ["チャンピオンシップ", "ヘビー級", "ジュニア級", "アンダーマッチ"]
-  TIRAMON_FIGHT_TERM = [1.day, 4.hour, 3.hour, 20.minute]
+  TIRAMON_FIGHT_TERM = [12.hour, 3.hour, 2.hour, 10.minute]
   TIRAMON_FIGHT_VARTH = [100000, 8000, 4000, 300]
   TIRAMON_PAYMENT_SITE = 12.hour
 

@@ -46,14 +46,24 @@
 
               <div class="hukidasi w-100 m-2">
                 <div>
-                  <div class="text-center"><%= tiramon[:name] %></div>
-                  <div class="progress m-2">
-                    <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
-                    <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
+                  <div class="text-center m-2"><%= tiramon[:name] %></div>
+                  <div class="row">
+                    <div class="col-lg-3 text-center">スタミナ</div>
+                    <div class="col">
+                      <div class="progress m-2">
+                        <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
+                        <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="progress m-2">
-                    <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
-                    <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
+                  <div class="row">
+                    <div class="col-lg-3 text-center">体力</div>
+                    <div class="col">
+                      <div class="progress m-2">
+                        <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
+                        <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

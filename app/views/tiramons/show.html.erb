@@ -13,6 +13,7 @@
         <ul>
           <li>名前: <%= @disp_data[:name] %></li>
           <li>Lv: <%= @disp_data[:level].to_i %></li>
+          <li>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></li>
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
         </ul>
@@ -307,6 +308,48 @@
           <div>
             <%= link_to tiramon_edit_move_path(id: @tiramon), class: "btn btn-primary w-100 my-1" do %>
               戦い方設定画面へ
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="tweet-container list">
+    <div class="hukidasi width-full word-break">
+      <h1>キャリア設定</h1>
+      <div class="d-flex flex-row flex-wrap">
+
+        <div class="hukidasi m-2">
+          <h2>名前変更</h2>
+          <div>
+            <%= form_with url: tiramon_rename_path(id: @tiramon), method: :post, local: true do %>
+              <div class="input-group my-1">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">名前</div>
+                </div>
+                <%= text_field_tag :name, @disp_data[:name], class: "form-control", placeholder: "1-12文字", size: 12, maxlength: 12 %>
+              </div>
+              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled, data: { confirm: "名前を変更しますか？" } do %>
+                名前変更
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="hukidasi m-2">
+          <h2>階級変更</h2>
+          <div>
+            <%= form_with url: tiramon_set_rank_path(id: @tiramon), method: :post, local: true do %>
+              <div class="input-group my-1">
+                <%= select_tag :rank, options_for_select(@ranks, selected: @tiramon.rank), class: "form-control" %>
+                <div class="input-group-append">
+                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, data: { confirm: "階級を変更しますか？" } do %>
+                    変更
+                  <% end %>
+                </div>
+              </div>
             <% end %>
           </div>
         </div>

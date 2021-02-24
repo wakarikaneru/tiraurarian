@@ -807,8 +807,13 @@ class Tiramon < ApplicationRecord
         m << move
         getable_moves.delete(move)
 
+        move_list = TiramonMove.first.getData
+        move_data = TiramonMove.getMoveData(move_list.find{|o| o[:id] == move})
+        t = {name: "新技習得", effect: move_data[:name] + "を習得した" }
+
         self.move = m.to_json
         self.get_move = getable_moves.to_json
+        self.training_text = t.to_json
         self.save!
 
         update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
@@ -824,7 +829,11 @@ class Tiramon < ApplicationRecord
 
         move_list = TiramonMove.first.getData
 
-        self.get_move = move_list.pluck(:id).sample(rand(1..5)).sort.difference(self.getMove)
+        r = rand(1..5)
+        t = {name: "技をひらめく", effect: r.to_s + "個の技をひらめいた" }
+
+        self.get_move = move_list.pluck(:id).difference(self.getMove).sample(r).sort
+        self.training_text = t.to_json
         self.save!
 
         update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
@@ -842,6 +851,48 @@ class Tiramon < ApplicationRecord
         update(act: Time.current)
         return true
         end
+      end
+    end
+    return false
+  end
+
+  def rename?(trainer, name)
+    if self.tiramon_trainer_id == trainer.id
+      if act.nil? or act < Time.current
+        d = getData()
+
+        old_name = d[:name]
+        d[:name] = name
+
+        # 簡易チェック
+        if !(1..12).cover?(name.length)
+          return false
+        end
+
+        t = {name: "名前変更", effect: old_name + "から変更した" }
+
+        self.data = d.to_json
+        self.training_text = t.to_json
+        self.save!
+
+        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        return true
+      end
+    end
+    return false
+  end
+
+  def set_rank?(trainer, rank)
+    if self.tiramon_trainer_id == trainer.id
+      if act.nil? or act < Time.current
+
+        t = {name: "階級変更", effect: Constants::TIRAMON_RULE_NAME[self.rank] + "から変更した" }
+        self.training_text = t.to_json
+        self.save!
+
+        update(rank: rank)
+        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        return true
       end
     end
     return false

@@ -1,5 +1,5 @@
 class TiramonsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :get, :show]
+  before_action :authenticate_user!, only: [:index, :get, :training, :show]
   before_action :set_tiramon, only: [:show, :get]
 
   def index
@@ -41,6 +41,21 @@ class TiramonsController < ApplicationController
     end
   end
 
+  def training
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    if @tiramon.training?(@tiramon_trainer, params[:id])
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "ゲットしました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "ゲットできませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def show
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
     @data = @tiramon.getData
@@ -51,6 +66,12 @@ class TiramonsController < ApplicationController
       @about = 1
     else
       @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
+    end
+
+    if @tiramon.act.present?
+      @can_act = @tiramon.act < Time.current
+    else
+      @can_act = true
     end
   end
 

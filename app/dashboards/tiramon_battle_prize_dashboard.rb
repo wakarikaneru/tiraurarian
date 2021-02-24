@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class TiramonBattleDashboard < Administrate::BaseDashboard
+class TiramonBattlePrizeDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,21 +8,12 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    red_tiramon: Field::BelongsTo.with_options(class_name: "Tiramon"),
-    blue_tiramon: Field::BelongsTo.with_options(class_name: "Tiramon"),
+    user: Field::BelongsTo,
     id: Field::Number,
+    prize: Field::Number,
     datetime: Field::DateTime,
-    red_tiramon_id: Field::Number,
-    blue_tiramon_id: Field::Number,
-    result: Field::Number,
-    result_str: Field::String,
-    data: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    schedule: Field::DateTime,
-    rank: Field::Number,
-    payment: Field::Boolean,
-    payment_time: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -31,48 +22,30 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
+  user
   id
+  prize
   datetime
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
+  user
   id
+  prize
   datetime
-  red_tiramon_id
-  blue_tiramon_id
-  result
-  result_str
-  data
   created_at
   updated_at
-  schedule
-  rank
-  payment
-  payment_time
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
+  user
+  prize
   datetime
-  red_tiramon_id
-  blue_tiramon_id
-  result
-  result_str
-  data
-  schedule
-  rank
-  payment
-  payment_time
   ].freeze
 
   # COLLECTION_FILTERS
@@ -87,10 +60,10 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how tiramon battles are displayed
+  # Overwrite this method to customize how tiramon battle prizes are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(tiramon_battle)
-  #   "TiramonBattle ##{tiramon_battle.id}"
+  # def display_resource(tiramon_battle_prize)
+  #   "TiramonBattlePrize ##{tiramon_battle_prize.id}"
   # end
 end

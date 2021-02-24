@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_010145) do
+ActiveRecord::Schema.define(version: 2021_02_24_043904) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -243,10 +243,18 @@ ActiveRecord::Schema.define(version: 2021_02_24_010145) do
     t.datetime "thumb_updated_at"
   end
 
+  create_table "tiramon_battle_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "prize"
+    t.datetime "datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tiramon_battles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "datetime"
-    t.integer "red"
-    t.integer "blue"
+    t.integer "red_tiramon_id"
+    t.integer "blue_tiramon_id"
     t.integer "result"
     t.string "result_str"
     t.text "data", limit: 16777215
@@ -295,6 +303,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_010145) do
     t.datetime "act"
     t.datetime "get_limit"
     t.integer "right"
+    t.text "training_text"
   end
 
   create_table "tweets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

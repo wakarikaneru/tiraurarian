@@ -75,7 +75,7 @@
 
         <div class="hukidasi d-flex flex-column m-2">
           <h2>育成状況</h2>
-          <% if @tiramon.act < Time.current %>
+          <% if @can_act %>
             <div class="content m-2">育成できます！</div>
           <% else %>
             <div class="content m-2">次に育成できるまで: <%= distance_of_time_in_words_to_now(@tiramon.act) %></div>

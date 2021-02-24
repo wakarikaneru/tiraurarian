@@ -601,8 +601,6 @@ class Tiramon < ApplicationRecord
   def training?(trainer, training_id)
     if self.tiramon_trainer_id == trainer.id
       if act.nil? or act < Time.current
-        update(act: Time.current + 3.hour)
-
         d = getData()
         t = ""
 
@@ -723,7 +721,127 @@ class Tiramon < ApplicationRecord
         self.training_text = t.to_json
         self.save!
 
+        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
         return true
+      end
+    end
+    return false
+  end
+
+  def set_style?(trainer, style)
+    if self.tiramon_trainer_id == trainer.id
+      d = getData()
+
+      d[:style][:tactics][:intuition] = style[:intuition]
+      d[:style][:tactics][:study] = style[:study]
+      d[:style][:tactics][:flexible] = style[:flexible]
+      d[:style][:tactics][:wary] = style[:wary]
+
+      self.data = d.to_json
+      self.save!
+      return true
+    end
+    return false
+  end
+
+  def set_wary?(trainer, wary)
+    if self.tiramon_trainer_id == trainer.id
+      d = getData()
+
+      d[:style][:wary] = wary
+
+      self.data = d.to_json
+      self.save!
+      return true
+    end
+    return false
+  end
+
+  def set_move?(trainer, moves)
+    if self.tiramon_trainer_id == trainer.id
+      d = getData()
+
+      d[:moves] = moves
+
+      # 簡易チェック
+      4.times do |i|
+        4.times do |j|
+          if d[:moves][i][j][5] == nil
+            return false
+          end
+        end
+      end
+
+      # 覚えてない技を使えないようにする
+      allmove = d[:moves].flatten.uniq.sort
+      available_moves = self.getMove
+      error_move = allmove.difference(available_moves)
+      if 0 < error_move.size
+        return false
+      end
+
+      self.data = d.to_json
+      self.save!
+      return true
+    end
+    return false
+  end
+
+  def get_move?(trainer, move)
+    if self.tiramon_trainer_id == trainer.id
+      if act.nil? or act < Time.current
+        m = self.getMove()
+
+        # リストにない技を覚えられないようにする
+        getable_moves = self.getGetMove
+        if !getable_moves.include?(move)
+          return false
+        end
+
+        # すでに覚えている技を覚えられないようにする
+        already_moves = self.getMove
+        if already_moves.include?(move)
+          return false
+        end
+
+        m << move
+        getable_moves.delete(move)
+
+        self.move = m.to_json
+        self.get_move = getable_moves.to_json
+        self.save!
+
+        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        return true
+      end
+    end
+    return false
+  end
+
+  def inspire_move?(trainer)
+    if self.tiramon_trainer_id == trainer.id
+      if act.nil? or act < Time.current
+
+        move_list = TiramonMove.first.getData
+
+        self.get_move = move_list.pluck(:id).sample(rand(1..5)).sort.difference(self.getMove)
+        self.save!
+
+        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        return true
+      end
+    end
+    return false
+  end
+
+  def refresh?(trainer)
+    if self.tiramon_trainer_id == trainer.id
+      if Time.current < act
+        if trainer.user.sub_points?(Constants::TIRAMON_REFRESH_PRICE)
+
+          update(act: Time.current)
+        return true
+        end
       end
     end
     return false

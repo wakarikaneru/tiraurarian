@@ -860,6 +860,8 @@ class Tiramon < ApplicationRecord
 
       self.data = d.to_json
       self.save!
+
+      update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
       return true
     end
     return false
@@ -868,6 +870,7 @@ class Tiramon < ApplicationRecord
   def set_rank?(trainer, rank)
     if self.tiramon_trainer_id == trainer.id
       update(rank: rank)
+      update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
       return true
     end
     return false

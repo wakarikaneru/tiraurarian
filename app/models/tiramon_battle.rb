@@ -1,7 +1,7 @@
 class TiramonBattle < ApplicationRecord
 
-  belongs_to :red_tiramon, class_name: 'Tiramon', foreign_key: :red, primary_key: :id
-  belongs_to :blue_tiramon, class_name: 'Tiramon', foreign_key: :blue, primary_key: :id
+  belongs_to :red_tiramon, class_name: 'Tiramon', foreign_key: :red_tiramon_id, primary_key: :id
+  belongs_to :blue_tiramon, class_name: 'Tiramon', foreign_key: :blue_tiramon_id, primary_key: :id
 
   def getData
     return eval(data)
@@ -11,16 +11,22 @@ class TiramonBattle < ApplicationRecord
     battle = TiramonBattle.new
     battle.datetime = datetime
     battle.rank = rank
-    battle.red = t_2.id
-    battle.blue = t_1.id
+    battle.red_tiramon_id = t_2.id
+    battle.blue_tiramon_id = t_1.id
     result = Tiramon.battle(t_1, t_2)
     battle.result = result[:result]
     battle.data = result.to_json
 
-    battle.payment = false
-    battle.payment_time = datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute
-
     battle.save!
+
+    if battle.result == 1
+      user = battle.blue_tiramon.tiramon_trainer.user
+      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+    else
+      user = battle.red_tiramon.tiramon_trainer.user
+      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+    end
+
   end
 
   def self.match_make(rank = 0)
@@ -39,35 +45,18 @@ class TiramonBattle < ApplicationRecord
   end
 
   def self.prize()
-    battles = TiramonBattle.where(payment: false).where("payment_time < ?", Time.current).where.not(rank: nil)
+    prizes = TiramonBattlePrize.where("datetime < ?", Time.current)
+    prizes_group = prizes.group(:user_id).sum(:prize)
 
-    total_prizes = []
-    battles.find_each do |battle|
-      user_id = 0
-      if battle.result == 1
-        user_id = battle.blue_tiramon.tiramon_trainer.user_id
-      else
-        user_id = battle.red_tiramon.tiramon_trainer.user_id
-      end
-
-      total_prize = total_prizes.find{|m| m[:user_id] == user_id}
-      if total_prize.blank?
-        total_prizes << {user_id: user_id, value: Constants::TIRAMON_FIGHT_VARTH[battle.rank]}
-      else
-        total_prize[:value] += Constants::TIRAMON_FIGHT_VARTH[battle.rank]
-      end
-
-      battle.update(payment: true)
-    end
-
-    total_prizes.map do |total_prize|
-      user = User.find_by(id: total_prize[:user_id])
+    prizes_group.map do |id, varth|
+      user = User.find_by(id: id)
       if user.present?
-        user.add_points(total_prize[:value])
-        Notice.generate(user.id, 0, "チラモン闘技場", "賞金として" + total_prize[:value].to_i.to_s + "va手に入れました。")
+        user.add_points(varth)
+        Notice.generate(user.id, 0, "チラモン闘技場", "賞金として" + varth.to_i.to_s + "va手に入れました。")
       end
     end
 
+    prizes.delete_all
   end
 
   def self.recovery

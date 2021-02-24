@@ -13,8 +13,8 @@
         <ul>
           <li>名前: <%= @disp_data[:name] %></li>
           <li>Lv: <%= @disp_data[:level].to_i %></li>
-          <li>身長: <%= Tiramon.about((@disp_data[:height] * 100), @about).to_i  %>cm</li>
-          <li>体重: <%= Tiramon.about((@disp_data[:weight]), @about).to_i %>kg</li>
+          <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
+          <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
         </ul>
       </div>
 
@@ -64,3 +64,97 @@
 
   </div>
 </div>
+
+
+<% if @my_tiramon %>
+  <% disabled = @can_act ? "" : " disabled" %>
+  <div class="tweet-container list">
+    <div class="hukidasi width-full word-break">
+      <h1>チラモン育成メニュー</h1>
+      <div class="d-flex flex-row flex-wrap">
+
+        <div class="hukidasi m-2">
+          <h2>育成状況</h2>
+          <div>体力トレーニング</div>
+          <div>あと3時間</div>
+          <div>
+            <div>Lv +2</div>
+          </div>
+
+        </div>
+
+        <div class="hukidasi m-2 text-center">
+          <h2>基礎能力</h2>
+          <div>
+            <%= link_to tiramon_training_path(id: 0), method: :post, class: "btn btn-primary w-100 m-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+              体力トレーニング
+            <% end %>
+          </div>
+          <div>
+            <%= link_to tiramon_training_path(id: 1), method: :post, class: "btn btn-primary w-100 m-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+              メンタルトレーニング
+            <% end %>
+          </div>
+          <div>
+            <%= link_to tiramon_training_path(id: 2), method: :post, class: "btn btn-primary w-100 m-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+              スタミナトレーニング
+            <% end %>
+          </div>
+        </div>
+
+        <div class="hukidasi m-2 text-center">
+          <h2>技を覚える</h2>
+          <div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="tweet-container list">
+    <div class="hukidasi width-full word-break">
+      <h1>戦術会議</h1>
+      <div class="d-flex flex-row flex-wrap">
+
+        <div class="hukidasi m-2">
+          <h2>現在のスタイル</h2>
+            <ul>
+              <li>勘にまかせる: <%= (@disp_data[:tactics][:intuition] * 100).to_i %></li>
+              <li>相手を研究する: <%= (@disp_data[:tactics][:study] * 100).to_i %></li>
+              <li>状況に合わせる: <%= (@disp_data[:tactics][:flexible] * 100).to_i %></li>
+              <li>戦術に沿う: <%= (@disp_data[:tactics][:wary] * 100).to_i %></li>
+            </ul>
+        </div>
+
+        <div class="hukidasi m-2">
+          <h2>スタイル設定</h2>
+          <div>
+            <%= form_with url: card_battle_gacha_path, method: :post, local: true do %>
+              <div class="input-group">
+                <%= text_field_tag :num, "", class: "form-control", placeholder: "回数", size: 10 %>
+                <div class="input-group-append">
+                  <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                    <span>ガチャ！</span>
+                    <i class="fa fa-spinner fa-pulse"></i>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="hukidasi m-2 text-center">
+          <h2>戦い方</h2>
+          <div>
+            <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary w-100 m-1", data: { confirm: "トレーニングしますか？" } do %>
+              技編成画面へ
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<% end %>

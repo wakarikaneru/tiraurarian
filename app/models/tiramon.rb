@@ -30,6 +30,10 @@ class Tiramon < ApplicationRecord
     end
   end
 
+  def training?(trainer = TiramonTrainer.none, id = 0)
+    return false
+  end
+
   def self.generateData(min_level, max_level)
     min_power = min_level / 100.0
     max_power = max_level / 100.0

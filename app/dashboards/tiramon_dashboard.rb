@@ -20,6 +20,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     act: Field::DateTime,
     get_limit: Field::DateTime,
     right: Field::Number,
+    training_text: Field::Text,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -49,6 +50,7 @@ class TiramonDashboard < Administrate::BaseDashboard
   act
   get_limit
   right
+  training_text
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -64,6 +66,7 @@ class TiramonDashboard < Administrate::BaseDashboard
   act
   get_limit
   right
+  training_text
   ].freeze
 
   # COLLECTION_FILTERS

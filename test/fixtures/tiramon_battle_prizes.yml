@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  prize: 1
+  datetime: 2021-02-24 04:39:04
+
+two:
+  user_id: 1
+  prize: 1
+  datetime: 2021-02-24 04:39:04

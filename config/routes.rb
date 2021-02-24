@@ -71,6 +71,13 @@ Rails.application.routes.draw do
   post 'tiramon/get', to: 'tiramons#get'
   post 'tiramon/scout', to: 'tiramons#scout'
   post 'tiramon/training', to: 'tiramons#training'
+  post 'tiramon/set_style', to: 'tiramons#set_style'
+  post 'tiramon/set_wary', to: 'tiramons#set_wary'
+  post 'tiramon/set_move', to: 'tiramons#set_move'
+  post 'tiramon/get_move', to: 'tiramons#get_move'
+  post 'tiramon/inspire_move', to: 'tiramons#inspire_move'
+  post 'tiramon/refresh', to: 'tiramons#refresh'
+  get 'tiramon/edit_move', to: 'tiramons#edit_move'
 
   resources :tiramon_battles
   get 'tiramon_battle', to: 'tiramon_battles#index'

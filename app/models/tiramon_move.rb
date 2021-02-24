@@ -30,14 +30,14 @@ class TiramonMove < ApplicationRecord
       },
       move_value_attack: 0.0,
       move_value_all: 0.0,
-      element: 4,
+      element: 3,
     }
 
     m[:move_value_attack] = TiramonMove.get_risk(m[:damage])
     m[:move_value_all] = TiramonMove.get_risk(m[:damage]) - TiramonMove.get_risk_self(m[:self_damage])
 
     a = [m[:damage][:element_0], m[:damage][:element_1], m[:damage][:element_2]]
-    m[:element] = 0 < a.max ? a.index(a.max) : 4
+    m[:element] = 0 < a.max ? a.index(a.max) : 3
 
     return m
   end

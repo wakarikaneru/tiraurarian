@@ -1,22 +1,49 @@
 class TiramonTrainer < ApplicationRecord
   belongs_to :user
 
+  def move_max
+    return 3 + (self.level / 10)
+  end
+
   def move?
     if move <= 0
-      false
+      return false
     else
       decrement!(:move, 1)
-      true
+      return true
     end
   end
 
   def use_ball?
     if tiramon_ball <= 0
-      false
+      return false
     else
       decrement!(:tiramon_ball, 1)
-      true
+      return true
     end
+  end
+
+  def move_recovery?(user)
+    if self.user_id == user.id
+      if self.user.sub_points?(Constants::TIRAMON_TRAINER_MOVE_RECOVERY_PRICE)
+        self.move = self.move_max
+        self.save!
+
+        return true
+      end
+    end
+    return false
+  end
+
+  def get_ball?(user)
+    if self.user_id == user.id
+      if self.user.sub_points?(Constants::TIRAMON_TRAINER_BALL_PRICE)
+
+        increment!(:tiramon_ball, 1)
+        return true
+      end
+    end
+    return false
   end
 
   def self.recovery
@@ -28,7 +55,6 @@ class TiramonTrainer < ApplicationRecord
     all_trainer = TiramonTrainer.all
     all_trainer.find_each do |trainer|
       trainer.move = 3 + (trainer.level / 10)
-      trainer.tiramon_ball = trainer.tiramon_ball + 1
       trainer.save!
       Notice.generate(trainer.user_id, 0, "チラモン闘技場", "行動ポイントが回復しました。")
     end

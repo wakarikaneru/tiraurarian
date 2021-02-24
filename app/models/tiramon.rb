@@ -839,7 +839,7 @@ class Tiramon < ApplicationRecord
       if Time.current < act
         if trainer.user.sub_points?(Constants::TIRAMON_REFRESH_PRICE)
 
-          update(act: Time.current)
+        update(act: Time.current)
         return true
         end
       end

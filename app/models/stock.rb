@@ -77,8 +77,11 @@ class Stock < ApplicationRecord
     price.update(value: price_f.to_s)
     StockLog.generate(price_f.to_i)
 
+    # 倒産確率変動
+    bankruptcy_day = [price_f / 10000.0, 1.0 / 7.0, 1.0] * 7
+
     # 倒産
-    if price_f < (price_target_f / 2) || (Random.rand * (60 * 24)) < 1
+    if price_f < (price_target_f / 2) || (Random.rand * (60 * 24 * bankruptcy_day)) < 1
       Stock.bankruptcy
       Stock.listing
     end

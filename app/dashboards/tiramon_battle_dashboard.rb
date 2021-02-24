@@ -8,8 +8,6 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    red_tiramon: Field::BelongsTo.with_options(class_name: "Tiramon"),
-    blue_tiramon: Field::BelongsTo.with_options(class_name: "Tiramon"),
     id: Field::Number,
     datetime: Field::DateTime,
     red: Field::Number,
@@ -21,6 +19,8 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     schedule: Field::DateTime,
     rank: Field::Number,
+    payment: Field::Boolean,
+    payment_time: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -29,8 +29,6 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
   id
   datetime
   ].freeze
@@ -38,8 +36,6 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
   id
   datetime
   red
@@ -51,14 +47,14 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   updated_at
   schedule
   rank
+  payment
+  payment_time
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  red_tiramon
-  blue_tiramon
   datetime
   red
   blue
@@ -67,6 +63,8 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   data
   schedule
   rank
+  payment
+  payment_time
   ].freeze
 
   # COLLECTION_FILTERS

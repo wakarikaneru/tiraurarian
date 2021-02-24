@@ -59,11 +59,15 @@ end
 every 4.hours do
   rake 'tiramon_battle_match_make:heavy'
 end
-every 1.hour do
+every 3.hour do
   rake 'tiramon_battle_match_make:junior'
 end
-every 10.minutes do
+every 20.minutes do
   rake 'tiramon_battle_match_make:under_match'
+end
+
+every 1.days, at: '00:00' do
+  rake 'tiramon_battle_payment:tiramon_battle_payment'
 end
 
 every 1.days, at: '00:00' do

@@ -1,6 +1,6 @@
 class TiramonsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :get, :training, :show]
-  before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :edit_move]
+  before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :edit_move]
 
   def index
     @tiramons = Tiramon.all
@@ -182,6 +182,42 @@ class TiramonsController < ApplicationController
     end
   end
 
+  def rename
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    name = params[:name]
+
+    if @tiramon.rename?(@tiramon_trainer, name)
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "改名しました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "改名できませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def set_rank
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    rank = [params[:rank].to_i, 1, 3].sort.second
+
+    if @tiramon.set_rank?(@tiramon_trainer, rank)
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "階級を変更しました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "階級を変更できませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def show
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
     @data = @tiramon.getData
@@ -209,6 +245,11 @@ class TiramonsController < ApplicationController
     get_moves.each do |move|
       move_data = TiramonMove.getMoveData(move_list.find{|m| m[:id] == move})
       @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "] " + move_data[:name], move]
+    end
+
+    @ranks = []
+    (1..3).each do |rank|
+      @ranks << [Constants::TIRAMON_RULE_NAME[rank], rank]
     end
   end
 

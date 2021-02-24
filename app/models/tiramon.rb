@@ -847,6 +847,32 @@ class Tiramon < ApplicationRecord
     return false
   end
 
+  def rename?(trainer, name)
+    if self.tiramon_trainer_id == trainer.id
+      d = getData()
+
+      d[:name] = name
+
+      # 簡易チェック
+      if !(1..12).cover?(name.length)
+        return false
+      end
+
+      self.data = d.to_json
+      self.save!
+      return true
+    end
+    return false
+  end
+
+  def set_rank?(trainer, rank)
+    if self.tiramon_trainer_id == trainer.id
+      update(rank: rank)
+      return true
+    end
+    return false
+  end
+
   def self.get_moves(t = {})
     return t[:moves].flatten.uniq.sort
   end

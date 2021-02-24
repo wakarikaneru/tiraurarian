@@ -8,25 +8,26 @@ class TiramonBattle < ApplicationRecord
   end
 
   def self.generate(rank = -1, t_1 = Tiramon.none, t_2 = Tiramon.none, datetime = Time.current)
-    battle = TiramonBattle.new
-    battle.datetime = datetime
-    battle.rank = rank
-    battle.red_tiramon_id = t_2.id
-    battle.blue_tiramon_id = t_1.id
-    result = Tiramon.battle(t_1, t_2)
-    battle.result = result[:result]
-    battle.data = result.to_json
+    if t_1.present? and t_2.present?
+      battle = TiramonBattle.new
+      battle.datetime = datetime
+      battle.rank = rank
+      battle.red_tiramon_id = t_2.id
+      battle.blue_tiramon_id = t_1.id
+      result = Tiramon.battle(t_1, t_2)
+      battle.result = result[:result]
+      battle.data = result.to_json
 
-    battle.save!
+      battle.save!
 
-    if battle.result == 1
-      user = battle.blue_tiramon.tiramon_trainer.user
-      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
-    else
-      user = battle.red_tiramon.tiramon_trainer.user
-      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      if battle.result == 1
+        user = battle.blue_tiramon.tiramon_trainer.user
+        TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      else
+        user = battle.red_tiramon.tiramon_trainer.user
+        TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[battle.rank], datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      end
     end
-
   end
 
   def self.match_make(rank = 0)
@@ -34,9 +35,9 @@ class TiramonBattle < ApplicationRecord
 
     if last_battle.present?
       champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
-      tiramon = Tiramon.where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+      tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
     else
-      tiramons = Tiramon.where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
       champion = tiramons[0]
       tiramon = tiramons[1]
     end

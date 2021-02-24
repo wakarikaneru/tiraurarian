@@ -331,7 +331,7 @@
                 </div>
                 <%= text_field_tag :name, @disp_data[:name], class: "form-control", placeholder: "1-12文字", size: 12, maxlength: 12 %>
               </div>
-              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2", data: { confirm: "名前を変更しますか？" } do %>
+              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled, data: { confirm: "名前を変更しますか？" } do %>
                 名前変更
               <% end %>
             <% end %>
@@ -345,7 +345,7 @@
               <div class="input-group my-1">
                 <%= select_tag :rank, options_for_select(@ranks, selected: @tiramon.rank), class: "form-control" %>
                 <div class="input-group-append">
-                  <%= button_tag type: "submit", class: "btn btn-primary w-100", data: { confirm: "階級を変更しますか？" } do %>
+                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, data: { confirm: "階級を変更しますか？" } do %>
                     変更
                   <% end %>
                 </div>

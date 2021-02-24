@@ -281,6 +281,29 @@ class Tiramon < ApplicationRecord
 
         ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_DOUBLE_DOWN, rand())])
 
+        # お互い寝っ転がりっぱなしはしょっぱいのでスタミナ回復
+        t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp]
+        t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp]
+
+        t_1_recovery = 1
+        t_2_recovery = 1
+        if t_2_recovery_power < t_1_recovery_power
+          t_1_recovery = t_1_recovery_power / t_1_recovery_power
+          t_2_recovery = t_2_recovery_power / t_1_recovery_power
+        else
+          t_1_recovery = t_1_recovery_power / t_2_recovery_power
+          t_2_recovery = t_2_recovery_power / t_2_recovery_power
+        end
+
+        t_1_sp = -t_1[:temp_sp]
+        t_2_sp = -t_2[:temp_sp]
+
+        t_1_sp_recover = t_1_sp / t_2_recovery
+        t_2_sp_recover = t_2_sp / t_1_recovery
+
+        t_1[:temp_sp] += t_1_sp_recover
+        t_2[:temp_sp] += t_2_sp_recover
+
       elsif 0 < attacker[:temp_sp]
 
         # 仕掛ける

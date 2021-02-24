@@ -1,6 +1,6 @@
 class TiramonsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :get, :training, :show]
-  before_action :set_tiramon, only: [:show, :get]
+  before_action :set_tiramon, only: [:show, :get, :training]
 
   def index
     @tiramons = Tiramon.where(user_id: current_user)
@@ -43,14 +43,15 @@ class TiramonsController < ApplicationController
 
   def training
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
-    if @tiramon.training?(@tiramon_trainer, params[:id])
+    training = params[:training].to_i
+    if @tiramon.training?(@tiramon_trainer, training)
       respond_to do |format|
-        format.html { redirect_back(fallback_location: root_path, notice: "ゲットしました！" )}
+        format.html { redirect_back(fallback_location: root_path, notice: "育成しました！" )}
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_back(fallback_location: root_path, alert: "ゲットできませんでした。" )}
+        format.html { redirect_back(fallback_location: root_path, alert: "育成できませんでした。" )}
         format.json { head :no_content }
       end
     end
@@ -73,6 +74,8 @@ class TiramonsController < ApplicationController
     else
       @can_act = true
     end
+
+    @training = @tiramon.getTrainingText
   end
 
   private

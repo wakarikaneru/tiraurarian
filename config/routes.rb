@@ -70,7 +70,7 @@ Rails.application.routes.draw do
   resources :tiramons
   post 'tiramon/get', to: 'tiramons#get'
   post 'tiramon/scout', to: 'tiramons#scout'
-  post 'tiramon/training', to: 'tiramon_battles#training'
+  post 'tiramon/training', to: 'tiramons#training'
 
   resources :tiramon_battles
   get 'tiramon_battle', to: 'tiramon_battles#index'

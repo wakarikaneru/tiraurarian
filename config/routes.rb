@@ -81,7 +81,10 @@ Rails.application.routes.draw do
 
   resources :tiramon_battles
   get 'tiramon_battle', to: 'tiramon_battles#index'
+
   get 'tiramon_trainer', to: 'tiramon_trainers#index'
+  post 'tiramon_trainer/move_recovery', to: 'tiramon_trainers#move_recovery'
+  post 'tiramon_trainer/get_ball', to: 'tiramon_trainers#get_ball'
 
   get 'taxpayers', to: 'taxpayers#index'
 

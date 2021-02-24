@@ -1,9 +1,11 @@
 class TiramonBattlesController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :battle]
+  before_action :authenticate_user!, only: [:battle]
   before_action :set_tiramon_battle, only: [:show]
 
   def index
-    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    if user_signed_in?
+      @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    end
 
     @next_battle = []
     @battles = []

@@ -35,9 +35,17 @@ class TiramonBattle < ApplicationRecord
 
     if last_battle.present?
       champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
-      tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+      if rank == 0
+        tiramon = Tiramon.where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+      else
+        tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+      end
     else
-      tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+      if rank == 0
+        tiramons = Tiramon.where.not(tiramon_trainer: nil).sample(2)
+      else
+        tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+      end
       champion = tiramons[0]
       tiramon = tiramons[1]
     end

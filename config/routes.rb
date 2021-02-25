@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   post 'tiramon/refresh', to: 'tiramons#refresh'
   post 'tiramon/rename', to: 'tiramons#rename'
   post 'tiramon/set_rank', to: 'tiramons#set_rank'
+  post 'tiramon/release', to: 'tiramons#release'
   get 'tiramon/edit_move', to: 'tiramons#edit_move'
 
   resources :tiramon_battles

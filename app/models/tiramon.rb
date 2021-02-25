@@ -20,7 +20,7 @@ class Tiramon < ApplicationRecord
   def get?(trainer = TiramonTrainer.none)
     if right == trainer.id and Time.current < get_limit
       if trainer.use_ball?
-        update(tiramon_trainer_id: trainer.id)
+        update(right: nil, tiramon_trainer_id: trainer.id)
         return true
       else
         return false
@@ -894,6 +894,14 @@ class Tiramon < ApplicationRecord
         update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
         return true
       end
+    end
+    return false
+  end
+
+  def release?(trainer)
+    if self.tiramon_trainer_id == trainer.id
+      update(tiramon_trainer_id: nil)
+      return true
     end
     return false
   end

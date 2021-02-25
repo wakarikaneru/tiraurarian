@@ -5,22 +5,26 @@ class TiramonBattlesController < ApplicationController
   def index
     if user_signed_in?
       @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+      @my_tiramos = Tiramon.where(tiramon_trainer_id: @tiramon_trainer)
+      my_battles_red = TiramonBattle.where(red_tiramon_id: @my_tiramos)
+      my_battles_blue = TiramonBattle.where(red_tiramon_id: @my_tiramos)
+      @my_battles = TiramonBattle.none.or(my_battles_red).or(my_battles_blue).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
     end
 
     @next_battle = []
     @battles = []
 
     @next_battle[0] = TiramonBattle.where(rank: 0).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[0] = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(id: :desc).limit(5)
+    @battles[0] = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
 
     @next_battle[1] = TiramonBattle.where(rank: 1).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[1] = TiramonBattle.where(rank: 1).where("datetime < ?", Time.current).order(id: :desc).limit(5)
+    @battles[1] = TiramonBattle.where(rank: 1).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
 
     @next_battle[2] = TiramonBattle.where(rank: 2).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[2] = TiramonBattle.where(rank: 2).where("datetime < ?", Time.current).order(id: :desc).limit(5)
+    @battles[2] = TiramonBattle.where(rank: 2).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
 
     @next_battle[3] = TiramonBattle.where(rank: 3).where("datetime > ?", Time.current).order(datetime: :asc).first
-    @battles[3] = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(id: :desc).limit(5)
+    @battles[3] = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
 
   end
 

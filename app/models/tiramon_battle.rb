@@ -62,7 +62,7 @@ class TiramonBattle < ApplicationRecord
       end
     end
 
-    # 王座戦以外の場合、ランダムに抽選
+    # それ以外の場合、ランダムに抽選
     tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
     champion = tiramons[0]
     tiramon = tiramons[1]
@@ -83,8 +83,11 @@ class TiramonBattle < ApplicationRecord
     prizes_group.map do |id, varth|
       user = User.find_by(id: id)
       if user.present?
-        user.add_points(varth)
-        Notice.generate(user.id, 0, "チラモン闘技場", "賞金として" + varth.to_i.to_s + "va手に入れました。")
+        trainer = TiramonTrainer.find_or_create_by(user_id: user.id)
+        tiramons = Tiramon.where(tiramon_trainer_id: trainer.id)
+        dividend = (varth.to_f / (1.0 + tiramons.count).to_f).to_i
+        user.add_points(dividend)
+        Notice.generate(user.id, 0, "チラモン闘技場", "賞金として" + varth.to_i.to_s + "va獲得しました。" + "チラモンたちと山分けして" + dividend.to_i.to_s + "va手に入れました。")
       end
     end
 

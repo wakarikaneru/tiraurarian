@@ -153,7 +153,9 @@
           <% red = battle.red_tiramon.getData %>
             <div class="content d-flex justify-content-center m-2">
               <div class="content-content text-center word-break">
-                <div><%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %>
+                <div>
+                  <%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %><br />
+                  <%= Constants::TIRAMON_RULE_NAME[battle.rank] %><br />
                   <%= link_to battle do %><%= blue[:name] %> VS <%= red[:name] %><% end %>
                 </div>
               </div>

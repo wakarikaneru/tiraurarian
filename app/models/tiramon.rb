@@ -381,7 +381,7 @@ class Tiramon < ApplicationRecord
           fear = [damage_risk / pride, 2.0, 0.0].sort.second
           #ret[:log].push([-turn, "回避率(恐怖)" + ((fear) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
-          avoid_puroresu = [fear * avoid_hp, 0.99, 0.01].sort.second
+          avoid_puroresu = [fear * avoid_hp, 0.90, 0.10].sort.second
 
           # シュート
           # 勘
@@ -420,7 +420,7 @@ class Tiramon < ApplicationRecord
           #ret[:log].push([-turn, "回避率(読み合い)" + ((wariness) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(スタミナ)" + ((avoid_sp) * 100).to_i.to_s + "%" ])
-          avoid_shoot = [wariness * avoid_hp * avoid_sp, 0.90, 0.10].sort.second
+          avoid_shoot = [wariness * avoid_hp * avoid_sp, 0.99, 0.01].sort.second
 
           #ret[:log].push([-turn, "回避率(プロレス)" + ((avoid_puroresu) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率(シュート)" + ((avoid_shoot) * 100).to_i.to_s + "%" ])

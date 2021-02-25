@@ -9,6 +9,8 @@ class TiramonBattlesController < ApplicationController
       my_battles_red = TiramonBattle.where(red_tiramon_id: @my_tiramos)
       my_battles_blue = TiramonBattle.where(red_tiramon_id: @my_tiramos)
       @my_battles = TiramonBattle.none.or(my_battles_red).or(my_battles_blue).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
+
+      @my_free_tiramos = Tiramon.where(tiramon_trainer_id: @tiramon_trainer).where("act < ?", Time.current)
     end
 
     @next_battle = []

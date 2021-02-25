@@ -31,19 +31,28 @@ class TiramonBattle < ApplicationRecord
   end
 
   def self.match_make(rank = 0)
-    last_battle = TiramonBattle.where(rank: rank).order(id: :desc).first
+    # 王座戦の場合、前回勝者が赤コーナーにつく
+    if Constants::TIRAMON_KING_RULE[rank]
+      last_battle = TiramonBattle.where(rank: rank).order(id: :desc).first
 
-    if last_battle.present?
-      champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
-      if champion.rank != rank
-        champion = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+      if last_battle.present?
+        champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
+        if champion.rank != rank or champion.tiramon_trainer_id.blank?
+          # 王者が階級変更、もしくは引退した場合ランダムで抽選
+          champion = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample()
+        end
+
+        tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+        TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
+        return
+        
       end
-      tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
-    else
-      tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
-      champion = tiramons[0]
-      tiramon = tiramons[1]
     end
+
+    # 王座戦以外の場合、ランダムに抽選
+    tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+    champion = tiramons[0]
+    tiramon = tiramons[1]
 
     TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
   end

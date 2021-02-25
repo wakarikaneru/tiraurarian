@@ -264,7 +264,7 @@ class TiramonsController < ApplicationController
     end
 
     @ranks = []
-    (0..3).each do |rank|
+    (0..4).each do |rank|
       @ranks << [Constants::TIRAMON_RULE_NAME[rank], rank]
     end
   end

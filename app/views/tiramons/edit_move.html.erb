@@ -9,6 +9,7 @@
       <div class="hukidasi m-2">基本情報:
         <ul>
           <li>名前: <%= @disp_data[:name] %></li>
+          <li>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></li>
           <li>Lv: <%= @disp_data[:level].to_i %></li>
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>

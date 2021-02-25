@@ -12,8 +12,8 @@
       <div class="hukidasi m-2">基本情報:
         <ul>
           <li>名前: <%= @disp_data[:name] %></li>
-          <li>Lv: <%= @disp_data[:level].to_i %></li>
           <li>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></li>
+          <li>Lv: <%= @disp_data[:level].to_i %></li>
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
         </ul>
@@ -102,12 +102,12 @@
         <div class="hukidasi m-2">
           <h2>肉体改造</h2>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 0), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 0), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               増量
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 1), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 1), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               減量
             <% end %>
           </div>
@@ -116,22 +116,22 @@
         <div class="hukidasi m-2">
           <h2>基礎能力</h2>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 10), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 10), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               体力トレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 11), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 11), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               メンタルトレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 12), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 12), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               スタミナトレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 13), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 13), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               スピードトレーニング
             <% end %>
           </div>
@@ -140,17 +140,17 @@
         <div class="hukidasi m-2">
           <h2>回復力</h2>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 20), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 20), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               体力トレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 21), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 21), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               メンタルトレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 22), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 22), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               スタミナトレーニング
             <% end %>
           </div>
@@ -159,17 +159,17 @@
         <div class="hukidasi m-2">
           <h2>技術力-攻撃</h2>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 30), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 30), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               打撃トレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 31), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 31), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               レスリングトレーニング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 32), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 32), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               寝技トレーニング
             <% end %>
           </div>
@@ -178,17 +178,17 @@
         <div class="hukidasi m-2">
           <h2>技術力-防御</h2>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 40), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 40), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               打撃スパーリング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 41), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 41), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               レスリングスパーリング
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_training_path(id: @tiramon, training: 42), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？" } do %>
+            <%= link_to tiramon_training_path(id: @tiramon, training: 42), method: :post, class: "btn btn-primary w-100 my-1"+disabled, data: { confirm: "トレーニングしますか？\nチラモン育成には時間がかかります！" } do %>
               寝技スパーリング
             <% end %>
           </div>
@@ -201,7 +201,7 @@
               <div class="input-group my-1">
                 <%= select_tag :get_move, options_for_select(@select), class: "form-control" %>
                 <div class="input-group-append">
-                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "技を覚えますか？" } do %>
+                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "技を覚えますか？\nチラモン育成には時間がかかります！" } do %>
                     習得
                   <% end %>
                 </div>
@@ -209,7 +209,7 @@
             <% end %>
           </div>
           <div>
-            <%= link_to tiramon_inspire_move_path(id: @tiramon), method: :post, class: "btn btn-primary w-100 my-1"+disabled, disabled: !@can_act, data: { confirm: "ひらめきますか？" } do %>
+            <%= link_to tiramon_inspire_move_path(id: @tiramon), method: :post, class: "btn btn-primary w-100 my-1"+disabled, disabled: !@can_act, data: { confirm: "ひらめきますか？\nチラモン育成には時間がかかります！" } do %>
               技をひらめく
             <% end %>
           </div>
@@ -226,17 +226,15 @@
 
         <div class="hukidasi m-2">
           <h2>現在のスタイル</h2>
-            <ul>
-              <li>勘にまかせる: <%= (@disp_data[:tactics][:intuition]).to_i %></li>
-              <li>相手を研究する: <%= (@disp_data[:tactics][:study]).to_i %></li>
-              <li>状況に合わせる: <%= (@disp_data[:tactics][:flexible]).to_i %></li>
-              <li>警戒する: <%= (@disp_data[:tactics][:wary]).to_i %></li>
-              <ul>
-                <li>打: <%= (@disp_data[:wary][0]).to_i %></li>
-                <li>投: <%= (@disp_data[:wary][1]).to_i %></li>
-                <li>極: <%= (@disp_data[:wary][2]).to_i %></li>
-              </ul>
-            </ul>
+          <div>勘にまかせる: <%= (@disp_data[:tactics][:intuition]).to_i %></div>
+          <div>相手を研究する: <%= (@disp_data[:tactics][:study]).to_i %></div>
+          <div>状況に合わせる: <%= (@disp_data[:tactics][:flexible]).to_i %></div>
+          <div>警戒する: <%= (@disp_data[:tactics][:wary]).to_i %></div>
+          <div class="p-2">警戒属性:
+            <div>打: <%= (@disp_data[:wary][0]).to_i %></div>
+            <div>投: <%= (@disp_data[:wary][1]).to_i %></div>
+            <div>極: <%= (@disp_data[:wary][2]).to_i %></div>
+          </div>
         </div>
 
         <div class="hukidasi m-2">
@@ -331,7 +329,7 @@
                 </div>
                 <%= text_field_tag :name, @disp_data[:name], class: "form-control", placeholder: "1-12文字", size: 12, maxlength: 12 %>
               </div>
-              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled, disabled: !@can_act, data: { confirm: "名前を変更しますか？" } do %>
+              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled, disabled: !@can_act, data: { confirm: "名前を変更しますか？\n名前変更には時間がかかります！" } do %>
                 名前変更
               <% end %>
             <% end %>
@@ -345,11 +343,20 @@
               <div class="input-group my-1">
                 <%= select_tag :rank, options_for_select(@ranks, selected: @tiramon.rank), class: "form-control" %>
                 <div class="input-group-append">
-                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "階級を変更しますか？" } do %>
+                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "階級を変更しますか？\n階級変更には時間がかかります！" } do %>
                     変更
                   <% end %>
                 </div>
               </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="hukidasi m-2">
+          <h2>別の道を歩く</h2>
+          <div>
+            <%= link_to tiramon_release_path(id: @tiramon), method: :post, class: "btn btn-danger w-100 my-1", data: { confirm: "チラモンをにがしますか？\nにがしたチラモンには二度と会えません！" } do %>
+              チラモンをにがす
             <% end %>
           </div>
         </div>

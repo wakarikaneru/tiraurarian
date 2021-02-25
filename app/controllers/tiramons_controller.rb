@@ -1,6 +1,6 @@
 class TiramonsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :get, :training, :show]
-  before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :edit_move]
+  before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
 
   def index
     @tiramons = Tiramon.all
@@ -213,6 +213,22 @@ class TiramonsController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, alert: "階級を変更できませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def release
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    if @tiramon.release?(@tiramon_trainer)
+      respond_to do |format|
+        format.html { redirect_to tiramon_trainer_path(@tiramon_trainer), notice: "チラモンをにがしました！バイバイ！" }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "チラモンをにがせませんでした。" )}
         format.json { head :no_content }
       end
     end

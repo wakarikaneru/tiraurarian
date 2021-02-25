@@ -135,6 +135,30 @@
       </div>
     </div>
 
+    <div class="hukidasi">
+      <h1>マイチラモンの活躍</h1>
+      <h2>試合結果(最新<%= @my_battles.count %>件)</h2>
+      <% if @my_battles.present? %>
+        <% @my_battles.map do |battle| %>
+          <% blue = battle.blue_tiramon.getData %>
+          <% red = battle.red_tiramon.getData %>
+            <div class="content d-flex justify-content-center m-2">
+              <div class="content-content text-center word-break">
+                <div><%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %>
+                  <%= link_to battle do %><%= blue[:name] %> VS <%= red[:name] %><% end %>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      <% else %>
+        <div class="content d-flex flex-wrap justify-content-center m-2">
+          <div class="text-center">
+            まだありません。
+          </div>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 <% end %>
 

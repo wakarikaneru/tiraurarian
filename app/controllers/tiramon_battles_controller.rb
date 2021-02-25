@@ -1,6 +1,8 @@
 class TiramonBattlesController < ApplicationController
   before_action :authenticate_user!, only: [:battle]
   before_action :set_tiramon_battle, only: [:show]
+  before_action :already_battle, only: [:show]
+  before_action :set_tiramon_battle_result, only: [:show]
 
   def index
     if user_signed_in?
@@ -25,13 +27,6 @@ class TiramonBattlesController < ApplicationController
 
   def show
     @result = @tiramon_battle.getData
-    if @tiramon_battle.datetime < Time.current
-    else
-      respond_to do |format|
-        format.html { redirect_back(fallback_location: tiramon_battles_path, notice: "まだ試合は行われていません。" )}
-        format.json { head :no_content }
-      end
-    end
   end
 
   def battle
@@ -45,5 +40,15 @@ class TiramonBattlesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tiramon_battle
       @tiramon_battle = TiramonBattle.find(params[:id])
+    end
+
+    def already_battle
+      return @tiramon_battle.datetime < Time.current
+    end
+
+    def set_tiramon_battle_result
+      if @tiramon_battle.result.blank?
+        @tiramon_battle.set_result()
+      end
     end
 end

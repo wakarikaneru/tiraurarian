@@ -733,65 +733,59 @@ class Tiramon < ApplicationRecord
 
   def set_style?(trainer, style)
     if self.tiramon_trainer_id == trainer.id
-      if !self.adjust?
-        d = getData()
+      d = getData()
 
-        d[:style][:tactics][:intuition] = style[:intuition]
-        d[:style][:tactics][:study] = style[:study]
-        d[:style][:tactics][:flexible] = style[:flexible]
-        d[:style][:tactics][:wary] = style[:wary]
+      d[:style][:tactics][:intuition] = style[:intuition]
+      d[:style][:tactics][:study] = style[:study]
+      d[:style][:tactics][:flexible] = style[:flexible]
+      d[:style][:tactics][:wary] = style[:wary]
 
-        self.data = d.to_json
-        self.save!
-        return true
-      end
+      self.data = d.to_json
+      self.save!
+      return true
     end
     return false
   end
 
   def set_wary?(trainer, wary)
     if self.tiramon_trainer_id == trainer.id
-      if !self.adjust?
-        d = getData()
+      d = getData()
 
-        d[:style][:wary] = wary
+      d[:style][:wary] = wary
 
-        self.data = d.to_json
-        self.save!
-        return true
-      end
+      self.data = d.to_json
+      self.save!
+      return true
     end
     return false
   end
 
   def set_move?(trainer, moves)
     if self.tiramon_trainer_id == trainer.id
-      if !self.adjust?
-        d = getData()
+      d = getData()
 
-        d[:moves] = moves
+      d[:moves] = moves
 
-        # 簡易チェック
-        4.times do |i|
-          4.times do |j|
-            if d[:moves][i][j][5] == nil
-              return false
-            end
+      # 簡易チェック
+      4.times do |i|
+        4.times do |j|
+          if d[:moves][i][j][5] == nil
+            return false
           end
         end
-
-        # 覚えてない技を使えないようにする
-        allmove = d[:moves].flatten.uniq.sort
-        available_moves = self.getMove
-        error_move = allmove.difference(available_moves)
-        if 0 < error_move.size
-          return false
-        end
-
-        self.data = d.to_json
-        self.save!
-        return true
       end
+
+      # 覚えてない技を使えないようにする
+      allmove = d[:moves].flatten.uniq.sort
+      available_moves = self.getMove
+      error_move = allmove.difference(available_moves)
+      if 0 < error_move.size
+        return false
+      end
+
+      self.data = d.to_json
+      self.save!
+      return true
     end
     return false
   end

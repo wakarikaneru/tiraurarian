@@ -23,6 +23,8 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
     rank: Field::Number,
     payment: Field::Boolean,
     payment_time: Field::DateTime,
+    red_tiramon_name: Field::String,
+    blue_tiramon_name: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -55,6 +57,8 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   rank
   payment
   payment_time
+  red_tiramon_name
+  blue_tiramon_name
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -73,6 +77,8 @@ class TiramonBattleDashboard < Administrate::BaseDashboard
   rank
   payment
   payment_time
+  red_tiramon_name
+  blue_tiramon_name
   ].freeze
 
   # COLLECTION_FILTERS

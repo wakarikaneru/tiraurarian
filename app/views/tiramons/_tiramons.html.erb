@@ -21,10 +21,14 @@
             <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
 
             <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id %>
-              <% if tiramon.act == nil or tiramon.act < Time.current %>
+              <% if tiramon.can_act? %>
                 <div class="users-desc m-2">育成できます！</div>
               <% else %>
-                <div class="users-desc m-2">育成中: <%= distance_of_time_in_words_to_now(tiramon.act) %></div>
+                <% if tiramon.adjust? %>
+                  <div class="users-desc m-2">試合に向けて調整中…</div>
+                <% else %>
+                  <div class="users-desc m-2">育成中: <%= distance_of_time_in_words_to_now(tiramon.act) %></div>
+                <% end %>
               <% end %>
             <% end %>
 

@@ -247,7 +247,7 @@ class TiramonsController < ApplicationController
     end
 
     if @tiramon.act.present?
-      @can_act = @tiramon.act < Time.current
+      @can_act = @tiramon.can_act?
     else
       @can_act = true
     end

@@ -1,4 +1,4 @@
-<%= render partial: "/layouts/tiramon_nav" %>
+0-100<%= render partial: "/layouts/tiramon_nav" %>
 
 <div class="tweet-container list">
   <div class="hukidasi width-full word-break">
@@ -79,16 +79,20 @@
           <% if @can_act %>
             <div class="content m-2">育成できます！</div>
           <% else %>
-            <div class="content m-2">次に育成できるまで: <%= distance_of_time_in_words_to_now(@tiramon.act) %></div>
+            <% if @tiramon.adjust? %>
+              <div class="users-desc m-2">試合に向けて調整中…</div>
+            <% else %>
+              <div class="content m-2">次に育成できるまで: <%= distance_of_time_in_words_to_now(@tiramon.act) %></div>
+            <% end %>
           <% end %>
           <% if @training.present? %>
             <div class="content d-flex flex-column m-2">
-              <div>最近の育成</div>
+              <div class="m-2">最近の育成</div>
               <div><%= @training[:name] %></div>
               <div><%= @training[:effect] %></div>
             </div>
           <% end %>
-          <% if !@can_act %>
+          <% if !@can_act and !@tiramon.adjust? %>
             <div class="content d-flex flex-column m-2">
               <%= link_to tiramon_refresh_path(id: @tiramon), method: :post, class: "btn btn-danger w-100 my-1", data: { confirm: "リフレッシュしますか？" } do %>
                 リフレッシュ<br />
@@ -245,25 +249,25 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">勘</div>
                 </div>
-                <%= text_field_tag :intuition, (@disp_data[:tactics][:intuition]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :intuition, (@disp_data[:tactics][:intuition]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <div class="input-group my-1">
                 <div class="input-group-prepend">
                   <div class="input-group-text">研究</div>
                 </div>
-                <%= text_field_tag :study, (@disp_data[:tactics][:study]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :study, (@disp_data[:tactics][:study]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <div class="input-group my-1">
                 <div class="input-group-prepend">
                   <div class="input-group-text">状況</div>
                 </div>
-                <%= text_field_tag :flexible, (@disp_data[:tactics][:flexible]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :flexible, (@disp_data[:tactics][:flexible]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <div class="input-group my-1">
                 <div class="input-group-prepend">
                   <div class="input-group-text">警戒</div>
                 </div>
-                <%= text_field_tag :wary, (@disp_data[:tactics][:wary]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :wary, (@disp_data[:tactics][:wary]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2" do %>
                 スタイル設定
@@ -280,19 +284,19 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">打</div>
                 </div>
-                <%= text_field_tag :wary_0, (@disp_data[:wary][0]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :wary_0, (@disp_data[:wary][0]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <div class="input-group my-1">
                 <div class="input-group-prepend">
                   <div class="input-group-text">投</div>
                 </div>
-                <%= text_field_tag :wary_1, (@disp_data[:wary][1]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :wary_1, (@disp_data[:wary][1]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <div class="input-group my-1">
                 <div class="input-group-prepend">
                   <div class="input-group-text">極</div>
                 </div>
-                <%= text_field_tag :wary_2, (@disp_data[:wary][2]).to_i, class: "form-control", placeholder: "1-100", size: 10 %>
+                <%= text_field_tag :wary_2, (@disp_data[:wary][2]).to_i, class: "form-control", placeholder: "0-100", size: 10 %>
               </div>
               <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2" do %>
                 警戒設定

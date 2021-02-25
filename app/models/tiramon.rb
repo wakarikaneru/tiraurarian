@@ -51,10 +51,10 @@ class Tiramon < ApplicationRecord
       },
       style: {
         tactics: {
-          intuition: 0.0,
-          study: 1.0,
-          flexible: 1.0,
-          wary: 1.0,
+          intuition: 0,
+          study: 100,
+          flexible: 100,
+          wary: 100,
         },
         wary: [100, 100, 100],
       },
@@ -601,11 +601,11 @@ class Tiramon < ApplicationRecord
 
   def training?(trainer, training_id)
     if self.tiramon_trainer_id == trainer.id
-      if act.nil? or act < Time.current
+      if self.can_act?
         d = getData()
         t = ""
 
-        efficiency = (1.0 + trainer.level) / 100
+        efficiency = (1.0 + trainer.level.to_f / 100)
 
         case training_id
         when 0 then
@@ -733,66 +733,72 @@ class Tiramon < ApplicationRecord
 
   def set_style?(trainer, style)
     if self.tiramon_trainer_id == trainer.id
-      d = getData()
+      if !self.adjust?
+        d = getData()
 
-      d[:style][:tactics][:intuition] = style[:intuition]
-      d[:style][:tactics][:study] = style[:study]
-      d[:style][:tactics][:flexible] = style[:flexible]
-      d[:style][:tactics][:wary] = style[:wary]
+        d[:style][:tactics][:intuition] = style[:intuition]
+        d[:style][:tactics][:study] = style[:study]
+        d[:style][:tactics][:flexible] = style[:flexible]
+        d[:style][:tactics][:wary] = style[:wary]
 
-      self.data = d.to_json
-      self.save!
-      return true
+        self.data = d.to_json
+        self.save!
+        return true
+      end
     end
     return false
   end
 
   def set_wary?(trainer, wary)
     if self.tiramon_trainer_id == trainer.id
-      d = getData()
+      if !self.adjust?
+        d = getData()
 
-      d[:style][:wary] = wary
+        d[:style][:wary] = wary
 
-      self.data = d.to_json
-      self.save!
-      return true
+        self.data = d.to_json
+        self.save!
+        return true
+      end
     end
     return false
   end
 
   def set_move?(trainer, moves)
     if self.tiramon_trainer_id == trainer.id
-      d = getData()
+      if !self.adjust?
+        d = getData()
 
-      d[:moves] = moves
+        d[:moves] = moves
 
-      # 簡易チェック
-      4.times do |i|
-        4.times do |j|
-          if d[:moves][i][j][5] == nil
-            return false
+        # 簡易チェック
+        4.times do |i|
+          4.times do |j|
+            if d[:moves][i][j][5] == nil
+              return false
+            end
           end
         end
-      end
 
-      # 覚えてない技を使えないようにする
-      allmove = d[:moves].flatten.uniq.sort
-      available_moves = self.getMove
-      error_move = allmove.difference(available_moves)
-      if 0 < error_move.size
-        return false
-      end
+        # 覚えてない技を使えないようにする
+        allmove = d[:moves].flatten.uniq.sort
+        available_moves = self.getMove
+        error_move = allmove.difference(available_moves)
+        if 0 < error_move.size
+          return false
+        end
 
-      self.data = d.to_json
-      self.save!
-      return true
+        self.data = d.to_json
+        self.save!
+        return true
+      end
     end
     return false
   end
 
   def get_move?(trainer, move)
     if self.tiramon_trainer_id == trainer.id
-      if act.nil? or act < Time.current
+      if self.can_act?
         m = self.getMove()
 
         # リストにない技を覚えられないようにする
@@ -828,7 +834,7 @@ class Tiramon < ApplicationRecord
 
   def inspire_move?(trainer)
     if self.tiramon_trainer_id == trainer.id
-      if act.nil? or act < Time.current
+      if self.can_act?
 
         move_list = TiramonMove.first.getData
 
@@ -861,7 +867,7 @@ class Tiramon < ApplicationRecord
 
   def rename?(trainer, name)
     if self.tiramon_trainer_id == trainer.id
-      if act.nil? or act < Time.current
+      if self.can_act?
         d = getData()
 
         old_name = d[:name]
@@ -887,7 +893,7 @@ class Tiramon < ApplicationRecord
 
   def set_rank?(trainer, rank)
     if self.tiramon_trainer_id == trainer.id
-      if act.nil? or act < Time.current
+      if self.can_act?
 
         t = {name: "階級変更", effect: Constants::TIRAMON_RULE_NAME[self.rank] + "から変更した" }
         self.training_text = t.to_json
@@ -907,6 +913,18 @@ class Tiramon < ApplicationRecord
       return true
     end
     return false
+  end
+
+  def can_act?()
+    return ((act.nil? or act < Time.current) and !adjust?)
+  end
+
+  # 試合が組まれたら調整のため育成できなくなる
+  def adjust?()
+    battle_red = TiramonBattle.where(red_tiramon_id: self.id).where("datetime > ?", Time.current).count
+    battle_blue = TiramonBattle.where(blue_tiramon_id: self.id).where("datetime > ?", Time.current).count
+    battle = battle_blue + battle_blue
+    return 0 < battle
   end
 
   def self.get_moves(t = {})

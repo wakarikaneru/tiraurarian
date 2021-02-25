@@ -609,7 +609,7 @@ class Tiramon < ApplicationRecord
         case training_id
         when 0 then
           v = d[:weight]
-          e = [(d[:height] ** 2 * 38) - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.20
+          e = [(d[:height] ** 2 * 40) - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.20
           d[:weight] += e
           amount = e.abs
 

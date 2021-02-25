@@ -260,7 +260,7 @@ class TiramonsController < ApplicationController
     @select = []
     get_moves.each do |move|
       move_data = TiramonMove.getMoveData(move_list.find{|m| m[:id] == move})
-      @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "] " + move_data[:name], move]
+      @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "][" + move_data[:move_value_attack].to_i.to_s + "] " + move_data[:name], move]
     end
 
     @ranks = []
@@ -290,7 +290,7 @@ class TiramonsController < ApplicationController
     @select = []
     available_moves.each do |move|
       move_data = TiramonMove.getMoveData(move_list.find{|m| m[:id] == move})
-      @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "] " + move_data[:name], move]
+      @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "][" + move_data[:move_value_attack].to_i.to_s + "] " + move_data[:name], move]
     end
   end
 

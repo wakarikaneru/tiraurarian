@@ -10,6 +10,7 @@ class Tiramon < ApplicationRecord
     tiramon.get_move = move_list.pluck(:id).sample(rand(0..5)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
     tiramon.experience = 0
+    tiramon.act = Time.current
     tiramon.get_limit = 30.minute.since
     tiramon.right = trainer.id
 

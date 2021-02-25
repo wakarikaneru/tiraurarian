@@ -59,7 +59,7 @@
                 <i class="fas fa-crown"></i>
               </div>
             <% end %>
-            
+
           </div>
 
         </div>
@@ -115,11 +115,15 @@
     <div class="hukidasi">
       <h1>トレーナー情報</h1>
       <h3>所持VARTH <%= @user_points %>va</h3>
-      <ul>
-        <li>トレーナーレベル: <%= @tiramon_trainer.level %></li>
-        <li>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></li>
-        <li>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></li>
-      </ul>
+      <div class="m-2">
+        <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
+        <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
+        <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
+      </div>
+      <div class="m-2">
+        <div>チラモン: <%= @my_tiramos.count %>匹</div>
+        <div>育成可能: <%= @my_free_tiramos.count %>/<%= @my_tiramos.count %>匹</div>
+      </div>
       <div class="m-4"><%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>トレーナー情報<% end %></div>
     </div>
 

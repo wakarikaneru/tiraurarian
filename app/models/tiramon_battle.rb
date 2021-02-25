@@ -35,7 +35,7 @@ class TiramonBattle < ApplicationRecord
       TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
     else
       user = self.red_tiramon.tiramon_trainer.user
-      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.battle.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
     end
   end
 

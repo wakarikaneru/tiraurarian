@@ -9,7 +9,10 @@ namespace :tiramon_battle_match_make do
   task junior: :environment do
     TiramonBattle.match_make(2)
   end
-  task under_match: :environment do
+  task normal_match: :environment do
     TiramonBattle.match_make(3)
+  end
+  task under_match: :environment do
+    TiramonBattle.match_make(4)
   end
 end

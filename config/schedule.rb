@@ -62,7 +62,10 @@ end
 every '0 1,4,7,10,13,16,19,22 * * *' do
   rake 'tiramon_battle_match_make:junior'
 end
-every '10,30,50 * * * *' do
+every 20.minutes do
+  rake 'tiramon_battle_match_make:normal_match'
+end
+every 10.minutes do
   rake 'tiramon_battle_match_make:under_match'
 end
 

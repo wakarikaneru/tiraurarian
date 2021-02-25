@@ -246,11 +246,8 @@ class TiramonsController < ApplicationController
       @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
     end
 
-    if @tiramon.act.present?
-      @can_act = @tiramon.can_act?
-    else
-      @can_act = true
-    end
+    @can_act = @tiramon.can_act?
+    @adjust = @tiramon.adjust?
 
     @training = @tiramon.getTrainingText
 

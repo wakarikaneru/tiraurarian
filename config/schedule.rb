@@ -69,7 +69,7 @@ every 10.minutes do
   rake 'tiramon_battle_match_make:under_match'
 end
 
-every 1.days, at: '00:00' do
+every 1.days, at: '00:05' do
   rake 'tiramon_battle_payment:tiramon_battle_payment'
 end
 

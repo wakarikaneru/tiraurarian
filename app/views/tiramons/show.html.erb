@@ -4,7 +4,11 @@
   <div class="hukidasi width-full word-break">
     <h1>チラモン情報</h1>
     <% if !@my_tiramon %>
-      <div>ゲット前のチラモンの情報は大まかな値です</div>
+      <% if @right %>
+        <div>ゲット前のチラモンの情報は大まかな値です</div>
+      <% else %>
+        <div>他人のチラモンの情報は大まかな値です</div>
+        <% end %>
     <% end %>
 
     <div class="d-flex flex-row flex-wrap">
@@ -55,7 +59,7 @@
 
     </div>
 
-    <% if !@my_tiramon and 1 <= @tiramon_trainer.tiramon_ball %>
+    <% if @getable %>
       <div class="text-center">
         <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary rounded-pill m-2", data: { confirm: "本当にゲットしますか？" } do %>
           ゲットする！(チラモンボール: 残り<%= @tiramon_trainer.tiramon_ball %>)

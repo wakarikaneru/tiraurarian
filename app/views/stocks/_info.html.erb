@@ -2,7 +2,10 @@
 <h5>（<%= Time.current.strftime("%Y年%m月%d日 %H:%M:%S") %>時点の情報です）</h5>
 <h2>現在の景気 <%= @economy %></h2>
 <h2>現在の株価 <%= @price %>va</h2>
-<h3>所持株数 <%= @stock.number %>株</h3>
-<h3>所持VARTH <%= @user_points %>va</h3>
-<p>最大で<%= @user_points / @price %>株買うことができます。</p>
-<p><%= @stock.number %>株売却すると<%= @stock.number * @price %>VARTHになります。</p>
+
+<% if user_signed_in? %>
+  <h3>所持株数 <%= @stock.number %>株</h3>
+  <h3>所持VARTH <%= @user_points %>va</h3>
+  <p>最大で<%= @user_points / @price %>株買うことができます。</p>
+  <p><%= @stock.number %>株売却すると<%= @stock.number * @price %>VARTHになります。</p>
+<% end %>

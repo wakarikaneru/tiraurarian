@@ -73,18 +73,18 @@ class Stock < ApplicationRecord
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
+    appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
+    appearance_economy_f = appearance_economy.value.to_f
+
     if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
       economy_f = dist_rand(1) * 200
+      appearance_economy_f = dist_rand(1) * 200
     else
       economy_f = ((economy_f + dist_rand(2) * 10) * 0.99) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      appearance_economy_f = ((economy_f + dist_rand(2) * 10) * 0.99) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     end
 
     economy.update(value: economy_f.to_s)
-
-    appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
-    appearance_economy_f = appearance_economy.value.to_f
-    appearance_economy_f = ((economy_f + dist_rand(2) * 10) * 0.9) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-
     appearance_economy.update(value: appearance_economy_f.to_s)
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
@@ -94,8 +94,8 @@ class Stock < ApplicationRecord
     price_target_f = price_target.value.to_f
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + ((price_target_f - price_f) * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + dist_rand(20) * (price_target_f / 2.0)# * (10.0 / 60.0)
+    price_f = price_f + ((price_target_f - price_f) * 0.01)# * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_f = price_f + dist_rand(20) * (price_target_f / 2.0)# * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
 
     price.update(value: price_f.to_s)
     stock_log.set_point(price_f.to_i)
@@ -124,11 +124,11 @@ class Stock < ApplicationRecord
     coefficient.update(value: coefficient_f.to_s)
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
-    price_target_f = (Random.rand(1000..10000))
+    price_target_f = (Random.rand(100..10000))
     price_target.update(value: price_target_f.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
-    price_f = price_target_f + ((price_target_f * dist_rand(1)) / 2)
+    price_f = price_target_f + ((price_target_f * dist_rand(2)) / 2)
     price.update(value: price_f.to_s)
 
     Stock.fluctuation

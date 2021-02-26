@@ -3,4 +3,7 @@ namespace :stock_fluctuation do
   task stock_fluctuation: :environment do
     Stock.fluctuation
   end
+  task determine: :environment do
+    Stock.determine
+  end
 end

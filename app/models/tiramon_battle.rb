@@ -44,7 +44,7 @@ class TiramonBattle < ApplicationRecord
   def self.match_make(rank = 0)
     # 王座戦の場合、前回勝者が赤コーナーにつく
     if Constants::TIRAMON_KING_RULE[rank]
-      last_battle = TiramonBattle.where(rank: rank).order(id: :desc).first
+      last_battle = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(id: :desc).first
 
       if last_battle.present?
         if last_battle.result.blank?
@@ -64,8 +64,49 @@ class TiramonBattle < ApplicationRecord
       end
     end
 
-    # それ以外の場合、ランダムに抽選
-    tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+    if rank == 3
+      # ノーマルマッチの場合、アンダーで過去10戦で勝利した選手も含める
+      recent_battle = TiramonBattle.where(rank: 4).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+      winners = []
+      recent_battle.map do |battle|
+        if battle.result.blank?
+          battle.set_result
+        end
+
+        if battle.result == 1
+          winners << battle.blue_tiramon_id
+        elsif battle.result == -1
+          winners << battle.red_tiramon_id
+        else
+        end
+      end
+
+      winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
+      tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+    elsif rank == 4
+      # アンダーマッチの場合、ノーマルで過去10戦で敗北した選手も含める
+      recent_battle = TiramonBattle.where(rank: 3).where("datetime < ?", Time.current).order(id: :desc).limit(10)
+      loosers = []
+      recent_battle.map do |battle|
+        if battle.result.blank?
+          battle.set_result
+        end
+
+        if battle.result == 1
+          loosers << battle.blue_tiramon_id
+        elsif battle.result == -1
+          loosers << battle.red_tiramon_id
+        else
+        end
+      end
+
+      looser_tiramons = Tiramon.where(id: loosers).where.not(tiramon_trainer: nil)
+      tiramons = Tiramon.where(rank: rank).or(looser_tiramons).where.not(tiramon_trainer: nil).sample(2)
+    else
+      # それ以外の場合、ランダムに抽選
+      tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+    end
+
     champion = tiramons[0]
     tiramon = tiramons[1]
 

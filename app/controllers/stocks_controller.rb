@@ -1,21 +1,17 @@
 class StocksController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :info, :purchase, :sale]
+  before_action :authenticate_user!, only: [:purchase, :sale]
   before_action :determine, only: [:index, :stock_log, :info, :purchase, :sale]
   def index
     if user_signed_in?
       @stock = Stock.find_or_create_by(user_id: current_user.id)
-      @name = Control.find_by(key: "company_name").value
-
-    else
-      respond_to do |format|
-        format.html { redirect_to new_user_session_path, alert: "ログインしてください。" }
-        format.json { head :no_content }
-      end
     end
+    @name = Control.find_by(key: "company_name").value
   end
 
   def info
-    @stock = Stock.find_or_create_by(user_id: current_user.id)
+    if user_signed_in?
+      @stock = Stock.find_or_create_by(user_id: current_user.id)
+    end
     @name = Control.find_by(key: "company_name").value
     @number = Control.find_by(key: "company_count").value
     @price = Control.find_by(key: "stock_price").value.to_i

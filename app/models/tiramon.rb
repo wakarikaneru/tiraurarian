@@ -922,6 +922,14 @@ class Tiramon < ApplicationRecord
     return 0 < battle
   end
 
+  # 試合を完了する
+  def self.complete_battles
+    incomplete_battles = TiramonBattle.where(result: nil).where("datetime < ?", Time.current)
+    incomplete_battles.find_each do |battle|
+      battle.set_result
+    end
+  end
+
   def self.get_moves(t = {})
     return t[:moves].flatten.uniq.sort
   end

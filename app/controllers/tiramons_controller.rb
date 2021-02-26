@@ -1,5 +1,6 @@
 class TiramonsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :get, :training, :show]
+  before_action :complete_battles, only: [:show, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
   before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
 
   def index
@@ -298,6 +299,10 @@ class TiramonsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def complete_battles
+      Tiramon.complete_battles
+    end
+
     def set_tiramon
       @tiramon = Tiramon.find(params[:id])
     end

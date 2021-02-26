@@ -22,20 +22,22 @@ class TiramonBattle < ApplicationRecord
   end
 
   def set_result()
-    t_1 = Tiramon.find(self.red_tiramon_id)
-    t_2 = Tiramon.find(self.blue_tiramon_id)
-    r = Tiramon.battle(t_1, t_2)
-    self.result = r[:result]
-    self.data = r.to_json
+    if self.result.blank?
+      t_1 = Tiramon.find(self.blue_tiramon_id)
+      t_2 = Tiramon.find(self.red_tiramon_id)
+      r = Tiramon.battle(t_1, t_2)
+      self.result = r[:result]
+      self.data = r.to_json
 
-    self.save!
+      self.save!
 
-    if self.result == 1
-      user = self.blue_tiramon.tiramon_trainer.user
-      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
-    else
-      user = self.red_tiramon.tiramon_trainer.user
-      TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      if self.result == 1
+        user = self.blue_tiramon.tiramon_trainer.user
+        TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      else
+        user = self.red_tiramon.tiramon_trainer.user
+        TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+      end
     end
   end
 

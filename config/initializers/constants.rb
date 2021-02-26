@@ -72,7 +72,7 @@ module Constants
   TIRAMON_KING_RULE = [true, true, true, false, false]
   TIRAMON_FIGHT_TERM = [12.hour, 3.hour, 2.hour, 20.minute, 10.minute]
   TIRAMON_FIGHT_VARTH = [100000, 8000, 4000, 300, 100]
-  TIRAMON_PAYMENT_SITE = 12.hour
+  TIRAMON_PAYMENT_SITE = 3.hour
 
   TIRAMON_NAME = "野生のチラモン"
   TIRAMON_TRAINING_TERM = 3.hour

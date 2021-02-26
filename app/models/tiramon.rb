@@ -185,6 +185,7 @@ class Tiramon < ApplicationRecord
       ko: false,
     }
 
+    t[:level] = Tiramon.getLevel(d)
     t[:bmi] = t[:weight] / (t[:height] ** 2)
     t[:attack] = [d[:skills][:attack][0] * d[:train][:skills][:attack][0], d[:skills][:attack][1] * d[:train][:skills][:attack][1], d[:skills][:attack][2] * d[:train][:skills][:attack][2]]
     t[:defense] = [d[:skills][:defense][0] * d[:train][:skills][:defense][0], d[:skills][:defense][1] * d[:train][:skills][:defense][1], d[:skills][:defense][2] * d[:train][:skills][:defense][2]]

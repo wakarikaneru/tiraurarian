@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!, only: [:index, :info, :purchase, :sale]
-
+  before_action :determine, only: [:index, :stock_log, :info, :purchase, :sale]
   def index
     if user_signed_in?
       @stock = Stock.find_or_create_by(user_id: current_user.id)
@@ -24,7 +24,7 @@ class StocksController < ApplicationController
     economy_f += Control.find_by(key: "stock_appearance_economy").value.to_f
 
     if 100 < economy_f
-      @economy = "神景気"
+      @economy = "バブル景気"
     elsif 50 < economy_f
       @economy = "超景気"
     elsif 10 < economy_f
@@ -42,7 +42,7 @@ class StocksController < ApplicationController
   end
 
   def stock_log
-    @stock_log = StockLog.where("? <= datetime", 3.hour.ago).order(id: :desc)
+    @stock_log = StockLog.where("? <= datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc)
     render json: @stock_log.pluck(:datetime, :point)
   end
 
@@ -82,4 +82,8 @@ class StocksController < ApplicationController
     end
   end
 
+  private
+    def determine
+      Stock.determine
+    end
 end

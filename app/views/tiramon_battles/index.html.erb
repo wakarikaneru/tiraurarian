@@ -22,7 +22,9 @@
           <% t = next_battle.blue_tiramon.getData %>
           <div class="content d-flex justify-content-center m-2">
             <div class="content-image">
-              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+              <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
+                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+              <% end %>
             </div>
             <div class="content-content word-break">
               <div><%= t[:name] %></div>
@@ -43,7 +45,9 @@
           <div class="content d-flex flex-column justify-content-center m-2">
             <div class="content d-flex justify-content-center m-2">
               <div class="content-image">
-                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
+                  <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                <% end %>
               </div>
               <div class="content-content word-break">
                 <div><%= t[:name] %></div>

@@ -243,8 +243,12 @@ class TiramonsController < ApplicationController
     if @my_tiramon
       @about = 1
     else
-      @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
+      @about = [((100.0 - @tiramon_trainer.level) / 10.0).to_i, 10, 1].sort.second
     end
+
+    @right = ((@tiramon.right == @tiramon_trainer.id) and (@tiramon.get_limit < Time.current))
+    @have_ball = 1 <= @tiramon_trainer.tiramon_ball
+    @getable = (!@my_tiramon and @right and @have_ball)
 
     @can_act = @tiramon.can_act?
     @adjust = @tiramon.adjust?

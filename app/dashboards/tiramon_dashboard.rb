@@ -22,6 +22,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     right: Field::Number,
     training_text: Field::Text,
     rank: Field::Number,
+    auto_rank: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -53,6 +54,7 @@ class TiramonDashboard < Administrate::BaseDashboard
   right
   training_text
   rank
+  auto_rank
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -70,6 +72,7 @@ class TiramonDashboard < Administrate::BaseDashboard
   right
   training_text
   rank
+  auto_rank
   ].freeze
 
   # COLLECTION_FILTERS

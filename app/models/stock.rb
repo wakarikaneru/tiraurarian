@@ -94,8 +94,8 @@ class Stock < ApplicationRecord
     price_target_f = price_target.value.to_f
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + ((price_target_f - price_f) * 0.01)# * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + dist_rand(20) * (price_target_f / 2.0)# * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_f = price_f + ((price_target_f - price_f) * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_f = price_f + dist_rand(10) * (price_target_f / 2.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
 
     price.update(value: price_f.to_s)
     stock_log.set_point(price_f.to_i)

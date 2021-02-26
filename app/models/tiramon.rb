@@ -918,7 +918,7 @@ class Tiramon < ApplicationRecord
   def adjust?()
     battle_red = TiramonBattle.where(red_tiramon_id: self.id).where("datetime > ?", Time.current).count
     battle_blue = TiramonBattle.where(blue_tiramon_id: self.id).where("datetime > ?", Time.current).count
-    battle = battle_blue + battle_blue
+    battle = battle_red + battle_blue
     return 0 < battle
   end
 

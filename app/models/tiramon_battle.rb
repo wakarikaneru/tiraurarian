@@ -93,9 +93,9 @@ class TiramonBattle < ApplicationRecord
         end
 
         if battle.result == 1
-          loosers << battle.blue_tiramon_id
-        elsif battle.result == -1
           loosers << battle.red_tiramon_id
+        elsif battle.result == -1
+          loosers << battle.blue_tiramon_id
         else
         end
       end

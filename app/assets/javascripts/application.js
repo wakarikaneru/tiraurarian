@@ -57,7 +57,7 @@ var getNotice = function(){
 var setLocaleSelect = function(){
   $("#set_locale_select").change(function(){
     locale = $("#set_locale_select").val();
-    $.post("/set_locale", {locale: locale},).done(function() {
+    $.post("/set_locale", {locale: locale}).done(function() {
         location.reload()
     })
   });

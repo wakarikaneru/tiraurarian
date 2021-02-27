@@ -86,12 +86,13 @@ class User < ApplicationRecord
 
     all_user = User.all
     all_count = all_user.count
+    Control.find_or_create_by(key: "all_users").update(value: all_count.to_s)
 
-    max_pt = 10000000 + (all_count * 10000)
+    max_pt = 10000000 + (all_count * (10000 * (1.0 + all_count / 100.0)))
 
     all_pt = Point.all.sum(:point)
-    Control.find_or_create_by(key: "last_distribute").update(value: all_pt.to_s)
-    
+    Control.find_or_create_by(key: "all_point").update(value: all_pt.to_s)
+
     distribute_ratio = Constants::DISTRIBUTE_RATIO
     distribute_pt = [(max_pt - all_pt) * distribute_ratio, 0].max
 

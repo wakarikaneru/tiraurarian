@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
   before_action :check_premium
 
   def detect_locale
-    acceptLanguage = request.headers['Accept-Language']
-    unless acceptLanguage.nil?
-      I18n.locale = acceptLanguage.scan(/\A[a-z]{2}/).first
+    language = session[:language]
+    if language == nil
+      acceptLanguage = request.headers['Accept-Language']
+      unless acceptLanguage.nil?
+        I18n.locale = acceptLanguage.scan(/\A[a-z]{2}/).first
+      end
+    else
+      I18n.locale = language
     end
   end
 
@@ -130,22 +135,28 @@ class ApplicationController < ActionController::Base
         notice_records = Notice.none.or(notices).where("create_datetime > ?", Constants::NOTICE_RETENTION_PERIOD.ago)
         message_records = Message.none.or(messages).where("create_datetime > ?", Constants::MESSAGE_RETENTION_PERIOD.ago)
 
-
         my_tweets = Tweet.where(user_id: current_user.id)
         my_tweets_res = Tweet.where(parent_id: my_tweets)
         res_records = Tweet.none.or(my_tweets_res).where.not("id <= ?", current_user.last_check_res).where.not(user_id: current_user.id).where.not(user_id: my_mutes)
 
+        last_check = session[:last_check_tweet].present? ? session[:last_check_tweet].to_i : Tweet.all.maximum(:id)
+        tweets = Tweet.where("id < ?", last_check).where.not(user_id: current_user.id).where.not(user_id: my_mutes)
       else
         notice_records = Notice.none
         message_records = Message.none
         res_records = Tweet.none
+
+        last_check = session[:last_check_tweet].present? ? session[:last_check_tweet].to_i : Tweet.all.maximum(:id)
+        tweets = Tweet.where("id < ?", last_check)
       end
 
       notice_count = notice_records.count
       message_count = message_records.count
       res_count = res_records.count
+      unread_count = tweets.count
 
-      @notification = {datetime: Time.current.to_s, res: res_count, notice: notice_count, message: message_count}
+      @notification = {datetime: Time.current.to_s, last_check:session[:last_check_tweet].to_i, unread: unread_count, res: res_count, notice: notice_count, message: message_count}
+      flash[:unread_count] = unread_count
     end
 
 end

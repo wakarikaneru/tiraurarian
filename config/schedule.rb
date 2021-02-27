@@ -57,6 +57,10 @@ every 1.days, at: '00:00' do
   rake 'get_trial:get_trial'
 end
 
+every '0 22 * * 6' do
+  rake 'tiramon_battle_match_make:mania'
+end
+
 every 1.days, at: '7:00' do
   rake 'tiramon_battle_match_make:championship'
 end

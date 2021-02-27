@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require rails-ujs
-//= require bootstrap-sprockets
+//= require popper
+//= require bootstrap
 //= require infinite-scroll.pkgd.min
 //= require_tree .
 
@@ -29,7 +30,7 @@ document.addEventListener("tweet-loaded", function(event) {
 });
 
 // 未読通知
-unread = 0
+unread = 0;
 var getNotice = function(){
   $.getJSON(
     '/notification',
@@ -60,7 +61,7 @@ var setLocaleSelect = function(){
         location.reload()
     })
   });
-}
+};
 
 $(function(){
   getNotice();

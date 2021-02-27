@@ -147,7 +147,7 @@ class ApplicationController < ActionController::Base
         res_records = Tweet.none
 
         last_check = session[:last_check_tweet].present? ? session[:last_check_tweet].to_i : Tweet.all.maximum(:id)
-        tweets = Tweet.where("id > ?", last_check)
+        tweets = Tweet.where("id > ?", last_check).where.not(user_id: my_mutes)
       end
 
       notice_count = notice_records.count

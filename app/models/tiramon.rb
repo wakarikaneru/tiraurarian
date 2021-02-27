@@ -466,13 +466,13 @@ class Tiramon < ApplicationRecord
 
           kiai_rand = Tiramon.power_rand(2)
           kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2) / attacker[:max_sp]
-          kiai_damage = (1 + kiai) / 2
+          kiai_damage = (1.0 + kiai) / 2.0
           #ret[:log].push([turn, kiai_damage.to_s + "気合補正！"])
 
           bmi_damage = 0.5 + ((22.0 - attacker[:bmi]).abs / 9.0)
           #ret[:log].push([turn, bmi_damage.to_s + "BMI補正！"])
 
-          random_damage = 1 + (rand()-rand()) / 2
+          random_damage = 1.0 + (rand()-rand()) / 2.0
           #ret[:log].push([turn, random_damage.to_s + "ランダム補正！"])
 
           if 0 < damage_physical
@@ -481,14 +481,14 @@ class Tiramon < ApplicationRecord
             #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
 
             if 1 < weight_damage
-              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_damage - 1) * 2, 1.0, 0.0].sort.second)])
+              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_damage - 1) * 2.0, 1.0, 0.0].sort.second)])
             end
-            ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2)])
+            ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2.0)])
             if 1 < random_damage
-              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RANDOM_DAMAGE, (random_damage - 1) * 2)])
+              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RANDOM_DAMAGE, (random_damage - 1.0) * 2.0)])
             end
           else
-            damage_magnification = 1
+            damage_magnification = 1.0
           end
 
           defender[:hp] -= damage[:hp] * damage_magnification
@@ -501,7 +501,7 @@ class Tiramon < ApplicationRecord
           total_damage = damage.values.inject(:+) * damage_magnification
           damage_ratio = total_damage / defender[:max_hp]
 
-          if 0.5 < damage_ratio / 2
+          if 1.0 < damage_ratio
             # カットイン演出
             if move_data[:element] == 0
               ret[:log].push([3, "/images/tiramon/da.png"])
@@ -606,47 +606,52 @@ class Tiramon < ApplicationRecord
         d = getData()
         t = ""
 
-        efficiency = (1.0 + trainer.level.to_f / 100)
+        now_level = Tiramon.getLevel(d)
+
+        tiramon_level_efficiency = (1.0 - (now_level / 100.0))
+        trainer_level_efficiency = (1.0 + (trainer.level.to_f / 100.0))
+        random_efficiency = (1.0 + Tiramon.dist_rand(2) / 2.0)
+        efficiency = tiramon_level_efficiency * trainer_level_efficiency * random_efficiency
 
         case training_id
         when 0 then
           v = d[:weight]
-          e = [(d[:height] ** 2 * 40) - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.20
+          e = [(d[:height] ** 2 * 40) - v, 0.0].max * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
           t = {name: "増量", effect: "体重 +" + amount.floor(2).to_s }
         when 1 then
           v = d[:weight]
-          e = [(d[:height] ** 2 * 22) - v, 0.0].min * (1 + Tiramon.dist_rand(2)) * 0.20
+          e = [(d[:height] ** 2 * 20) - v, 0.0].min * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
           t = {name: "減量", effect: "体重 -" + amount.floor(2).to_s }
         when 10 then
           v = d[:train][:abilities][:vital][0]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:vital][0] += e
           amount = d[:abilities][:vital][0] * e
 
           t = {name: "体力トレーニング", effect: "基礎能力-体力 +" + amount.floor(2).to_s }
         when 11 then
           v = d[:train][:abilities][:vital][1]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:vital][1] += e
           amount = d[:abilities][:vital][1] * e
 
           t = {name: "メンタルトレーニング", effect: "基礎能力-精神力 +" + amount.floor(2).to_s }
         when 12 then
           v = d[:train][:abilities][:vital][2]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:vital][2] += e
           amount = d[:abilities][:vital][2] * e
 
           t = {name: "スタミナトレーニング", effect: "基礎能力-スタミナ +" + amount.floor(2).to_s }
         when 13 then
           v = d[:train][:abilities][:speed]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:speed] += e
           amount = d[:abilities][:speed] * e
 
@@ -654,63 +659,63 @@ class Tiramon < ApplicationRecord
 
         when 20 then
           v = d[:train][:abilities][:recovery][0]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:recovery][0] += e
           amount = d[:abilities][:recovery][0] * e
 
           t = {name: "体力トレーニング", effect: "回復力-体力 +" + amount.floor(2).to_s }
         when 21 then
           v = d[:train][:abilities][:recovery][1]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:recovery][1] += e
           amount = d[:abilities][:recovery][1] * e
 
           t = {name: "メンタルトレーニング", effect: "回復力-精神力 +" + amount.floor(2).to_s }
         when 22 then
           v = d[:train][:abilities][:recovery][2]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:recovery][2] += e
           amount = d[:abilities][:recovery][2] * e
 
           t = {name: "スタミナトレーニング", effect: "回復力-スタミナ +" + amount.floor(2).to_s }
         when 30 then
           v = d[:train][:skills][:attack][0]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][0] += e
           amount = d[:skills][:attack][0] * e
 
           t = {name: "打撃トレーニング", effect: "技術力-攻撃-打 +" + (amount * 100).floor(2).to_s }
         when 31 then
           v = d[:train][:skills][:attack][1]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][1] += e
           amount = d[:skills][:attack][1] * e
 
           t = {name: "レスリングトレーニング", effect: "技術力-攻撃-投 +" + (amount * 100).floor(2).to_s }
         when 32 then
           v = d[:train][:skills][:attack][2]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][2] += e
           amount = d[:skills][:attack][2] * e
 
           t = {name: "寝技トレーニング", effect: "技術力-攻撃-極 +" + (amount * 100).floor(2).to_s }
         when 40 then
           v = d[:train][:skills][:defense][0]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][0] += e
           amount = d[:skills][:defense][0] * e
 
           t = {name: "打撃スパーリング", effect: "技術力-防御-打 +" + (amount * 100).floor(2).to_s }
         when 41 then
           v = d[:train][:skills][:defense][1]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][1] += e
           amount = d[:skills][:defense][1] * e
 
           t = {name: "レスリングスパーリング", effect: "技術力-防御-投 +" + (amount * 100).floor(2).to_s }
         when 42 then
           v = d[:train][:skills][:defense][2]
-          e = [1.5 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.10 * efficiency
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][2] += e
           amount = d[:skills][:defense][2] * e
 
@@ -719,7 +724,13 @@ class Tiramon < ApplicationRecord
         end
 
         d[:bmi] = d[:weight] / (d[:height] ** 2)
-        d[:train][:level] = Tiramon.getLevel(d)
+
+        level = Tiramon.getLevel(d)
+        d[:train][:level] = level
+
+        if now_level.to_i != level.to_i
+          t[:level_up] = "Lvが " + (level.to_i - now_level.to_i).to_s + " あがった！"
+        end
 
         self.data = d.to_json
         self.training_text = t.to_json

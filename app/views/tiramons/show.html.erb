@@ -94,6 +94,9 @@
               <div class="m-2">最近の育成</div>
               <div><%= @training[:name] %></div>
               <div><%= @training[:effect] %></div>
+              <% if @training[:level_up].present? %>
+                <div><%= @training[:level_up] %></div>
+              <% end %>
             </div>
           <% end %>
           <% if !@can_act and !@tiramon.adjust? %>

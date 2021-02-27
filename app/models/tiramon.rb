@@ -340,12 +340,14 @@ class Tiramon < ApplicationRecord
         damage = {hp: 0.0, thp: 0.0, mp: 0.0, tmp: 0.0, sp: 0.0, tsp: 0.0}
 
         3.times { |element|
-        	damage[:hp] += move_data[:damage][:hp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-        	damage[:thp] += move_data[:damage][:thp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-        	damage[:mp] += move_data[:damage][:mp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-        	damage[:tmp] += move_data[:damage][:tmp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-        	damage[:sp] += move_data[:damage][:sp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-        	damage[:tsp] += move_data[:damage][:tsp][element].to_f * (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+          skill_effect = (attacker[:attack][element].to_f / defender[:defense][element].to_f)
+          weight_effect = attacker[:weight] / defender[:weight]
+        	damage[:hp] += move_data[:damage][:hp][element].to_f * skill_effect * weight_effect
+        	damage[:thp] += move_data[:damage][:thp][element].to_f * skill_effect * weight_effect
+        	damage[:mp] += move_data[:damage][:mp][element].to_f * skill_effect * weight_effect
+        	damage[:tmp] += move_data[:damage][:tmp][element].to_f * skill_effect * weight_effect
+        	damage[:sp] += move_data[:damage][:sp][element].to_f * skill_effect * weight_effect
+        	damage[:tsp] += move_data[:damage][:tsp][element].to_f * skill_effect * weight_effect
         }
         #ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
 
@@ -477,7 +479,7 @@ class Tiramon < ApplicationRecord
 
           if 0 < damage_physical
 
-            damage_magnification = weight_damage * kiai_damage * random_damage
+            damage_magnification = kiai_damage * random_damage
             #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
 
             if 1 < weight_damage

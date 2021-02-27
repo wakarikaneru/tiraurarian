@@ -53,21 +53,20 @@ every 10.minutes do
   rake 'refresh_environment:refresh_environment'
 end
 
-every 1.days, at: '00:00' do
+every 1.days, at: '00:05' do
   rake 'get_trial:get_trial'
 end
 
 every '0 19 * * 6' do
   rake 'tiramon_battle_match_make:mania'
 end
-
 every 1.days, at: '12:00' do
   rake 'tiramon_battle_match_make:championship'
 end
-every '0 1,5,9,13,17,21 * * *' do
+every '0 3,7,11,15,19,23 * * *' do
   rake 'tiramon_battle_match_make:heavy'
 end
-every '0 1,4,7,10,13,16,19,22 * * *' do
+every '0 2,5,8,11,14,17,20,23 * * *' do
   rake 'tiramon_battle_match_make:junior'
 end
 every 20.minutes do
@@ -81,6 +80,6 @@ every 1.days, at: '00:05' do
   rake 'tiramon_battle_payment:tiramon_battle_payment'
 end
 
-every 1.days, at: '00:00' do
+every 1.days, at: '00:05' do
   rake 'tiramon_trainer_recovery:tiramon_trainer_recovery'
 end

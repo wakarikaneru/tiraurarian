@@ -10,15 +10,19 @@ class ApplicationController < ActionController::Base
   before_action :check_premium
 
   def detect_locale
-    language = session[:language]
-    if language == nil
+    @locale = session[:locale]
+    if @locale == nil
       acceptLanguage = request.headers['Accept-Language']
       unless acceptLanguage.nil?
         I18n.locale = acceptLanguage.scan(/\A[a-z]{2}/).first
       end
     else
-      I18n.locale = language
+      I18n.locale = @locale
     end
+  end
+
+  def set_locale
+    session[:locale] = params[:locale]
   end
 
   def notification

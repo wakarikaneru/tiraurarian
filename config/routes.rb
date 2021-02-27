@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'notification', to: 'application#notification'
   get 'load', to: 'application#load'
   get 'stat', to: 'application#stat'
+  post 'set_locale', to: 'application#set_locale'
   get 'offline', to: 'application#offline'
 
   resources :tweets

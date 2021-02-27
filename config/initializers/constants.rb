@@ -70,7 +70,7 @@ module Constants
 
   TIRAMON_RULE_NAME = ["チラモンマニア", "チャンピオンシップ", "ヘビー級", "ジュニア級", "ノーマルマッチ", "アンダーマッチ", "欠場"]
   TIRAMON_KING_RULE = [false, true, true, true, false, false, false]
-  TIRAMON_FIGHT_TERM = [24.hour, 12.hour, 3.hour, 2.hour, 20.minute, 10.minute, 0.minute]
+  TIRAMON_FIGHT_TERM = [24.hour, 5.hour, 3.hour, 2.hour, 20.minute, 10.minute, 0.minute]
   TIRAMON_FIGHT_VARTH = [1000000, 100000, 8000, 4000, 300, 100, 0]
   TIRAMON_PAYMENT_SITE = 1.hour
 

@@ -156,7 +156,6 @@ class ApplicationController < ActionController::Base
       unread_count = tweets.count
 
       @notification = {datetime: Time.current.to_s, last_check:session[:last_check_tweet].to_i, unread: unread_count, res: res_count, notice: notice_count, message: message_count}
-      flash[:unread_count] = unread_count
     end
 
 end

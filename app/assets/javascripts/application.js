@@ -12,10 +12,12 @@
 //
 //= require jquery
 //= require rails-ujs
-//= require bootstrap-sprockets
+//= require popper
+//= require bootstrap
 //= require infinite-scroll.pkgd.min
 //= require_tree .
 
+// 無限スクロール
 document.addEventListener("tweet-loaded", function(event) {
   new InfiniteScroll('.tweet-container.infinite_scroll', {
     path: "a.next",
@@ -27,7 +29,8 @@ document.addEventListener("tweet-loaded", function(event) {
   })
 });
 
-unread = 0
+// 未読通知
+unread = 0;
 var getNotice = function(){
   $.getJSON(
     '/notification',
@@ -50,7 +53,19 @@ var getNotice = function(){
   );
 }
 
+// 言語選択
+var setLocaleSelect = function(){
+  $("#set_locale_select").change(function(){
+    locale = $("#set_locale_select").val();
+    $.post("/set_locale", {locale: locale},).done(function() {
+        location.reload()
+    })
+  });
+};
+
 $(function(){
   getNotice();
   setInterval(getNotice, 20000);
+
+  setLocaleSelect();
 });

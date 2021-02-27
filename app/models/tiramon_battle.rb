@@ -66,7 +66,7 @@ class TiramonBattle < ApplicationRecord
 
     if rank == 0
       # チラモンマニアの場合、チャンピオンシップで過去1週間で勝利した選手のみ
-      recent_battle = TiramonBattle.where(rank: 1).where(datetime: 7.day.ago..Time.current).order(id: :desc)
+      recent_battle = TiramonBattle.where(rank: 1).where(datetime: 7.day.ago..Time.current)
       winners = []
       recent_battle.map do |battle|
         if battle.result.blank?
@@ -80,13 +80,14 @@ class TiramonBattle < ApplicationRecord
         else
         end
       end
+      winners = winners.uniq.sort
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
       tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
 
     elsif rank == 4
       # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める
-      recent_battle = TiramonBattle.where(rank: 5).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
+      recent_battle = TiramonBattle.where(rank: 5).where(datetime: 3.hour.ago..Time.current)
       winners = []
       recent_battle.map do |battle|
         if battle.result.blank?
@@ -100,12 +101,13 @@ class TiramonBattle < ApplicationRecord
         else
         end
       end
+      winners = winners.uniq.sort
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
       tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
     elsif rank == 5
       # アンダーマッチの場合、ノーマルで過去3時間で敗北した選手も含める
-      recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
+      recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current)
       loosers = []
       recent_battle.map do |battle|
         if battle.result.blank?
@@ -119,6 +121,7 @@ class TiramonBattle < ApplicationRecord
         else
         end
       end
+      loosers = loosers.uniq.sort
 
       looser_tiramons = Tiramon.where(id: loosers).where.not(tiramon_trainer: nil)
       tiramons = Tiramon.where(rank: rank).or(looser_tiramons).where.not(tiramon_trainer: nil).sample(2)

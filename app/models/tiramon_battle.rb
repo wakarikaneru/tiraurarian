@@ -84,9 +84,9 @@ class TiramonBattle < ApplicationRecord
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
       tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
 
-    elsif rank == 3
+    elsif rank == 4
       # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める
-      recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
+      recent_battle = TiramonBattle.where(rank: 5).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
       winners = []
       recent_battle.map do |battle|
         if battle.result.blank?
@@ -103,9 +103,9 @@ class TiramonBattle < ApplicationRecord
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
       tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
-    elsif rank == 4
+    elsif rank == 5
       # アンダーマッチの場合、ノーマルで過去3時間で敗北した選手も含める
-      recent_battle = TiramonBattle.where(rank: 3).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
+      recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current).order(id: :desc)
       loosers = []
       recent_battle.map do |battle|
         if battle.result.blank?

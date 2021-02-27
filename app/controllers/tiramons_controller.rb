@@ -204,7 +204,7 @@ class TiramonsController < ApplicationController
   def set_rank
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
 
-    rank = [params[:rank].to_i, 0, 4].sort.second
+    rank = [params[:rank].to_i, 1, 6].sort.second
 
     if @tiramon.set_rank?(@tiramon_trainer, rank)
       respond_to do |format|

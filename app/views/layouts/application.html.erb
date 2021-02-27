@@ -79,31 +79,6 @@
     </div>
 
     <div class='container-fluid'>
-      <% if user_signed_in? %>
-        <% n = @notification %>
-        <% notice_count_i = [n[:notice], 99].min %>
-        <% message_count_i = [n[:message], 99].min %>
-        <% res_count_i = [n[:res], 99].min %>
-
-        <% if 0 < notice_count_i %>
-          <% notice_count = notice_count_i.to_s %>
-        <% else %>
-          <% notice_count = "" %>
-        <% end %>
-
-        <% if 0 < message_count_i %>
-          <% message_count = message_count_i.to_s %>
-        <% else %>
-          <% message_count = "" %>
-        <% end %>
-
-        <% if 0 < res_count_i %>
-          <% res_count = res_count_i.to_s %>
-        <% else %>
-          <% res_count = "" %>
-        <% end %>
-        <% res_count = "" %>
-      <% end %>
 
       <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow-add">
         <a class="navbar-brand" href="#">

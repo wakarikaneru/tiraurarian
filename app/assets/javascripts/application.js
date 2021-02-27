@@ -27,6 +27,7 @@ document.addEventListener("tweet-loaded", function(event) {
   })
 });
 
+unread = 0
 var getNotice = function(){
   $.getJSON(
     '/notification',
@@ -35,6 +36,13 @@ var getNotice = function(){
       $('.notice_count').text(data.notice? data.notice : "");
       $('.message_count').text(data.message? data.message : "");
       $('.res_count').text(data.res? data.res : "");
+
+      $('.unread_count').text(data.unread? data.unread : "");
+      unread_count = data.unread? data.unread : 0
+      if(unread < unread_count){
+        unread = unread_count
+        $('#toast1').toast('show')
+      }
 
       notifyTitle = data.notice + data.message + data.res
       $('title').text(notifyTitle? "(" + notifyTitle + ") チラウラリア" : "チラウラリア");

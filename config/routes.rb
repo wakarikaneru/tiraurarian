@@ -87,6 +87,8 @@ Rails.application.routes.draw do
   get 'tiramon_battle', to: 'tiramon_battles#index'
   get 'tiramon_battle/show_realtime', to: 'tiramon_battles#show_realtime'
 
+  post 'tiramon_bet/bet', to: 'tiramon_bet#bet'
+
   get 'tiramon_trainer', to: 'tiramon_trainers#index'
   post 'tiramon_trainer/move_recovery', to: 'tiramon_trainers#move_recovery'
   post 'tiramon_trainer/get_ball', to: 'tiramon_trainers#get_ball'

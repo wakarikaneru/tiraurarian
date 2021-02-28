@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tiramon_battle_id: 1
+  bet: 1
+
+two:
+  tiramon_battle_id: 1
+  bet: 1

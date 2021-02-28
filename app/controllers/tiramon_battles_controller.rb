@@ -23,6 +23,9 @@ class TiramonBattlesController < ApplicationController
       @battles[rank] = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
     end
 
+    if user_signed_in?
+      @bet = TiramonBet.where(tiramon_battle: @next_battles[0], user: current_user).first
+    end
   end
 
   def show

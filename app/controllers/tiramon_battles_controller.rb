@@ -1,8 +1,8 @@
 class TiramonBattlesController < ApplicationController
   before_action :authenticate_user!, only: [:battle]
-  before_action :set_tiramon_battle, only: [:show]
-  before_action :already_battle, only: [:show]
-  before_action :set_tiramon_battle_result, only: [:show]
+  before_action :set_tiramon_battle, only: [:show, :show_realtime]
+  before_action :already_battle, only: [:show, :show_realtime]
+  before_action :set_tiramon_battle_result, only: [:show, :show_realtime]
 
   def index
     if user_signed_in?
@@ -27,6 +27,38 @@ class TiramonBattlesController < ApplicationController
 
   def show
     @result = @tiramon_battle.getData
+    if @tiramon_battle.rank = 0
+      match_end_time = @tiramon_battle.datetime + @tiramon_battle.match_time.second
+      @in_match = Time.current < match_end_time
+    else
+      @in_match = false
+    end
+  end
+
+  def show_realtime
+    @result = @tiramon_battle.getData
+    @result_log = @result[:log]
+    @result_realtime_log = []
+
+    start_time = @tiramon_battle.datetime
+    time = 0
+    before_time = 0
+    @result_log.each do |log|
+      if log[0] == 4
+        before_time = time
+        time = log[1].second
+      end
+      if start_time + before_time < Time.current and Time.current < start_time + time
+        @result_realtime_log << log
+      end
+      if start_time + @tiramon_battle.match_time.second < Time.current
+        if time == @tiramon_battle.match_time.second
+          @result_realtime_log << log
+        end
+      end
+    end
+
+    render partial: "tiramon_battles/show_realtime"
   end
 
   def battle

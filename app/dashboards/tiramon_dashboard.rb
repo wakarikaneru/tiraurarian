@@ -31,48 +31,48 @@ class TiramonDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  tiramon_trainer
-  id
-  user_id
-  data
+    tiramon_trainer
+    id
+    user_id
+    data
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  tiramon_trainer
-  id
-  user_id
-  data
-  created_at
-  updated_at
-  move
-  experience
-  get_move
-  act
-  get_limit
-  right
-  training_text
-  rank
-  auto_rank
+    tiramon_trainer
+    id
+    user_id
+    data
+    created_at
+    updated_at
+    move
+    experience
+    get_move
+    act
+    get_limit
+    right
+    training_text
+    rank
+    auto_rank
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  tiramon_trainer
-  user_id
-  data
-  move
-  experience
-  get_move
-  act
-  get_limit
-  right
-  training_text
-  rank
-  auto_rank
+    tiramon_trainer
+    user_id
+    data
+    move
+    experience
+    get_move
+    act
+    get_limit
+    right
+    training_text
+    rank
+    auto_rank
   ].freeze
 
   # COLLECTION_FILTERS

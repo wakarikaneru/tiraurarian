@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_140054) do
+ActiveRecord::Schema.define(version: 2021_02_28_013258) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_140054) do
     t.datetime "payment_time"
     t.string "red_tiramon_name"
     t.string "blue_tiramon_name"
+    t.integer "match_time", default: 0
   end
 
   create_table "tiramon_moves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

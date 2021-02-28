@@ -27,7 +27,7 @@ class TiramonBattlesController < ApplicationController
 
   def show
     @result = @tiramon_battle.getData
-    if @tiramon_battle.rank = 0
+    if @tiramon_battle.rank == 0
       match_end_time = @tiramon_battle.datetime + @tiramon_battle.match_time.second
       @in_match = Time.current < match_end_time
     else

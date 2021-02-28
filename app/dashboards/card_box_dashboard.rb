@@ -17,6 +17,7 @@ class CardBoxDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     medal: Field::Number,
+    trial: Field::Boolean,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,32 +26,38 @@ class CardBoxDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  user
-  id
+    user
+    cards
+    card_decks
+    id
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  user
-  id
-  size
-  create_datetime
-  created_at
-  updated_at
-  medal
+    user
+    cards
+    card_decks
+    id
+    size
+    create_datetime
+    created_at
+    updated_at
+    medal
+    trial
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  user
-  cards
-  card_decks
-  size
-  create_datetime
-  medal
+    user
+    cards
+    card_decks
+    size
+    create_datetime
+    medal
+    trial
   ].freeze
 
   # COLLECTION_FILTERS

@@ -24,34 +24,34 @@ class ThumbDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  id
-  key
-  created_at
-  updated_at
+    id
+    key
+    created_at
+    updated_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  id
-  key
-  created_at
-  updated_at
-  thumb_file_name
-  thumb_content_type
-  thumb_file_size
-  thumb_updated_at
+    id
+    key
+    created_at
+    updated_at
+    thumb_file_name
+    thumb_content_type
+    thumb_file_size
+    thumb_updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  key
-  thumb_file_name
-  thumb_content_type
-  thumb_file_size
-  thumb_updated_at
+    key
+    thumb_file_name
+    thumb_content_type
+    thumb_file_size
+    thumb_updated_at
   ].freeze
 
   # COLLECTION_FILTERS

@@ -9,9 +9,8 @@ class NoticeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
-    sender: Field::BelongsTo.with_options(class_name: "User"),
+    sender: Field::BelongsTo,
     id: Field::Number,
-    sender_id: Field::Number,
     sender_name: Field::String,
     title: Field::String,
     content: Field::String,
@@ -27,40 +26,38 @@ class NoticeDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  user
-  sender
-  id
-  sender_id
+    user
+    sender
+    id
+    sender_name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  user
-  sender
-  id
-  sender_id
-  sender_name
-  title
-  content
-  read_flag
-  create_datetime
-  created_at
-  updated_at
+    user
+    sender
+    id
+    sender_name
+    title
+    content
+    read_flag
+    create_datetime
+    created_at
+    updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  user
-  sender
-  sender_id
-  sender_name
-  title
-  content
-  read_flag
-  create_datetime
+    user
+    sender
+    sender_name
+    title
+    content
+    read_flag
+    create_datetime
   ].freeze
 
   # COLLECTION_FILTERS

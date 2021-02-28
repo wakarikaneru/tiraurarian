@@ -12,13 +12,13 @@ class CardDashboard < Administrate::BaseDashboard
     id: Field::Number,
     model_id: Field::Number,
     element: Field::Number,
-    sub_element: Field::Number,
     power: Field::Number,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     rare: Field::Boolean,
     new: Field::Boolean,
+    sub_element: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,43 +27,40 @@ class CardDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  card_box
-  id
-  model_id
-  element
-  sub_element
-  power
-  new
+    card_box
+    id
+    model_id
+    element
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  card_box
-  id
-  model_id
-  element
-  sub_element
-  power
-  create_datetime
-  created_at
-  updated_at
-  rare
-  new
+    card_box
+    id
+    model_id
+    element
+    power
+    create_datetime
+    created_at
+    updated_at
+    rare
+    new
+    sub_element
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  card_box
-  model_id
-  element
-  sub_element
-  power
-  create_datetime
-  rare
-  new
+    card_box
+    model_id
+    element
+    power
+    create_datetime
+    rare
+    new
+    sub_element
   ].freeze
 
   # COLLECTION_FILTERS

@@ -9,14 +9,11 @@ class CardDeckDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     card_box: Field::BelongsTo,
-    card_1: Field::BelongsTo.with_options(class_name: "Card"),
-    card_2: Field::BelongsTo.with_options(class_name: "Card"),
-    card_3: Field::BelongsTo.with_options(class_name: "Card"),
+    card_1: Field::BelongsTo,
+    card_2: Field::BelongsTo,
+    card_3: Field::BelongsTo,
     id: Field::Number,
     rule: Field::Number,
-    card_1_id: Field::Number,
-    card_2_id: Field::Number,
-    card_3_id: Field::Number,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -28,42 +25,36 @@ class CardDeckDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  card_box
-  card_1
-  card_2
-  card_3
+    card_box
+    card_1
+    card_2
+    card_3
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  card_box
-  card_1
-  card_2
-  card_3
-  id
-  rule
-  card_1_id
-  card_2_id
-  card_3_id
-  create_datetime
-  created_at
-  updated_at
+    card_box
+    card_1
+    card_2
+    card_3
+    id
+    rule
+    create_datetime
+    created_at
+    updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  card_box
-  card_1
-  card_2
-  card_3
-  rule
-  card_1_id
-  card_2_id
-  card_3_id
-  create_datetime
+    card_box
+    card_1
+    card_2
+    card_3
+    rule
+    create_datetime
   ].freeze
 
   # COLLECTION_FILTERS

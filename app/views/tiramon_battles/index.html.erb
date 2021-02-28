@@ -98,6 +98,7 @@
                 <% end %>
                 <h4>あなたのベット</h4>
                 <h4><%= t[:name] %></h4>
+                <h5>varth:<%= @bet.bet_amount.to_i %></h5>
                 <h5>オッズ:<%= TiramonBet.odds(next_battle, @bet.bet) %></h5>
 
                 <% else %>

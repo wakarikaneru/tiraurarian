@@ -2,6 +2,9 @@ namespace :tiramon_battle_match_make do
   desc "tiramon_battle_match_make"
   task mania: :environment do
     TiramonBattle.match_make(0)
+
+    TiramonBet.generate(nil, 1, 10000)
+    TiramonBet.generate(nil, -1, 10000)
   end
   task championship: :environment do
     TiramonBattle.match_make(1)

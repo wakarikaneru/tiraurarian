@@ -103,11 +103,12 @@
                 <% else %>
 
                   <% t = next_battle.red_tiramon.getData %>
-                  <%= form_with url: tiramon_bet_bet_path(bet: -1), method: :post, local: true do %>
+                  <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
 
                     <h4><%= t[:name] %></h4>
                     <h5>オッズ:<%= TiramonBet.odds(next_battle, -1) %></h5>
                     <div class="input-group">
+                      <%= hidden_field_tag :bet, "-1"%>
                       <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
                       <div class="input-group-append">
                         <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
@@ -121,11 +122,12 @@
                   <hr />
 
                   <% t = next_battle.blue_tiramon.getData %>
-                  <%= form_with url: tiramon_bet_bet_path(bet: 1), method: :post, local: true do %>
+                  <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
 
                     <h4><%= t[:name] %></h4>
                     <h5>オッズ:<%= TiramonBet.odds(next_battle, 1) %></h5>
                     <div class="input-group">
+                      <%= hidden_field_tag :bet, "1"%>
                       <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
                       <div class="input-group-append">
                         <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>

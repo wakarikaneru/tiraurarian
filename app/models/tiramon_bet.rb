@@ -33,23 +33,25 @@ class TiramonBet < ApplicationRecord
     end
   end
 
-  def self.pay_off(battle, result)
-    b = TiramonBet.find_by(tiramon_battle: battle)
+  def self.pay_off(battle)
+    result = battle.result
+    bets = TiramonBet.where(tiramon_battle: battle)
     bet_total = TiramonBet.where(tiramon_battle: battle).sum(:bet_amount)
     bet_win = TiramonBet.where(tiramon_battle: battle).where(bet: result).sum(:bet_amount)
     odds = bet_total.to_f / bet_win.to_f * 0.95
 
-    b.find_each do |bet|
-      if b.bet == result
-        if b.user.present?
-          user = b.user
-          win = (b.bet_amount * odds).to_i
+    bets.find_each do |bet|
+      if bet.bet == result
+        if bet.user.present?
+          user = bet.user
+          win = (bet.bet_amount * odds).to_i
           user.add_points(win)
+          Notice.generate(user.id, 0, "チラモンマニア賭博", "予想的中！！配当金として" + win.to_i.to_s + "va手に入れました。")
         end
       end
     end
 
-    b.delete_all
+    bets.delete_all
   end
 
 end

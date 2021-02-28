@@ -4,8 +4,8 @@ class TiramonBet < ApplicationRecord
 
   def self.bet(user, bet, bet_amount)
     battle = TiramonBattle.where(rank: 0).where("datetime > ?", Time.current).order(datetime: :asc).first
-    bet = TiramonBet.where(tiramon_battle: battle, user: user)
-    if battle.present? and !bet.present?
+    already_bet = TiramonBet.where(tiramon_battle: battle, user: user)
+    if battle.present? and !already_bet.present?
       if user.sub_points?(bet_amount)
         TiramonBet.generate(battle, user, bet, bet_amount)
         return true

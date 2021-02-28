@@ -17,32 +17,40 @@
         <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
         <h3>次の試合</h3>
 
-        <div class="d-flex flex-wrap justify-content-center">
+        <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
 
-          <% t = next_battle.blue_tiramon.getData %>
-          <div class="content d-flex justify-content-center m-2">
-            <div class="content-image">
-              <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
-                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
-              <% end %>
-            </div>
-            <div class="content-content word-break">
-              <div><%= t[:name] %></div>
-              <div></div>
-              <div><%= t[:train][:level].to_i %> Lv</div>
-              <div><%= (t[:height]*100).to_i %> cm</div>
-              <div><%= t[:weight].to_i %> kg</div>
+          <% t = next_battle.red_tiramon.getData %>
+          <div class="content d-flex flex-column justify-content-center m-1">
+            <div class="content d-flex justify-content-center m-2">
+              <div class="content-image">
+                <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
+                  <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                <% end %>
+
+                <% if Constants::TIRAMON_KING_RULE[rank] %>
+                  <div class="text-center">
+                    <i class="fas fa-crown"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="content-content word-break">
+                <div><%= t[:name] %></div>
+                <div></div>
+                <div><%= t[:train][:level].to_i %> Lv</div>
+                <div><%= (t[:height]*100).to_i %> cm</div>
+                <div><%= t[:weight].to_i %> kg</div>
+              </div>
             </div>
           </div>
 
-          <div class="content d-flex justify-content-center m-2">
-            <div class="content-content word-break">
+          <div class="content d-flex justify-content-center m-1">
+            <div class="content-content text-center word-break">
               <div>VS</div>
             </div>
           </div>
 
-          <% t = next_battle.red_tiramon.getData %>
-          <div class="content d-flex flex-column justify-content-center m-2">
+          <% t = next_battle.blue_tiramon.getData %>
+          <div class="content d-flex flex-column justify-content-center m-1">
             <div class="content d-flex justify-content-center m-2">
               <div class="content-image">
                 <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
@@ -57,13 +65,6 @@
                 <div><%= t[:weight].to_i %> kg</div>
               </div>
             </div>
-
-            <% if Constants::TIRAMON_KING_RULE[rank] %>
-              <div class="text-center">
-                <i class="fas fa-crown"></i>
-              </div>
-            <% end %>
-
           </div>
 
         </div>

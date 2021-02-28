@@ -28,6 +28,7 @@ class TiramonBattle < ApplicationRecord
       r = Tiramon.battle(t_1, t_2)
       self.result = r[:result]
       self.data = r.to_json
+      self.match_time = r[:time]
 
       self.save!
 
@@ -64,8 +65,18 @@ class TiramonBattle < ApplicationRecord
       end
     end
 
+    # すでに試合が組まれている選手は除外
+    scheduled_battle = TiramonBattle.where("? < datetime", Time.current)
+    scheduled_tiramon_list = []
+    scheduled_battle.map do |battle|
+      scheduled_tiramon_list << battle.blue_tiramon_id
+      scheduled_tiramon_list << battle.red_tiramon_id
+    end
+    scheduled_tiramon_list = scheduled_tiramon_list.uniq.sort
+    scheduled_tiramons = Tiramon.where(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil)
+
     if rank == 0
-      # チラモンマニアの場合、チャンピオンシップで過去1週間で勝利した選手のみ
+      # チラモンマニアの場合、チャンピオンシップで過去1週間で勝利した選手(=過去王者)のみ
       recent_battle = TiramonBattle.where(rank: 1).where(datetime: 7.day.ago..Time.current)
       winners = []
       recent_battle.map do |battle|
@@ -83,7 +94,7 @@ class TiramonBattle < ApplicationRecord
       winners = winners.uniq.sort
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.none.or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
 
     elsif rank == 4
       # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める
@@ -104,7 +115,7 @@ class TiramonBattle < ApplicationRecord
       winners = winners.uniq.sort
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
     elsif rank == 5
       # アンダーマッチの場合、ノーマルで過去3時間で敗北した選手も含める
       recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current)
@@ -124,10 +135,10 @@ class TiramonBattle < ApplicationRecord
       loosers = loosers.uniq.sort
 
       looser_tiramons = Tiramon.where(id: loosers).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.where(rank: rank).or(looser_tiramons).where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.where(rank: rank).or(looser_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
     else
       # それ以外の場合、ランダムに抽選
-      tiramons = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.where(rank: rank).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
     end
 
     champion = tiramons[0]

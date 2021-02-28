@@ -2,86 +2,95 @@
 
 <div class="tweet-container">
 
-  <div class="hukidasi w-100 m-4">
+  <div class="hukidasi w-100 m-2">
 
-    <div class="tweet-container list">
-      <% @result[:log].map do |log| %>
-        <% if log[0] == 1 %>
-          <div class="tweet">
-            <div class="hukidasi">
-              <div class="content">
-                <%= log[1] %>
+    <% if @in_match %>
+
+      <%= render_async tiramon_battle_show_realtime_path(id: @tiramon_battle.id), interval: 10000, retry_count: 5, retry_delay: 60000, error_message: "Offline" do %>
+        <i class="fa fa-spinner fa-pulse"></i>
+      <% end %>
+
+    <% else %>
+      <div class="tweet-container list">
+        <% @result[:log].map do |log| %>
+          <% if log[0] == 1 %>
+            <div class="tweet">
+              <div class="hukidasi">
+                <div class="content">
+                  <%= log[1] %>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
-        <% if log[0] == -1 %>
-          <div class="tweet-reverse">
-            <div class="hukidasi">
-              <div class="content">
-                <%= log[1] %>
+          <% end %>
+          <% if log[0] == -1 %>
+            <div class="tweet-reverse">
+              <div class="hukidasi">
+                <div class="content">
+                  <%= log[1] %>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
 
-        <% if log[0] == 0 %>
-          <h3 class="text-center">
-            <%= log[1] %>
-          </h3>
-        <% end %>
+          <% if log[0] == 0 %>
+            <h3 class="text-center">
+              <%= log[1] %>
+            </h3>
+          <% end %>
 
-        <% if log[0] == 2 %>
-          <div class="hukidasi w-100 d-flex justify-content-around">
-            <% log[1].map do |tiramon| %>
-              <% mhp = [100, 0].max %>
-              <% mmp = [100, 0].max %>
-              <% msp = [100, 0].max %>
-              <% hp = [tiramon[:hp] / tiramon[:max_hp] * 100, 0].max %>
-              <% mp = [tiramon[:mp] / tiramon[:max_mp] * 100, 0].max %>
-              <% sp = [tiramon[:sp] / tiramon[:max_sp] * 100, 0].max %>
-              <% thp = [tiramon[:temp_hp] / tiramon[:max_hp] * 100, 0].max %>
-              <% tmp = [tiramon[:temp_mp] / tiramon[:max_mp] * 100, 0].max %>
-              <% tsp = [tiramon[:temp_sp] / tiramon[:max_sp] * 100, 0].max %>
+          <% if log[0] == 2 %>
+            <div class="hukidasi w-100 d-flex justify-content-around">
+              <% log[1].map do |tiramon| %>
+                <% mhp = [100, 0].max %>
+                <% mmp = [100, 0].max %>
+                <% msp = [100, 0].max %>
+                <% hp = [tiramon[:hp] / tiramon[:max_hp] * 100, 0].max %>
+                <% mp = [tiramon[:mp] / tiramon[:max_mp] * 100, 0].max %>
+                <% sp = [tiramon[:sp] / tiramon[:max_sp] * 100, 0].max %>
+                <% thp = [tiramon[:temp_hp] / tiramon[:max_hp] * 100, 0].max %>
+                <% tmp = [tiramon[:temp_mp] / tiramon[:max_mp] * 100, 0].max %>
+                <% tsp = [tiramon[:temp_sp] / tiramon[:max_sp] * 100, 0].max %>
 
-              <div class="hukidasi w-100 m-2">
-                <div>
-                  <div class="text-center m-2"><%= tiramon[:name] %></div>
-                  <div class="row">
-                    <div class="col-lg-3 text-center">スタミナ</div>
-                    <div class="col">
-                      <div class="progress m-2">
-                        <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
-                        <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
+                <div class="hukidasi w-100 m-2">
+                  <div>
+                    <div class="text-center m-2"><%= tiramon[:name] %></div>
+                    <div class="row">
+                      <div class="col-lg-3 text-center">スタミナ</div>
+                      <div class="col">
+                        <div class="progress m-2">
+                          <div class="progress-bar" style="width:<%= tsp %>%"><%= tsp.to_i %>%</div>
+                          <div class="progress-bar bg-danger" style="width:<%= sp - tsp %>%"></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 text-center">体力</div>
-                    <div class="col">
-                      <div class="progress m-2">
-                        <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
-                        <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
+                    <div class="row">
+                      <div class="col-lg-3 text-center">体力</div>
+                      <div class="col">
+                        <div class="progress m-2">
+                          <div class="progress-bar" style="width:<%= thp %>%"><%= thp.to_i %>%</div>
+                          <div class="progress-bar bg-danger" style="width:<%= hp - thp %>%"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-
-
-        <% if log[0] == 3 %>
-          <div class="w-100 text-center">
-            <div class="content-image">
-              <%= image_tag log[1], class: "w-50" %>
+              <% end %>
             </div>
-          </div>
-        <% end %>
+          <% end %>
 
-      <% end %>
-    </div>
+
+          <% if log[0] == 3 %>
+            <div class="w-100 text-center">
+              <div class="content-image">
+                <%= image_tag log[1], class: "w-50" %>
+              </div>
+            </div>
+          <% end %>
+
+        <% end %>
+      </div>
+
+    <% end %>
 
   </div>
 

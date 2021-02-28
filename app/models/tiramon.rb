@@ -202,7 +202,7 @@ class Tiramon < ApplicationRecord
 
     move_list = TiramonMove.first.getData
 
-    ret = {"result": 0, "log": []}
+    ret = {"result": 0, "time": 0, "log": []}
 
     if tiramon_1.blank? or tiramon_2.blank?
       ret[:result] = 0
@@ -341,7 +341,7 @@ class Tiramon < ApplicationRecord
 
         3.times { |element|
           skill_effect = (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-          weight_effect = attacker[:weight] / defender[:weight]
+          weight_effect = (attacker[:weight].to_f / defender[:weight].to_f)
         	damage[:hp] += move_data[:damage][:hp][element].to_f * skill_effect * weight_effect
         	damage[:thp] += move_data[:damage][:thp][element].to_f * skill_effect * weight_effect
         	damage[:mp] += move_data[:damage][:mp][element].to_f * skill_effect * weight_effect
@@ -453,9 +453,9 @@ class Tiramon < ApplicationRecord
           ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_FAIL_ATTACK, rand())])
 
           # SP消費
-          attacker[:temp_sp] -= attacker[:temp_sp] / 2
+          attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
           # SP回復
-          defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2
+          defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
 
         else
 
@@ -463,11 +463,11 @@ class Tiramon < ApplicationRecord
 
           # ダメージを与える
           # 体重補正
-          weight_damage = attacker[:weight] / defender[:weight]
+          weight_damage = (attacker[:weight].to_f / defender[:weight].to_f)
           #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
 
           kiai_rand = Tiramon.power_rand(2)
-          kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2) / attacker[:max_sp]
+          kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2.0) / attacker[:max_sp]
           kiai_damage = (1.0 + kiai) / 2.0
           #ret[:log].push([turn, kiai_damage.to_s + "気合補正！"])
 
@@ -577,7 +577,8 @@ class Tiramon < ApplicationRecord
 
       # 時間経過
       time_count += 30.second
-      if 60.minute < time_count
+      ret[:log].push([4, time_count])
+      if 60.minute <= time_count
         draw = true
       end
     end
@@ -585,6 +586,7 @@ class Tiramon < ApplicationRecord
     ret[:log].push([2, [t_1.clone, t_2.clone]])
     ret[:log].push([0, "試合終了！"])
 
+    ret[:time] = time_count
     if draw
       ret[:result] = 0
       ret[:log].push([0, "引き分け！！"])

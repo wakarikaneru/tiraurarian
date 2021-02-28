@@ -93,7 +93,7 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    price_target_f = price_target_f + economy_f * coefficient_f
+    price_target_f = price_target_f + economy_f * coefficient_f * 0.1
     price_target.update(value: price_target_f.to_s)
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)

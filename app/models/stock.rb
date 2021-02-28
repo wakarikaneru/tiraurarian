@@ -93,7 +93,11 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    price_target_f = price_target_f + economy_f * coefficient_f
+    if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
+      price_target_f = price_target_f + price_target_f * dist_rand(1) * 0.5
+    else
+      price_target_f = price_target_f + economy_f * coefficient_f * 0.1
+    end
     price_target.update(value: price_target_f.to_s)
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
@@ -104,7 +108,7 @@ class Stock < ApplicationRecord
     stock_log.set_point(price_f.to_i)
 
     # 倒産確率変動
-    bankruptcy_day = [(price_f / 10000.0) * 7.0, 1.0, 7.0].sort.second * 7.0
+    bankruptcy_day = [(price_f / 10000.0) * 7.0, 1.0, 7.0].sort.second
 
     # 倒産
     if price_target_f < 500.0 || price_f < (price_target_f / 2.0) || (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60.0 * 24.0 * bankruptcy_day)) < 1.0

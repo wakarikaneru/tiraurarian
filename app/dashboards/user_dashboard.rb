@@ -44,53 +44,73 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  id
-  login_id
-  name
+    id
+    login_id
+    name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  id
-  login_id
-  name
-  description
-  last_tweet
-  last_check_res
-  created_at
-  updated_at
+    access_logs
+    tweets
+    texts
+    follows
+    goods
+    bads
+    tags
+    point
+    notices
+    messages
+    card_box
+    id
+    email
+    login_id
+    encrypted_password
+    reset_password_token
+    reset_password_sent_at
+    remember_created_at
+    created_at
+    updated_at
+    name
+    avatar_file_name
+    avatar_content_type
+    avatar_file_size
+    avatar_updated_at
+    description
+    last_tweet
+    last_check_res
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  access_logs
-  tweets
-  texts
-  follows
-  goods
-  bads
-  tags
-  point
-  notices
-  messages
-  card_box
-  email
-  login_id
-  encrypted_password
-  reset_password_token
-  reset_password_sent_at
-  remember_created_at
-  name
-  avatar_file_name
-  avatar_content_type
-  avatar_file_size
-  avatar_updated_at
-  description
-  last_tweet
-  last_check_res
+    access_logs
+    tweets
+    texts
+    follows
+    goods
+    bads
+    tags
+    point
+    notices
+    messages
+    card_box
+    email
+    login_id
+    encrypted_password
+    reset_password_token
+    reset_password_sent_at
+    remember_created_at
+    name
+    avatar_file_name
+    avatar_content_type
+    avatar_file_size
+    avatar_updated_at
+    description
+    last_tweet
+    last_check_res
   ].freeze
 
   # COLLECTION_FILTERS

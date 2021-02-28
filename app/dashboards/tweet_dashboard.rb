@@ -9,7 +9,7 @@ class TweetDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
-    parent: Field::BelongsTo.with_options(class_name: "Tweet"),
+    parent: Field::BelongsTo,
     tweets: Field::HasMany,
     text: Field::HasOne,
     goods: Field::HasMany,
@@ -17,7 +17,6 @@ class TweetDashboard < Administrate::BaseDashboard
     bookmarks: Field::HasMany,
     tags: Field::HasMany,
     id: Field::Number,
-    parent_id: Field::Number,
     content: Field::String,
     create_datetime: Field::DateTime,
     created_at: Field::DateTime,
@@ -46,9 +45,9 @@ class TweetDashboard < Administrate::BaseDashboard
     content_ja: Field::String,
     content_en: Field::String,
     content_zh: Field::String,
-    content_ru: Field::String,
     language: Field::String,
     language_confidence: Field::Number.with_options(decimals: 2),
+    content_ru: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -57,100 +56,98 @@ class TweetDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  user
-  parent
-  tweets
-  text
+    user
+    parent
+    tweets
+    text
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  user
-  parent
-  tweets
-  text
-  goods
-  bads
-  bookmarks
-  tags
-  id
-  parent_id
-  content
-  create_datetime
-  created_at
-  updated_at
-  image_file_name
-  image_content_type
-  image_file_size
-  image_updated_at
-  res_count
-  good_count
-  bookmark_count
-  avatar_file_name
-  avatar_content_type
-  avatar_file_size
-  avatar_updated_at
-  bad_count
-  context
-  nsfw
-  humanity
-  sensitivity
-  adult
-  spoof
-  medical
-  violence
-  racy
-  content_ja
-  content_en
-  content_zh
-  content_ru
-  language
-  language_confidence
+    user
+    parent
+    tweets
+    text
+    goods
+    bads
+    bookmarks
+    tags
+    id
+    content
+    create_datetime
+    created_at
+    updated_at
+    image_file_name
+    image_content_type
+    image_file_size
+    image_updated_at
+    res_count
+    good_count
+    bookmark_count
+    avatar_file_name
+    avatar_content_type
+    avatar_file_size
+    avatar_updated_at
+    bad_count
+    context
+    nsfw
+    humanity
+    sensitivity
+    adult
+    spoof
+    medical
+    violence
+    racy
+    content_ja
+    content_en
+    content_zh
+    language
+    language_confidence
+    content_ru
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  user
-  parent
-  tweets
-  text
-  goods
-  bads
-  bookmarks
-  tags
-  parent_id
-  content
-  create_datetime
-  image_file_name
-  image_content_type
-  image_file_size
-  image_updated_at
-  res_count
-  good_count
-  bookmark_count
-  avatar_file_name
-  avatar_content_type
-  avatar_file_size
-  avatar_updated_at
-  bad_count
-  context
-  nsfw
-  humanity
-  sensitivity
-  adult
-  spoof
-  medical
-  violence
-  racy
-  content_ja
-  content_en
-  content_zh
-  content_ru
-  language
-  language_confidence
+    user
+    parent
+    tweets
+    text
+    goods
+    bads
+    bookmarks
+    tags
+    content
+    create_datetime
+    image_file_name
+    image_content_type
+    image_file_size
+    image_updated_at
+    res_count
+    good_count
+    bookmark_count
+    avatar_file_name
+    avatar_content_type
+    avatar_file_size
+    avatar_updated_at
+    bad_count
+    context
+    nsfw
+    humanity
+    sensitivity
+    adult
+    spoof
+    medical
+    violence
+    racy
+    content_ja
+    content_en
+    content_zh
+    language
+    language_confidence
+    content_ru
   ].freeze
 
   # COLLECTION_FILTERS

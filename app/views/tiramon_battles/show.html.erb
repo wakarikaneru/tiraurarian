@@ -72,6 +72,19 @@
                         </div>
                       </div>
                     </div>
+
+                    <% if user_signed_in? and current_user.id == 1 %>
+                      <div class="row">
+                        <div class="col-lg-3 text-center">精神力</div>
+                        <div class="col">
+                          <div class="progress m-2">
+                            <div class="progress-bar" style="width:<%= tmp %>%"><%= tmp.to_i %>%</div>
+                            <div class="progress-bar bg-danger" style="width:<%= mp - tmp %>%"></div>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+
                   </div>
                 </div>
               <% end %>

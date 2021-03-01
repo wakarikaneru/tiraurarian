@@ -204,6 +204,10 @@ class Tiramon < ApplicationRecord
 
     ret = {"result": 0, "time": 0, "log": []}
 
+    # 選手入場
+    ret[:log].push([4, -Constants::TIRAMON_ENTRANCE_TIME])
+    ret[:log].push([4, 0])
+
     if tiramon_1.blank? or tiramon_2.blank?
       ret[:result] = 0
       ret[:log].push([0, "試合不成立！"])
@@ -217,29 +221,48 @@ class Tiramon < ApplicationRecord
     ret[:log].push([-1, "赤コーナー！"])
     ret[:log].push([-1, (t_2[:height] * 100).to_i.to_s + "センチ " + (t_2[:weight]).to_i.to_s + "kg！"])
     ret[:log].push([-1, t_2[:name] + "！！！"])
+
+    ret[:log].push([5, [-1, t_2.clone]])
     ret[:log].push([0, "歓声が上がる！！！"])
+
 
     ret[:log].push([1, "青コーナー！"])
     ret[:log].push([1, (t_1[:height] * 100).to_i.to_s + "センチ " + (t_1[:weight]).to_i.to_s + "kg！"])
     ret[:log].push([1, t_1[:name] + "！！！"])
+
+    ret[:log].push([5, [1, t_1.clone]])
     ret[:log].push([0, "歓声が上がる！！！"])
+
 
     # 勝負は試合の前から始まっている…
     t_1[:study] = (Vector.elements(t_2[:attack]).normalize).to_a
     t_2[:study] = (Vector.elements(t_1[:attack]).normalize).to_a
 
+
     ret[:log].push([0, "…"])
+
+    # 試合開始
+    ret[:log].push([4, 0])
+
     ret[:log].push([0, "60分1本勝負！"])
     ret[:log].push([0, t_1[:name] + " 対 " + t_2[:name] + "！"])
     ret[:log].push([0,  "試合開始！"])
     ret[:log].push([0,  "ゴングが鳴った！！！"])
-    # ret[:log].push([2, [t_1.clone, t_2.clone]])
+
+    ret[:log].push([2, [t_1.clone, t_2.clone]])
 
     draw = false
     turn_count = 0
     time_count = 0.second
     last_move = ""
     while !t_1[:ko] and !t_2[:ko] and !draw
+
+      # 時間経過
+      time_count += 30.second
+      ret[:log].push([4, time_count])
+      if 60.minute <= time_count
+        draw = true
+      end
 
       turn_count += 1
       turn = 0
@@ -575,22 +598,13 @@ class Tiramon < ApplicationRecord
         ret[:log].push([-turn, defender[:name] + Tiramon.get_message(Constants::TIRAMON_GUTS, rand())])
       end
 
-      # 時間経過
-      time_count += 30.second
-      ret[:log].push([4, time_count])
-      if 60.minute <= time_count
-        draw = true
-      end
     end
 
     ret[:log].push([2, [t_1.clone, t_2.clone]])
     ret[:log].push([0, "試合終了！"])
 
     ret[:time] = time_count
-    if draw
-      ret[:result] = 0
-      ret[:log].push([0, "引き分け！！"])
-    elsif t_2[:ko]
+    if t_2[:ko]
       ret[:result] = 1
       ret[:log].push([0, Time.at(time_count).utc.strftime("%M分%S秒") + "、" + last_move + "で" + t_1[:name] + "の勝利！！"])
     elsif t_1[:ko]
@@ -598,7 +612,7 @@ class Tiramon < ApplicationRecord
       ret[:log].push([0, Time.at(time_count).utc.strftime("%M分%S秒") + "、" + last_move + "で" + t_2[:name] + "の勝利！！"])
     else
       ret[:result] = 0
-      ret[:log].push([0, "試合は闇に葬られた…"])
+      ret[:log].push([0, "引き分け！！"])
     end
 
     return ret

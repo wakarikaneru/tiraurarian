@@ -31,7 +31,7 @@ class TiramonBattlesController < ApplicationController
   def show
     @result = @tiramon_battle.getData
     if @tiramon_battle.rank == 0
-      match_end_time = @tiramon_battle.datetime + @tiramon_battle.match_time.second
+      match_end_time = @tiramon_battle.datetime + Constants::TIRAMON_ENTRANCE_TIME + @tiramon_battle.match_time.second
       @in_match = Time.current < match_end_time
     else
       @in_match = false
@@ -43,15 +43,15 @@ class TiramonBattlesController < ApplicationController
     @result_log = @result[:log]
     @result_realtime_log = []
 
-    start_time = @tiramon_battle.datetime
-    time = 0
-    before_time = 0
+    start_time = @tiramon_battle.datetime + Constants::TIRAMON_ENTRANCE_TIME
+    time = -1.day
+    before_time = -1.day
     @result_log.each do |log|
       if log[0] == 4
         before_time = time
         time = log[1].second
       end
-      if start_time + before_time < Time.current and Time.current < start_time + time
+      if start_time + before_time <= Time.current and Time.current < start_time + time
         @result_realtime_log << log
       end
       if start_time + @tiramon_battle.match_time.second < Time.current

@@ -91,6 +91,33 @@
             </div>
           <% end %>
 
+          <% if log[0] == 5 %>
+            <% tweet_class = log[1][0] == 1 ? "tweet" : "tweet-reverse" %>
+            <div class="<%= tweet_class %>">
+              <% tiramon = log[1][1] %>
+
+              <div class="hukidasi w-100 m-2">
+                <div class="content">
+                  <div class="content-image">
+                    <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                  </div>
+                  <div class="content-content">
+                    <div><%= tiramon[:name] %></div>
+                    <div class="m-1"></div>
+                    <div><%= tiramon[:level].to_i %> Lv</div>
+                    <div><%= (tiramon[:height]*100).to_i %> cm</div>
+                    <div><%= tiramon[:weight].to_i %> kg</div>
+                    <div class="m-1"></div>
+                    <% good_attack = tiramon[:attack].index(tiramon[:attack].max) %>
+                    <% good_defense = tiramon[:defense].index(tiramon[:defense].max) %>
+                    <div>[<%= Constants::TIRAMON_ELEMENTS[good_attack] %>]属性の攻撃が得意</div>
+                    <div>[<%= Constants::TIRAMON_ELEMENTS[good_defense] %>]属性の防御が得意</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          <% end %>
 
           <% if log[0] == 3 %>
             <div class="w-100 text-center">

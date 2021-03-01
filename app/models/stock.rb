@@ -81,7 +81,7 @@ class Stock < ApplicationRecord
       appearance_economy_f = dist_rand(1) * 200.0
     else
       economy_f = ((economy_f + dist_rand(2) * 10.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)) * 0.99)
-      appearance_economy_f = ((economy_f + dist_rand(2) * 10.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)) * 0.99)
+      appearance_economy_f = ((appearance_economy_f + dist_rand(2) * 10.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)) * 0.99)
     end
 
     economy.update(value: economy_f.to_s)

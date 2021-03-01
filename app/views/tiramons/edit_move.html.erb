@@ -63,59 +63,65 @@
   <div class="hukidasi width-full word-break">
     <h1>戦い方の設定</h1>
 
-    <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
-      <div class="d-flex flex-row flex-wrap">
+    <% if params[:mode] == "easy" %>
 
-        <div class="hukidasi m-2">
-          <h2>相手が無傷の場合</h2>
-          <div>
-            <% 6.times do |i| %>
-            <div class="input-group my-1">
-              <%= select_tag "move[0][0][]", options_for_select(@select, selected: @moves[0][0][i]), class: "form-control" %>
+      <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
+        <div class="d-flex flex-row flex-wrap">
+
+          <% status = ["無傷", "小ダメージ", "大ダメージ", "瀕死"] %>
+          <% 4.times do |e| %>
+            <div class="hukidasi m-2">
+              <h2>相手が<%= status[e] %>の場合</h2>
+              <div>
+                <% 6.times do |i| %>
+                <div class="input-group my-1">
+                  <%= select_tag "move[0][#{e}][]", options_for_select(@select, selected: @moves[0][e][i]), class: "form-control" %>
+                </div>
+                <% end %>
+              </div>
             </div>
-            <% end %>
-          </div>
-        </div>
+          <% end %>
 
-        <div class="hukidasi m-2">
-          <h2>相手が小ダメージの場合</h2>
-          <div>
-            <% 6.times do |i| %>
-            <div class="input-group my-1">
-              <%= select_tag "move[0][1][]", options_for_select(@select, selected: @moves[0][1][i]), class: "form-control" %>
-            </div>
-            <% end %>
-          </div>
         </div>
-
-        <div class="hukidasi m-2">
-          <h2>相手が大ダメージの場合</h2>
-          <div>
-            <% 6.times do |i| %>
-            <div class="input-group my-1">
-              <%= select_tag "move[0][2][]", options_for_select(@select, selected: @moves[0][2][i]), class: "form-control" %>
-            </div>
-            <% end %>
-          </div>
+        <div class="text-center">
+          <%= hidden_field_tag :mode, "easy" %>
+          <%= button_tag type: "submit", class: "btn btn-primary mt-2" do %>z
+            戦い方を設定する
+          <% end %>
         </div>
-
-        <div class="hukidasi m-2">
-          <h2>相手が瀕死の場合</h2>
-          <div>
-            <% 6.times do |i| %>
-            <div class="input-group my-1">
-              <%= select_tag "move[0][3][]", options_for_select(@select, selected: @moves[0][3][i]), class: "form-control" %>
-            </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center">
-      <%= button_tag type: "submit", class: "btn btn-primary mt-2" do %>
-        戦い方を設定する
       <% end %>
-      </div>
+
+    <% else %>
+
+      <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
+        <div class="d-flex flex-row flex-wrap">
+
+          <% status = ["100%", "75%", "50%", "25%"] %>
+          <% 4.times do |s| %>
+            <div class="d-flex flex-row flex-wrap">
+              <% 4.times do |e| %>
+                <div class="hukidasi m-2">
+                  <h2>自分の体力が<%= status[s] %>以下の場合</h2>
+                  <h2>相手の体力が<%= status[e] %>以下の場合</h2>
+                  <div>
+                    <% 6.times do |i| %>
+                    <div class="input-group my-1">
+                      <%= select_tag "move[#{s}][#{e}][]", options_for_select(@select, selected: @moves[s][e][i]), class: "form-control" %>
+                    </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+        </div>
+        <div class="text-center">
+          <%= button_tag type: "submit", class: "btn btn-primary mt-2" do %>
+            戦い方を設定する
+          <% end %>
+        </div>
+      <% end %>
 
     <% end %>
 

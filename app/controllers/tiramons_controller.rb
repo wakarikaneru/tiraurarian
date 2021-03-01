@@ -112,13 +112,36 @@ class TiramonsController < ApplicationController
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
 
     moves = [[], [], [], []]
-    moves[0] << params[:move]["0"]["0"]
-    moves[0] << params[:move]["0"]["1"]
-    moves[0] << params[:move]["0"]["2"]
-    moves[0] << params[:move]["0"]["3"]
-    moves[1] = moves[0]
-    moves[2] = moves[0]
-    moves[3] = moves[0]
+
+    if params[:mode] == "easy"
+      moves[0] << params[:move]["0"]["0"]
+      moves[0] << params[:move]["0"]["1"]
+      moves[0] << params[:move]["0"]["2"]
+      moves[0] << params[:move]["0"]["3"]
+      moves[1] = moves[0]
+      moves[2] = moves[0]
+      moves[3] = moves[0]
+    else
+      moves[0] << params[:move]["0"]["0"]
+      moves[0] << params[:move]["0"]["1"]
+      moves[0] << params[:move]["0"]["2"]
+      moves[0] << params[:move]["0"]["3"]
+
+      moves[1] << params[:move]["1"]["0"]
+      moves[1] << params[:move]["1"]["1"]
+      moves[1] << params[:move]["1"]["2"]
+      moves[1] << params[:move]["1"]["3"]
+
+      moves[2] << params[:move]["2"]["0"]
+      moves[2] << params[:move]["2"]["1"]
+      moves[2] << params[:move]["2"]["2"]
+      moves[2] << params[:move]["2"]["3"]
+
+      moves[3] << params[:move]["3"]["0"]
+      moves[3] << params[:move]["3"]["1"]
+      moves[3] << params[:move]["3"]["2"]
+      moves[3] << params[:move]["3"]["3"]
+    end
 
     if @tiramon.set_move?(@tiramon_trainer, moves)
       respond_to do |format|

@@ -315,8 +315,13 @@
         <div class="hukidasi m-2">
           <h2>戦い方</h2>
           <div>
-            <%= link_to tiramon_edit_move_path(id: @tiramon), class: "btn btn-primary w-100 my-1" do %>
+            <%= link_to tiramon_edit_move_path(id: @tiramon, mode: "easy"), class: "btn btn-primary w-100 my-1" do %>
               戦い方設定画面へ
+            <% end %>
+          </div>
+          <div>
+            <%= link_to tiramon_edit_move_path(id: @tiramon), class: "btn btn-primary w-100 my-1" do %>
+              戦い方設定(詳細)
             <% end %>
           </div>
         </div>

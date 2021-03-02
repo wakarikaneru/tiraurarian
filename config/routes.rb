@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   resources :tiramon_battles
   get 'tiramon_battle', to: 'tiramon_battles#index'
   get 'tiramon_battle/show_realtime', to: 'tiramon_battles#show_realtime'
+  get 'tiramon_battle/results', to: 'tiramon_battles#results'
 
   post 'tiramon_bet/bet', to: 'tiramon_bet#bet'
 

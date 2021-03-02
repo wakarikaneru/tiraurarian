@@ -113,6 +113,8 @@ class User < ApplicationRecord
         user.add_points(pt)
         Notice.generate(user.id, 0, "チラウラリア", "つぶやきボーナスとして#{pt}vaを獲得しました。")
       end
+
+      News.generate(3, Time.current + 5.minute, "【チラウラリア】つぶやきボーナスを配布しました。")
     end
 
   end
@@ -141,6 +143,8 @@ class User < ApplicationRecord
         end
       end
     end
+
+    News.generate(3, Time.current + 5.minute, "【チラウラリア】チラウラリア税を徴収しました。#{Constants::TAX_MOTTO.sample}")
   end
 
   private

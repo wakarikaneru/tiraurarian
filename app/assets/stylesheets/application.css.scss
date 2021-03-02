@@ -214,11 +214,13 @@ h5{
   white-space: nowrap;
   left: 0%;
 
-  animation: scrollAnime 7s linear forwards;
+  animation: scrollAnime 10s linear forwards;
 }
 
 @keyframes scrollAnime{
-  0% {left: 10%; transform: translate(-0%);}
+  0% {left: 0%; transform: translate(-0%);}
+  30% {left: 0%; transform: translate(-0%);}
+  70% {left: 100%; transform: translate(-100%);}
   100% {left: 100%; transform: translate(-100%);}
 }
 

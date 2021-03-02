@@ -138,6 +138,8 @@ class Stock < ApplicationRecord
     price_f = price_target_f + ((price_target_f * dist_rand(2)) / 2.0)
     price.update(value: price_f.to_s)
 
+    News.generate(1, Time.current + 10.minute, "【株】#{name.value}が上場。売出価格は#{price.value.to_i.to_s}va。")
+
     Stock.fluctuation
   end
 
@@ -150,6 +152,8 @@ class Stock < ApplicationRecord
         Notice.generate(stock.user.id, 0, name.value, "#{name.value}は倒産いたしました。")
       end
     end
+
+    News.generate(2, Time.current + 5.minute, "【株】#{name.value}が倒産。")
 
     Stock.delete_all
     StockLog.delete_all

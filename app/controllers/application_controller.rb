@@ -168,6 +168,6 @@ class ApplicationController < ActionController::Base
     end
 
     def get_news
-      @news = News.where("expiration > ?", Time.current)
+      @news = News.where("expiration > ?", Time.current).order(priority: :desc).order(id: :desc)
     end
 end

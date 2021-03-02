@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :access_log
   before_action :detect_locale
   before_action :notification_counts
+  before_action :get_news
   before_action :user_point
   before_action :create_thumb
   before_action :check_premium
@@ -27,6 +28,10 @@ class ApplicationController < ActionController::Base
 
   def notification
     render json: @notification
+  end
+
+  def news
+    render json: @news
   end
 
   def stat
@@ -162,4 +167,7 @@ class ApplicationController < ActionController::Base
       @notification = {datetime: Time.current.to_s, last_check:session[:last_check_tweet].to_i, unread: unread_count, res: res_count, notice: notice_count, message: message_count}
     end
 
+    def get_news
+      @news = News.where("expiration > ?", Time.current)
+    end
 end

@@ -151,7 +151,7 @@ h5{
 }
 
 .login-user-info{
-  margin: 0px;
+  margin-left: 8px;
   padding: 8px;
 
   display: flex;
@@ -177,6 +177,49 @@ h5{
   background-color: #FFFFFF;
 
   border-radius: 100%;
+}
+
+.news-info{
+  margin: 0 16px;
+  padding: 8px;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-3r);
+  background-color: var(--color-3);
+}
+
+.news-content-wrapper{
+  position: relative;
+  width: 100%;
+
+  overflow: hidden;
+}
+
+.news-content{
+  position: relative;
+  max-width: 100%;
+  width: fit-content;
+}
+
+.news-content-inner{
+  position: relative;
+  width: fit-content;
+
+  white-space: nowrap;
+  left: 0%;
+
+  animation: scrollAnime 7s linear forwards;
+}
+
+@keyframes scrollAnime{
+  0% {left: 10%; transform: translate(-0%);}
+  100% {left: 100%; transform: translate(-100%);}
 }
 
 .footer{

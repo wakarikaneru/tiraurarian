@@ -181,8 +181,24 @@
       <div class="m-2">
         <div>チラモン: <%= @my_tiramons.count %>匹</div>
         <div>ヒマなチラモン: <%= @my_free_tiramos_count %>/<%= @my_tiramons.count %>匹</div>
+        <div>交渉中のチラモン: <%= @negotiations_tiramons.count %>匹</div>
       </div>
-      <div class="m-4"><%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>トレーナー情報<% end %></div>
+
+      <div class="m-2">
+        <%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>
+          チラモン&トレーナー情報
+          <% if @negotiations_tiramons.present? %>
+            <br />チラモンをゲットしましょう！
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="m-2">
+        <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning w-100" do %>
+          チラモンを探索する！<br />
+          (行動ポイント: 残り<%= @tiramon_trainer.move %>)
+        <% end %>
+      </div>
     </div>
 
     <div class="hukidasi">

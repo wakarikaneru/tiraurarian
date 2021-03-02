@@ -166,8 +166,9 @@ class TiramonBattle < ApplicationRecord
       if user.present?
         trainer = TiramonTrainer.find_or_create_by(user_id: user.id)
         tiramons = Tiramon.where(tiramon_trainer_id: trainer.id)
-        dividend = (varth.to_f / (1.0 + tiramons.count).to_f).to_i
-        user.add_points(dividend)
+        dividend = (varth.to_f / (1.0 + tiramons.count).to_f)
+        user.add_points(dividend.to_i)
+        trainer.add_experience(varth.to_i)
         Notice.generate(user.id, 0, "チラモン闘技場", "賞金として" + varth.to_i.to_s + "va獲得しました。" + "チラモンたちと山分けして" + dividend.to_i.to_s + "va手に入れました。")
       end
     end

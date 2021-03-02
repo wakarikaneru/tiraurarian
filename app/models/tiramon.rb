@@ -892,25 +892,28 @@ class Tiramon < ApplicationRecord
 
   def rename?(trainer, name)
     if self.tiramon_trainer_id == trainer.id
-      if self.can_act?
-        d = getData()
+      if !self.adjust?
+        if trainer.user.sub_points?(Constants::TIRAMON_RENAME_PRICE)
 
-        old_name = d[:name]
-        d[:name] = name
+          d = getData()
 
-        # 簡易チェック
-        if !(1..12).cover?(name.length)
-          return false
+          old_name = d[:name]
+          d[:name] = name
+
+          # 簡易チェック
+          if !(1..12).cover?(name.length)
+            return false
+          end
+
+          t = {name: "名前変更", effect: old_name + "から変更した" }
+
+          self.data = d.to_json
+          self.training_text = t.to_json
+          self.save!
+
+          update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+          return true
         end
-
-        t = {name: "名前変更", effect: old_name + "から変更した" }
-
-        self.data = d.to_json
-        self.training_text = t.to_json
-        self.save!
-
-        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
-        return true
       end
     end
     return false
@@ -918,15 +921,17 @@ class Tiramon < ApplicationRecord
 
   def set_rank?(trainer, rank)
     if self.tiramon_trainer_id == trainer.id
-      if self.can_act?
+      if !self.adjust?
+        if trainer.user.sub_points?(Constants::TIRAMON_CLASS_CHANGE_PRICE)
 
-        t = {name: "階級変更", effect: Constants::TIRAMON_RULE_NAME[self.rank] + "から変更した" }
-        self.training_text = t.to_json
-        self.save!
+          t = {name: "階級変更", effect: Constants::TIRAMON_RULE_NAME[self.rank] + "から変更した" }
+          self.training_text = t.to_json
+          self.save!
 
-        update(rank: rank)
-        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
-        return true
+          update(rank: rank)
+          update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+          return true
+        end
       end
     end
     return false
@@ -934,8 +939,11 @@ class Tiramon < ApplicationRecord
 
   def release?(trainer)
     if self.tiramon_trainer_id == trainer.id
-      update(tiramon_trainer_id: nil)
-      return true
+      if !self.adjust?
+
+        update(tiramon_trainer_id: nil)
+        return true
+      end
     end
     return false
   end

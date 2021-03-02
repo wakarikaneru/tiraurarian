@@ -115,6 +115,19 @@ h5{
   justify-content: space-between;
 }
 
+.marquee-info{
+  margin-right: 8px;
+  padding: 8px;
+
+  overflow: hidden;
+
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-2r);
+  background-color: var(--color-2);
+}
+
 .active-user-info{
   margin-right: 8px;
   padding: 8px;

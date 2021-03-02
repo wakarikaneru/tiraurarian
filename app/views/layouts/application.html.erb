@@ -156,7 +156,8 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <div class='login-user-info-container'>
+      <div class='login-user-info-container align-items-stretch'>
+
         <div class='login-user-info'>
           <% if user_signed_in? %>
             <% if @is_premium %>
@@ -176,7 +177,14 @@
           <% end %>
         </div>
 
-        <div class="active-user-info">
+        <div class="marquee-info d-none d-sm-block">
+          <div class="h-100 d-flex align-items-center">
+            <div>
+            </div>
+          </div>
+        </div>
+
+        <div class="active-user-info d-flex align-items-center">
           <%= render_async load_path, interval: 60000, retry_count: 5, retry_delay: 120000, error_message: "Offline" do %>
             <i class="fa fa-spinner fa-pulse"></i>
           <% end %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  priority: 1
+  expiration: 2021-03-02 01:37:02
+  news: MyString
+
+two:
+  priority: 1
+  expiration: 2021-03-02 01:37:02
+  news: MyString

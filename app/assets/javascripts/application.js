@@ -63,9 +63,51 @@ var setLocaleSelect = function(){
   });
 };
 
+// ニュース
+var setNews = function(){
+  $('.carousel-inner').prepend(createNews("0", "ここに、チラウラリアで起こった出来事などのニュースが表示されます！"));
+
+  $.getJSON(
+    '/news',
+    function(data) {
+      data.forEach(function(val,index,ar){
+        $('.carousel-inner').prepend(createNews(val["id"], val["news"]));
+        $('.carousel-inner .carousel-item').removeClass("active");
+        $('.carousel-inner .carousel-item:first-child').addClass("active");
+      });
+    }
+  );
+
+  $('.carousel-inner .carousel-item:first-child').addClass("active");
+};
+
+var getNews = function(){
+  $('.carousel-inner .carousel-item').not(".active, #0").remove();
+
+  $.getJSON(
+    '/news',
+    function(data) {
+      data.forEach(function(val,index,ar){
+        if($('.carousel-item#'+val["id"]).length){
+        }else{
+          $('.carousel-item.active').after(createNews(val["id"], val["news"]));
+        }
+      });
+    }
+  );
+
+};
+
+var createNews = function(id, str){
+  return '<div id="'+id+'" class="carousel-item"><div class="news-content-wrapper"><div class="news-content"><div class="news-content-inner">'+str+'</div></div></div></div>'
+};
+
 $(function(){
   getNotice();
   setInterval(getNotice, 20000);
 
   setLocaleSelect();
+
+  setNews();
+  setInterval(getNews, 60000);
 });

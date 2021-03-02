@@ -149,6 +149,7 @@ class CardBattleController < ApplicationController
       @card_king.save!
 
       Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座から転落しました。" + "防衛回数は" + @card_king.defense.to_s + "回でした。")
+      News.generate(1, Time.current + 5.minute, "【カード】#{Constants::CARD_RULE_NAME[@card_king.rule]}王座 #{current_user.name}が#{@card_king.user.name}を下し、第#{(@card_king.getGeneration + 1).to_s}代王者に。")
 
       my_box = CardBox.find_or_create_by(user_id: current_user.id)
 
@@ -173,6 +174,7 @@ class CardBattleController < ApplicationController
 
       if @card_king.defense % 10 == 0
         Notice.generate(@card_king.user_id, 0, "ネオ・カードバトル運営", Constants::CARD_RULE_NAME[@card_king.rule] + "王座を" + @card_king.defense.to_s + "回防衛に成功しました。")
+        News.generate(1, Time.current + 5.minute, "【カード】#{Constants::CARD_RULE_NAME[@card_king.rule]}王座 #{@card_king.user.name}が#{@card_king.defense.to_s}回防衛に成功。")
       end
 
       if @is_king_is_god_killer

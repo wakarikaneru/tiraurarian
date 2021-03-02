@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: "tweets#index"
 
   get 'notification', to: 'application#notification'
+  get 'news', to: 'application#news'
   get 'load', to: 'application#load'
   get 'stat', to: 'application#stat'
   post 'set_locale', to: 'application#set_locale'

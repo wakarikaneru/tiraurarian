@@ -159,6 +159,30 @@ class Stock < ApplicationRecord
     StockLog.delete_all
   end
 
+  # ニュース
+  def self.news
+    Stock.determine
+    stock_number = Control.find_or_create_by(key: "company_count").value
+    stock_name = Control.find_or_create_by(key: "company_name").value
+    recent_stock = StockLog.where.not(point: nil).order(datetime: :desc).first
+    if recent_stock.present?
+      before_stock = StockLog.where("? < datetime", recent_stock.datetime - 10.minute).where.not(point: nil).order(datetime: :asc).first
+      if before_stock.present?
+        diff = recent_stock.point.to_i - before_stock.point.to_i
+        price = recent_stock.point.to_i
+        rate = (diff.to_f / price.to_f) * 100.0
+        if 0 < diff
+          arrow = "↑"
+          sign = "+"
+        else
+          arrow = "↓"
+          sign = "-"
+        end
+        News.generate(1, Time.current + 10.minute, "【株】 [#{stock_number.to_s}]#{stock_name} #{price.to_s} 10分前比 #{arrow} #{sign}#{diff.to_s} (#{sign}#{rate.floor(2).to_s}%) " + Time.current.strftime("%Y年%m月%d日 %H:%M:%S") + "現在")
+      end
+    end
+  end
+
   def self.dist_rand(n = 1)
     a = []
     n.times do

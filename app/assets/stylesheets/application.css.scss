@@ -203,8 +203,19 @@ h5{
 
 .news-content{
   position: relative;
-  max-width: 100%;
-  width: fit-content;
+  width: 100%;
+  max-width: fit-content;
+
+  transform: translateX(0%);
+
+  animation: scrollAnime 10s linear forwards;
+}
+
+@keyframes scrollAnime{
+  0% {transform: translate(0%);}
+  30% {transform: translate(0%);}
+  70% {transform: translate(100%);}
+  100% {transform: translate(100%);}
 }
 
 .news-content-inner{
@@ -212,16 +223,17 @@ h5{
   width: fit-content;
 
   white-space: nowrap;
-  left: 0%;
 
-  animation: scrollAnime 10s linear forwards;
+  transform: translateX(-0%);
+
+  animation: scrollAnimeInner 10s linear forwards;
 }
 
-@keyframes scrollAnime{
-  0% {left: 0%; transform: translate(-0%);}
-  30% {left: 0%; transform: translate(-0%);}
-  70% {left: 100%; transform: translate(-100%);}
-  100% {left: 100%; transform: translate(-100%);}
+@keyframes scrollAnimeInner{
+  0% {transform: translate(-0%);}
+  30% {transform: translate(-0%);}
+  70% {transform: translate(-100%);}
+  100% {transform: translate(-100%);}
 }
 
 .footer{

@@ -64,38 +64,31 @@ var setLocaleSelect = function(){
 };
 
 // ニュース
-var setNews = function(){
-  $('.carousel-inner').prepend(createNews("0", "ここに、チラウラリアで起こった出来事などのニュースが表示されます！"));
-
-  $.getJSON(
-    '/news',
-    function(data) {
-      data.forEach(function(val,index,ar){
-        $('.carousel-inner').prepend(createNews(val["id"], val["news"]));
-        $('.carousel-inner .carousel-item').removeClass("active");
-        $('.carousel-inner .carousel-item:first-child').addClass("active");
-      });
-    }
-  );
-
+var setNews = function () {
+  $('.carousel-inner').prepend(createNews("0", "チラウラリアで起こった出来事などのニュースが表示されます！"));
+  $.getJSON('/news', function (data) {
+    data.forEach(function (val, index, ar) {
+      $('.carousel-item#0').before(createNews(val["id"], val["news"]));
+    });
+    $('.carousel-inner .carousel-item').removeClass("active");
+    $('.carousel-inner .carousel-item:first-child').addClass("active");
+  });
   $('.carousel-inner .carousel-item:first-child').addClass("active");
 };
 
-var getNews = function(){
-  $('.carousel-inner .carousel-item').not(".active, #0").remove();
+var getNews = function () {
+  $.getJSON('/news', function (data) {
+    $('.carousel-inner .carousel-item').not(".active, #0").remove();
+    data.forEach(function (val, index, ar) {
+      if ($('.carousel-item#' + val["id"]).length) {} else {
+        $('.carousel-item.active').after(createNews(val["id"], val["news"]));
+      }
+    });
 
-  $.getJSON(
-    '/news',
-    function(data) {
-      data.forEach(function(val,index,ar){
-        if($('.carousel-item#'+val["id"]).length){
-        }else{
-          $('.carousel-item.active').after(createNews(val["id"], val["news"]));
-        }
-      });
+    if ($('.carousel-item.active').length) {} else {
+      $('.carousel-inner .carousel-item:first-child').addClass("active");
     }
-  );
-
+  });
 };
 
 var createNews = function(id, str){

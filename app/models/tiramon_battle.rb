@@ -18,6 +18,10 @@ class TiramonBattle < ApplicationRecord
       battle.blue_tiramon_name = t_1.getData[:name]
 
       battle.save!
+
+      if rank.in?([0, 1, 2])
+        News.generate(1, Time.current + 30.minute, "【チラモン】#{Constants::TIRAMON_RULE_NAME[rank]}のカードが決定。#{battle.red_tiramon_name} vs #{battle.blue_tiramon_name}。")
+      end
     end
   end
 

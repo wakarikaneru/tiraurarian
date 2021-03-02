@@ -1,6 +1,12 @@
 class TiramonTrainer < ApplicationRecord
   belongs_to :user
 
+  def add_experience(exp)
+    increment!(:experience, exp)
+    self.level = [(self.experience / 100000), 0, 100].sort.second
+    self.save!
+  end
+
   def move_max
     return 3 + (self.level / 10)
   end

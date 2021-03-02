@@ -61,7 +61,7 @@
 
     <% if @getable %>
       <div class="text-center">
-        <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary rounded-pill m-2", data: { confirm: "本当にゲットしますか？" } do %>
+        <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary m-2", data: { confirm: "本当にゲットしますか？" } do %>
           ゲットする！(チラモンボール: 残り<%= @tiramon_trainer.tiramon_ball %>)
         <% end %>
       </div>
@@ -73,9 +73,12 @@
 
 <% if @my_tiramon %>
   <% disabled = @can_act ? "" : " disabled" %>
+  <% disabled_2 = !@adjust ? "" : " disabled" %>
   <div class="tweet-container list">
     <div class="hukidasi width-full word-break">
       <h1>チラモン育成</h1>
+      <h5>育成すると、次の育成まで3時間かかります</h5>
+      <h5>試合が決定すると、試合後までは育成できません。</h5>
       <div class="d-flex flex-row flex-wrap">
 
         <div class="hukidasi d-flex flex-column m-2">
@@ -207,6 +210,11 @@
 
         <div class="hukidasi m-2">
           <h2>技を覚える</h2>
+          <div class="m-2">
+            <p>技をひらめくと、覚えられる技リストが更新されます。</p>
+            <p>技を選択し、習得ボタンを押すと、技を覚えます。</p>
+            <p>技は「戦い方設定画面」で装備できます。</p>
+          </div>
           <div>
             <%= form_with url: tiramon_get_move_path(id: @tiramon), method: :post, local: true do %>
               <div class="input-group my-1">
@@ -233,18 +241,21 @@
   <div class="tweet-container list">
     <div class="hukidasi width-full word-break">
       <h1>戦術会議</h1>
+      <h5>戦術会議はいつでも自由に設定できます</h5>
       <div class="d-flex flex-row flex-wrap">
 
         <div class="hukidasi m-2">
           <h2>現在のスタイル</h2>
-          <div>勘にまかせる: <%= (@disp_data[:tactics][:intuition]).to_i %></div>
-          <div>相手を研究する: <%= (@disp_data[:tactics][:study]).to_i %></div>
-          <div>状況に合わせる: <%= (@disp_data[:tactics][:flexible]).to_i %></div>
-          <div>警戒する: <%= (@disp_data[:tactics][:wary]).to_i %></div>
-          <div class="p-2">警戒属性:
-            <div>打: <%= (@disp_data[:wary][0]).to_i %></div>
-            <div>投: <%= (@disp_data[:wary][1]).to_i %></div>
-            <div>極: <%= (@disp_data[:wary][2]).to_i %></div>
+          <div class="m-2">
+            <div>勘にまかせる: <%= (@disp_data[:tactics][:intuition]).to_i %></div>
+            <div>相手を研究する: <%= (@disp_data[:tactics][:study]).to_i %></div>
+            <div>状況に合わせる: <%= (@disp_data[:tactics][:flexible]).to_i %></div>
+            <div>警戒する: <%= (@disp_data[:tactics][:wary]).to_i %></div>
+            <div class="p-2">警戒属性:
+              <div>打: <%= (@disp_data[:wary][0]).to_i %></div>
+              <div>投: <%= (@disp_data[:wary][1]).to_i %></div>
+              <div>極: <%= (@disp_data[:wary][2]).to_i %></div>
+            </div>
           </div>
         </div>
 
@@ -333,6 +344,7 @@
   <div class="tweet-container list">
     <div class="hukidasi width-full word-break">
       <h1>キャリア設定</h1>
+      <h5>試合が決定すると、試合後まではキャリア設定はできません。</h5>
       <div class="d-flex flex-row flex-wrap">
 
         <div class="hukidasi m-2">
@@ -345,8 +357,9 @@
                 </div>
                 <%= text_field_tag :name, @disp_data[:name], class: "form-control", placeholder: "1-12文字", size: 12, maxlength: 12 %>
               </div>
-              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled, disabled: !@can_act, data: { confirm: "名前を変更しますか？\n名前変更には時間がかかります！" } do %>
-                名前変更
+              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled_2, disabled: @adjust, data: { confirm: "名前を変更しますか？\n名前変更には#{Constants::TIRAMON_RENAME_PRICE}vaかかります！" } do %>
+                名前変更<br />
+                <%= Constants::TIRAMON_RENAME_PRICE %>va
               <% end %>
             <% end %>
           </div>
@@ -358,12 +371,11 @@
             <%= form_with url: tiramon_set_rank_path(id: @tiramon), method: :post, local: true do %>
               <div class="input-group my-1">
                 <%= select_tag :rank, options_for_select(@ranks, selected: @tiramon.rank), class: "form-control" %>
-                <div class="input-group-append">
-                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "階級を変更しますか？\n階級変更には時間がかかります！" } do %>
-                    変更
-                  <% end %>
-                </div>
               </div>
+              <%= button_tag type: "submit", class: "btn btn-primary w-100 mt-2"+disabled_2, disabled: @adjust, data: { confirm: "階級を変更しますか？\n階級変更には#{Constants::TIRAMON_CLASS_CHANGE_PRICE}vaかかります！" } do %>
+                階級変更<br />
+                <%= Constants::TIRAMON_CLASS_CHANGE_PRICE %>va
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -371,7 +383,7 @@
         <div class="hukidasi m-2">
           <h2>別の道を歩く</h2>
           <div>
-            <%= link_to tiramon_release_path(id: @tiramon), method: :post, class: "btn btn-danger w-100 my-1", data: { confirm: "チラモンをにがしますか？\nにがしたチラモンには二度と会えません！" } do %>
+            <%= link_to tiramon_release_path(id: @tiramon), method: :post, class: "btn btn-danger w-100 my-1"+disabled_2, data: { confirm: "チラモンをにがしますか？\nにがしたチラモンには二度と会えません！" } do %>
               チラモンをにがす
             <% end %>
           </div>

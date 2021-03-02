@@ -1,0 +1,43 @@
+<div class="title">試合結果</div>
+
+<%= render partial: "/layouts/tiramon_nav" %>
+
+<div class="tweet-container-list">
+  <% @battles.map.with_index do |battles, index| %>
+    <% rank = index %>
+
+    <div class="hukidasi">
+      <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
+      <h3>試合結果(最新<%= battles.count %>件)</h3>
+      <% if battles.present? %>
+        <% battles.map do |battle| %>
+            <div class="content d-flex justify-content-center m-2">
+              <div class="content-content text-center">
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                  <div class="m-1">
+                    <%= battle.datetime.strftime("%Y年%m月%d日 %H:%M") %>
+                  </div>
+                  <div class="flex-shrink-1 m-1 text-center">
+                    <div class="">
+                      <%= link_to battle, class: "d-flex flex-row flex-wrap justify-content-center" do %>
+                        <div><%= battle.blue_tiramon_name %></div>
+                        <div>&ensp;vs&ensp;</div>
+                        <div><%= battle.red_tiramon_name %></div><% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      <% else %>
+        <div class="content d-flex flex-wrap justify-content-center m-2">
+          <div class="text-center">
+            まだありません。
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= render partial: "/layouts/tiramon_nav" %>

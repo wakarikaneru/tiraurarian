@@ -7,8 +7,9 @@ class Tiramon < ApplicationRecord
 
     move_list = TiramonMove.first.getData
     tiramon.move = Tiramon.get_moves(tiramon.getData)
-    tiramon.get_move = move_list.pluck(:id).sample(rand(0..5)).sort.difference(Tiramon.get_moves(tiramon.getData))
+    tiramon.get_move = move_list.pluck(:id).sample(rand(1..5)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
+    tiramon.rank = 5
     tiramon.experience = 0
     tiramon.act = Time.current
     tiramon.get_limit = 30.minute.since

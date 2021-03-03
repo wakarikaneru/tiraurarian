@@ -907,10 +907,7 @@ class Tiramon < ApplicationRecord
             return false
           end
 
-          t = {name: "名前変更", effect: old_name + "から変更した" }
-
           self.data = d.to_json
-          self.training_text = t.to_json
           self.save!
 
           return true
@@ -925,10 +922,7 @@ class Tiramon < ApplicationRecord
       if !self.adjust?
         if trainer.user.sub_points?(Constants::TIRAMON_CLASS_CHANGE_PRICE)
 
-          t = {name: "階級変更", effect: Constants::TIRAMON_RULE_NAME[self.rank] + "から変更した" }
-
           self.rank = rank
-          self.training_text = t.to_json
           self.save!
 
           return true

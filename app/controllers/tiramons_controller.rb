@@ -4,7 +4,11 @@ class TiramonsController < ApplicationController
   before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
 
   def index
-    @tiramons = Tiramon.all
+    @tiramons = []
+
+    (0..5).each do |rank|
+      @tiramons[rank] = Tiramon.where(rank: rank).order(id: :desc)
+    end
   end
 
   def scout

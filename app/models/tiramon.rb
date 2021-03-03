@@ -247,10 +247,12 @@ class Tiramon < ApplicationRecord
 
     ret[:log].push([0, "60分1本勝負！"])
     ret[:log].push([0, t_1[:name] + " 対 " + t_2[:name] + "！"])
+
+    ret[:log].push([2, [t_1.clone, t_2.clone]])
+
     ret[:log].push([0,  "試合開始！"])
     ret[:log].push([0,  "ゴングが鳴った！！！"])
 
-    ret[:log].push([2, [t_1.clone, t_2.clone]])
 
     draw = false
     turn_count = 0

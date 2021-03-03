@@ -6,19 +6,19 @@
   <% @battles.map.with_index do |battles, index| %>
     <% rank = index %>
 
-    <div class="hukidasi">
+    <div class="hukidasi m-2">
       <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
       <h3>試合結果(最新<%= battles.count %>件)</h3>
       <% if battles.present? %>
         <% battles.map do |battle| %>
-            <div class="content d-flex justify-content-center m-2">
+            <div class="content d-flex justify-content-center">
               <div class="content-content text-center">
                 <div class="d-flex flex-row justify-content-center align-items-center">
-                  <div class="m-1">
-                    <%= battle.datetime.strftime("%Y年%m月%d日 %H:%M") %>
+                  <div class="flex-shrink-0 mx-1">
+                    <%= battle.datetime.strftime("%m月%d日 %H:%M") %>
                   </div>
-                  <div class="flex-shrink-1 m-1 text-center">
-                    <div class="">
+                  <div class="flex-shrink-1 mx-1 text-center">
+                    <div>
                       <%= link_to battle, class: "d-flex flex-row flex-wrap justify-content-center" do %>
                         <div><%= battle.blue_tiramon_name %></div>
                         <div>&ensp;vs&ensp;</div>

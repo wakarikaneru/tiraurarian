@@ -9,151 +9,248 @@
   </div>
 </div>
 
-<div class="tweet-container">
-  <% @next_battles.map.with_index do |next_battles, index| %>
-    <% rank = index %>
+<% if @mania_battle.present? and @in_match %>
+  <div class="tweet-container">
+    <div class="hukidasi">
+      <h1>試合中</h1>
+      <h3><%= Constants::TIRAMON_RULE_NAME[0] %></h3>
 
-    <% if next_battles.present? %>
-      <% next_battles.map do |next_battle| %>
+      <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
 
-        <% if next_battle.present? %>
-          <div class="hukidasi">
-            <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
-            <h3>次の試合</h3>
+        <% t = @mania_battle.red_tiramon.getData %>
+        <div class="content d-flex flex-column justify-content-center">
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-image">
+              <%= link_to @mania_battle.red_tiramon, class: "link-item-image" do %>
+                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+              <% end %>
 
-            <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
-
-              <% t = next_battle.red_tiramon.getData %>
-              <div class="content d-flex flex-column justify-content-center">
-                <div class="content d-flex justify-content-center m-2">
-                  <div class="content-image">
-                    <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
-                      <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
-                    <% end %>
-
-                    <% if Constants::TIRAMON_KING_RULE[rank] %>
-                      <div class="text-center">
-                        <i class="fas fa-crown"></i>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="content-content word-break">
-                    <div><%= t[:name] %></div>
-                    <div></div>
-                    <div><%= t[:train][:level].to_i %> Lv</div>
-                    <div><%= (t[:height]*100).to_i %> cm</div>
-                    <div><%= t[:weight].to_i %> kg</div>
-                  </div>
+              <% if Constants::TIRAMON_KING_RULE[0] %>
+                <div class="text-center">
+                  <i class="fas fa-crown"></i>
                 </div>
-              </div>
-
-              <div class="content d-flex justify-content-center m-2">
-                <div class="content-content text-center word-break">
-                  <div>VS</div>
-                </div>
-              </div>
-
-              <% t = next_battle.blue_tiramon.getData %>
-              <div class="content d-flex flex-column justify-content-center">
-                <div class="content d-flex justify-content-center m-2">
-                  <div class="content-image">
-                    <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
-                      <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
-                    <% end %>
-                  </div>
-                  <div class="content-content word-break">
-                    <div><%= t[:name] %></div>
-                    <div class="m-1"></div>
-                    <div><%= t[:train][:level].to_i %> Lv</div>
-                    <div><%= (t[:height]*100).to_i %> cm</div>
-                    <div><%= t[:weight].to_i %> kg</div>
-                  </div>
-                </div>
-              </div>
-
+              <% end %>
             </div>
-
-
-            <div class="d-flex flex-wrap justify-content-center">
-              <div class="content d-flex justify-content-center">
-                <div class="content-content text-center word-break">
-                  <div><%= next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
-                </div>
-              </div>
+            <div class="content-content word-break">
+              <div><%= t[:name] %></div>
+              <div></div>
+              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= (t[:height]*100).to_i %> cm</div>
+              <div><%= t[:weight].to_i %> kg</div>
             </div>
-
           </div>
+        </div>
+
+        <div class="content d-flex justify-content-center m-2">
+          <div class="content-content text-center word-break">
+            <div>VS</div>
+          </div>
+        </div>
+
+        <% t = @mania_battle.blue_tiramon.getData %>
+        <div class="content d-flex flex-column justify-content-center">
+          <div class="content d-flex justify-content-center m-2">
+            <div class="content-image">
+              <%= link_to @mania_battle.blue_tiramon, class: "link-item-image" do %>
+                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+              <% end %>
+            </div>
+            <div class="content-content word-break">
+              <div><%= t[:name] %></div>
+              <div class="m-1"></div>
+              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= (t[:height]*100).to_i %> cm</div>
+              <div><%= t[:weight].to_i %> kg</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
 
-          <% if user_signed_in? %>
-            <% if next_battle.rank == 0 %>
-              <div class="hukidasi">
-                <h3>チラモンマニア賭博</h3>
-                <% if @bet.present? %>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div>
+          <%= link_to @mania_battle, class: "btn btn-primary w-100" do %>
+            試合を見る
+          <% end %>
+        </div>
+      </div>
 
-                <% if @bet.bet == 1 %>
-                  <% t = next_battle.blue_tiramon.getData %>
-                <% elsif  @bet.bet == -1 %>
+    </div>
+
+    <div class="hukidasi">
+      <h3>チラモンマニア賭博</h3>
+      <% t = @mania_battle.red_tiramon.getData %>
+      <h4><%= t[:name] %></h4>
+      <h5>オッズ:<%= TiramonBet.odds(@mania_battle, -1) %></h5>
+
+      <hr />
+
+      <% t = @mania_battle.blue_tiramon.getData %>
+      <h4><%= t[:name] %></h4>
+      <h5>オッズ:<%= TiramonBet.odds(@mania_battle, 1) %></h5>
+
+    </div>
+
+  </div>
+<% end %>
+
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>次の試合</h1>
+
+    <% if !@next_battles_present %>
+      <div class="m-2">
+        <p>現在、決定しているカードはありません。</p>
+      </div>
+    <% end %>
+
+    <div class="tweet-container">
+      <% @next_battles.map.with_index do |next_battles, index| %>
+        <% rank = index %>
+
+        <% if next_battles.present? %>
+          <% next_battles.map do |next_battle| %>
+
+            <% if next_battle.present? %>
+              <div class="hukidasi m-2">
+                <h3><%= Constants::TIRAMON_RULE_NAME[rank] %></h3>
+
+                <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
+
                   <% t = next_battle.red_tiramon.getData %>
-                <% end %>
-                <h4>あなたのベット</h4>
-                <h4><%= t[:name] %></h4>
-                <h5>varth:<%= @bet.bet_amount.to_i %></h5>
-                <h5>オッズ:<%= TiramonBet.odds(next_battle, @bet.bet) %></h5>
+                  <div class="content d-flex flex-column justify-content-center">
+                    <div class="content d-flex justify-content-center m-2">
+                      <div class="content-image">
+                        <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
+                          <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                        <% end %>
 
-                <% else %>
-
-                  <% t = next_battle.red_tiramon.getData %>
-                  <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
-
-                    <h4><%= t[:name] %></h4>
-                    <h5>オッズ:<%= TiramonBet.odds(next_battle, -1) %></h5>
-                    <div class="input-group">
-                      <%= hidden_field_tag :bet, "-1"%>
-                      <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
-                      <div class="input-group-append">
-                        <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
-                          <span>賭ける</span>
-                          <i class="fa fa-spinner fa-pulse"></i>
+                        <% if Constants::TIRAMON_KING_RULE[rank] %>
+                          <div class="text-center">
+                            <i class="fas fa-crown"></i>
+                          </div>
                         <% end %>
                       </div>
-                    </div>
-                  <% end %>
-
-                  <hr />
-
-                  <% t = next_battle.blue_tiramon.getData %>
-                  <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
-
-                    <h4><%= t[:name] %></h4>
-                    <h5>オッズ:<%= TiramonBet.odds(next_battle, 1) %></h5>
-                    <div class="input-group">
-                      <%= hidden_field_tag :bet, "1"%>
-                      <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
-                      <div class="input-group-append">
-                        <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
-                          <span>賭ける</span>
-                          <i class="fa fa-spinner fa-pulse"></i>
-                        <% end %>
+                      <div class="content-content word-break">
+                        <div><%= t[:name] %></div>
+                        <div></div>
+                        <div><%= t[:train][:level].to_i %> Lv</div>
+                        <div><%= (t[:height]*100).to_i %> cm</div>
+                        <div><%= t[:weight].to_i %> kg</div>
                       </div>
                     </div>
-                  <% end %>
+                  </div>
 
-                <% end %>
+                  <div class="content d-flex justify-content-center m-2">
+                    <div class="content-content text-center word-break">
+                      <div>VS</div>
+                    </div>
+                  </div>
+
+                  <% t = next_battle.blue_tiramon.getData %>
+                  <div class="content d-flex flex-column justify-content-center">
+                    <div class="content d-flex justify-content-center m-2">
+                      <div class="content-image">
+                        <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
+                          <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                        <% end %>
+                      </div>
+                      <div class="content-content word-break">
+                        <div><%= t[:name] %></div>
+                        <div class="m-1"></div>
+                        <div><%= t[:train][:level].to_i %> Lv</div>
+                        <div><%= (t[:height]*100).to_i %> cm</div>
+                        <div><%= t[:weight].to_i %> kg</div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="d-flex flex-wrap justify-content-center">
+                  <div class="content d-flex justify-content-center">
+                    <div class="content-content text-center word-break">
+                      <div><%= next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
+                    </div>
+                  </div>
+                </div>
 
               </div>
-            <% end %>
-          <% end %>
 
+
+              <% if user_signed_in? %>
+                <% if next_battle.rank == 0 %>
+                  <div class="hukidasi">
+                    <h3>チラモンマニア賭博</h3>
+                    <% if @bet.present? %>
+
+                    <% if @bet.bet == 1 %>
+                      <% t = next_battle.blue_tiramon.getData %>
+                    <% elsif  @bet.bet == -1 %>
+                      <% t = next_battle.red_tiramon.getData %>
+                    <% end %>
+                    <h4>あなたのベット</h4>
+                    <h4><%= t[:name] %></h4>
+                    <h5>varth:<%= @bet.bet_amount.to_i %></h5>
+                    <h5>オッズ:<%= TiramonBet.odds(next_battle, @bet.bet) %></h5>
+
+                    <% else %>
+
+                      <% t = next_battle.red_tiramon.getData %>
+                      <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
+
+                        <h4><%= t[:name] %></h4>
+                        <h5>オッズ:<%= TiramonBet.odds(next_battle, -1) %></h5>
+                        <div class="input-group">
+                          <%= hidden_field_tag :bet, "-1"%>
+                          <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
+                          <div class="input-group-append">
+                            <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                              <span>賭ける</span>
+                              <i class="fa fa-spinner fa-pulse"></i>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% end %>
+
+                      <hr />
+
+                      <% t = next_battle.blue_tiramon.getData %>
+                      <%= form_with url: tiramon_bet_bet_path(), method: :post, local: true do %>
+
+                        <h4><%= t[:name] %></h4>
+                        <h5>オッズ:<%= TiramonBet.odds(next_battle, 1) %></h5>
+                        <div class="input-group">
+                          <%= hidden_field_tag :bet, "1"%>
+                          <%= text_field_tag :point, "", class: "form-control", placeholder: "va", size: 10 %>
+                          <div class="input-group-append">
+                            <%= button_tag type: "submit", class: "change-disabled-button btn btn-danger" do %>
+                              <span>賭ける</span>
+                              <i class="fa fa-spinner fa-pulse"></i>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% end %>
+
+                    <% end %>
+
+                  </div>
+                <% end %>
+              <% end %>
+
+
+            <% end %>
+
+          <% end %>
 
         <% end %>
 
       <% end %>
 
-    <% end %>
-
-  <% end %>
-
+    </div>
+  </div>
 </div>
 
 <div class="tweet-container">
@@ -233,12 +330,21 @@
       <h3>試合結果(最新<%= @my_battles.count %>件)</h3>
       <% if @my_battles.present? %>
         <% @my_battles.map do |battle| %>
-            <div class="content d-flex justify-content-center m-2">
+            <div class="content d-flex justify-content-center">
               <div class="content-content text-center word-break">
-                <div>
-                  <%= Constants::TIRAMON_RULE_NAME[battle.rank] %><br />
-                  <%= battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %><br />
-                  <%= link_to battle do %><%= battle.blue_tiramon_name %> VS <%= battle.red_tiramon_name %><% end %>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                  <div class="flex-shrink-0 mx-1">
+                    <%= Constants::TIRAMON_RULE_NAME[battle.rank] %><br />
+                    <%= battle.datetime.strftime("%m月%d日 %H:%M") %>
+                  </div>
+                  <div class="flex-shrink-1 mx-1 text-center">
+                    <div>
+                      <%= link_to battle, class: "d-flex flex-row flex-wrap justify-content-center" do %>
+                        <div><%= battle.blue_tiramon_name %></div>
+                        <div>&ensp;vs&ensp;</div>
+                        <div><%= battle.red_tiramon_name %></div><% end %>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

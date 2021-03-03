@@ -16,12 +16,22 @@ class TiramonBattlesController < ApplicationController
       @my_free_tiramos_count = @my_tiramons.to_a.select { |t| t.can_act? }.size
     end
 
+    @next_battles_present = TiramonBattle.where("datetime > ?", Time.current).order(datetime: :asc).present?
     @next_battles = []
     @battles = []
 
     (0..5).each do |rank|
       @next_battles[rank] = TiramonBattle.where(rank: rank).where("datetime > ?", Time.current).order(datetime: :asc)
       @battles[rank] = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(datetime: :desc).limit(20)
+    end
+
+    @mania_battle = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(datetime: :desc).first
+    @in_match = false
+    if @mania_battle.present?
+      match_end_time = @mania_battle.datetime + Constants::TIRAMON_ENTRANCE_TIME + @mania_battle.match_time.second
+      @in_match = Time.current < match_end_time
+    else
+      @in_match = false
     end
 
     if user_signed_in?
@@ -53,6 +63,13 @@ class TiramonBattlesController < ApplicationController
     @result_realtime_log = []
 
     start_time = @tiramon_battle.datetime + Constants::TIRAMON_ENTRANCE_TIME
+    match_now_time = Time.current - start_time
+    if match_now_time < 0
+      @in_progress = "試合開始前"
+    else
+      @in_progress = "試合時間: " + Time.at(match_now_time).utc.strftime("%M分%S秒")
+    end
+
     time = -1.day
     before_time = -1.day
     @result_log.each do |log|

@@ -144,7 +144,7 @@ class User < ApplicationRecord
       end
     end
 
-    News.generate(3, Time.current + 5.minute, "【チラウラリア】チラウラリア税を徴収しました。#{Constants::TAX_MOTTO.sample}")
+    News.generate(3, Time.current + 10.minute, "【チラウラリア】チラウラリア税を徴収しました。#{Constants::TAX_MOTTO.sample}")
   end
 
   private

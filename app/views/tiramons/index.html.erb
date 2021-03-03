@@ -6,7 +6,7 @@
   <% @tiramons.map.with_index do |tiramons, index| %>
     <% rank = index %>
     <div class="hukidasi width-full">
-      <h1><%= Constants::TIRAMON_RULE_NAME[rank] %></h1>
+      <h1><%= Constants::TIRAMON_RULE_NAME[rank] %> (<%= tiramons.size %>)</h1>
       <%= render partial: "/tiramons/tiramons", locals: { tiramons: tiramons, myTiramon: false, inNegotiation: false } %>
     </div>
   <% end %>

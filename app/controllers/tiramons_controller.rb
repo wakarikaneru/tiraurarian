@@ -7,7 +7,7 @@ class TiramonsController < ApplicationController
     @tiramons = []
 
     (0..5).each do |rank|
-      @tiramons[rank] = Tiramon.where(rank: rank).order(id: :desc)
+      @tiramons[rank] = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).order(id: :desc)
     end
   end
 

@@ -1,3 +1,4 @@
+<div class="title">戦い方の設定</div>
 <%= render partial: "/layouts/tiramon_nav" %>
 
 <div class="tweet-container list">
@@ -53,20 +54,29 @@
     </div>
 
     <div class="text-center">
-      <%= link_to @tiramon, class: "btn btn-primary my-1" do %>
-        戻る
+      <%= link_to @tiramon, class: "btn btn-primary m-2" do %>
+        チラモン画面へ戻る
       <% end %>
     </div>
 
   </div>
 
+</div>
+
+<div class="tweet-container list">
   <div class="hukidasi width-full word-break">
     <h1>戦い方の設定</h1>
+
+    <div class="m-2">
+      <p>状況に応じて繰り出す技を選択できます。</p>
+      <p>同じ枠に入っている技は、ランダムで選択されます。</p>
+      <p>最強の戦い方をあみだしましょう！</p>
+    </div>
 
     <% if params[:mode] == "easy" %>
 
       <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
-        <div class="d-flex flex-row flex-wrap">
+        <div class="d-flex flex-row flex-wrap m-2">
 
           <% status = ["無傷", "小ダメージ", "大ダメージ", "瀕死"] %>
           <% 4.times do |e| %>
@@ -85,7 +95,7 @@
         </div>
         <div class="text-center">
           <%= hidden_field_tag :mode, "easy" %>
-          <%= button_tag type: "submit", class: "btn btn-primary mt-2" do %>
+          <%= button_tag type: "submit", class: "btn btn-primary m-2" do %>
             戦い方を設定する
           <% end %>
         </div>
@@ -94,7 +104,7 @@
     <% else %>
 
       <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
-        <div class="d-flex flex-row flex-wrap">
+        <div class="d-flex flex-row flex-wrap m-2">
 
           <% status = ["100%", "75%", "50%", "25%"] %>
           <% 4.times do |s| %>
@@ -117,7 +127,7 @@
 
         </div>
         <div class="text-center">
-          <%= button_tag type: "submit", class: "btn btn-primary mt-2" do %>
+          <%= button_tag type: "submit", class: "btn btn-primary m-2" do %>
             戦い方を設定する
           <% end %>
         </div>
@@ -128,4 +138,19 @@
   </div>
 </div>
 
+<div class="tweet-container list">
+  <div class="hukidasi width-full word-break">
+    <h1>Tips</h1>
+    <ul class="m-2">
+      <li>相手が疲れていない序盤には、強い技（数字が大きい技）はなかなか決まりません。弱い技からだんだん強い技に移行していくのがセオリーです。</li>
+      <li>強い技は、その分反動も大きいです。使い所をよくかんがえて装備しましょう。</li>
+      <li>同じ属性の技を繰り返すと、警戒されて決まりにくくなってしまいます。技の属性はバラバラにしたほうが良いでしょう。</li>
+      <li>強い技でとどめを刺さないと、相手はなかなか負けを認めません。フィニッシャーとして強い技（目安は1500以上）を装備しておきましょう。</li>
+      <li>弱い相手と戦うときには、技を弱くしたほうが決まりやすいです。相手の力量を見極めて繰り出す技を選びましょう。</li>
+      <li>もちろん、ここで書かれている以外の戦法もあるかもしれません。探してみましょう！</li>
+    </ul>
+
+  </div>
+
+</div>
 <%= render partial: "/layouts/tiramon_nav" %>

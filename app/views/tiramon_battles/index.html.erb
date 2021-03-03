@@ -24,7 +24,7 @@
             <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
 
               <% t = next_battle.red_tiramon.getData %>
-              <div class="content d-flex flex-column justify-content-center m-1">
+              <div class="content d-flex flex-column justify-content-center">
                 <div class="content d-flex justify-content-center m-2">
                   <div class="content-image">
                     <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
@@ -47,14 +47,14 @@
                 </div>
               </div>
 
-              <div class="content d-flex justify-content-center m-1">
+              <div class="content d-flex justify-content-center m-2">
                 <div class="content-content text-center word-break">
                   <div>VS</div>
                 </div>
               </div>
 
               <% t = next_battle.blue_tiramon.getData %>
-              <div class="content d-flex flex-column justify-content-center m-1">
+              <div class="content d-flex flex-column justify-content-center">
                 <div class="content d-flex justify-content-center m-2">
                   <div class="content-image">
                     <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
@@ -75,7 +75,7 @@
 
 
             <div class="d-flex flex-wrap justify-content-center">
-              <div class="content d-flex justify-content-center m-2">
+              <div class="content d-flex justify-content-center">
                 <div class="content-content text-center word-break">
                   <div><%= next_battle.datetime.strftime("%Y年%m月%d日 %H:%M:%S") %> 試合開始</div>
                 </div>
@@ -160,9 +160,20 @@
 
   <div class="hukidasi">
     <h1>試合結果</h1>
-    <%= link_to tiramon_battle_results_path, class: "btn btn-primary w-100" do %>
-      試合結果を見る
-    <% end %>
+    <div class="m-2">
+      <%= link_to tiramon_battle_results_path, class: "btn btn-primary w-100" do %>
+        試合結果を見る
+      <% end %>
+    </div>
+  </div>
+
+  <div class="hukidasi">
+    <h1>出場選手一覧</h1>
+    <div class="m-2">
+      <%= link_to tiramons_path, class: "btn btn-primary w-100" do %>
+        出場選手一覧を見る
+      <% end %>
+    </div>
   </div>
 
 </div>
@@ -194,7 +205,7 @@
       </div>
 
       <div class="m-2">
-        <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning w-100" do %>
+        <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning w-100", data: { confirm: "チラモンを探索しますか？"}  do %>
           チラモンを探索する！<br />
           (行動ポイント: 残り<%= @tiramon_trainer.move %>)
         <% end %>
@@ -204,13 +215,13 @@
     <div class="hukidasi">
       <h1>チラモンショップ</h1>
       <div class="m-2">
-        <%= link_to tiramon_trainer_get_ball_path(id: @tiramon_trainer), method: :post, class: "btn btn-danger w-100 my-1", data: { confirm: "チラモンボールを購入しますか？" } do %>
+        <%= link_to tiramon_trainer_get_ball_path(id: @tiramon_trainer), method: :post, class: "btn btn-danger w-100", data: { confirm: "チラモンボールを購入しますか？" } do %>
           チラモンボールを購入<br />
           <%= Constants::TIRAMON_TRAINER_BALL_PRICE %>va
         <% end %>
       </div>
       <div class="m-2">
-        <%= link_to tiramon_trainer_move_recovery_path(id: @tiramon_trainer), method: :post, class: "btn btn-warning w-100 my-1", data: { confirm: "チラモンボールを購入しますか？" } do %>
+        <%= link_to tiramon_trainer_move_recovery_path(id: @tiramon_trainer), method: :post, class: "btn btn-warning w-100", data: { confirm: "行動ポイントを回復しますか？" } do %>
           行動ポイントを回復<br />
           <%= Constants::TIRAMON_TRAINER_MOVE_RECOVERY_PRICE %>va
         <% end %>

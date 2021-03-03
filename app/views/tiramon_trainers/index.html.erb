@@ -16,7 +16,7 @@
   <div class="hukidasi width-full">
     <h1>手持ちのチラモン</h1>
     <h5>チラモンを選択すると、育成することができます</h5>
-    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @tiramons, inNegotiation: false } %>
+    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @tiramons, myTiramon: true, inNegotiation: false } %>
   </div>
 </div>
 
@@ -24,11 +24,11 @@
   <div class="hukidasi width-full">
     <h1>交渉中のチラモン</h1>
     <h5>捕まえるチラモンを選びましょう</h5>
-    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @negotiations_tiramons, inNegotiation: true } %>
+    <%= render partial: "/tiramons/tiramons", locals: { tiramons: @negotiations_tiramons, myTiramon: false, inNegotiation: true } %>
     <div>
       <% if 0 < @tiramon_trainer.move %>
         <div class="text-center">
-          <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning" do %>
+          <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning m-2", data: { confirm: "チラモンを探索しますか？"}  do %>
             チラモンを探索する！<br />
             (行動ポイント: 残り<%= @tiramon_trainer.move %>)
           <% end %>

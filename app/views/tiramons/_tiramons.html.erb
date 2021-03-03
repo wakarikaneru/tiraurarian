@@ -20,7 +20,7 @@
             <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
             <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
 
-            <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id %>
+            <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
               <% if tiramon.can_act? %>
                 <div class="users-desc m-2">育成できます！</div>
               <% else %>

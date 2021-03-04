@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_030902) do
+ActiveRecord::Schema.define(version: 2021_03_04_144436) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -344,6 +344,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_030902) do
     t.text "training_text"
     t.integer "rank", default: 3
     t.integer "auto_rank"
+    t.text "adventure"
   end
 
   create_table "tweets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -380,6 +381,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_030902) do
     t.string "language"
     t.float "language_confidence", default: 0.0
     t.string "content_ru"
+    t.integer "wakaru_count", default: 0
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -401,6 +403,14 @@ ActiveRecord::Schema.define(version: 2021_03_04_030902) do
     t.integer "last_check_res", default: 0
     t.index ["login_id"], name: "index_users_on_login_id", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "wakarus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tweet_id"
+    t.integer "create_datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

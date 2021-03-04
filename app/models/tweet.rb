@@ -9,6 +9,7 @@ class Tweet < ApplicationRecord
   has_many :tweets, foreign_key: :parent_id, primary_key: :id
   has_one :text, dependent: :destroy
   has_many :goods, dependent: :destroy
+  has_many :wakarus, dependent: :destroy
   has_many :bads, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :tags, dependent: :destroy

@@ -50,12 +50,30 @@
                 <% end %>
               <% end %>
             <% else %>
-            <%= form_with model: @good, local: true do |form| %>
-              <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
-                <i class="fas fa-thumbs-up"></i>
+              <%= form_with model: @good, local: true do |form| %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                  <i class="fas fa-thumbs-up"></i>
+                <% end %>
               <% end %>
             <% end %>
+          </div>
+
+          <div>
+            <% if @wakarued.present? %>
+              <%= form_with model: @wakarued, method: :delete, local: true do |form| %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                  <i class="fas fa-check"></i> わかる
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= form_with model: @wakaru, local: true do |form| %>
+                <%= form.hidden_field :tweet_id, value: @tweet.id %>
+                <%= form.button type: "submit", class: "btn btn-light rounded-pill m-1" do %>
+                  <i class="fas fa-check"></i> わかる
+                <% end %>
+              <% end %>
             <% end %>
           </div>
 
@@ -63,10 +81,10 @@
             <% if @baded.present? %>
             <%= form_with model: @baded, method: :delete, local: true do |form| %>
               <%= form.hidden_field :tweet_id, value: @tweet.id %>
-              <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
-                <i class="fas fa-thumbs-down"></i>
+                <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
+                  <i class="fas fa-thumbs-down"></i>
+                <% end %>
               <% end %>
-            <% end %>
             <% else %>
               <%= form_with model: @bad, local: true do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>

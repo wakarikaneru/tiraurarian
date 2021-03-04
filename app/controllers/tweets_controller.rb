@@ -76,6 +76,14 @@ class TweetsController < ApplicationController
       @gooded = Good.none
     end
 
+    @wakaru = Wakaru.new
+    @wakaru.tweet_id = @tweet.id
+    if user_signed_in? then
+      @wakarued = Wakaru.find_by(user_id: current_user.id, tweet_id: @tweet.id)
+    else
+      @wakarued = Wakaru.none
+    end
+
     @bad = Bad.new
     @bad.tweet_id = @tweet.id
     if user_signed_in? then

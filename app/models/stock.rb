@@ -176,7 +176,7 @@ class Stock < ApplicationRecord
           sign = "+"
         else
           arrow = "↓"
-          sign = "-"
+          sign = ""
         end
         News.generate(1, Time.current + 10.minute, "【株】 [#{stock_number.to_s}]#{stock_name} #{price.to_s} 10分前比 #{arrow} #{sign}#{diff.to_s} (#{sign}#{rate.floor(2).to_s}%) " + Time.current.strftime("%Y年%m月%d日 %H:%M:%S") + "現在")
       end

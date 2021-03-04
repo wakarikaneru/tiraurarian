@@ -70,7 +70,7 @@
     <h3>負けると、<%= distance_of_time_in_words_to_now(Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[@enemy_class][@stage]) %>間再挑戦できません。</h3>
 
     <div class="d-flex flex-row flex-wrap">
-      <%= render partial: "/tiramons/enemy_tiramons", locals: { enemies: @enemy_tiramons, tiramon_id: @tiramon.id } %>
+      <%= render partial: "/tiramons/enemy_tiramons", locals: { adventure_data: @adventure_data, enemies: @enemy_tiramons, tiramon_id: @tiramon.id } %>
     </div>
 
   </div>

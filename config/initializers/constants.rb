@@ -191,8 +191,8 @@ module Constants
   ]
   TIRAMON_ADVENTURE_FAIL_TIME = [
     [24.hour],
-    [5.minute, 5.minute, 5.minute],
-    [30.minute, 30.minute, 30.minute],
-    [3.hour, 3.hour, 3.hour],
+    [5.minute, 10.minute, 15.minute],
+    [30.minute, 40.minute, 50.minute],
+    [3.hour, 4.hour, 5.hour],
   ]
 end

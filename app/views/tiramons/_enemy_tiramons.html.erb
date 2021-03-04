@@ -9,13 +9,18 @@
 
       <%= link_to tiramon_battle_adventure_battle_path(tiramon_id: tiramon_id, enemy_id: enemy.id ), class: "link-item-hukidasi" do %>
         <div class="users m-2">
-          <div>
+          <div class="users-img">
+            <% if adventure_data[enemy.id.to_s] == true %>
+              <div class="text-center m-2">
+                <i class="fas fa-flag"></i>
+              </div>
+            <% end %>
             <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
           </div>
 
           <div class="users-info">
             <div class="users-name"><%= data[:name] %></div>
-            <div class="users-desc">Lv: <%= data[:train][:level].to_i %> Lv</div>
+            <div class="users-desc">Lv: <%= data[:train][:level].to_i %></div>
             <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
             <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
           </div>

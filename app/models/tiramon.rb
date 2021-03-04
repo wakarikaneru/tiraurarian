@@ -915,10 +915,10 @@ class Tiramon < ApplicationRecord
 
         if result.present?
           if result[:result] == 1
-            if getAdventureData[enemy_id].present? and getAdventureData[enemy_id] != true
-              getAdventureData[enemy_id] = true
-              self.update(adventure_data: getAdventureData.to_json)
+            if adventure_data[enemy_id] != true
+              adventure_data[enemy_id] = true
 
+              self.update(adventure_data: adventure_data.to_json)
               user.add_points(Constants::TIRAMON_ADVENTURE_PRIZE[enemy.enemy_class][enemy.stage])
             end
           else

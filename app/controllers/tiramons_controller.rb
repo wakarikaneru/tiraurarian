@@ -16,6 +16,7 @@ class TiramonsController < ApplicationController
 
     @data = @tiramon.getData
     @disp_data = Tiramon.getBattleData(@data)
+    @adventure_data = @tiramon.getAdventureData.with_indifferent_access
 
     @my_tiramon = @tiramon.tiramon_trainer_id == @tiramon_trainer.id
     if @my_tiramon

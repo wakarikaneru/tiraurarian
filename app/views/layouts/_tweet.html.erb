@@ -67,15 +67,12 @@
 
             <div class="content-desc-right content-desc-flex-row-right">
               <div class="count-comment"><i class="fas fa-comments"></i> <%= tweet.res_count %></div>
-              <div class="space"> | </div>
-              <div class="count-good"><i class="fas fa-check"></i> <%= tweet.wakaru_count %></div>
-              <div class="space"> | </div>
+              <div class="count-wakaru"><i class="fas fa-hand-paper"></i> <%= tweet.wakaru_count %></div>
               <% if 0 <= tweet.good_count - tweet.bad_count %>
                 <div class="count-good"><i class="fas fa-thumbs-up"></i> <%= tweet.good_count - tweet.bad_count %></div>
               <% else %>
                 <div class="count-good"><i class="fas fa-thumbs-down"></i> <%= tweet.good_count - tweet.bad_count %></div>
               <% end %>
-              <div class="space"> | </div>
               <div class="count-comment"><i class="fas fa-layer-group"></i> <%= tweet.context %></div>
             </div>
 

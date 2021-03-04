@@ -135,17 +135,17 @@ class Tiramon < ApplicationRecord
     return (a.sum(0.0) / a.length) * 100 - 50
   end
 
-    def getData
-      return eval(data)
-    end
+  def getData
+    return eval(data)
+  end
 
-    def getMove
-      return eval(move)
-    end
+  def getMove
+    return eval(move)
+  end
 
-    def getGetMove
-      return eval(get_move)
-    end
+  def getGetMove
+    return eval(get_move)
+  end
 
   def getTrainingText
     if training_text.present?

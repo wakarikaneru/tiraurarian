@@ -47,6 +47,17 @@ class TiramonBattle < ApplicationRecord
   end
 
   def self.match_make(rank = 0)
+
+    # すでに試合が組まれている選手は除外
+    scheduled_battle = TiramonBattle.where("? < datetime", Time.current)
+    scheduled_tiramon_list = []
+    scheduled_battle.map do |battle|
+      scheduled_tiramon_list << battle.blue_tiramon_id
+      scheduled_tiramon_list << battle.red_tiramon_id
+    end
+    scheduled_tiramon_list = scheduled_tiramon_list.uniq.sort
+    scheduled_tiramons = Tiramon.where(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil)
+
     # 王座戦の場合、前回勝者が赤コーナーにつく
     if Constants::TIRAMON_KING_RULE[rank]
       last_battle = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(id: :desc).first
@@ -62,43 +73,73 @@ class TiramonBattle < ApplicationRecord
           champion = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample()
         end
 
-        tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(tiramon_trainer: nil).sample()
+        # 前回挑戦者は除外
+        looser = last_battle.result == 1 ? nil : last_battle.blue_tiramon
+
+        if looser.present?
+          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+        else
+          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+        end
+
+        # 挑戦者がいない場合のみ前回挑戦者はも許可
+        if tiramon.blank?
+          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+        end
+
         TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
         return
 
       end
     end
 
-    # すでに試合が組まれている選手は除外
-    scheduled_battle = TiramonBattle.where("? < datetime", Time.current)
-    scheduled_tiramon_list = []
-    scheduled_battle.map do |battle|
-      scheduled_tiramon_list << battle.blue_tiramon_id
-      scheduled_tiramon_list << battle.red_tiramon_id
-    end
-    scheduled_tiramon_list = scheduled_tiramon_list.uniq.sort
-    scheduled_tiramons = Tiramon.where(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil)
 
     if rank == 0
-      # チラモンマニアの場合、チャンピオンシップで過去1週間で勝利した選手(=過去王者)のみ
-      recent_battle = TiramonBattle.where(rank: 1).where(datetime: 7.day.ago..Time.current)
-      winners = []
-      recent_battle.map do |battle|
+      # チラモンマニアの場合
+
+      # チラモンマニアで過去１年間で勝利した選手(=過去覇者)
+      mania_battle = TiramonBattle.where(rank: 0).where(datetime: 1.year.ago..Time.current)
+      mania_winners = []
+      mania_battle.map do |battle|
         if battle.result.blank?
           battle.set_result
         end
 
         if battle.result == 1
-          winners << battle.blue_tiramon_id
+          mania_winners << battle.blue_tiramon_id
         elsif battle.result == -1
-          winners << battle.red_tiramon_id
+          mania_winners << battle.red_tiramon_id
         else
         end
       end
-      winners = winners.uniq.sort
+      mania_winners = mania_winners.uniq.sort
+
+      # チャンピオンシップで過去1週間で勝利した選手(=過去王者)
+      championship_recent_battle = TiramonBattle.where(rank: 1).where(datetime: 7.day.ago..Time.current)
+      championship_winners = []
+      championship_recent_battle.map do |battle|
+        if battle.result.blank?
+          battle.set_result
+        end
+
+        if battle.result == 1
+          championship_winners << battle.blue_tiramon_id
+        elsif battle.result == -1
+          championship_winners << battle.red_tiramon_id
+        else
+        end
+      end
+      championship_winners = championship_winners.uniq.sort
+
+      # 参加資格者
+      winners = mania_winners + championship_winners
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.none.or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
+      #tiramons = Tiramon.none.or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
+      #tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+
+      tiramons[1] = Tiramon.where(id: championship_winners).where.not(tiramon_trainer: nil).sample()
+      tiramons[0] = Tiramon.where(id: winners).where.not(id: tiramons[1].id).where.not(tiramon_trainer: nil).sample()
 
     elsif rank == 4
       # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める

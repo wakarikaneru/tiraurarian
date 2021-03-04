@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  enemy_class: 1
+  enemy_id: 1
+  data: MyText
+
+two:
+  enemy_class: 1
+  enemy_id: 1
+  data: MyText

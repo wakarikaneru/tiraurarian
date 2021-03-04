@@ -75,6 +75,7 @@
 <% if @my_tiramon %>
   <% disabled = @can_act ? "" : " disabled" %>
   <% disabled_2 = !@adjust ? "" : " disabled" %>
+
   <div class="tweet-container list">
     <div class="hukidasi width-full word-break">
       <h1>チラモン育成</h1>
@@ -393,6 +394,35 @@
       </div>
     </div>
   </div>
+
+  <% if current_user.id == 1 %>
+    <div class="tweet-container list">
+      <div class="hukidasi width-full word-break">
+        <h1>武者修行</h1>
+
+        <div class="d-flex flex-row flex-wrap">
+
+          <div class="hukidasi d-flex flex-column m-2">
+            <h2>修行進捗</h2>
+            <div class="m-2">
+              <p>クリアしたステージ: 0</p>
+            </div>
+          </div>
+
+          <div class="hukidasi d-flex flex-column m-2">
+            <h2>Lv1 冒険の始まり</h2>
+            <div class="m-2">
+              <%= link_to tiramon_adventure_path(id: @tiramon, class: 1, stage: 1), class: "btn btn-primary w-100" do %>
+                ドインディー団体
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  <% end %>
 
 <% end %>
 

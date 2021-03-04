@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   get 'card_deck/creater', to: 'card_decks#creater'
 
   resources :tiramons
+  get 'tiramon/adventure', to: 'tiramons#adventure'
   post 'tiramon/get', to: 'tiramons#get'
   post 'tiramon/scout', to: 'tiramons#scout'
   post 'tiramon/training', to: 'tiramons#training'
@@ -145,6 +146,9 @@ Rails.application.routes.draw do
     resources :tiramon_trainings
     resources :tiramon_battles
     resources :tiramon_battle_prizes
+
+    resources :tiramon_enemies
+    resources :tiramon_templates
 
     root to: "controls#index"
   end

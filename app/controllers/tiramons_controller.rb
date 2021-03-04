@@ -1,7 +1,7 @@
 class TiramonsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :get, :training, :show]
-  before_action :complete_battles, only: [:show, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
-  before_action :set_tiramon, only: [:show, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
+  before_action :authenticate_user!, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
+  before_action :complete_battles, only: [:show, :adventure, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
+  before_action :set_tiramon, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
 
   def index
     @tiramons = []
@@ -9,6 +9,22 @@ class TiramonsController < ApplicationController
     (1..5).each do |rank|
       @tiramons[rank] = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).order(id: :desc)
     end
+  end
+
+  def adventure
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    @data = @tiramon.getData
+    @disp_data = Tiramon.getBattleData(@data)
+
+    @my_tiramon = @tiramon.tiramon_trainer_id == @tiramon_trainer.id
+    if @my_tiramon
+      @about = 1
+    else
+      @about = [((100.0 - @tiramon_trainer.level) / 10.0).to_i, 10, 1].sort.second
+    end
+
+    @enemy_tiramons = Tiramon.where(tiramon_trainer: nil).order(id: :desc)
   end
 
   def scout

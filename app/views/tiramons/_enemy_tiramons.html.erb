@@ -1,0 +1,46 @@
+<div class="users-container">
+  <% if tiramons.blank? %>
+    <div class="w-100 m-2 text-center">チラモンがいません</div>
+  <% end %>
+
+  <div class="d-flex flex-row flex-wrap">
+    <% tiramons.map do |tiramon| %>
+      <% data = tiramon.getData %>
+
+      <%= link_to tiramon, class: "link-item-hukidasi" do %>
+        <div class="users m-2">
+          <div>
+            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          </div>
+
+          <div class="users-info">
+            <div class="users-name"><%= data[:name] %></div>
+            <div class="users-desc">階級: <%= Constants::TIRAMON_RULE_NAME[tiramon.rank] %></div>
+            <div class="users-desc">Lv: <%= data[:train][:level].to_i %> Lv</div>
+            <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
+            <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
+
+            <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
+              <% if tiramon.can_act? %>
+                <div class="users-desc m-2">育成できます！</div>
+              <% else %>
+                <% if tiramon.adjust? %>
+                  <div class="users-desc m-2">試合に向けて調整中…</div>
+                <% else %>
+                  <div class="users-desc m-2">育成中: <%= distance_of_time_in_words_to_now(tiramon.act) %></div>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <% if inNegotiation %>
+              <div class="users-desc m-2">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
+            <% end %>
+
+          </div>
+        </div>
+      <% end %>
+
+    <% end %>
+  </div>
+
+</div>

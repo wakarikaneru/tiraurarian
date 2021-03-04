@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :bookmarks
   resources :goods
+  resources :wakarus
   resources :bads
 
   resources :search
@@ -89,6 +90,7 @@ Rails.application.routes.draw do
   get 'tiramon_battle', to: 'tiramon_battles#index'
   get 'tiramon_battle/show_realtime', to: 'tiramon_battles#show_realtime'
   get 'tiramon_battle/results', to: 'tiramon_battles#results'
+  get 'tiramon_battle/adventure_battle', to: 'tiramon_battles#adventure_battle'
 
   post 'tiramon_bet/bet', to: 'tiramon_bet#bet'
 

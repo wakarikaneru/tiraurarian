@@ -136,7 +136,10 @@ class TiramonBattle < ApplicationRecord
 
       winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
       #tiramons = Tiramon.none.or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
-      tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+      #tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
+
+      tiramons[1] = Tiramon.where(id: championship_winners).where.not(tiramon_trainer: nil).sample()
+      tiramons[0] = Tiramon.where(id: winners).where.not(id: tiramons[1].id).where.not(tiramon_trainer: nil).sample()
 
     elsif rank == 4
       # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める

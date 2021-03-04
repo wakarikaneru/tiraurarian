@@ -35,71 +35,11 @@ class Tiramon < ApplicationRecord
   def self.generateData(min_level, max_level)
     min_power = min_level / 100.0
     max_power = max_level / 100.0
-    data = {
-      name: Gimei.male.kanji,
-      height: 1.81,
-      weight: 101,
-      bmi: 25,
-      abilities: {
-        vital: [100, 100, 100],
-        recovery: [100, 100, 100],
-        speed: 100,
-        intuition: 0.0,
-      },
-      skills: {
-        attack: [1.0, 1.0, 1.0],
-        defense: [1.0, 1.0, 1.0],
-      },
-      style: {
-        tactics: {
-          intuition: 0,
-          study: 100,
-          flexible: 100,
-          wary: 100,
-        },
-        wary: [100, 100, 100],
-      },
-      train: {
-        level: 0.0,
-        abilities: {
-          vital: [1.0, 1.0, 1.0],
-          recovery: [1.0, 1.0, 1.0],
-          speed: 1.0,
-          intuition: 1.0,
-        },
-        skills: {
-          attack: [1.0, 1.0, 1.0],
-          defense: [1.0, 1.0, 1.0],
-        },
-      },
-      moves: [
-        [
-          ["102001", "103001", "201001", "301006", "305006", "302004"],
-          ["000001", "103001", "201001", "203001", "301006", "305007"],
-          ["103003", "106027", "203001", "205001", "301006", "305007"],
-          ["103003", "106027", "203001", "205011", "305007", "305001"],
-        ],
-        [
-          ["102001", "103001", "201001", "301006", "305006", "302004"],
-          ["000001", "103001", "201001", "203001", "301006", "305007"],
-          ["103003", "106027", "203001", "205001", "301006", "305007"],
-          ["103003", "106027", "203001", "205011", "305007", "305001"],
-        ],
-        [
-          ["102001", "103001", "201001", "301006", "305006", "302004"],
-          ["000001", "103001", "201001", "203001", "301006", "305007"],
-          ["103003", "106027", "203001", "205001", "301006", "305007"],
-          ["103003", "106027", "203001", "205011", "305007", "305001"],
-        ],
-        [
-          ["102001", "103001", "201001", "301006", "305006", "302004"],
-          ["000001", "103001", "201001", "203001", "301006", "305007"],
-          ["103003", "106027", "203001", "205001", "301006", "305007"],
-          ["103003", "106027", "203001", "205011", "305007", "305001"],
-        ],
-      ]
-    }
 
+    template = TiramonTemplate.where(level: 0..10).sample
+    data = template.getData
+
+    data[:name] = Gimei.male.kanji
     data[:bmi] = (28.0 + 6.0 * Tiramon.dist_rand(2))
     data[:height] = 1.75 + (0.25 * Tiramon.dist_rand(2))
     data[:weight] = data[:height] ** 2 * data[:bmi]
@@ -136,22 +76,42 @@ class Tiramon < ApplicationRecord
   end
 
   def getData
-    return eval(data)
+    if data.present?
+      return eval(data)
+    else
+      return {}
+    end
   end
 
   def getMove
-    return eval(move)
+    if move.present?
+      return eval(move)
+    else
+      return []
+    end
   end
 
   def getGetMove
-    return eval(get_move)
+    if get_move.present?
+      return eval(get_move)
+    else
+      return []
+    end
   end
 
   def getTrainingText
     if training_text.present?
       return eval(training_text)
     else
-      return nil
+      return {}
+    end
+  end
+
+  def getAdventureData
+    if adventure_data.present?
+      return eval(adventure_data)
+    else
+      return {}
     end
   end
 
@@ -198,7 +158,7 @@ class Tiramon < ApplicationRecord
     return (n / a).round * a
   end
 
-  def self.battle(tiramon_1 = Card.none, tiramon_2 = Card.none)
+  def self.battle(tiramon_1_data, tiramon_2_data)
     require "matrix"
 
     move_list = TiramonMove.first.getData
@@ -209,15 +169,15 @@ class Tiramon < ApplicationRecord
     ret[:log].push([4, -Constants::TIRAMON_ENTRANCE_TIME])
     ret[:log].push([4, 0])
 
-    if tiramon_1.blank? or tiramon_2.blank?
+    if tiramon_1_data.blank? or tiramon_2_data.blank?
       ret[:result] = 0
       ret[:log].push([0, "試合不成立！"])
     end
 
     ret[:log].push([0, "選手入場！！！"])
 
-    t_1 = Tiramon.getBattleData(tiramon_1.getData)
-    t_2 = Tiramon.getBattleData(tiramon_2.getData)
+    t_1 = Tiramon.getBattleData(tiramon_1_data)
+    t_2 = Tiramon.getBattleData(tiramon_2_data)
 
     ret[:log].push([-1, "赤コーナー！"])
     ret[:log].push([-1, (t_2[:height] * 100).to_i.to_s + "センチ " + (t_2[:weight]).to_i.to_s + "kg！"])
@@ -943,6 +903,36 @@ class Tiramon < ApplicationRecord
     return false
   end
 
+  def adventure_battle(trainer, enemy_id)
+    if self.tiramon_trainer_id == trainer.id
+      if self.can_adventure?
+
+        adventure_data = self.getAdventureData
+        user = trainer.user
+
+        enemy = TiramonEnemy.find_by(id: enemy_id)
+        result = Tiramon.battle(self.getData, enemy.getData)
+
+        if result.present?
+          if result[:result] == 1
+            if getAdventureData[enemy_id].present? and getAdventureData[enemy_id] != true
+              getAdventureData[enemy_id] = true
+              self.update(adventure_data: getAdventureData.to_json)
+
+              user.add_points(Constants::TIRAMON_ADVENTURE_PRIZE[enemy.enemy_class][enemy.stage])
+            end
+          else
+            self.update(adventure_time: Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[enemy.enemy_class][enemy.stage])
+          end
+
+          return result
+        end
+
+      end
+    end
+    return nil
+  end
+
   def can_act?()
     return ((act.nil? or act < Time.current) and !adjust?)
   end
@@ -953,6 +943,10 @@ class Tiramon < ApplicationRecord
     battle_blue = TiramonBattle.where(blue_tiramon_id: self.id).where("datetime > ?", Time.current).count
     battle = battle_red + battle_blue
     return 0 < battle
+  end
+
+  def can_adventure?()
+    return (adventure_time.nil? or adventure_time < Time.current)
   end
 
   # 試合を完了する

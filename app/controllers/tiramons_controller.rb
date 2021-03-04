@@ -24,7 +24,10 @@ class TiramonsController < ApplicationController
       @about = [((100.0 - @tiramon_trainer.level) / 10.0).to_i, 10, 1].sort.second
     end
 
-    @enemy_tiramons = Tiramon.where(tiramon_trainer: nil).order(id: :desc)
+    @enemy_class = params[:enemy_class].to_i
+    @stage = params[:stage].to_i
+
+    @enemy_tiramons = TiramonEnemy.where(enemy_class: @enemy_class, stage: @stage).order(enemy_id: :asc)
   end
 
   def scout

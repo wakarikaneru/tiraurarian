@@ -65,10 +65,12 @@
 
 <div class="tweet-container list">
   <div class="hukidasi width-full word-break">
-    <h1>対戦相手</h1>
+    <h1><%= Constants::TIRAMON_ADVENTURE_STAGES[@enemy_class][@stage] %></h1>
+    <h3>選手に勝利すると、<%= Constants::TIRAMON_ADVENTURE_PRIZE[@enemy_class][@stage] %>va獲得できます。</h3>
+    <h3>負けると、<%= distance_of_time_in_words_to_now(Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[@enemy_class][@stage]) %>間再挑戦できません。</h3>
 
     <div class="d-flex flex-row flex-wrap">
-
+      <%= render partial: "/tiramons/enemy_tiramons", locals: { enemies: @enemy_tiramons, tiramon_id: @tiramon.id } %>
     </div>
 
   </div>

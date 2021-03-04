@@ -29,7 +29,7 @@ class TiramonBattle < ApplicationRecord
     if self.result.blank?
       t_1 = Tiramon.find(self.blue_tiramon_id)
       t_2 = Tiramon.find(self.red_tiramon_id)
-      r = Tiramon.battle(t_1, t_2)
+      r = Tiramon.battle(t_1.getData, t_2.getData)
       self.result = r[:result]
       self.data = r.to_json
       self.match_time = r[:time]

@@ -1,5 +1,5 @@
 class TiramonBattlesController < ApplicationController
-  before_action :authenticate_user!, only: [:battle]
+  before_action :authenticate_user!, only: [:adventure_battle]
   before_action :set_tiramon_battle, only: [:show, :show_realtime]
   before_action :already_battle, only: [:show, :show_realtime]
   before_action :set_tiramon_battle_result, only: [:show, :show_realtime]
@@ -47,6 +47,24 @@ class TiramonBattlesController < ApplicationController
     end
   end
 
+  def adventure_battle
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    tiramon_id = params[:tiramon_id]
+    enemy_id = params[:enemy_id]
+
+    @tiramon = Tiramon.find_by(id: tiramon_id)
+
+    @result = @tiramon.adventure_battle(@tiramon_trainer, enemy_id)
+
+    if @result.blank?
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "対戦できません。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def show
     @result = @tiramon_battle.getData
     if @tiramon_battle.rank == 0
@@ -88,13 +106,6 @@ class TiramonBattlesController < ApplicationController
     end
 
     render partial: "tiramon_battles/show_realtime"
-  end
-
-  def battle
-    tiramons = Tiramon.all.sample(2)
-    tiramon_1 = tiramons[0]
-    tiramon_2 = tiramons[1]
-    @result = Tiramon.battle(tiramon_1, tiramon_2)
   end
 
   private

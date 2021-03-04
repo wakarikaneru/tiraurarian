@@ -61,7 +61,7 @@
 
           <div>
             <% if @gooded.present? %>
-              <%= form_with model: @gooded, method: :delete do |form| %>
+              <%= form_with model: @gooded, method: :delete, local: true do |form| %>
                 <%= form.hidden_field :tweet_id, value: @tweet.id %>
                 <%= form.button type: "submit", class: "btn btn-primary rounded-pill m-1" do %>
                   <i class="fas fa-thumbs-up"></i>

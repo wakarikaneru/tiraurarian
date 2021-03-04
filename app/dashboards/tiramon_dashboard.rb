@@ -23,6 +23,8 @@ class TiramonDashboard < Administrate::BaseDashboard
     training_text: Field::Text,
     rank: Field::Number,
     auto_rank: Field::Number,
+    adventure_data: Field::Text,
+    adventure_time: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -55,6 +57,8 @@ class TiramonDashboard < Administrate::BaseDashboard
     training_text
     rank
     auto_rank
+    adventure_data
+    adventure_time
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -73,6 +77,8 @@ class TiramonDashboard < Administrate::BaseDashboard
     training_text
     rank
     auto_rank
+    adventure_data
+    adventure_time
   ].freeze
 
   # COLLECTION_FILTERS

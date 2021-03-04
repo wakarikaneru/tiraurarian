@@ -2,6 +2,8 @@ class TweetsController < ApplicationController
   require 'digest/md5'
   before_action :authenticate_user!, only: [:destroy]
   before_action :set_tweet, only: [:show, :destroy]
+  before_action :count_view, only: [:show]
+
 
   # GET /tweets
   # GET /tweets.json
@@ -360,6 +362,10 @@ class TweetsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
       @tweet = Tweet.find(params[:id])
+    end
+
+    def count_view
+      @tweet.increment!(:view_count, 1)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

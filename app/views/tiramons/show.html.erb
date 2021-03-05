@@ -410,24 +410,23 @@
           <% end %>
         </div>
 
-        <div class="hukidasi d-flex flex-column m-2">
-          <h2>Lv1 冒険の始まり</h2>
-          <div class="m-2">
-            <%= link_to tiramon_adventure_path(id: @tiramon, enemy_class: 1, stage: 0), class: "btn btn-primary w-100" do %>
-              <%= Constants::TIRAMON_ADVENTURE_STAGES[1][0] %>
+        <% levels = ["", "Lv1 チラレスの黎明", "Lv2 チラレスの太陽", "Lv3 逢魔時"]%>
+        <% Constants::TIRAMON_ADVENTURE_STAGES.each_with_index do |level, i| %>
+          <% if Constants::TIRAMON_ADVENTURE_STAGES[i].present? %>
+            <% if i == 1 or @adventure_data[:level][:"#{(i - 1).to_s}"] == true %>
+              <div class="hukidasi d-flex flex-column m-2">
+                <h2><%= levels[i] %></h2>
+                <% Constants::TIRAMON_ADVENTURE_STAGES[i].each_with_index do |stage, j| %>
+                  <div class="m-2">
+                    <%= link_to tiramon_adventure_path(id: @tiramon, enemy_class: i, stage: j), class: "btn btn-primary w-100" do %>
+                      <%= Constants::TIRAMON_ADVENTURE_STAGES[i][j] %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
             <% end %>
-          </div>
-          <div class="m-2">
-            <%= link_to tiramon_adventure_path(id: @tiramon, enemy_class: 1, stage: 1), class: "btn btn-primary w-100" do %>
-              <%= Constants::TIRAMON_ADVENTURE_STAGES[1][1] %>
-            <% end %>
-          </div>
-          <div class="m-2">
-            <%= link_to tiramon_adventure_path(id: @tiramon, enemy_class: 1, stage: 2), class: "btn btn-primary w-100" do %>
-              <%= Constants::TIRAMON_ADVENTURE_STAGES[1][2] %>
-            <% end %>
-          </div>
-        </div>
+          <% end %>
+        <% end %>
 
       </div>
 

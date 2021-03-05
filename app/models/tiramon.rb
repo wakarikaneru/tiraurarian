@@ -111,7 +111,7 @@ class Tiramon < ApplicationRecord
     if adventure_data.present?
       return eval(adventure_data)
     else
-      return {}
+      return {level:{}, stage:{}, enemy:{}}
     end
   end
 
@@ -908,22 +908,67 @@ class Tiramon < ApplicationRecord
       if self.can_adventure?
 
         adventure_data = self.getAdventureData
+        adventure_data_level = adventure_data[:level].nil? ? {} : adventure_data[:level]
+        adventure_data_stage = adventure_data[:stage].nil? ? {} : adventure_data[:stage]
+        adventure_data_enemy = adventure_data[:enemy].nil? ? {} : adventure_data[:enemy]
+
         user = trainer.user
 
         enemy = TiramonEnemy.find_by(id: enemy_id)
         result = Tiramon.battle(self.getData, enemy.getData)
 
+        # 挑戦権がない場合は終了
+        if 1 <= enemy.stage
+          if adventure_data_stage[:"#{enemy.stage - 1}"] != true
+            return nil
+          end
+        end
+
+        # クリア判定
         if result.present?
           if result[:result] == 1
-            if adventure_data[enemy_id] != true
-              adventure_data[enemy_id] = true
+            # 初勝利の場合
+            if adventure_data_enemy[:"#{enemy_id}"] != true
+              adventure_data_enemy[:"#{enemy_id}"] = true
 
-              self.update(adventure_data: adventure_data.to_json)
               user.add_points(Constants::TIRAMON_ADVENTURE_PRIZE[enemy.enemy_class][enemy.stage])
             end
           else
             self.update(adventure_time: Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[enemy.enemy_class][enemy.stage])
           end
+
+          # ステージクリア判定
+          enemies = TiramonEnemy.where(enemy_class: enemy.enemy_class).where(stage: enemy.stage)
+          stage_clear_flag = true
+          enemies.map do |e|
+            if adventure_data_enemy[:"#{e.id}"] != true
+              stage_clear_flag = false
+              break
+            end
+          end
+
+          if stage_clear_flag
+            adventure_data_stage[:"#{enemy.stage}"] = true
+          end
+
+          # レベルクリア判定
+          stages = TiramonEnemy.where(enemy_class: enemy.enemy_class).group(:stage).select(:stage)
+          level_clear_flag = true
+          stages.map do |s|
+            if adventure_data_stage[:"#{s.stage}"] != true
+              level_clear_flag = false
+              break
+            end
+          end
+
+          if level_clear_flag
+            adventure_data_level[:"#{enemy.enemy_class}"] = true
+          end
+
+          adventure_data[:level] = adventure_data_level
+          adventure_data[:stage] = adventure_data_stage
+          adventure_data[:enemy] = adventure_data_enemy
+          self.update(adventure_data: adventure_data.to_json)
 
           return result
         end

@@ -318,6 +318,8 @@ class TiramonsController < ApplicationController
       roster = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).count
       @ranks << ["[" + roster.to_i.to_s + "] " + Constants::TIRAMON_RULE_NAME[rank], rank]
     end
+
+    @enemy_tiramons = TiramonEnemy.all
   end
 
   def edit_move

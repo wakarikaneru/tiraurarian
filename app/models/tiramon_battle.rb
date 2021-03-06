@@ -79,7 +79,7 @@ class TiramonBattle < ApplicationRecord
         if looser.present?
           tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         else
-          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         end
 
         # 挑戦者がいない場合のみ前回挑戦者はも許可

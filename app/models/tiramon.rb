@@ -40,8 +40,8 @@ class Tiramon < ApplicationRecord
     data = template.getData
 
     data[:name] = Gimei.male.kanji
-    data[:physique] = 1 + 0.25 * Tiramon.dist_rand_2(3)
-    data[:bmi] = (24.0 + 12.0 * Tiramon.dist_rand_2(2)) * data[:physique]
+    data[:physique] = 1 + 0.50 * Tiramon.dist_rand_2(3)
+    data[:bmi] = (25.0 + 10.0 * Tiramon.dist_rand(2)) * data[:physique]
     data[:height] = 1.75 + (0.50 * Tiramon.dist_rand_2(3))
     data[:weight] = data[:height] ** 2 * data[:bmi]
 

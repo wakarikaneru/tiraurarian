@@ -413,14 +413,14 @@
         <% levels = ["チャレンジバトル", "Lv1 チラレスの黎明", "Lv2 チラレスの太陽", "Lv3 逢魔時"]%>
         <% TiramonEnemy.all.group(:enemy_class).select(:enemy_class).map do |el| %>
           <% if el.present? %>
-            <% if el.enemy_class == 1 or @adventure_data[:level][:"#{(el.enemy_class - 1).to_s}"] == true %>
+            <% if el.enemy_class <= 1 or @adventure_data[:level][:"#{(el.enemy_class - 1).to_s}"] == true %>
               <div class="hukidasi d-flex flex-column m-2">
                 <h2><%= levels[el.enemy_class] %></h2>
                 <% TiramonEnemy.all.where(enemy_class: el.enemy_class).group(:stage).select(:stage).map do |es| %>
                   <div class="m-2">
                     <% if es.stage == 0 or @adventure_data[:stage][:"#{(es.stage - 1).to_s}"] == true %>
                       <%= link_to tiramon_adventure_path(id: @tiramon, enemy_class: el.enemy_class, stage: es.stage), class: "btn btn-primary w-100" do %>
-                        <%= Constants::TIRAMON_ADVENTURE_STAGES[el.enemy_class][es.stage] %>
+                        <%= Constants::TIRAMON_ADVENTURE_STAGES[es.stage] %>
                       <% end %>
                     <% end %>
                   </div>

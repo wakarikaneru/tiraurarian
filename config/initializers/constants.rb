@@ -178,21 +178,18 @@ module Constants
   TIRAMON_GUTS = ["は根性で踏みとどまった！！！", "はまだ闘える！！！", "は精根尽き果て、なおまだ闘う！！！", "はなぜまだ闘えるのか！！！", "はまだ倒れない！！！" ]
 
   TIRAMON_ADVENTURE_STAGES = [
-    [],
-    ["草の根団体「TWA」", "学生チラレス「チラレス研究会」", "インディー団体「フンバレ☆チラレス」"],
-    ["地方団体「どいなかチラレス」", "大規模インディー団体「LIMBO」", "中堅団体「BABEL」"],
-    ["国内トップ団体「NTTW」", "世界的団体「TWE」", "レジェンド「TWHOF」"],
+    "草の根団体「TWA」", "学生チラレス「チラレス研究会」", "インディー団体「フンバレ☆チラレス」",
+    "地方団体「どいなかチラレス」", "大規模インディー団体「LIMBO」", "中堅団体「BABEL」",
+    "国内トップ団体「NTTW」", "世界的団体「TWE」", "レジェンド「TWHOF」",
   ]
   TIRAMON_ADVENTURE_PRIZE = [
-    [],
-    [1000, 2000, 3000],
-    [5000, 6000, 7000],
-    [25000, 26000, 27000],
+    1000, 2000, 3000,
+    5000, 6000, 7000,
+    25000, 26000, 27000,
   ]
   TIRAMON_ADVENTURE_FAIL_TIME = [
-    [24.hour],
-    [5.minute, 10.minute, 15.minute],
-    [30.minute, 40.minute, 50.minute],
-    [3.hour, 4.hour, 5.hour],
+    5.minute, 10.minute, 15.minute,
+    30.minute, 40.minute, 50.minute,
+    3.hour, 4.hour, 5.hour,
   ]
 end

@@ -1,5 +1,6 @@
 class TiramonTrainer < ApplicationRecord
   belongs_to :user
+  has_many :tiramons
 
   def add_experience(exp)
     increment!(:experience, exp)

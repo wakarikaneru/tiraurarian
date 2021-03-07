@@ -245,16 +245,22 @@ class Tiramon < ApplicationRecord
 
       t_1_weight_balance = [t_2_weight / t_1_weight, 2.0, 0.5].sort.second
       t_2_weight_balance = [t_1_weight / t_2_weight, 2.0, 0.5].sort.second
-
       #ret[:log].push([1, t_1_weight_balance])
       #ret[:log].push([-1, t_2_weight_balance])
+
+      t_1_height = t_1[:height]
+      t_2_height = t_2[:height]
+
+      t_1_height_balance = [t_2_height / t_1_height, 2.0, 0.5].sort.second
+      t_2_height_balance = [t_1_height / t_2_height, 2.0, 0.5].sort.second
+      #ret[:log].push([1, t_1_height_balance])
+      #ret[:log].push([-1, t_2_height_balance])
 
       t_1_pride = Tiramon.get_pride(t_1)
       t_2_pride = Tiramon.get_pride(t_2)
 
       t_1_motivation = [t_2_pride / t_1_pride, 2.0, 0.5].sort.second
       t_2_motivation = [t_1_pride / t_2_pride, 2.0, 0.5].sort.second
-
       #ret[:log].push([1, t_1_motivation])
       #ret[:log].push([-1, t_2_motivation])
 
@@ -262,8 +268,8 @@ class Tiramon < ApplicationRecord
       ret[:log].push([-1, Tiramon.get_message(Constants::TIRAMON_MOTIVATION, t_2_motivation / 2)])
 
 
-      t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_weight_balance * t_1_motivation, 0.0].max
-      t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_weight_balance * t_2_motivation, 0.0].max
+      t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_weight_balance * t_1_height_balance * t_1_motivation, 0.0].max
+      t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_weight_balance * t_2_height_balance * t_2_motivation, 0.0].max
 
       #ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
       #ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])

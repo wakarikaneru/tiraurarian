@@ -7,7 +7,7 @@ class Tiramon < ApplicationRecord
 
     move_list = TiramonMove.first.getData
     tiramon.move = Tiramon.get_moves(tiramon.getData)
-    tiramon.get_move = move_list.pluck(:id).sample(rand(1..5)).sort.difference(Tiramon.get_moves(tiramon.getData))
+    tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
     tiramon.rank = 5
     tiramon.experience = 0
@@ -40,21 +40,22 @@ class Tiramon < ApplicationRecord
     data = template.getData
 
     data[:name] = Gimei.male.kanji
-    data[:bmi] = (28.0 + 6.0 * Tiramon.dist_rand(2))
-    data[:height] = 1.75 + (0.25 * Tiramon.dist_rand(2))
+    data[:physique] = 1 + 0.25 * Tiramon.dist_rand_2(3)
+    data[:bmi] = (24.0 + 12.0 * Tiramon.dist_rand_2(2)) * data[:physique]
+    data[:height] = 1.75 + (0.50 * Tiramon.dist_rand_2(3))
     data[:weight] = data[:height] ** 2 * data[:bmi]
 
     data[:abilities][:vital] = [100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2)]
     data[:abilities][:recovery] = [100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2), 100 + 50 * Tiramon.dist_rand(2)]
     data[:abilities][:speed] = 100 + 50 * Tiramon.dist_rand(2)
-    data[:abilities][:intuition] = Tiramon.power_rand(4)
+    data[:abilities][:intuition] = Tiramon.power_rand(3)
     data[:skills][:attack] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
     data[:skills][:defense] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
 
     data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:speed] = 0.5 + rand(min_power..max_power)
-    data[:train][:abilities][:intuition] = 0.5 + rand(min_power..max_power)
+    data[:train][:abilities][:intuition] = 0.5 + rand()
     data[:train][:skills][:attack] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:skills][:defense] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
 
@@ -68,7 +69,7 @@ class Tiramon < ApplicationRecord
     a.concat(data[:train][:abilities][:vital])
     a.concat(data[:train][:abilities][:recovery])
     a << data[:train][:abilities][:speed]
-    a << data[:train][:abilities][:intuition]
+    # a << data[:train][:abilities][:intuition]
     a.concat(data[:train][:skills][:attack])
     a.concat(data[:train][:skills][:defense])
 
@@ -286,8 +287,11 @@ class Tiramon < ApplicationRecord
         ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_DOUBLE_DOWN, rand())])
 
         # お互い寝っ転がりっぱなしはしょっぱいのでスタミナ回復
-        t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp]
-        t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp]
+        # BMIが正常なほどスタミナ回復にボーナス
+        t_1_bmi_bonus = [(1.0 - ((22.0 - t_1[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
+        t_2_bmi_bonus = [(1.0 - ((22.0 - t_2[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
+        t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp] * (1 + t_1_bmi_bonus)
+        t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp] * (1 + t_2_bmi_bonus)
 
         t_1_recovery = 1
         t_2_recovery = 1
@@ -315,6 +319,8 @@ class Tiramon < ApplicationRecord
 
         attacker_hp = [((1 - attacker[:temp_hp] / attacker[:max_hp]) * 4).to_i, 3].min
         defender_hp = [((1 - defender[:temp_hp] / defender[:max_hp]) * 4).to_i, 3].min
+        weight_effect = (attacker[:weight].to_f / defender[:weight].to_f)
+
         moves = attacker[:moves][attacker_hp][defender_hp]
         move = moves.sample
 
@@ -327,7 +333,6 @@ class Tiramon < ApplicationRecord
 
         3.times { |element|
           skill_effect = (attacker[:attack][element].to_f / defender[:defense][element].to_f)
-          weight_effect = (attacker[:weight].to_f / defender[:weight].to_f)
         	damage[:hp] += move_data[:damage][:hp][element].to_f * skill_effect * weight_effect
         	damage[:thp] += move_data[:damage][:thp][element].to_f * skill_effect * weight_effect
         	damage[:mp] += move_data[:damage][:mp][element].to_f * skill_effect * weight_effect
@@ -441,7 +446,7 @@ class Tiramon < ApplicationRecord
           # SP消費
           attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
           # SP回復
-          defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
+          # defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
 
         else
 
@@ -449,7 +454,6 @@ class Tiramon < ApplicationRecord
 
           # ダメージを与える
           # 体重補正
-          weight_damage = (attacker[:weight].to_f / defender[:weight].to_f)
           #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
 
           kiai_rand = Tiramon.power_rand(2)
@@ -457,10 +461,7 @@ class Tiramon < ApplicationRecord
           kiai_damage = (1.0 + kiai) / 2.0
           #ret[:log].push([turn, kiai_damage.to_s + "気合補正！"])
 
-          bmi_damage = 0.5 + ((22.0 - attacker[:bmi]).abs / 9.0)
-          #ret[:log].push([turn, bmi_damage.to_s + "BMI補正！"])
-
-          random_damage = 1.0 + (rand()-rand()) / 2.0
+          random_damage = 1.0 + Tiramon.dist_rand / 2.0
           #ret[:log].push([turn, random_damage.to_s + "ランダム補正！"])
 
           if 0 < damage_physical
@@ -468,8 +469,8 @@ class Tiramon < ApplicationRecord
             damage_magnification = kiai_damage * random_damage
             #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
 
-            if 1 < weight_damage
-              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_damage - 1) * 2.0, 1.0, 0.0].sort.second)])
+            if 1 < weight_effect
+              ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_effect - 1) * 2.0, 1.0, 0.0].sort.second)])
             end
             ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2.0)])
             if 1 < random_damage
@@ -504,14 +505,13 @@ class Tiramon < ApplicationRecord
           ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (damage_ratio) / 2)])
 
           # 自爆ダメージ
-
           self_damage = move_data[:self_damage]
           attacker[:hp] -= self_damage[:hp]
           attacker[:temp_hp] -= self_damage[:thp] + self_damage[:hp]
-          attacker[:mp] -= self_damage[:mp] * kiai_damage
-          attacker[:temp_mp] -= self_damage[:tmp] + self_damage[:mp] * kiai_damage
-          attacker[:sp] -= (self_damage[:sp]) * kiai_damage * bmi_damage
-          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp]) * kiai_damage * bmi_damage
+          attacker[:mp] -= self_damage[:mp]
+          attacker[:temp_mp] -= self_damage[:tmp] + self_damage[:mp]
+          attacker[:sp] -= (self_damage[:sp])
+          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp])
         end
       else
 
@@ -536,9 +536,12 @@ class Tiramon < ApplicationRecord
         t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min, t[:max_mp]].sort.second
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
 
+        # BMIが正常なほどスタミナ回復にボーナス
+        bmi_bonus = [(1.0 - ((22.0 - t[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
+
         t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
-        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2]
+        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2] * (1 + bmi_bonus)
 
         # 肉体ダメージ由来の大きな精神ダメージを受けた場合、KOになる可能性がある
         if t[:temp_mp] < 0
@@ -597,14 +600,18 @@ class Tiramon < ApplicationRecord
         case training_id
         when 0 then
           v = d[:weight]
-          e = [(d[:height] ** 2 * 40) - v, 0.0].max * 0.10 * random_efficiency
+          p = d[:physique]
+
+          e = [(d[:height] ** 2 * 30) * p - v, 0.0].max * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
           t = {name: "増量", effect: "体重 +" + amount.floor(2).to_s }
         when 1 then
           v = d[:weight]
-          e = [(d[:height] ** 2 * 20) - v, 0.0].min * 0.10 * random_efficiency
+          p = d[:physique]
+
+          e = [(d[:height] ** 2 * 20) * p - v, 0.0].min * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
@@ -825,7 +832,7 @@ class Tiramon < ApplicationRecord
 
         move_list = TiramonMove.first.getData
 
-        r = rand(1..5)
+        r = rand(3..6)
         t = {name: "技をひらめく", effect: r.to_s + "個の技をひらめいた" }
 
         self.get_move = move_list.pluck(:id).difference(self.getMove).sample(r).sort
@@ -931,10 +938,10 @@ class Tiramon < ApplicationRecord
             if adventure_data_enemy[:"#{enemy_id}"] != true
               adventure_data_enemy[:"#{enemy_id}"] = true
 
-              user.add_points(Constants::TIRAMON_ADVENTURE_PRIZE[enemy.enemy_class][enemy.stage])
+              user.add_points(Constants::TIRAMON_ADVENTURE_PRIZE[enemy.stage])
             end
           else
-            self.update(adventure_time: Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[enemy.enemy_class][enemy.stage])
+            self.update(adventure_time: Time.current + Constants::TIRAMON_ADVENTURE_FAIL_TIME[enemy.stage])
           end
 
           # ステージクリア判定
@@ -1033,6 +1040,17 @@ class Tiramon < ApplicationRecord
       a.push(r.rand() - r.rand())
     end
     return a.sum / a.length
+  end
+
+  # マイナスに振れたら値が半分になるdist_rand（身長、BMI用）
+  def self.dist_rand_2(n = 1)
+    a = []
+    r = Random.new
+    n.times do
+      a.push(r.rand() - r.rand())
+    end
+    ret = a.sum / a.length
+    return ret < 0 ? ret / 2 : ret
   end
 
   def self.power_rand(n = 1)

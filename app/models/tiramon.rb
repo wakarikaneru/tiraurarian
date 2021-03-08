@@ -41,7 +41,7 @@ class Tiramon < ApplicationRecord
 
     data[:name] = Gimei.male.kanji
     data[:physique] = 1 + 0.50 * Tiramon.dist_rand_2(3)
-    data[:bmi] = (25.0 + 10.0 * Tiramon.dist_rand(2)) * data[:physique]
+    data[:bmi] = (25.0 + 5.0 * Tiramon.dist_rand(2)) * data[:physique]
     data[:height] = 1.75 + (0.50 * Tiramon.dist_rand_2(3))
     data[:weight] = data[:height] ** 2 * data[:bmi]
 
@@ -69,7 +69,7 @@ class Tiramon < ApplicationRecord
     a.concat(data[:train][:abilities][:vital])
     a.concat(data[:train][:abilities][:recovery])
     a << data[:train][:abilities][:speed]
-    # a << data[:train][:abilities][:intuition]
+    a << data[:train][:abilities][:intuition]
     a.concat(data[:train][:skills][:attack])
     a.concat(data[:train][:skills][:defense])
 

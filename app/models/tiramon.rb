@@ -293,11 +293,11 @@ class Tiramon < ApplicationRecord
         ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_DOUBLE_DOWN, rand())])
 
         # お互い寝っ転がりっぱなしはしょっぱいのでスタミナ回復
-        # BMIが正常なほどスタミナ回復にボーナス
-        t_1_bmi_bonus = [(1.0 - ((22.0 - t_1[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
-        t_2_bmi_bonus = [(1.0 - ((22.0 - t_2[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
-        t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp] * (1 + t_1_bmi_bonus)
-        t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp] * (1 + t_2_bmi_bonus)
+        # BMIが異常なほどスタミナ回復が遅い
+        t_1_bmi_damage = [((22.0 - t_1[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
+        t_2_bmi_damage = [((22.0 - t_2[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
+        t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp] * (1 - t_1_bmi_damage)
+        t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp] * (1 - t_2_bmi_damage)
 
         t_1_recovery = 1
         t_2_recovery = 1
@@ -542,12 +542,15 @@ class Tiramon < ApplicationRecord
         t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min, t[:max_mp]].sort.second
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
 
-        # BMIが正常なほどスタミナ回復にボーナス
-        bmi_bonus = [(1.0 - ((22.0 - t[:bmi]).abs / 9.0)) * 0.5, -0.5, 0.5].sort.second
+        # 体重が軽いほど体力回復が早い
+        weight_recovery_effect = [100.0 / t[:weight], 0.5, 2.0].sort.second
 
-        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
+        # BMIが異常なほどスタミナ回復が遅い
+        bmi_damage = [((22.0 - t[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
+
+        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0] * weight_recovery_effect
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
-        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2] * (1 + bmi_bonus)
+        t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2] * (1 - bmi_damage)
 
         # 肉体ダメージ由来の大きな精神ダメージを受けた場合、KOになる可能性がある
         if t[:temp_mp] < 0

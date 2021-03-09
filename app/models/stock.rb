@@ -81,9 +81,9 @@ class Stock < ApplicationRecord
       appearance_economy_f = dist_rand(1) * 200.0
     else
       economy_f = economy_f + (dist_rand(3) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      economy_f = economy_f - (economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      economy_f = economy_f - (economy_f * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
       appearance_economy_f = appearance_economy_f + (dist_rand(3) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     end
 
     economy.update(value: economy_f.to_s)
@@ -95,16 +95,12 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
-      price_target_f = price_target_f + price_target_f * dist_rand(1) * 0.5
-    else
-      price_target_f = price_target_f + economy_f * coefficient_f * 0.1
-    end
+    price_target_f = price_target_f + (economy_f * coefficient_f * 0.1)
     price_target.update(value: price_target_f.to_s)
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     price_f = price_f + ((price_target_f - price_f) * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + dist_rand(10) * (price_target_f / 2.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_f = price_f + dist_rand(5) * (price_target_f / 5.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
 
     price.update(value: price_f.to_s)
     stock_log.set_point(price_f.to_i)
@@ -187,8 +183,9 @@ class Stock < ApplicationRecord
 
   def self.dist_rand(n = 1)
     a = []
+    r = Random.new
     n.times do
-      a.push(Random.rand - Random.rand)
+      a.push(r.rand() - r.rand())
     end
     return a.sum / a.length
   end

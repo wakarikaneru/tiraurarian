@@ -29,4 +29,7 @@ namespace :tiramon_battle_match_make do
       TiramonBattle.match_make(5)
     end
   end
+  task ranked_match: :environment do
+    TiramonBattle.ranked_match
+  end
 end

@@ -1,0 +1,41 @@
+<div class="title">試合結果</div>
+
+<%= render partial: "/layouts/tiramon_nav" %>
+
+<div class="tweet-container-list">
+
+  <div class="hukidasi m-2">
+    <h1>ランクマッチ</h1>
+    <h3>試合結果(最新<%= @battles.count %>件)</h3>
+    <% if @battles.present? %>
+      <% @battles.map do |battle| %>
+          <div class="content d-flex justify-content-center">
+            <div class="content-content text-center">
+              <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="flex-shrink-0 mx-1">
+                  <%= battle.datetime.strftime("%m月%d日 %H:%M") %>
+                </div>
+                <div class="flex-shrink-1 mx-1 text-center">
+                  <div>
+                    <%= link_to battle, class: "d-flex flex-row flex-wrap justify-content-center" do %>
+                      <div><%= battle.blue_tiramon_name %></div>
+                      <div>&ensp;vs&ensp;</div>
+                      <div><%= battle.red_tiramon_name %></div><% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    <% else %>
+      <div class="content d-flex flex-wrap justify-content-center m-2">
+        <div class="text-center">
+          まだありません。
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+
+<%= render partial: "/layouts/tiramon_nav" %>

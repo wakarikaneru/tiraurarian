@@ -512,12 +512,12 @@ class Tiramon < ApplicationRecord
 
           # 自爆ダメージ
           self_damage = move_data[:self_damage]
-          attacker[:hp] -= self_damage[:hp]
-          attacker[:temp_hp] -= self_damage[:thp] + self_damage[:hp]
-          attacker[:mp] -= self_damage[:mp]
-          attacker[:temp_mp] -= self_damage[:tmp] + self_damage[:mp]
-          attacker[:sp] -= (self_damage[:sp])
-          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp])
+          attacker[:hp] -= self_damage[:hp] * kiai_damage
+          attacker[:temp_hp] -= (self_damage[:thp] + self_damage[:hp]) * kiai_damage
+          attacker[:mp] -= self_damage[:mp] * kiai_damage
+          attacker[:temp_mp] -= (self_damage[:tmp] + self_damage[:mp]) * kiai_damage
+          attacker[:sp] -= (self_damage[:sp]) * kiai_damage
+          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp]) * kiai_damage
         end
       else
 

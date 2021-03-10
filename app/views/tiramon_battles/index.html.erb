@@ -262,6 +262,11 @@
         試合結果を見る
       <% end %>
     </div>
+    <div class="m-2">
+      <%= link_to tiramon_battle_rank_results_path, class: "btn btn-primary w-100" do %>
+        ランクマッチ結果
+      <% end %>
+    </div>
   </div>
 
   <div class="hukidasi">
@@ -269,6 +274,11 @@
     <div class="m-2">
       <%= link_to tiramons_path, class: "btn btn-primary w-100" do %>
         出場選手一覧を見る
+      <% end %>
+    </div>
+    <div class="m-2">
+      <%= link_to tiramon_ranks_path, class: "btn btn-primary w-100" do %>
+        ランキングを見る
       <% end %>
     </div>
   </div>

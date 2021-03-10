@@ -11,6 +11,11 @@ class TiramonsController < ApplicationController
     end
   end
 
+  def ranks
+    @tiramons = Tiramon.where.not(auto_rank: nil).where.not(tiramon_trainer: nil).order(auto_rank: :asc)
+
+  end
+
   def adventure
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
 

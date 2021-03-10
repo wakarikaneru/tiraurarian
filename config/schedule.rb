@@ -76,7 +76,7 @@ every 10.minutes do
   rake 'tiramon_battle_match_make:under_match'
 end
 
-every 5.minutes do
+every 10.minutes do
   rake 'tiramon_battle_match_make:ranked_match'
 end
 

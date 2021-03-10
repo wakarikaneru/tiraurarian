@@ -243,7 +243,7 @@ class TiramonBattle < ApplicationRecord
       battle = TiramonBattle.generate(-1, t_1, t_2, Time.current)
       battle.set_result
 
-      News.generate(2, 5.minute.since, "【チラモン】#{battle.red_tiramon_name}(#{battle.red_tiramon.auto_rank}位) vs #{battle.blue_tiramon_name}(#{battle.blue_tiramon.auto_rank}位)のランクマッチが行われた。")
+      News.generate(1, 5.minute.since, "【チラモン】#{battle.red_tiramon_name}(#{battle.red_tiramon.auto_rank}位) vs #{battle.blue_tiramon_name}(#{battle.blue_tiramon.auto_rank}位)のランクマッチが行われた。")
 
       ranks = [t_1.auto_rank, t_2.auto_rank].sort
       if battle.result == 1

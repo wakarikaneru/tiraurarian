@@ -18,11 +18,9 @@ class TiramonBattle < ApplicationRecord
       battle.blue_tiramon_name = t_1.getData[:name]
 
       battle.save!
-
-      if rank.in?([0, 1, 2])
-        News.generate(1, datetime, "【チラモン】#{Constants::TIRAMON_RULE_NAME[rank]}のカードが決定。#{battle.red_tiramon_name} vs #{battle.blue_tiramon_name}。")
-      end
+      return battle
     end
+    return nil
   end
 
   def set_result()
@@ -188,8 +186,75 @@ class TiramonBattle < ApplicationRecord
 
     champion = tiramons[0]
     tiramon = tiramons[1]
+    datetime = Constants::TIRAMON_FIGHT_TERM[rank].since
 
-    TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
+    if champion.present? and tiramon.present?
+      battle = TiramonBattle.generate(rank, tiramon, champion, datetime)
+
+      if rank.in?([0, 1, 2])
+        News.generate(1, datetime, "【チラモン】#{Constants::TIRAMON_RULE_NAME[rank]}のカードが決定。#{battle.red_tiramon_name} vs #{battle.blue_tiramon_name}。")
+      end
+    end
+  end
+
+  def self.ranked_match()
+    # 参加資格のあるチラモン
+    tiramons = Tiramon.where.not(rank: 6).where.not(tiramon_trainer: nil)
+    tiramons_count = tiramons.count
+
+    # 欠場しているチラモンからランクを剥奪する
+    miss_tiramons = Tiramon.where(rank: 6).where.not(tiramon_trainer: nil)
+
+    miss_tiramons.find_each do |tiramon|
+      tiramon.update(auto_rank: nil)
+    end
+
+    # 未ランクのチラモンにランクを付ける
+    unranked_tiramons = tiramons.where(auto_rank: nil)
+    max_rank = tiramons.maximum(:auto_rank)
+    max_rank = max_rank ? max_rank : 0
+
+    i = 0
+    unranked_tiramons.find_each do |tiramon|
+      i = i + 1
+      tiramon.update(auto_rank: max_rank + i)
+    end
+
+    # ランクの空位を圧縮する
+    i = 0
+    tiramons.find_each do |tiramon|
+      i += 1
+      tiramon.update(auto_rank: i)
+    end
+
+    range_width = [(tiramons_count / 10).to_i, 1].max
+    t_1 = tiramons.sample
+    range = (t_1.auto_rank - range_width)..(t_1.auto_rank + range_width)
+    t_2 = tiramons.where(auto_rank: range).where.not(id: t_1.id).sample
+
+    if t_1.present? and t_2.present?
+
+      if t_1.auto_rank < t_2.auto_rank
+        t_3 = t_1
+        t_1 = t_2
+        t_2 = t_3
+      end
+
+      battle = TiramonBattle.generate(-1, t_1, t_2, Time.current)
+      battle.set_result
+
+      News.generate(2, 5.minute.since, "【チラモン】#{battle.red_tiramon_name}(#{battle.red_tiramon.auto_rank}位) vs #{battle.blue_tiramon_name}(#{battle.blue_tiramon.auto_rank}位)のランクマッチが行われた。")
+
+      ranks = [t_1.auto_rank, t_2.auto_rank].sort
+      if battle.result == 1
+        t_1.update(auto_rank: ranks[0])
+        t_2.update(auto_rank: ranks[1])
+      elsif battle.result == -1
+        t_1.update(auto_rank: ranks[1])
+        t_2.update(auto_rank: ranks[0])
+      end
+
+    end
   end
 
   def self.prize()

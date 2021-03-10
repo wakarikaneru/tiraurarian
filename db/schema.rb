@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_170324) do
+ActiveRecord::Schema.define(version: 2021_03_10_095544) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_170324) do
 
   create_table "tiramon_moves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.text "data"
+    t.text "data", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "move_id"

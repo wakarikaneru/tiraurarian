@@ -146,7 +146,7 @@ class Stock < ApplicationRecord
     name = Control.find_or_create_by(key: "company_name")
     # 倒産を通知
     Stock.find_each do |stock|
-      if 0 < stock.number
+      if 0 < stock.number and stock.user.present?
         Notice.generate(stock.user.id, 0, name.value, "#{name.value}は倒産いたしました。")
       end
     end

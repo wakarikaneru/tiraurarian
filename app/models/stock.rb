@@ -60,7 +60,7 @@ class Stock < ApplicationRecord
   end
 
   def self.determine
-    StockLog.where(point: nil).where("datetime < ?", Time.current).order(datetime: :desc).map do |log|
+    StockLog.where(point: nil).where("datetime < ?", Time.current).order(datetime: :asc).map do |log|
       Stock.set_log(log)
     end
   end
@@ -77,13 +77,13 @@ class Stock < ApplicationRecord
     appearance_economy_f = appearance_economy.value.to_f
 
     if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
-      economy_f = dist_rand(1) * 200.0
-      appearance_economy_f = dist_rand(1) * 200.0
+      economy_f = dist_rand(1) * 20.0
+      appearance_economy_f = dist_rand(1) * 20.0
     else
       economy_f = economy_f + (dist_rand(3) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      economy_f = economy_f - (economy_f * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      economy_f = economy_f - (economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
       appearance_economy_f = appearance_economy_f + (dist_rand(3) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.01) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     end
 
     economy.update(value: economy_f.to_s)
@@ -139,6 +139,7 @@ class Stock < ApplicationRecord
     News.generate(1, Time.current + 10.minute, "【株】#{name.value}が上場。売出価格は#{price.value.to_i.to_s}va。")
 
     Stock.fluctuation
+    Stock.determine
   end
 
   # 倒産

@@ -446,10 +446,11 @@ class Tiramon < ApplicationRecord
         end
 
         if rand() < fail
-
+          # 攻撃がかわされた
           ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_FAIL_ATTACK, rand())])
 
           # SP消費
+          attacker[:sp] -= attacker[:sp] / 40.0
           attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
           # SP回復
           # defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0

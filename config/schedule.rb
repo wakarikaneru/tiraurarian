@@ -80,6 +80,10 @@ every 10.minutes do
   rake 'tiramon_battle_match_make:ranked_match'
 end
 
+every 1.minutes do
+  rake 'tiramon_battle:complete'
+end
+
 every 1.days, at: '00:05' do
   rake 'tiramon_battle_payment:tiramon_battle_payment'
 end

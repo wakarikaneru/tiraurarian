@@ -14,6 +14,7 @@ class Tiramon < ApplicationRecord
     tiramon.act = Time.current
     tiramon.get_limit = 30.minute.since
     tiramon.right = trainer.id
+    tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
 
     tiramon.save!
     return tiramon
@@ -22,7 +23,7 @@ class Tiramon < ApplicationRecord
   def get?(trainer = TiramonTrainer.none)
     if right == trainer.id and Time.current < get_limit
       if trainer.use_ball?
-        update(right: nil, tiramon_trainer_id: trainer.id)
+        update(right: nil, tiramon_trainer_id: trainer.id, bonus_time: 30.minute.since)
         return true
       else
         return false
@@ -734,7 +735,7 @@ class Tiramon < ApplicationRecord
         self.training_text = t.to_json
         self.save!
 
-        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        set_act
         return true
       end
     end
@@ -829,7 +830,7 @@ class Tiramon < ApplicationRecord
         self.training_text = t.to_json
         self.save!
 
-        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        set_act
         return true
       end
     end
@@ -849,7 +850,7 @@ class Tiramon < ApplicationRecord
         self.training_text = t.to_json
         self.save!
 
-        update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+        set_act
         return true
       end
     end
@@ -995,6 +996,10 @@ class Tiramon < ApplicationRecord
     return nil
   end
 
+  def if_bonus?()
+    return (!bonus_time.nil? and Time.current < bonus_time)
+  end
+
   def can_act?()
     return ((act.nil? or act < Time.current) and !adjust?)
   end
@@ -1009,6 +1014,14 @@ class Tiramon < ApplicationRecord
 
   def can_adventure?()
     return (adventure_time.nil? or adventure_time < Time.current)
+  end
+
+  def set_act
+    if if_bonus?
+      update(act: Time.current + Constants::TIRAMON_TRAINING_BONUS_TERM)
+    else
+      update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+    end
   end
 
   # 試合を完了する

@@ -89,7 +89,7 @@ class User < ApplicationRecord
     all_count = all_user.count
     Control.find_or_create_by(key: "all_users").update(value: all_count.to_s)
 
-    max_pt = 10000000 + (all_count * (10000 * (1.0 + all_count / 100.0)))
+    max_pt = User.max_varth
 
     all_pt = Point.all.sum(:point)
     Control.find_or_create_by(key: "all_point").update(value: all_pt.to_s)
@@ -126,7 +126,7 @@ class User < ApplicationRecord
     all_user = User.all
     all_count = all_user.count
 
-    max_pt = 10000000 + (all_count * 10000)
+    max_pt = User.max_varth
     all_pt = Point.all.sum(:point)
     d_pt = [0, all_pt - max_pt].max
     over_ratio = d_pt.to_f / (d_pt.to_f + max_pt.to_f)
@@ -146,6 +146,13 @@ class User < ApplicationRecord
     end
 
     News.generate(3, Time.current + 10.minute, "【チラウラリア】チラウラリア税を徴収しました。#{Constants::TAX_MOTTO.sample}")
+  end
+
+  # VARTH流通量調整
+  def self.max_varth
+    all_user = User.all
+    all_count = all_user.count
+    return 10000000 + (all_count * (10000 * (1.0 + all_count / 100.0)))
   end
 
   private

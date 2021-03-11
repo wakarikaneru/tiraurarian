@@ -81,6 +81,9 @@
     <div class="hukidasi width-full word-break">
       <h1>チラモン育成</h1>
       <h5>育成すると、次の育成まで3時間かかります</h5>
+      <% if @if_bonus %>
+        <h5>スタートダッシュボーナス！！あと<%= distance_of_time_in_words_to_now(@tiramon.bonus_time) %>間だけ、育成にかかる時間が3分になります！！</h5>
+      <% end %>
       <h5>試合が決定すると、試合後まで育成できません。</h5>
       <div class="d-flex flex-row flex-wrap">
 

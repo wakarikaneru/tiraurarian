@@ -39,7 +39,7 @@ class TiramonsController < ApplicationController
   def scout
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
     if @tiramon_trainer.move?
-      @tiramon = Tiramon.generate(@tiramon_trainer, 10, 30)
+      @tiramon = Tiramon.generate(@tiramon_trainer, 0, 20)
       @data = @tiramon.getData
       @disp_data = Tiramon.getBattleData(@data)
       @about = [(100 - @tiramon_trainer.level) / 10, 10, 1].sort.second
@@ -306,6 +306,7 @@ class TiramonsController < ApplicationController
 
     @can_act = @tiramon.can_act?
     @adjust = @tiramon.adjust?
+    @if_bonus = @tiramon.if_bonus?
 
     @training = @tiramon.getTrainingText
 

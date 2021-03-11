@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_10_095544) do
+ActiveRecord::Schema.define(version: 2021_03_11_064543) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 2021_03_10_095544) do
     t.integer "auto_rank"
     t.text "adventure_data"
     t.datetime "adventure_time"
+    t.datetime "bonus_time"
   end
 
   create_table "tweets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

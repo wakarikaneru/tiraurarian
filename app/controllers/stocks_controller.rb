@@ -19,17 +19,17 @@ class StocksController < ApplicationController
     economy_f = Control.find_by(key: "stock_economy").value.to_f
     economy_f += Control.find_by(key: "stock_appearance_economy").value.to_f
 
-    if 10 < economy_f
+    if 100 < economy_f
       @economy = "バブル景気"
-    elsif 5 < economy_f
+    elsif 50 < economy_f
       @economy = "超景気"
-    elsif 1 < economy_f
+    elsif 10 < economy_f
       @economy = "好景気"
-    elsif economy_f < -10
+    elsif economy_f < -100
       @economy = "世界恐慌"
-    elsif economy_f < -5
+    elsif economy_f < -50
       @economy = "深刻な不景気"
-    elsif economy_f < -1
+    elsif economy_f < -10
       @economy = "不景気"
     else
       @economy = "普通"

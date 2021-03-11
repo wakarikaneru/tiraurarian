@@ -215,14 +215,15 @@ class TiramonBattle < ApplicationRecord
     max_rank = max_rank ? max_rank : 0
 
     i = 0
-    unranked_tiramons.find_each do |tiramon|
+    unranked_tiramons.each do |tiramon|
       i = i + 1
       tiramon.update(auto_rank: max_rank + i)
     end
 
     # ランクの空位を圧縮する
+    tiramons = tiramons.order(auto_rank: :asc)
     i = 0
-    tiramons.find_each do |tiramon|
+    tiramons.each do |tiramon|
       i += 1
       tiramon.update(auto_rank: i)
     end

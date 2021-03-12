@@ -359,7 +359,7 @@ class TweetsController < ApplicationController
   end
 
   def study
-    num = params[:num] ? params[:num].to_i : 0
+    num = params[:num] ? params[:num].to_i : 100
     num = [num, 10, 10000].sort.second
     user = params[:user] ? params[:user].to_i : nil
     if !user.nil?

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :tweets
   get 'tweets_async', to: 'tweets#async'
+  get 'leaning/study', to: 'tweets#study'
   resources :texts
   resources :tags
   resources :bookmarks

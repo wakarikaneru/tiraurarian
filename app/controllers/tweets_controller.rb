@@ -358,6 +358,11 @@ class TweetsController < ApplicationController
     render partial: "layouts/tweets_async"
   end
 
+  def study
+    @tweets = Tweet.all.order(id: :desc).limit(1000)
+    render partial: "tweets/study"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet

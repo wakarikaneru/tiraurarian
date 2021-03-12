@@ -359,7 +359,14 @@ class TweetsController < ApplicationController
   end
 
   def study
-    @tweets = Tweet.all.order(id: :desc).limit(1000)
+    num = params[:num] ? params[:num].to_i : 0
+    num = [num, 10, 10000].sort.second
+    user = params[:user] ? params[:user].to_i : nil
+    if !user.nil?
+      @tweets = Tweet.where(user_id: user).order(id: :desc).limit(num)
+    else
+      @tweets = Tweet.all.order(id: :desc).limit(num)
+    end
     render partial: "tweets/study"
   end
 

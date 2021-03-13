@@ -1026,9 +1026,13 @@ class Tiramon < ApplicationRecord
 
   # 試合を完了する
   def self.complete_battles
-    incomplete_battles = TiramonBattle.where(result: nil).where("datetime < ?", Time.current)
-    incomplete_battles.find_each do |battle|
-      battle.set_result
+    while true do
+      battle = TiramonBattle.where(result: nil).where("datetime < ?", Time.current).order(datetime: :asc).first
+      if battle.present?
+        battle.set_result
+      else
+        break
+      end
     end
   end
 

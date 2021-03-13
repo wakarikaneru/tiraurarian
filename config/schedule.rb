@@ -44,6 +44,9 @@ end
 every 1.minutes do
   rake 'stock_fluctuation:stock_fluctuation'
 end
+every 1.minutes do
+  runner "StockJob.perform_later"
+end
 
 every 10.minutes do
   rake 'refresh_environment:refresh_environment'
@@ -70,6 +73,10 @@ every 20.minutes do
 end
 every 10.minutes do
   rake 'tiramon_battle_match_make:under_match'
+end
+
+every 1.minutes do
+  runner "TiramonBattleJob.perform_later"
 end
 
 every 10.minutes do

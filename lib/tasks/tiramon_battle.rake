@@ -2,8 +2,7 @@ namespace :tiramon_battle do
   desc "tiramon_battle"
   task complete: :environment do
     while true do
-      incomplete_battles = TiramonBattle.where(result: nil).where("datetime < ?", Time.current).order(datetime: :asc)
-      battle = incomplete_battles.first
+      battle = TiramonBattle.where(result: nil).where("datetime < ?", Time.current).order(datetime: :asc).first
       if battle.present?
         battle.set_result
       else

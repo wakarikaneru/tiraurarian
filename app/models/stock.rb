@@ -46,22 +46,33 @@ class Stock < ApplicationRecord
 
   # 株価変動
   def self.fluctuation
-    recent_stock = StockLog.order(datetime: :desc).first
+    recent_stock = StockLog.where("? < datetime", 1.hour.ago).order(datetime: :desc).first
     if recent_stock.blank?
       recent_stock = StockLog.generate(Time.current)
     end
 
     datetime = recent_stock.datetime
-    buffer_time = Time.current + 5.minute
+    buffer_time = Time.current + 3.minute
     while datetime < buffer_time  do
       datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
-      StockLog.generate(datetime)
+      # 非同期周り
+      if StockLog.where("? < datetime", datetime).present?
+        break
+      else
+        StockLog.generate(datetime)
+      end
     end
   end
 
   def self.determine
-    StockLog.where(point: nil).where("datetime < ?", Time.current).order(datetime: :asc).map do |log|
-      Stock.set_log(log)
+    while true do
+      log = StockLog.where(point: nil).where("datetime < ?", Time.current).order(datetime: :asc).first
+      # 非同期周り
+      if log.present?
+        Stock.set_log(log)
+      else
+        break
+      end
     end
   end
 

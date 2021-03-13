@@ -46,10 +46,6 @@ every 1.minutes do
 end
 
 every 10.minutes do
-  rake 'stock_fluctuation:determine'
-end
-
-every 10.minutes do
   rake 'refresh_environment:refresh_environment'
 end
 

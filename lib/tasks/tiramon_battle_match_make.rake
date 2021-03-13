@@ -3,8 +3,9 @@ namespace :tiramon_battle_match_make do
   task mania: :environment do
     TiramonBattle.match_make(0)
 
-    TiramonBet.bet(nil, 1, 10000)
-    TiramonBet.bet(nil, -1, 10000)
+    battle = TiramonBattle.where(rank: 0).order(datetime: :desc).first
+    TiramonBet.generate(battle, nil, 1, 10000)
+    TiramonBet.generate(battle, nil, -1, 10000)
   end
   task championship: :environment do
     TiramonBattle.match_make(1)

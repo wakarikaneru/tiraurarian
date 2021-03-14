@@ -1,5 +1,5 @@
 class CreateThumbJob < ApplicationJob
-  queue_as :default
+  queue_as :thumb
 
   def perform(key)
     thumb = Thumb.new

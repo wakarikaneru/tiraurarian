@@ -1,5 +1,5 @@
 class AccessLogJob < ApplicationJob
-  queue_as :default
+  queue_as :access_log
 
   def perform(access_datetime, ip_address, url, method, referer, user_id)
     access_count = Control.find_or_create_by(key: "access_count")

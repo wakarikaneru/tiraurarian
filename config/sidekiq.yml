@@ -1,4 +1,11 @@
+:verbose: false
+:concurrency: 5
+:timeout: 30
+
 :queues:
   - access_log
   - thumb
+  - stock
+  - stock_determine
+  - tiramon_battle
   - default

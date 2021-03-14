@@ -1,5 +1,5 @@
-class StockJob
-  include Sidekiq::Worker
+class StockJob < ApplicationJob
+  queue_as :stock
 
   def perform()
     Stock.fluctuation

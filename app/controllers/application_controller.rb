@@ -96,10 +96,7 @@ class ApplicationController < ActionController::Base
       if Rails.env == 'development'
       else
         key = Date.today.to_s + ":" + request.remote_ip
-        if Thumb.find_by(key: key).present?
-        else
-          CreateThumbJob.perform_later(key)
-        end
+        CreateThumbJob.perform_later(key)
       end
     end
 

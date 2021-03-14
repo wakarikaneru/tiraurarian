@@ -48,6 +48,9 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+# environment
+gem 'dotenv-rails'
+
 # Queue
 gem 'sidekiq'
 

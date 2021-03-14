@@ -41,12 +41,12 @@ every 1.hours do
   rake 'distribute_points:distribute_points'
 end
 
-#every 1.minutes do
-#  runner "StockDetermineJob.perform_later"
-#end
-#every 1.minutes do
-#  runner "StockJob.perform_later"
-#end
+every 1.minutes do
+  runner "StockDetermineJob.perform_async"
+end
+every 1.minutes do
+  runner "StockJob.perform_async"
+end
 
 every 10.minutes do
   rake 'refresh_environment:refresh_environment'
@@ -76,7 +76,7 @@ every 10.minutes do
 end
 
 every 1.minutes do
-  runner "TiramonBattleJob.perform_later"
+  runner "TiramonBattleJob.perform_async"
 end
 
 every 10.minutes do

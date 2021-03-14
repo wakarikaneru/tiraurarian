@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
         else
           user_id = 0
         end
-        AccessLogJob.perform_async(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
+        AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
       end
     end
 
@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
         key = Date.today.to_s + ":" + request.remote_ip
         if Thumb.find_by(key: key).present?
         else
-          CreateThumbJob.perform_async(key)
+          CreateThumbJob.perform_later(key)
         end
       end
     end

@@ -1,0 +1,4 @@
+:queues:
+  - access_log
+  - thumb
+  - default

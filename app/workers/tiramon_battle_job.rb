@@ -1,5 +1,5 @@
-class TiramonBattleJob < ApplicationJob
-  queue_as :tiramon
+class TiramonBattleJob
+  include Sidekiq::Worker
 
   def perform()
     while true do

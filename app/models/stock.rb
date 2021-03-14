@@ -60,9 +60,9 @@ class Stock < ApplicationRecord
   end
 
   def self.determine
-    StockLog.where(point: nil).where("? < datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc).each do |log|
-      Stock.set_log(log)
-    end
+    #StockLog.where(point: nil).where("? < datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc).each do |log|
+    #  Stock.set_log(log)
+    #end
   end
 
   def self.set_log(stock_log)

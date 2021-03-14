@@ -42,10 +42,10 @@ every 1.hours do
 end
 
 every 1.minutes do
-  rake 'stock_fluctuation:stock_fluctuation'
+  runner "StockDetermineJob.perform_async"
 end
 every 1.minutes do
-  runner "StockJob.perform_later"
+  runner "StockJob.perform_async"
 end
 
 every 10.minutes do
@@ -76,7 +76,7 @@ every 10.minutes do
 end
 
 every 1.minutes do
-  runner "TiramonBattleJob.perform_later"
+  runner "TiramonBattleJob.perform_async"
 end
 
 every 10.minutes do

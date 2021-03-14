@@ -80,6 +80,6 @@ class StocksController < ApplicationController
 
   private
     def determine
-      Stock.determine
+      #Stock.determine
     end
 end

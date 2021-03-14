@@ -1,7 +1,7 @@
-class StockJob
+class StockDetermineJob
   include Sidekiq::Worker
 
   def perform()
-    Stock.fluctuation
+    Stock.determine
   end
 end

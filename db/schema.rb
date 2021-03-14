@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_11_064543) do
+ActiveRecord::Schema.define(version: 2021_03_14_052634) do
 
   create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -190,6 +190,15 @@ ActiveRecord::Schema.define(version: 2021_03_11_064543) do
     t.datetime "datetime"
     t.integer "load"
     t.integer "users"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stock_companies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.float "price_target"
+    t.float "price"
+    t.float "coefficient"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

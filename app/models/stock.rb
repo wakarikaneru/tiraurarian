@@ -55,25 +55,14 @@ class Stock < ApplicationRecord
     buffer_time = Time.current + 3.minute
     while datetime < buffer_time  do
       datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
-      # 非同期周り
-      if StockLog.where("? < datetime", datetime).present?
-        break
-      else
-        StockLog.generate(datetime)
-      end
+      StockLog.generate(datetime)
     end
   end
 
   def self.determine
-    while true do
-      log = StockLog.where(point: nil).where("datetime < ?", Time.current).order(datetime: :asc).first
-      # 非同期周り
-      if log.present?
-        Stock.set_log(log)
-      else
-        break
-      end
-    end
+    #StockLog.where(point: nil).where("? < datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc).each do |log|
+    #  Stock.set_log(log)
+    #end
   end
 
   def self.set_log(stock_log)
@@ -81,11 +70,13 @@ class Stock < ApplicationRecord
     price = Control.find_or_create_by(key: "stock_price")
     price_f = price.value.to_f
 
-    economy = Control.find_or_create_by(key: "stock_economy")
-    economy_f = economy.value.to_f
+    #economy = Control.find_or_create_by(key: "stock_economy")
+    #economy_f = economy.value.to_f
+    economy_f = 0
 
-    appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
-    appearance_economy_f = appearance_economy.value.to_f
+    #appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
+    #appearance_economy_f = appearance_economy.value.to_f
+    appearance_economy_f = 0
 
     if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
       economy_f = dist_rand(1) * 200.0
@@ -97,22 +88,22 @@ class Stock < ApplicationRecord
       appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     end
 
-    economy.update(value: economy_f.to_s)
-    appearance_economy.update(value: appearance_economy_f.to_s)
-
-    coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
-    coefficient_f = coefficient.value.to_f
+    #coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
+    #coefficient_f = coefficient.value.to_f
+    coefficient_f = 1
 
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    price_target_f = price_target_f + (economy_f * coefficient_f * 0.1) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_target.update(value: price_target_f.to_s)
+    #price_target_f = price_target_f + (economy_f * coefficient_f * 0.1) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     price_f = price_f + ((price_target_f - price_f) * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
     price_f = price_f + dist_rand(5) * (price_target_f / 5.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
 
+    #economy.update(value: economy_f.to_s)
+    #appearance_economy.update(value: appearance_economy_f.to_s)
+    #price_target.update(value: price_target_f.to_s)
     price.update(value: price_f.to_s)
     stock_log.set_point(price_f.to_i)
 
@@ -128,6 +119,8 @@ class Stock < ApplicationRecord
 
   # 株式上場(初期化)
   def self.listing
+
+
     count = Control.find_or_create_by(key: "company_count")
     count_s = (count.value.to_i + 1).to_s
     count.update(value: count_s)

@@ -26,3 +26,5 @@
 
 # Ignore nohup
 nohup.out
+
+.env

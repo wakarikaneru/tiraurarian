@@ -38,7 +38,7 @@ class StocksController < ApplicationController
   end
 
   def stock_log
-    @stock_log = StockLog.where("? <= datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc)
+    @stock_log = StockLog.where("? <= datetime", 1.hour.ago).where("datetime < ?", Time.current).where.not(point: nil).order(datetime: :asc)
     render json: @stock_log.pluck(:datetime, :point)
   end
 
@@ -80,6 +80,6 @@ class StocksController < ApplicationController
 
   private
     def determine
-      #Stock.determine
+      Stock.determine
     end
 end

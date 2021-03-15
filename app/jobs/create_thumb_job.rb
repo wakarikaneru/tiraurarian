@@ -1,6 +1,8 @@
 class CreateThumbJob < ApplicationJob
   queue_as :thumb
 
+  discard_on Exception
+  
   def perform(key)
     if Thumb.find_by(key: key).present?
     else

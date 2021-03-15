@@ -354,7 +354,9 @@ class TweetsController < ApplicationController
     @show_parent = "true" == params[:show_parent]
     @infinite_scroll = "true" == params[:infinite_scroll]
 
-    session[:last_check_tweet] = [session[:last_check_tweet].to_i, @tweets.first.id].max.to_s
+    if @tweets.present?
+      session[:last_check_tweet] = [session[:last_check_tweet].to_i, @tweets.first.id].max.to_s
+    end
     render partial: "layouts/tweets_async"
   end
 

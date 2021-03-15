@@ -81,25 +81,19 @@ class ApplicationController < ActionController::Base
     end
 
     def access_log
-      if Rails.env == 'development'
+      if user_signed_in?
+        user_id = current_user.id
       else
-        if user_signed_in?
-          user_id = current_user.id
-        else
-          user_id = 0
-        end
-        AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
+        user_id = 0
       end
+      AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
     end
 
     def create_thumb
       if Rails.env == 'development'
       else
         key = Date.today.to_s + ":" + request.remote_ip
-        if Thumb.find_by(key: key).present?
-        else
-          CreateThumbJob.perform_later(key)
-        end
+        CreateThumbJob.perform_later(key)
       end
     end
 

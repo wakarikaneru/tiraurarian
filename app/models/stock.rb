@@ -53,9 +53,12 @@ class Stock < ApplicationRecord
 
     datetime = recent_stock.datetime
     buffer_time = Time.current + 3.minute
-    while datetime < buffer_time  do
+    180.times do
       datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
       StockLog.generate(datetime)
+      if buffer_time < datetime
+        break
+      end
     end
   end
 

@@ -53,13 +53,12 @@ class Stock < ApplicationRecord
 
     datetime = recent_stock.datetime
     buffer_time = Time.current + 3.minute
-    180.times do
+    logs = []
+    while datetime < buffer_time  do
       datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
-      StockLog.generate(datetime)
-      if buffer_time < datetime
-        break
-      end
+      logs << StockLog.new(datetime: datetime, point:nil)
     end
+    #StockLog.import(logs)
   end
 
   def self.determine

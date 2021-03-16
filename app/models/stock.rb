@@ -58,7 +58,7 @@ class Stock < ApplicationRecord
       datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
       logs << StockLog.new(datetime: datetime, point:nil)
     end
-    #StockLog.import(logs)
+    StockLog.import(logs)
   end
 
   def self.determine

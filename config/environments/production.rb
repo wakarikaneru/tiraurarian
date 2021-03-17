@@ -85,4 +85,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.colorize_logging = false
+  
+  # queue
+  config.active_job.queue_adapter = :sidekiq
+
 end

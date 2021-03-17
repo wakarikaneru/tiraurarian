@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_rack_mini_profiler
   before_action :access_log
   before_action :detect_locale
   before_action :notification_counts
@@ -80,12 +81,17 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit(:account_update, keys: [:login_id, :name, :avatar, :description])
     end
 
-    def access_log
-      if user_signed_in?
-        user_id = current_user.id
+    def check_rack_mini_profiler
+      if current_user && current_user.id == 1
+        Rack::MiniProfiler.authorize_request
+        Rack::MiniProfiler.config.auto_inject = true
       else
-        user_id = 0
+        Rack::MiniProfiler.config.auto_inject = false
       end
+    end
+
+    def access_log
+      user_id = user_signed_in? ? current_user.id : 0
       AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
     end
 

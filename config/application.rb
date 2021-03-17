@@ -20,6 +20,14 @@ module Tiraurarian
     # security
     config.middleware.use Rack::Attack
 
+    # profiler
+    Rack::MiniProfiler.config.storage = Rack::MiniProfiler::MemoryStore
+    # set RedisStore
+    if Rails.env.production?
+      Rack::MiniProfiler.config.storage_options = { url: ENV["REDIS_SERVER_URL"] }
+      Rack::MiniProfiler.config.storage = Rack::MiniProfiler::RedisStore
+    end
+
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       html_tag
     end

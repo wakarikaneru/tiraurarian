@@ -60,18 +60,31 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
+# import
 gem 'activerecord-import'
 
+# for Google
 gem "google-cloud-vision", "~> 0.38.0"
 gem "google-cloud-translate", "~> 2.3.0"
 gem "recaptcha", "~> 5.5.0"
 
+# user account
 gem 'devise'
 gem 'devise-i18n'
 
+# admin
 gem "administrate"
+
+# profiler
+gem 'rack-mini-profiler'
+gem 'flamegraph'
+gem 'memory_profiler'
+gem 'stackprof' # ruby 2.1+ only
+
+#
 gem 'whenever'
 
+#
 gem 'paperclip'
 
 gem 'ransack'

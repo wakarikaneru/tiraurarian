@@ -9,7 +9,6 @@ class Stock < ApplicationRecord
       return false
     end
 
-    Stock.determine
     price = Control.find_or_create_by(key: "stock_price")
     price_i = price.value.to_i
     total = price_i * num
@@ -29,7 +28,6 @@ class Stock < ApplicationRecord
       return false
     end
 
-    Stock.determine
     stock = Stock.find_or_create_by(user_id: user.id)
     if num <= stock.number
       stock.number = stock.number - num
@@ -46,25 +44,8 @@ class Stock < ApplicationRecord
 
   # 株価変動
   def self.fluctuation
-    recent_stock = StockLog.where("? < datetime", 1.hour.ago).order(datetime: :desc).first
-    if recent_stock.blank?
-      recent_stock = StockLog.generate(Time.current)
-    end
-
-    datetime = recent_stock.datetime
-    buffer_time = Time.current + 3.minute
-    logs = []
-    while datetime < buffer_time  do
-      datetime = datetime + Constants::STOCK_UPDATE_SECOND.second
-      logs << StockLog.new(datetime: datetime, point:nil)
-    end
-    StockLog.import(logs)
-  end
-
-  def self.determine
-    #StockLog.where(point: nil).where("? < datetime", 1.hour.ago).where("datetime < ?", Time.current).order(datetime: :asc).each do |log|
-    #  Stock.set_log(log)
-    #end
+    recent_stock = StockLog.generate(Time.current)
+    Stock.set_log(recent_stock)
   end
 
   def self.set_log(stock_log)
@@ -78,14 +59,14 @@ class Stock < ApplicationRecord
     appearance_economy = Control.find_or_create_by(key: "stock_appearance_economy")
     appearance_economy_f = appearance_economy.value.to_f
 
-    if (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60 * 12)) < 1
+    if (Random.rand * 60 * 12) < 1
       economy_f = dist_rand(1) * 200.0
       appearance_economy_f = dist_rand(1) * 200.0
     else
-      economy_f = economy_f + (dist_rand(2) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      economy_f = economy_f - (economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      appearance_economy_f = appearance_economy_f + (dist_rand(2) * 10.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+      economy_f = economy_f + (dist_rand(2) * 10.0)
+      economy_f = economy_f - (economy_f * 0.05)
+      appearance_economy_f = appearance_economy_f + (dist_rand(2) * 10.0)
+      appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.05)
     end
 
     coefficient = Control.find_or_create_by(key: "stock_economy_coefficient")
@@ -94,11 +75,11 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = price_target.value.to_f
 
-    price_target_f = price_target_f + (economy_f * coefficient_f * 0.1) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_target_f = price_target_f + (economy_f * coefficient_f * 0.1)
 
-    price_f = price_f + (economy_f * coefficient_f) * 1.0 * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + ((price_target_f - price_f) * 0.05) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
-    price_f = price_f + dist_rand(5) * (price_target_f / 5.0) * (Constants::STOCK_UPDATE_SECOND.to_f / 60.0)
+    price_f = price_f + (economy_f * coefficient_f) * 1.0
+    price_f = price_f + ((price_target_f - price_f) * 0.05)
+    price_f = price_f + dist_rand(5) * (price_target_f / 5.0)
 
     economy.update(value: economy_f.to_s)
     appearance_economy.update(value: appearance_economy_f.to_s)
@@ -110,7 +91,7 @@ class Stock < ApplicationRecord
     bankruptcy_day = [(price_f / 10000.0) * 7.0, 1.0, 7.0].sort.second
 
     # 倒産
-    if price_target_f < 500.0 || price_f < (price_target_f / 2.0) || (Random.rand * ((60.0 / Constants::STOCK_UPDATE_SECOND.to_f) * 60.0 * 24.0 * bankruptcy_day)) < 1.0
+    if price_target_f < 500.0 || price_f < (price_target_f / 2.0) || (Random.rand * 60.0 * 24.0 * bankruptcy_day) < 1.0
       Stock.bankruptcy
       Stock.listing
     end
@@ -118,7 +99,6 @@ class Stock < ApplicationRecord
 
   # 株式上場(初期化)
   def self.listing
-
 
     count = Control.find_or_create_by(key: "company_count")
     count_s = (count.value.to_i + 1).to_s
@@ -142,7 +122,6 @@ class Stock < ApplicationRecord
     News.generate(1, Time.current + 10.minute, "【株】#{name.value}が上場。売出価格は#{price.value.to_i.to_s}va。")
 
     Stock.fluctuation
-    Stock.determine
   end
 
   # 倒産
@@ -163,7 +142,6 @@ class Stock < ApplicationRecord
 
   # ニュース
   def self.news
-    Stock.determine
     stock_number = Control.find_or_create_by(key: "company_count").value
     stock_name = Control.find_or_create_by(key: "company_name").value
     recent_stock = StockLog.where.not(point: nil).order(datetime: :desc).first

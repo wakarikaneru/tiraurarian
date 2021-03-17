@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!, only: [:purchase, :sale]
-  before_action :determine, only: [:index, :stock_log, :info, :purchase, :sale]
+  
   def index
     if user_signed_in?
       @stock = Stock.find_or_create_by(user_id: current_user.id)
@@ -78,8 +78,4 @@ class StocksController < ApplicationController
     end
   end
 
-  private
-    def determine
-      Stock.determine
-    end
 end

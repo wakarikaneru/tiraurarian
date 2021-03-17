@@ -55,6 +55,7 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "tiraurarian_#{Rails.env}"
+  config.active_job.queue_adapter = :sidekiq
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -85,8 +86,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.colorize_logging = false
-  
-  # queue
-  config.active_job.queue_adapter = :sidekiq
 
 end

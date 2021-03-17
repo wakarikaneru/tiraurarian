@@ -56,7 +56,5 @@ Rails.application.configure do
 
   config.colorize_logging = false
 
-  # queue
-  config.active_job.queue_adapter = :async
-
+  config.active_job.queue_adapter = :inline
 end

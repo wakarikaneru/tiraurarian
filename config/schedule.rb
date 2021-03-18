@@ -28,10 +28,9 @@ set :output, 'log/crontab.log'
 
 rails_env = ENV['RAILS_ENV'] || :development
 set :environment, rails_env
-set :runner_command, "rails runner"
 
 every 1.minutes do
-  runner 'AccessLogSumJob.perform_later'
+  rake 'access_log:sum'
 end
 
 every 1.days, at: '23:59' do
@@ -43,7 +42,7 @@ every 1.hours do
 end
 
 every 1.minutes do
-  runner "StockJob.perform_later"
+  rake 'stock:fluctuation'
 end
 
 every 10.minutes do
@@ -55,30 +54,30 @@ every 1.days, at: '00:05' do
 end
 
 every '0 19 * * 6' do
-  runner "TiramonBattleMatchMakeJob.perform_later(0)"
+  rake 'tiramon_battle_match_make:mania'
 end
 every 1.days, at: '12:00' do
-  runner "TiramonBattleMatchMakeJob.perform_later(1)"
+  rake 'tiramon_battle_match_make:championship'
 end
 every '0 3,7,11,15,19,23 * * *' do
-  runner "TiramonBattleMatchMakeJob.perform_later(2)"
+  rake 'tiramon_battle_match_make:heavy'
 end
 every '0 2,5,8,11,14,17,20,23 * * *' do
-  runner "TiramonBattleMatchMakeJob.perform_later(3)"
+  rake 'tiramon_battle_match_make:junior'
 end
 every 20.minutes do
-  runner "TiramonBattleMatchMakeJob.perform_later(4)"
+  rake 'tiramon_battle_match_make:normal_match'
 end
 every 10.minutes do
-  runner "TiramonBattleMatchMakeJob.perform_later(5)"
+  rake 'tiramon_battle_match_make:under_match'
 end
 
 every 10.minutes do
-  runner "TiramonBattleMatchMakeJob.perform_later(-1)"
+  rake 'tiramon_battle_match_make:ranked_match'
 end
 
 every 1.minutes do
-  runner "TiramonBattleCompleterJob.perform_later"
+  rake 'tiramon_battle:complete'
 end
 
 

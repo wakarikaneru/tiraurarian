@@ -1,9 +1,6 @@
-namespace :stock_fluctuation do
-  desc "stock_fluctuation"
-  task stock_fluctuation: :environment do
-    #Stock.fluctuation
-  end
-  task determine: :environment do
-    #Stock.determine
+namespace :stock do
+  desc "stock"
+  task fluctuation: :environment do
+    StockJob.perform_later
   end
 end

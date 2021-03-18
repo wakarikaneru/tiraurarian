@@ -56,5 +56,5 @@ Rails.application.configure do
 
   config.colorize_logging = false
 
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :sidekiq
 end

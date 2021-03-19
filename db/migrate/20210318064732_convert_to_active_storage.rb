@@ -42,7 +42,7 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
               next
             end
 
-            ActiveRecord::Base.connection.execute_prepared(
+            ActiveRecord::Base.connection.raw_connection.exec_prepared(
               'active_storage_blob_statement', [
                 key(instance, attachment),
                 instance.send("#{attachment}_file_name"),
@@ -52,7 +52,7 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
                 instance.updated_at.iso8601
               ])
 
-            ActiveRecord::Base.connection.execute_prepared(
+            ActiveRecord::Base.connection.raw_connection.exec_prepared(
               'active_storage_attachment_statement', [
                 attachment,
                 model.name,

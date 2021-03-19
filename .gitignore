@@ -19,6 +19,7 @@
 # Ignore all image files.
 /public/system/
 /public/system/*
+storage/
 
 # Ignore all asset files
 /public/assets/
@@ -27,4 +28,5 @@
 # Ignore nohup
 nohup.out
 
+# Ignore env
 .env

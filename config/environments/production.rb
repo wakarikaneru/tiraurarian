@@ -87,5 +87,5 @@ Rails.application.configure do
 
   config.colorize_logging = false
 
-　config.active_storage.service = :local
+  config.active_storage.service = :local
 end

@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_14_052634) do
+ActiveRecord::Schema.define(version: 2021_03_18_064732) do
 
-  create_table "access_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
     t.string "ip_address"
     t.string "url"
@@ -23,7 +23,35 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "admins", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", charset: "utf8mb4", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "admins", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "permission"
     t.datetime "create_datetime"
@@ -31,7 +59,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bads", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "bads", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
     t.datetime "create_datetime"
@@ -39,7 +67,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bookmarks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "bookmarks", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
     t.datetime "create_datetime"
@@ -47,7 +75,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "card_boxes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "card_boxes", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "size", default: 10
     t.datetime "create_datetime"
@@ -57,7 +85,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.boolean "trial", default: true, null: false
   end
 
-  create_table "card_decks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "card_decks", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "card_box_id"
     t.integer "rule"
     t.integer "card_1_id"
@@ -68,14 +96,14 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "card_get_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "card_get_results", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "card_kings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "card_kings", charset: "utf8mb4", force: :cascade do |t|
     t.integer "rule"
     t.integer "user_id"
     t.integer "card_deck_id"
@@ -85,7 +113,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.integer "last_challenger_id"
   end
 
-  create_table "cards", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "cards", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "card_box_id"
     t.integer "model_id"
     t.integer "element"
@@ -98,14 +126,14 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.integer "sub_element", default: 0
   end
 
-  create_table "controls", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "controls", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "key"
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "follows", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "follows", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "target_id"
     t.datetime "create_datetime"
@@ -113,7 +141,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "gambling_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "gambling_results", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "result"
     t.integer "point"
@@ -123,7 +151,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.string "game"
   end
 
-  create_table "goods", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "goods", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
     t.datetime "create_datetime"
@@ -131,7 +159,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "messages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "messages", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "sender_id"
     t.string "sender_name"
@@ -143,7 +171,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "mutes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "mutes", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "target_id"
     t.datetime "create_datetime"
@@ -151,7 +179,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "news", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "news", charset: "utf8mb4", force: :cascade do |t|
     t.integer "priority"
     t.datetime "expiration"
     t.string "news"
@@ -159,7 +187,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "notices", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "notices", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "sender_id"
     t.string "sender_name"
@@ -171,14 +199,14 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "points", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "points", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "point", default: 10000
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "premia", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "premia", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.datetime "limit_datetime"
     t.datetime "create_datetime"
@@ -186,7 +214,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "stats", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "datetime"
     t.integer "load"
     t.integer "users"
@@ -194,7 +222,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stock_companies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "stock_companies", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.float "price_target"
     t.float "price"
@@ -203,21 +231,21 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stock_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "stock_logs", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "datetime"
     t.integer "point", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "stocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "stocks", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "number", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "tags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tags", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
     t.string "tag_string"
@@ -226,7 +254,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "taxpayer_hofs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "taxpayer_hofs", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tax", default: 0
     t.datetime "datetime"
@@ -234,14 +262,14 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "taxpayers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "taxpayers", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tax", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "texts", charset: "utf8mb4", force: :cascade do |t|
     t.integer "tweet_id"
     t.integer "user_id"
     t.text "content"
@@ -250,7 +278,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "thumbs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "thumbs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -260,7 +288,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "thumb_updated_at"
   end
 
-  create_table "tiramon_battle_prizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_battle_prizes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "prize"
     t.datetime "datetime"
@@ -268,13 +296,13 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiramon_battles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_battles", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "datetime"
     t.integer "red_tiramon_id"
     t.integer "blue_tiramon_id"
     t.integer "result"
     t.string "result_str"
-    t.text "data", limit: 16777215
+    t.text "data", size: :medium
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "schedule"
@@ -286,7 +314,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.integer "match_time", default: 0
   end
 
-  create_table "tiramon_bets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_bets", charset: "utf8mb4", force: :cascade do |t|
     t.integer "tiramon_battle_id"
     t.integer "user_id"
     t.integer "bet"
@@ -295,7 +323,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiramon_enemies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_enemies", charset: "utf8mb4", force: :cascade do |t|
     t.integer "enemy_class"
     t.integer "stage"
     t.integer "enemy_id"
@@ -305,15 +333,15 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiramon_moves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_moves", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.text "data", limit: 16777215
+    t.text "data", size: :medium
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "move_id"
   end
 
-  create_table "tiramon_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_templates", charset: "utf8mb4", force: :cascade do |t|
     t.integer "level"
     t.string "name"
     t.text "data"
@@ -321,7 +349,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiramon_trainers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_trainers", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "level", default: 0
     t.integer "experience", default: 0
@@ -331,14 +359,14 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.integer "move", default: 3
   end
 
-  create_table "tiramon_trainings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramon_trainings", charset: "utf8mb4", force: :cascade do |t|
     t.integer "level", default: 0
     t.text "training"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiramons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tiramons", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.text "data"
     t.datetime "created_at", null: false
@@ -358,7 +386,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "bonus_time"
   end
 
-  create_table "tweets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "tweets", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "parent_id"
     t.string "content"
@@ -396,7 +424,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.integer "view_count", default: 0
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: ""
     t.string "login_id", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -417,7 +445,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "wakarus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "wakarus", charset: "utf8mb4", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tweet_id"
     t.integer "create_datetime"
@@ -425,4 +453,6 @@ ActiveRecord::Schema.define(version: 2021_03_14_052634) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

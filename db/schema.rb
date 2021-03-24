@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_050945) do
+ActiveRecord::Schema.define(version: 2021_03_24_053929) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -331,6 +331,13 @@ ActiveRecord::Schema.define(version: 2021_03_24_050945) do
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tiramon_factors", charset: "utf8mb4", force: :cascade do |t|
+    t.string "key"
+    t.text "factor"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tiramon_moves", charset: "utf8mb4", force: :cascade do |t|

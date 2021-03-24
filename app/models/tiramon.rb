@@ -16,8 +16,21 @@ class Tiramon < ApplicationRecord
     tiramon.right = trainer.id
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
 
+    tiramon.factor = Tiramon.generate_factor
+
     tiramon.save!
     return tiramon
+  end
+
+  def self.generate_factor
+    require "matrix"
+    arr = Array.new(100){ rand(-1.0..1.0) }
+    return Vector.elements(arr).normalize.to_json
+  end
+
+  def set_factor_name
+    self.factor_name = `sh/tiramon/tiramon_get_factor_name.sh`.chomp
+    self.save!
   end
 
   def get?(trainer = TiramonTrainer.none)
@@ -98,6 +111,14 @@ class Tiramon < ApplicationRecord
       return eval(get_move)
     else
       return []
+    end
+  end
+
+  def getFactor
+    if factor.present?
+      return eval(factor)
+    else
+      return {}
     end
   end
 

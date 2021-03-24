@@ -17,7 +17,6 @@ class Tiramon < ApplicationRecord
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
 
     tiramon.factor = Tiramon.generate_factor
-    tiramon.factor_name = Tiramon.get_factor_name(tiramon.getFactor)
 
     tiramon.save!
     return tiramon

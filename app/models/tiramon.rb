@@ -17,6 +17,7 @@ class Tiramon < ApplicationRecord
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
 
     tiramon.factor = Tiramon.generate_factor
+    tiramon.factor_name = Tiramon.get_factor_name(tiramon.getFactor)
 
     tiramon.save!
     return tiramon
@@ -28,9 +29,8 @@ class Tiramon < ApplicationRecord
     return Vector.elements(arr).normalize.to_json
   end
 
-  def set_factor_name
-    self.factor_name = `sh/tiramon/tiramon_get_factor_name.sh`.chomp
-    self.save!
+  def self.get_factor_name(args)
+    return `sh/tiramon/tiramon_get_factor_name.sh #{args.join(" ")}`.chomp
   end
 
   def get?(trainer = TiramonTrainer.none)

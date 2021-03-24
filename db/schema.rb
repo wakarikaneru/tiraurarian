@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_18_064732) do
+ActiveRecord::Schema.define(version: 2021_03_24_050945) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -384,6 +384,8 @@ ActiveRecord::Schema.define(version: 2021_03_18_064732) do
     t.text "adventure_data"
     t.datetime "adventure_time"
     t.datetime "bonus_time"
+    t.text "factor"
+    t.string "factor_name"
   end
 
   create_table "tweets", id: :integer, charset: "utf8mb4", force: :cascade do |t|

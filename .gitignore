@@ -30,3 +30,7 @@ nohup.out
 
 # Ignore env
 .env
+
+# Ignore sh
+/sh/
+/sh/*

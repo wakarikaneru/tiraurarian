@@ -1,3 +1,4 @@
 #!/bin/sh
 
-echo "因子"
+cd /home/wakaru/git/tiraurarian/sh/tiramon
+python3 factor.py $*

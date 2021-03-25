@@ -16,31 +16,34 @@ class Tiramon < ApplicationRecord
     tiramon.right = trainer.id
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
 
-    tiramon.factor = Tiramon.generate_factor.to_json
+    tiramon.generate_factor
 
     tiramon.save!
     return tiramon
   end
 
   def generate_factor
-    base_factor = Tiramon.generate_factor
+    require "matrix"
     data = self.getData
-    base_factor += TiramonFactor.find_by(key: "physique").getFactor.*(data[:physique])
-    base_factor += TiramonFactor.find_by(key: "height").getFactor.*((data[:height] - 1.75) / 0.50)
-    base_factor += TiramonFactor.find_by(key: "vital_hp").getFactor.*((data[:abilities][:vital][0] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "vital_mp").getFactor.*((data[:abilities][:vital][1] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "vital_sp").getFactor.*((data[:abilities][:vital][2] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "recovery_hp").getFactor.*((data[:abilities][:recovery][0] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "recovery_mp").getFactor.*((data[:abilities][:recovery][1] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "recovery_sp").getFactor.*((data[:abilities][:recovery][2] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "speed").getFactor.*((data[:abilities][:speed] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "intuition").getFactor.*(data[:abilities][:intuition])
-    base_factor += TiramonFactor.find_by(key: "attack_0").getFactor.*((data[:skills][:attack][0] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "attack_1").getFactor.*((data[:skills][:attack][1] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "attack_2").getFactor.*((data[:skills][:attack][2] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "defense_0").getFactor.*((data[:skills][:defense][0] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "defense_1").getFactor.*((data[:skills][:defense][1] - 100.0) / 50.0)
-    base_factor += TiramonFactor.find_by(key: "defense_2").getFactor.*((data[:skills][:defense][2] - 100.0) / 50.0)
+
+    arr = Array.new(100){ rand(-1.0..1.0) }
+    base_factor = Vector.elements(arr)
+    base_factor += TiramonFactor.find_by(key: "physique").getFactor * (data[:physique])
+    base_factor += TiramonFactor.find_by(key: "height").getFactor * ((data[:height] - 1.75) / 0.50)
+    base_factor += TiramonFactor.find_by(key: "vital_hp").getFactor * ((data[:abilities][:vital][0] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "vital_mp").getFactor * ((data[:abilities][:vital][1] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "vital_sp").getFactor * ((data[:abilities][:vital][2] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "recovery_hp").getFactor * ((data[:abilities][:recovery][0] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "recovery_mp").getFactor * ((data[:abilities][:recovery][1] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "recovery_sp").getFactor * ((data[:abilities][:recovery][2] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "speed").getFactor * ((data[:abilities][:speed] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "intuition").getFactor * (data[:abilities][:intuition])
+    base_factor += TiramonFactor.find_by(key: "attack_0").getFactor * ((data[:skills][:attack][0] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "attack_1").getFactor * ((data[:skills][:attack][1] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "attack_2").getFactor * ((data[:skills][:attack][2] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "defense_0").getFactor * ((data[:skills][:defense][0] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "defense_1").getFactor * ((data[:skills][:defense][1] - 100.0) / 50.0)
+    base_factor += TiramonFactor.find_by(key: "defense_2").getFactor * ((data[:skills][:defense][2] - 100.0) / 50.0)
 
     self.factor = base_factor.normalize.to_json
   end

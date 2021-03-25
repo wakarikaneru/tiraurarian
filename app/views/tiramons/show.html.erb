@@ -22,14 +22,17 @@
           <li>Lv: <%= @disp_data[:level].to_i %></li>
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
-          <% if 30 <= @disp_data[:level] %>
-            <% if @tiramon.factor_name.present? %>
-              <li>因子: [<%= @tiramon.factor_name %>]</li>
+
+          <% if !@my_tiramon %>
+            <% if 30 <= @disp_data[:level] %>
+              <% if @tiramon.factor_name.present? %>
+                <li>因子: [<%= @tiramon.factor_name %>]</li>
+              <% else %>
+                <li>因子: 未判定</li>
+              <% end %>
             <% else %>
-              <li>因子: 未判定</li>
+              <li>因子はレベル30で判明します</li>
             <% end %>
-          <% else %>
-            <li>因子はレベル30で判明します</li>
           <% end %>
         </ul>
       </div>

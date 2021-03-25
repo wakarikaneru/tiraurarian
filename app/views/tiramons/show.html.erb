@@ -23,7 +23,7 @@
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
 
-          <% if !@my_tiramon %>
+          <% if @my_tiramon %>
             <% if 30 <= @disp_data[:level] %>
               <% if @tiramon.factor_name.present? %>
                 <li>因子: [<%= @tiramon.factor_name %>]</li>

@@ -89,6 +89,9 @@ every 1.days, at: '00:05' do
   rake 'tiramon_trainer_recovery:tiramon_trainer_recovery'
 end
 
+every 1.days, at: '3:00' do
+  rake 'tiramon_set_factor:tiramon_set_factor'
+end
 
 every 10.minutes do
   rake 'news:stock_news'

@@ -27,7 +27,7 @@ class Tiramon < ApplicationRecord
     data = self.getData
 
     arr = Array.new(100){ rand(-1.0..1.0) }
-    base_factor = Vector.elements(arr)
+    base_factor = Vector.elements(arr).normalize
     base_factor += TiramonFactor.find_by(key: "physique").getFactor * (data[:physique])
     base_factor += TiramonFactor.find_by(key: "height").getFactor * ((data[:height] - 1.75) / 0.50)
     base_factor += TiramonFactor.find_by(key: "vital_hp").getFactor * ((data[:abilities][:vital][0] - 100.0) / 50.0)

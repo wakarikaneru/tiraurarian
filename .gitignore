@@ -25,12 +25,12 @@ storage/
 /public/assets/
 /public/assets/*
 
+# Ignore sh
+/sh/
+/sh/*
+
 # Ignore nohup
 nohup.out
 
 # Ignore env
 .env
-
-# Ignore sh
-/sh/
-/sh/*

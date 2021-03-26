@@ -152,7 +152,7 @@ class User < ApplicationRecord
   def self.max_varth
     all_user = User.all
     all_count = all_user.count
-    return 10000000 + (all_count * (100000 * (1.0 + all_count / 100.0)))
+    return 100000000 + (all_count * (100000 * (1.0 + all_count / 100.0)))
   end
 
   private

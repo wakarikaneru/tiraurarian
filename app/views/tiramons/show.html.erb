@@ -475,7 +475,7 @@
       </div>
       <div class="m-2">
         <% f = @tiramon.getFactor %>
-
+        <div class="">level = <%= (f.dot(TiramonFactor.find_by(key: "level").getFactor) * 100).to_i %>%</div>
         <div class="">physique = <%= (f.dot(TiramonFactor.find_by(key: "physique").getFactor) * 100).to_i %>%</div>
         <div class="">height = <%= (f.dot(TiramonFactor.find_by(key: "height").getFactor) * 100).to_i %>%</div>
         <div class="">vital_hp = <%= (f.dot(TiramonFactor.find_by(key: "vital_hp").getFactor) * 100).to_i %>%</div>

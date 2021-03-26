@@ -152,6 +152,7 @@ Rails.application.routes.draw do
     resources :tiramon_battles
     resources :tiramon_battle_prizes
     resources :tiramon_factors
+    resources :tiramon_factor_names
 
     resources :tiramon_enemies
     resources :tiramon_templates

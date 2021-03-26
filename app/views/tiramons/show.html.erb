@@ -467,4 +467,35 @@
 
 <% end %>
 
+<% if user_signed_in? && current_user.id == 1 %>
+  <div class="tweet-container list">
+    <div class="hukidasi">因子ビューア:
+      <div class="m-2">
+        因子: [<%= @tiramon.factor_name %>]
+      </div>
+      <div class="m-2">
+        <% f = @tiramon.getFactor %>
+
+        <div class="">physique = <%= (f.dot(TiramonFactor.find_by(key: "physique").getFactor) * 100).to_i %>%</div>
+        <div class="">height = <%= (f.dot(TiramonFactor.find_by(key: "height").getFactor) * 100).to_i %>%</div>
+        <div class="">vital_hp = <%= (f.dot(TiramonFactor.find_by(key: "vital_hp").getFactor) * 100).to_i %>%</div>
+        <div class="">vital_mp = <%= (f.dot(TiramonFactor.find_by(key: "vital_mp").getFactor) * 100).to_i %>%</div>
+        <div class="">vital_sp = <%= (f.dot(TiramonFactor.find_by(key: "vital_sp").getFactor) * 100).to_i %>%</div>
+        <div class="">recovery_hp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_hp").getFactor) * 100).to_i %>%</div>
+        <div class="">recovery_mp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_mp").getFactor) * 100).to_i %>%</div>
+        <div class="">recovery_sp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_sp").getFactor) * 100).to_i %>%</div>
+        <div class="">speed = <%= (f.dot(TiramonFactor.find_by(key: "speed").getFactor) * 100).to_i %>%</div>
+        <div class="">intuition = <%= (f.dot(TiramonFactor.find_by(key: "intuition").getFactor) * 100).to_i %>%</div>
+        <div class="">attack_0 = <%= (f.dot(TiramonFactor.find_by(key: "attack_0").getFactor) * 100).to_i %>%</div>
+        <div class="">attack_1 = <%= (f.dot(TiramonFactor.find_by(key: "attack_1").getFactor) * 100).to_i %>%</div>
+        <div class="">attack_2 = <%= (f.dot(TiramonFactor.find_by(key: "attack_2").getFactor) * 100).to_i %>%</div>
+        <div class="">defense_0 = <%= (f.dot(TiramonFactor.find_by(key: "defense_0").getFactor) * 100).to_i %>%</div>
+        <div class="">defense_1 = <%= (f.dot(TiramonFactor.find_by(key: "defense_1").getFactor) * 100).to_i %>%</div>
+        <div class="">defense_2 = <%= (f.dot(TiramonFactor.find_by(key: "defense_2").getFactor) * 100).to_i %>%</div>
+
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <%= render partial: "/layouts/tiramon_nav" %>

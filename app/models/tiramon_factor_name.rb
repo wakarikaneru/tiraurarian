@@ -1,0 +1,2 @@
+class TiramonFactorName < ApplicationRecord
+end

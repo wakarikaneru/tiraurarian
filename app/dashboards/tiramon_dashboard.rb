@@ -28,6 +28,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     bonus_time: Field::DateTime,
     factor: Field::Text,
     factor_name: Field::String,
+    pedigree: Field::Text,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -65,6 +66,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     bonus_time
     factor
     factor_name
+    pedigree
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -88,6 +90,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     bonus_time
     factor
     factor_name
+    pedigree
   ].freeze
 
   # COLLECTION_FILTERS

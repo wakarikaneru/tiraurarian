@@ -38,4 +38,34 @@
   </div>
 </div>
 
+<div class="tweet-container list">
+  <div class="hukidasi width-full">
+    <h1>チラモン融合</h1>
+    <h5>チラモン2体を融合して、新しいチラモンを作り上げます (新しいチラモンボールが必要になります)</h5>
+    <div class="m-2">
+      <%= form_with url: tiramon_fusion_get_path, method: :post, local: true do %>
+        <div class="row">
+          <div class="col input-group mt-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">素材1</div>
+            </div>
+            <%= select_tag :tiramon_1, options_for_select(@select), class: "form-control" %>
+          </div>
+          <div class="col input-group mt-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">素材2</div>
+            </div>
+            <%= select_tag :tiramon_2, options_for_select(@select), class: "form-control" %>
+          </div>
+        </div>
+        <div class="text-center">
+          <%= button_tag type: "submit", class: "btn btn-danger mt-2", data: { confirm: "本当に融合しますか？" } do %>
+            チラモンを融合する(チラモンボール: 残り<%= @tiramon_trainer.tiramon_ball %>)
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <%= render partial: "/layouts/tiramon_nav" %>

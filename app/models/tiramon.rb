@@ -256,7 +256,7 @@ class Tiramon < ApplicationRecord
 
 
     min_power = min_level / 100.0
-    max_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 40, 5].max / 100.0
+    max_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 100, 10].max / 100.0
 
     data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]

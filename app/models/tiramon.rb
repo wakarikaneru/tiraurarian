@@ -34,7 +34,7 @@ class Tiramon < ApplicationRecord
     tiramon.data = tiramon.fusionData(t_1, t_2).to_json
 
     move_list = TiramonMove.first.getData
-    tiramon.move = Tiramon.get_moves(tiramon.getData)
+    tiramon.move = (Tiramon.get_moves(tiramon.getData) + t_1.getMove + t_2.getMove).uniq.sort
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
     tiramon.rank = 5
@@ -256,7 +256,7 @@ class Tiramon < ApplicationRecord
 
 
     min_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 25, 0].max / 100.0
-    max_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 50, 10].max / 100.0
+    max_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 75, 10].max / 100.0
 
     data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]

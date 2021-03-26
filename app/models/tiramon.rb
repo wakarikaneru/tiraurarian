@@ -22,6 +22,36 @@ class Tiramon < ApplicationRecord
     return tiramon
   end
 
+  def self.fusion(trainer = TiramonTrainer.none, t_1, t_2)
+    tiramon = Tiramon.new
+
+    # 因子の融合
+    tiramon.fusion_factor(t_1.getFactor, t_2.getFactor)
+
+    # 能力の融合
+    tiramon.data = tiramon.fusionData(t_1, t_2).to_json
+
+    move_list = TiramonMove.first.getData
+    tiramon.move = Tiramon.get_moves(tiramon.getData)
+    tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
+
+    tiramon.rank = 5
+    tiramon.experience = 0
+    tiramon.act = Time.current
+    tiramon.get_limit = 30.minute.since
+    tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
+
+    tiramon.tiramon_trainer_id = trainer.id
+
+    # 血統を記録する
+    d_1 = t_1.getData
+    d_2 = t_2.getData
+    tiramon.pedigree = [[[t_1.getFactorName, d_1[:name]], [t_1.getPedigree[0][0], t_1.getPedigree[1][0]]], [[t_2.getFactorName, d_2[:name]], [t_2.getPedigree[0][0], t_2.getPedigree[1][0]]]].to_json
+
+    tiramon.save!
+    return tiramon
+  end
+
   def generate_factor
     require "matrix"
     data = self.getData
@@ -48,6 +78,19 @@ class Tiramon < ApplicationRecord
     self.factor = base_factor.normalize.to_json
   end
 
+  def fusion_factor(f_1, f_2)
+    require "matrix"
+    data = self.getData
+
+    a_1 = f_1.to_a
+    a_2 = f_2.to_a
+
+    arr = Array.new(100){|index| [a_1[index], a_2[index]].sample }
+    base_factor = Vector.elements(arr)
+
+    self.factor = base_factor.normalize.to_json
+  end
+
   def self.get_factor_name(args)
     return `sh/tiramon/tiramon_get_factor_name.sh #{args.join(" ")}`.chomp
   end
@@ -63,6 +106,20 @@ class Tiramon < ApplicationRecord
     else
       return false
     end
+  end
+
+  def self.fusion_get?(trainer = TiramonTrainer.none, t_1, t_2)
+    if (t_1.tiramon_trainer_id == trainer.id and t_1.can_act?) and (t_2.tiramon_trainer_id == trainer.id and t_2.can_act?) and t_1 != t_2
+      if trainer.use_ball?
+        Tiramon.fusion(trainer, t_1, t_2)
+        t_1.update(tiramon_trainer_id: nil)
+        t_2.update(tiramon_trainer_id: nil)
+        return true
+      else
+        return false
+      end
+    end
+    return false
   end
 
   def self.generateData(min_level, max_level)
@@ -84,6 +141,115 @@ class Tiramon < ApplicationRecord
     data[:abilities][:intuition] = Tiramon.power_rand(3)
     data[:skills][:attack] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
     data[:skills][:defense] = [1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1), 1 + 0.5 * Tiramon.dist_rand(1)]
+
+    data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
+    data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
+    data[:train][:abilities][:speed] = 0.5 + rand(min_power..max_power)
+    data[:train][:abilities][:intuition] = 0.5 + rand()
+    data[:train][:skills][:attack] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
+    data[:train][:skills][:defense] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
+
+    data[:train][:level] = Tiramon.getLevel(data)
+
+    return data
+  end
+
+  def fusionData(t_1, t_2, min_level = 0, max_level = 5)
+    f = self.getFactor
+
+    d_1 = t_1.getData
+    d_2 = t_2.getData
+
+    template = TiramonTemplate.where(level: 0..10).sample
+    data = template.getData
+
+    data[:name] = Gimei.male.kanji
+    if rand < f.dot(TiramonFactor.find_by(key: "physique").getFactor)
+      data[:physique] = [d_1[:physique], d_2[:physique]].max
+    else
+      data[:physique] = [d_1[:physique], d_2[:physique]].sample
+    end
+    data[:bmi] = (25.0 + 5.0 * Tiramon.dist_rand(2)) * data[:physique]
+    if rand < f.dot(TiramonFactor.find_by(key: "height").getFactor)
+      data[:height] = [d_1[:height], d_2[:height]].max + (0.10 * Tiramon.dist_rand_2(2))
+    else
+      data[:height] = [d_1[:height], d_2[:height]].sample + (0.10 * Tiramon.dist_rand_2(2))
+    end
+    data[:weight] = data[:height] ** 2 * data[:bmi]
+
+    if rand < f.dot(TiramonFactor.find_by(key: "vital_hp").getFactor)
+      data[:abilities][:vital][0] = [d_1[:abilities][:vital][0], d_2[:abilities][:vital][0]].max
+    else
+      data[:abilities][:vital][0] = [d_1[:abilities][:vital][0], d_2[:abilities][:vital][0]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "vital_mp").getFactor)
+      data[:abilities][:vital][1] = [d_1[:abilities][:vital][1], d_2[:abilities][:vital][1]].max
+    else
+      data[:abilities][:vital][1] = [d_1[:abilities][:vital][1], d_2[:abilities][:vital][1]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "vital_sp").getFactor)
+      data[:abilities][:vital][2] = [d_1[:abilities][:vital][2], d_2[:abilities][:vital][2]].max
+    else
+      data[:abilities][:vital][2] = [d_1[:abilities][:vital][2], d_2[:abilities][:vital][2]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "recovery_hp").getFactor)
+      data[:abilities][:recovery][0] = [d_1[:abilities][:recovery][0], d_2[:abilities][:recovery][0]].max
+    else
+      data[:abilities][:recovery][0] = [d_1[:abilities][:recovery][0], d_2[:abilities][:recovery][0]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "recovery_mp").getFactor)
+      data[:abilities][:recovery][1] = [d_1[:abilities][:recovery][1], d_2[:abilities][:recovery][1]].max
+    else
+      data[:abilities][:recovery][1] = [d_1[:abilities][:recovery][1], d_2[:abilities][:recovery][1]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "recovery_sp").getFactor)
+      data[:abilities][:recovery][2] = [d_1[:abilities][:recovery][2], d_2[:abilities][:recovery][2]].max
+    else
+      data[:abilities][:recovery][2] = [d_1[:abilities][:recovery][2], d_2[:abilities][:recovery][2]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "speed").getFactor)
+      data[:abilities][:speed] = [d_1[:abilities][:speed], d_2[:abilities][:speed]].max
+    else
+      data[:abilities][:speed] = [d_1[:abilities][:speed], d_2[:abilities][:speed]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "intuition").getFactor)
+      data[:abilities][:intuition] = [d_1[:abilities][:intuition], d_2[:abilities][:intuition]].max
+    else
+      data[:abilities][:intuition] = [d_1[:abilities][:intuition], d_2[:abilities][:intuition]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "attack_0").getFactor)
+      data[:skills][:attack][0] = [d_1[:skills][:attack][0], d_2[:skills][:attack][0]].max
+    else
+      data[:skills][:attack][0] = [d_1[:skills][:attack][0], d_2[:skills][:attack][0]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "attack_1").getFactor)
+      data[:skills][:attack][1] = [d_1[:skills][:attack][1], d_2[:skills][:attack][1]].max
+    else
+      data[:skills][:attack][1] = [d_1[:skills][:attack][1], d_2[:skills][:attack][1]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "attack_2").getFactor)
+      data[:skills][:attack][2] = [d_1[:skills][:attack][2], d_2[:skills][:attack][2]].max
+    else
+      data[:skills][:attack][2] = [d_1[:skills][:attack][2], d_2[:skills][:attack][2]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "defense_0").getFactor)
+      data[:skills][:defense][0] = [d_1[:skills][:defense][0], d_2[:skills][:defense][0]].max
+    else
+      data[:skills][:defense][0] = [d_1[:skills][:defense][0], d_2[:skills][:defense][0]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "defense_1").getFactor)
+      data[:skills][:defense][1] = [d_1[:skills][:defense][1], d_2[:skills][:defense][1]].max
+    else
+      data[:skills][:defense][1] = [d_1[:skills][:defense][1], d_2[:skills][:defense][1]].sample
+    end
+    if rand < f.dot(TiramonFactor.find_by(key: "defense_2").getFactor)
+      data[:skills][:defense][2] = [d_1[:skills][:defense][2], d_2[:skills][:defense][2]].max
+    else
+      data[:skills][:defense][2] = [d_1[:skills][:defense][2], d_2[:skills][:defense][2]].sample
+    end
+
+    min_power = min_level / 100.0
+    max_power = max_level / 100.0
 
     data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
@@ -139,6 +305,20 @@ class Tiramon < ApplicationRecord
       return Vector.elements(eval(factor))
     else
       return {}
+    end
+  end
+
+  def getFactorName
+    d = self.getData
+    return (self.factor_name.present? and 20 <= d[:train][:level]) ? self.factor_name : "?"
+  end
+
+  def getPedigree
+    require 'matrix'
+    if pedigree.present?
+      return eval(pedigree)
+    else
+      return [[["?", "?"], [["?", "?"], ["?", "?"]]], [["?", "?"], [["?", "?"], ["?", "?"]]]]
     end
   end
 

@@ -22,18 +22,6 @@
           <li>Lv: <%= @disp_data[:level].to_i %></li>
           <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
           <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
-
-          <% if @my_tiramon %>
-            <% if 30 <= @disp_data[:level] %>
-              <% if @tiramon.factor_name.present? %>
-                <li>因子: [<%= @tiramon.factor_name %>]</li>
-              <% else %>
-                <li>因子: 未判定</li>
-              <% end %>
-            <% else %>
-              <li>因子はレベル30で判明します</li>
-            <% end %>
-          <% end %>
         </ul>
       </div>
 
@@ -70,6 +58,32 @@
           </ul>
         </div>
       </div>
+
+      <% if @my_tiramon %>
+        <div class="hukidasi m-2">遺伝:
+          <ul>
+            <% if 20 <= @disp_data[:level] %>
+              <li>因子: [<%= @tiramon.getFactorName %>]</li>
+            <% else %>
+              <li>因子はレベル20で判明します</li>
+            <% end %>
+            <li>血統</li>
+            <% p = @tiramon.getPedigree %>
+            <ul>
+              <li>[<%= p[0][0][0] %>] <%= p[0][0][1] %></li>
+              <ul>
+                <li>[<%= p[0][1][0][0] %>] <%= p[0][1][0][1] %></li>
+                <li>[<%= p[0][1][1][0] %>] <%= p[0][1][1][1] %></li>
+              </ul>
+                <li>[<%= p[1][0][0] %>] <%= p[1][0][1] %></li>
+                <ul>
+                  <li>[<%= p[1][1][0][0] %>] <%= p[1][1][0][1] %></li>
+                  <li>[<%= p[1][1][1][0] %>] <%= p[1][1][1][1] %></li>
+                </ul>
+            </ul>
+          </ul>
+        </div>
+      <% end %>
 
     </div>
 

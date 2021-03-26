@@ -71,6 +71,24 @@ class TiramonsController < ApplicationController
     end
   end
 
+  def fusion_get
+    @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    t_1 = Tiramon.find_by(params[:tiramon_1])
+    t_2 = Tiramon.find_by(params[:tiramon_2])
+
+    if Tiramon.fusion_get?(@tiramon_trainer, t_1, t_2)
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, notice: "チラモンを融合しました！" )}
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path, alert: "チラモンを融合できませんでした。" )}
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def training
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
 

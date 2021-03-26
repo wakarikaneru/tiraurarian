@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   resources :tiramons
   get 'tiramon/ranks', to: 'tiramons#ranks'
   get 'tiramon/adventure', to: 'tiramons#adventure'
+  post 'tiramon/fusion_get', to: 'tiramons#fusion_get'
   post 'tiramon/get', to: 'tiramons#get'
   post 'tiramon/scout', to: 'tiramons#scout'
   post 'tiramon/training', to: 'tiramons#training'

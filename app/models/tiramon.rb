@@ -28,6 +28,7 @@ class Tiramon < ApplicationRecord
 
     # 因子の融合
     tiramon.fusion_factor(t_1.getFactor, t_2.getFactor)
+    tiramon.factor_name = Tiramon.get_factor_name(tiramon)
 
     # 能力の融合
     tiramon.data = tiramon.fusionData(t_1, t_2).to_json
@@ -253,8 +254,9 @@ class Tiramon < ApplicationRecord
       data[:skills][:defense][2] = [d_1[:skills][:defense][2], d_2[:skills][:defense][2]].sample
     end
 
+
     min_power = min_level / 100.0
-    max_power = max_level / 100.0
+    max_power = [f.dot(TiramonFactor.find_by(key: "level").getFactor) * 40, 5].max / 100.0
 
     data[:train][:abilities][:vital] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]
     data[:train][:abilities][:recovery] = [0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power), 0.5 + rand(min_power..max_power)]

@@ -440,7 +440,7 @@
           <% end %>
         </div>
 
-        <% levels = ["チャレンジバトル", "Lv1 チラレスの黎明", "Lv2 チラレスの太陽", "Lv3 逢魔時"]%>
+        <% levels = ["チャレンジバトル", "Lv1 チラレスの黎明", "Lv2 チラレスの太陽", "Lv3 チラレスの黄昏", "Lv4 陽はまた昇る"]%>
         <% TiramonEnemy.all.group(:enemy_class).select(:enemy_class).map do |el| %>
           <% if el.present? %>
             <% if el.enemy_class <= 1 or @adventure_data[:level][:"#{(el.enemy_class - 1).to_s}"] == true %>

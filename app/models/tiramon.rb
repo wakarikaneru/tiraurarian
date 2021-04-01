@@ -751,7 +751,7 @@ class Tiramon < ApplicationRecord
           end
 
           #ret[:log].push([turn, (total_damage / defender[:max_hp] * 100).to_i.to_s + "%のダメージを与えた！"])
-          ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (damage_ratio) / 2)])
+          ret[:log].push([-turn, Tiramon.get_message(Constants::TIRAMON_DAMAGE, (damage_ratio))])
 
           # 自爆ダメージ
           self_damage = move_data[:self_damage]

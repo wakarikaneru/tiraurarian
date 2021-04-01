@@ -739,7 +739,7 @@ class Tiramon < ApplicationRecord
           total_damage = (damage[:hp] + damage[:thp]) * damage_magnification
           damage_ratio = total_damage / defender[:max_hp]
 
-          if 1.0 < damage_ratio
+          if 0.5 < damage_ratio
             # カットイン演出
             if move_data[:element] == 0
               ret[:log].push([3, "/images/tiramon/da.png"])

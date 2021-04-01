@@ -1,11 +1,11 @@
 :verbose: false
-:concurrency: 5
+:concurrency: 10
 :timeout: 10
 
 :queues:
-  - access_log_sum
   - access_log
   - thumb
+  - access_log_sum
   - stock
   - tiramon_battle_match_make
   - tiramon_battle

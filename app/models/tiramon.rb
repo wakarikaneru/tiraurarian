@@ -445,6 +445,9 @@ class Tiramon < ApplicationRecord
 
 
     draw = false
+    turn = 0
+    last_attack = 0
+    combo = 1
     turn_count = 0
     time_count = 0.second
     last_move = ""
@@ -458,7 +461,6 @@ class Tiramon < ApplicationRecord
       end
 
       turn_count += 1
-      turn = 0
 
       if turn_count % 1 == 0
         ret[:log].push([2, [t_1.clone, t_2.clone]])
@@ -555,6 +557,7 @@ class Tiramon < ApplicationRecord
         attacker_hp = [((1 - attacker[:temp_hp] / attacker[:max_hp]) * 4).to_i, 3].min
         defender_hp = [((1 - defender[:temp_hp] / defender[:max_hp]) * 4).to_i, 3].min
         weight_effect = (attacker[:weight].to_f / defender[:weight].to_f)
+        combo_effect = 1 + (combo - 1) * 0.2
 
         moves = attacker[:moves][attacker_hp][defender_hp]
         move = moves.sample
@@ -686,11 +689,21 @@ class Tiramon < ApplicationRecord
 
         else
 
+          if last_attack == turn
+            combo += 1
+          else
+            combo = 1
+          end
+          last_attack = turn
+
           ret[:log].push([turn, move_data[:name] + Tiramon.get_message(Constants::TIRAMON_SUCCESS_ATTACK, rand())])
 
           # ダメージを与える
           # 体重補正
           #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
+
+          combo_damage = [1.0 + (combo - 1.0) * 0.2, 2].min
+          #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
 
           kiai_rand = Tiramon.power_rand(2)
           kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2.0) / attacker[:max_sp]
@@ -701,13 +714,13 @@ class Tiramon < ApplicationRecord
           #ret[:log].push([turn, random_damage.to_s + "ランダム補正！"])
 
           if 0 < damage_physical
-
-            damage_magnification = kiai_damage * random_damage
+            damage_magnification = combo_damage * kiai_damage * random_damage
             #ret[:log].push([turn, "合計補正は" + damage_magnification.to_s + "！"])
 
             if 1 < weight_effect
               ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_effect - 1) * 2.0, 1.0, 0.0].sort.second)])
             end
+            #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
             ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2.0)])
             if 1 < random_damage
               ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RANDOM_DAMAGE, (random_damage - 1.0) * 2.0)])
@@ -723,7 +736,7 @@ class Tiramon < ApplicationRecord
           defender[:sp] -= damage[:sp] * damage_magnification
           defender[:temp_sp] -= (damage[:tsp] + damage[:sp]) * damage_magnification
 
-          total_damage = damage.values.inject(:+) * damage_magnification
+          total_damage = (damage[:hp] + damage[:thp]) * damage_magnification
           damage_ratio = total_damage / defender[:max_hp]
 
           if 1.0 < damage_ratio
@@ -772,13 +785,10 @@ class Tiramon < ApplicationRecord
         t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min, t[:max_mp]].sort.second
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
 
-        # 体重が軽いほど体力回復が早い
-        weight_recovery_effect = [100.0 / t[:weight], 0.5, 2.0].sort.second
-
         # BMIが異常なほどスタミナ回復が遅い
         bmi_damage = [((22.0 - t[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
 
-        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0] * weight_recovery_effect
+        t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
         t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2] * (1 - bmi_damage)
 

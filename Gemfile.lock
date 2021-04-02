@@ -83,6 +83,9 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
+    bundler-leak (0.2.0)
+      bundler (>= 1.2.0, < 3)
+      thor (>= 0.18, < 2)
     byebug (11.1.3)
     chartkick (3.4.2)
     chronic (0.10.2)
@@ -122,6 +125,8 @@ GEM
     flamegraph (0.9.5)
     font-awesome-sass (5.12.0)
       sassc (>= 1.11)
+    get_process_mem (0.2.7)
+      ffi (~> 1.0)
     gimei (0.5.1)
       romaji
     globalid (0.4.2)
@@ -231,6 +236,9 @@ GEM
     public_suffix (4.0.6)
     puma (5.2.2)
       nio4r (~> 2.0)
+    puma_worker_killer (0.3.1)
+      get_process_mem (~> 0.2)
+      puma (>= 2.7)
     racc (1.5.2)
     rack (2.2.3)
     rack-attack (6.5.0)
@@ -352,6 +360,7 @@ DEPENDENCIES
   administrate
   bcrypt (~> 3.1)
   bootstrap (~> 4.4.1)
+  bundler-leak
   byebug
   chartkick (>= 3.4.0)
   coffee-rails (~> 5.0)
@@ -373,6 +382,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.3)
   paperclip
   puma (~> 5.2)
+  puma_worker_killer
   rack-attack
   rack-mini-profiler
   rails (~> 6.0)

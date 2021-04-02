@@ -81,6 +81,10 @@ gem 'flamegraph'
 gem 'memory_profiler'
 gem 'stackprof' # ruby 2.1+ only
 
+# 応急処置
+gem 'bundler-leak'
+gem 'puma_worker_killer'
+
 #
 gem 'whenever'
 

@@ -149,7 +149,7 @@ class Tweet < ApplicationRecord
     def set_translate
       require "google/cloud/translate"
 
-      translate_v2 = Google::Cloud::Translate.new version: :v2
+      translate_v2 = Google::Cloud::Translate.translation_v2_service project_id: "tirauraria"
 
       content = self.content
 

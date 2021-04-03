@@ -1,4 +1,4 @@
-class AddIndexToNotices < ActiveRecord::Migration[6.1]
+class AddIndexToNotice < ActiveRecord::Migration[6.1]
   def change
     add_index :notices, :user_id
     add_index :notices, :read_flag

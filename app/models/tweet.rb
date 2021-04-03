@@ -111,7 +111,7 @@ class Tweet < ApplicationRecord
       if self.image?
         require "google/cloud/vision"
 
-        image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+        image_annotator = Google::Cloud::Vision.image_annotator
         likelihood = Google::Cloud::Vision::V1::Likelihood
 
         response = image_annotator.safe_search_detection image: self.image.staged_path(:large)

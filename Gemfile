@@ -67,6 +67,7 @@ gem 'activerecord-import'
 gem 'google-cloud-language', '~> 1.3'
 gem 'google-cloud-vision', '~> 1.1'
 gem 'google-cloud-translate', '~> 3.2'
+gem 'google-cloud-dialogflow', '~> 1.2'
 gem "recaptcha", "~> 5.5.0"
 
 # user account

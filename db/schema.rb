@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_040903) do
+ActiveRecord::Schema.define(version: 2021_04_03_151245) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2021_03_31_040903) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["access_datetime"], name: "index_access_logs_on_access_datetime"
+    t.index ["ip_address"], name: "index_access_logs_on_ip_address"
   end
 
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
@@ -312,6 +314,10 @@ ActiveRecord::Schema.define(version: 2021_03_31_040903) do
     t.string "red_tiramon_name"
     t.string "blue_tiramon_name"
     t.integer "match_time", default: 0
+    t.index ["blue_tiramon_id"], name: "index_tiramon_battles_on_blue_tiramon_id"
+    t.index ["datetime"], name: "index_tiramon_battles_on_datetime"
+    t.index ["rank"], name: "index_tiramon_battles_on_rank"
+    t.index ["red_tiramon_id"], name: "index_tiramon_battles_on_red_tiramon_id"
   end
 
   create_table "tiramon_bets", charset: "utf8mb4", force: :cascade do |t|
@@ -401,6 +407,7 @@ ActiveRecord::Schema.define(version: 2021_03_31_040903) do
     t.text "factor"
     t.string "factor_name"
     t.text "pedigree"
+    t.index ["tiramon_trainer_id"], name: "index_tiramons_on_tiramon_trainer_id"
   end
 
   create_table "tweets", id: :integer, charset: "utf8mb4", force: :cascade do |t|

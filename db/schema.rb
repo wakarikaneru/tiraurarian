@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_151245) do
+ActiveRecord::Schema.define(version: 2021_04_03_152155) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_controls_on_key"
   end
 
   create_table "follows", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -171,6 +172,9 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["read_flag"], name: "index_messages_on_read_flag"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "mutes", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -179,6 +183,8 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["target_id"], name: "index_mutes_on_target_id"
+    t.index ["user_id"], name: "index_mutes_on_user_id"
   end
 
   create_table "news", charset: "utf8mb4", force: :cascade do |t|
@@ -199,6 +205,9 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["read_flag"], name: "index_notices_on_read_flag"
+    t.index ["sender_id"], name: "index_notices_on_sender_id"
+    t.index ["user_id"], name: "index_notices_on_user_id"
   end
 
   create_table "points", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -288,6 +297,7 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.string "thumb_content_type"
     t.bigint "thumb_file_size"
     t.datetime "thumb_updated_at"
+    t.index ["key"], name: "index_thumbs_on_key"
   end
 
   create_table "tiramon_battle_prizes", charset: "utf8mb4", force: :cascade do |t|
@@ -446,6 +456,8 @@ ActiveRecord::Schema.define(version: 2021_04_03_151245) do
     t.string "content_ru"
     t.integer "wakaru_count", default: 0
     t.integer "view_count", default: 0
+    t.index ["parent_id"], name: "index_tweets_on_parent_id"
+    t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
   create_table "users", id: :integer, charset: "utf8mb4", force: :cascade do |t|

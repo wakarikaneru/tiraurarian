@@ -48,10 +48,7 @@ class BotController < ApplicationController
 
     query_result = response.query_result
 
-    puts "Query text:        #{query_result.query_text}"
-    puts "Intent detected:   #{query_result.intent.display_name}"
-    puts "Intent confidence: #{query_result.intent_detection_confidence}"
-    puts "Fulfillment text:  #{query_result.fulfillment_text}\n"
+    return nil if query_result.intent.display_name == "Default Fallback Intent"
 
     return query_result.fulfillment_text
 

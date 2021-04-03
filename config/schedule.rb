@@ -92,3 +92,7 @@ end
 every 10.minutes do
   rake 'news:stock_news'
 end
+
+every 1.minutes do
+  rake 'bot:talk'
+end

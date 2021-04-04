@@ -97,8 +97,8 @@ class TiramonBattle < ApplicationRecord
     if rank == 0
       # チラモンマニアの場合
 
-      # チラモンマニアで過去１年間で勝利した選手(=過去覇者)
-      mania_battle = TiramonBattle.where(rank: 0).where(datetime: 1.year.ago..Time.current)
+      # チラモンマニアで過去1ヶ月で勝利した選手(=過去覇者)
+      mania_battle = TiramonBattle.where(rank: 0).where(datetime: 1.month.ago..Time.current)
       mania_winners = []
       mania_battle.map do |battle|
         if battle.result.blank?

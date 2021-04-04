@@ -1327,4 +1327,20 @@ class Tiramon < ApplicationRecord
     return a.inject(:*)
   end
 
+  def self.set_miss()
+    tiramons = Tiramon.where.not(rank: 6).where.not(tiramon_trainer: nil)
+
+    tiramons.each do |tiramon|
+      if 7.days.ago < act
+        tiramon.rank = 6
+        tiramon.save!
+      end
+    end
+  end
+
+  def self.leave()
+    tiramons = Tiramon.where(tiramon_trainer: nil)
+    tiramons.destroy_all
+  end
+
 end

@@ -1331,7 +1331,7 @@ class Tiramon < ApplicationRecord
     tiramons = Tiramon.where.not(rank: 6).where.not(tiramon_trainer: nil)
 
     tiramons.each do |tiramon|
-      if 7.days.ago < tiramon.act
+      if tiramon.act < 7.days.ago
         tiramon.rank = 6
         tiramon.save!
       end

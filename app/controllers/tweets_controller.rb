@@ -372,6 +372,25 @@ class TweetsController < ApplicationController
     render partial: "tweets/study"
   end
 
+  def training
+    if user_signed_in? && current_user.id == 1
+      num = params[:num] ? params[:num].to_i : 100
+      num = [num, 10, 10000].sort.second
+      user = params[:user] ? params[:user].to_i : nil
+      if !user.nil?
+        @tweets = Tweet.where(user_id: user).order(id: :desc).limit(num)
+      else
+        @tweets = Tweet.all.order(id: :desc).limit(num)
+      end
+      render partial: "tweets/study"
+    else
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet

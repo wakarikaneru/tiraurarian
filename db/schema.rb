@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_152155) do
+ActiveRecord::Schema.define(version: 2021_04_05_035545) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -328,6 +328,7 @@ ActiveRecord::Schema.define(version: 2021_04_03_152155) do
     t.index ["datetime"], name: "index_tiramon_battles_on_datetime"
     t.index ["rank"], name: "index_tiramon_battles_on_rank"
     t.index ["red_tiramon_id"], name: "index_tiramon_battles_on_red_tiramon_id"
+    t.index ["result"], name: "index_tiramon_battles_on_result"
   end
 
   create_table "tiramon_bets", charset: "utf8mb4", force: :cascade do |t|

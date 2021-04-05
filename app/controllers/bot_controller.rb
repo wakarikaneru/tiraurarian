@@ -48,9 +48,6 @@ class BotController < ApplicationController
 
     query_result = response.query_result
 
-    return nil if query_result.intent == "fallback"
-    return nil if query_result.fulfillment_text.blank?
-
     return query_result.fulfillment_text
 
   end

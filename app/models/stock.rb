@@ -88,7 +88,7 @@ class Stock < ApplicationRecord
     stock_log.set_point(price_f.to_i)
 
     # 倒産確率変動
-    bankruptcy_day = [(price_f / 10000.0) * 7.0, 1.0, 7.0].sort.second
+    bankruptcy_day = 1
 
     # 倒産
     if price_target_f < 500.0 || price_f < (price_target_f / 2.0) || (Random.rand * 60.0 * 24.0 * bankruptcy_day) < 1.0

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_035545) do
+ActiveRecord::Schema.define(version: 2021_04_06_131404) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_bads_on_create_datetime"
+    t.index ["tweet_id"], name: "index_bads_on_tweet_id"
+    t.index ["user_id"], name: "index_bads_on_user_id"
   end
 
   create_table "bookmarks", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -75,6 +78,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_bookmarks_on_create_datetime"
+    t.index ["tweet_id"], name: "index_bookmarks_on_tweet_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "card_boxes", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -142,6 +148,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_follows_on_create_datetime"
+    t.index ["target_id"], name: "index_follows_on_target_id"
+    t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
   create_table "gambling_results", charset: "utf8mb4", force: :cascade do |t|
@@ -160,6 +169,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_goods_on_create_datetime"
+    t.index ["tweet_id"], name: "index_goods_on_tweet_id"
+    t.index ["user_id"], name: "index_goods_on_user_id"
   end
 
   create_table "messages", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -193,6 +205,8 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.string "news"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["expiration"], name: "index_news_on_expiration"
+    t.index ["priority"], name: "index_news_on_priority"
   end
 
   create_table "notices", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -215,6 +229,7 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.integer "point", default: 10000
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_points_on_user_id"
   end
 
   create_table "premia", charset: "utf8mb4", force: :cascade do |t|
@@ -223,6 +238,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_premia_on_create_datetime"
+    t.index ["limit_datetime"], name: "index_premia_on_limit_datetime"
+    t.index ["user_id"], name: "index_premia_on_user_id"
   end
 
   create_table "stats", charset: "utf8mb4", force: :cascade do |t|
@@ -231,6 +249,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.integer "users"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["datetime"], name: "index_stats_on_datetime"
+    t.index ["load"], name: "index_stats_on_load"
+    t.index ["users"], name: "index_stats_on_users"
   end
 
   create_table "stock_companies", charset: "utf8mb4", force: :cascade do |t|
@@ -247,6 +268,7 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.integer "point", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["datetime"], name: "index_stock_logs_on_datetime"
   end
 
   create_table "stocks", charset: "utf8mb4", force: :cascade do |t|
@@ -287,6 +309,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_texts_on_create_datetime"
+    t.index ["tweet_id"], name: "index_texts_on_tweet_id"
+    t.index ["user_id"], name: "index_texts_on_user_id"
   end
 
   create_table "thumbs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -488,6 +513,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_035545) do
     t.integer "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_wakarus_on_create_datetime"
+    t.index ["tweet_id"], name: "index_wakarus_on_tweet_id"
+    t.index ["user_id"], name: "index_wakarus_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

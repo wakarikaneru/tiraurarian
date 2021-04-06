@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_131404) do
+ActiveRecord::Schema.define(version: 2021_04_06_134936) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_131404) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_messages_on_create_datetime"
     t.index ["read_flag"], name: "index_messages_on_read_flag"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
@@ -219,6 +220,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_131404) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["create_datetime"], name: "index_notices_on_create_datetime"
     t.index ["read_flag"], name: "index_notices_on_read_flag"
     t.index ["sender_id"], name: "index_notices_on_sender_id"
     t.index ["user_id"], name: "index_notices_on_user_id"
@@ -276,6 +278,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_131404) do
     t.integer "number", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stocks_on_user_id"
   end
 
   create_table "tags", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -285,6 +288,9 @@ ActiveRecord::Schema.define(version: 2021_04_06_131404) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tag_string"], name: "index_tags_on_tag_string"
+    t.index ["tweet_id"], name: "index_tags_on_tweet_id"
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
   create_table "taxpayer_hofs", charset: "utf8mb4", force: :cascade do |t|

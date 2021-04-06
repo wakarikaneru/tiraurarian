@@ -6,7 +6,7 @@ module Constants
 
   DISTRIBUTE_RATIO = 0.001
   DISTRIBUTE_MIN = 1000
-  TAX_RATIO = 0.01
+  TAX_RATIO = 0.1
   TAX_MIN = 1
 
   TAX_MOTTO = [

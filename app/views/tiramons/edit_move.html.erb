@@ -73,6 +73,17 @@
       <p>最強の戦い方をあみだしましょう！</p>
     </div>
 
+    <div id="div_filter">
+        <label>技フィルタ</label><INPUT type="checkbox" id="skillFilter"><label for="skillFilter">on/off</label>
+        <br>
+        <INPUT type="checkbox" id="checkbox_NONE"> <label for="checkbox_NONE" style="margin-right: 10px">無</label>
+        <INPUT type="checkbox" id="checkbox_DAGEKI"> <label for="checkbox_DAGEKI" style="margin-right: 10px">打</label>
+        <INPUT type="checkbox" id="checkbox_NAGE"> <label for="checkbox_NAGE" style="margin-right: 10px">投</label>
+        <INPUT type="checkbox" id="checkbox_KANSETU"> <label for="checkbox_KANSETU" style="margin-right: 10px">極</label>
+        <label>威力</label> <INPUT type="number" id="powerMin" >～<INPUT type="number" id="powerMax" style="margin-right: 10px">
+        <label for="skillName">名前</label> <INPUT type="text" id="skillName" >
+    </div>
+
     <% if params[:mode] == "easy" %>
 
       <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
@@ -153,4 +164,153 @@
   </div>
 
 </div>
+<script type="text/javascript">
+   //===============================================================================
+    // メソッド定義
+    //-------------------------------------------------------------------------------
+    // フィルターONメソッド
+    // セレクトボックスに紐付ける
+    var function_FilterON = function(selectbox) {
+        // フィルター条件取得
+        var isNONE = $("#checkbox_NONE").prop('checked');
+        var isDAGEKI = $("#checkbox_DAGEKI").prop('checked');
+        var isNAGE = $("#checkbox_NAGE").prop('checked');
+        var isKANSETU = $("#checkbox_KANSETU").prop('checked');
+
+        var powerMin = $("#powerMin").val();
+        var powerMax = $("#powerMax").val();
+
+        var iPowerMin = parseInt(powerMin, 10);
+        var iPowerMax = parseInt(powerMax, 10);
+
+        var skillName = $("#skillName").val();
+
+        // セレクトボックスからoptionを取得してフィルタリング処理をする
+        $(selectbox).find("option").each(function(index, element){
+            // フィルタフラグ
+            var filterOn = false;
+
+            // 技データ取得
+            var result=$(element).text().split(/\[|\]/);
+
+            // 技属性取得
+            var type=result[1];
+
+            // 技威力取得
+            var power=result[3];
+            // 数値変換
+            var iPower = parseInt(power, 10);
+
+            // 技名取得
+            var name=result[4];
+
+            //====================================================================
+            // 属性によるフィルタ
+            //--------------------------------------------------------------------
+            // いずれかのフィルタにチェックが入っている場合属性のフィルタ
+            if(isNONE || isDAGEKI || isNAGE || isKANSETU) {
+                switch(type) {
+                    case '無':
+                        // noneにチェックが入っていない場合、フィルタ対象
+                        filterOn = !isNONE;
+                        break;
+
+                    case '打':
+                        filterOn = !isDAGEKI;
+                        break;
+
+                    case '投':
+                        filterOn = !isNAGE;
+                        break;
+
+                    case '極':
+                        filterOn = !isKANSETU;
+                        break;
+                }
+            }
+
+            //====================================================================
+            // 威力によるフィルタ
+            //--------------------------------------------------------------------
+            // 最小攻撃力によるフィルタ
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                // 最小攻撃力が入力されている
+                if(!isNaN(iPowerMin)) {
+                    // minより低い場合フィルタ対象
+                    filterOn = !(iPowerMin <= iPower);
+                }
+            }
+
+            // 最大攻撃力によるフィルタ
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                if(!isNaN(iPowerMax)) {
+                    // maxより高い場合フィルタ
+                    filterOn = !(iPowerMax >= iPower);
+                }
+            }
+
+            //====================================================================
+            // 名称によるフィルタ
+            //--------------------------------------------------------------------
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                if (skillName) {
+                    filterOn=!(name.indexOf(skillName) >= 0);
+                }
+            }
+
+            // フィルタ条件に引っかかった技を隠し、引っかからなかった技を表示する
+            if(filterOn) {
+                $(element).hide();
+            }
+            else {
+                $(element).show();
+            }
+
+
+        });
+    }
+
+    // フィルター解除メソッド
+    // セレクトボックスに紐付ける
+    var function_Off = function(selectbox){
+        $(selectbox).find("option").each(function(index, element){
+            $(element).show();
+        });
+    }
+
+    // フォーカスインコントロール
+    var function_forcus_in = function() {
+        var sender=$(this);
+        if($("#skillFilter").prop('checked')){
+            function_FilterON(sender);
+        }
+        else{
+            function_Off(sender);
+        }
+    }
+
+    // フォーカスイン紐付け
+    $("select#move_0_0_.form-control").focusin(function_forcus_in);
+    $("select#move_0_1_.form-control").focusin(function_forcus_in);
+    $("select#move_0_2_.form-control").focusin(function_forcus_in);
+    $("select#move_0_3_.form-control").focusin(function_forcus_in);
+
+    $("select#move_1_0_.form-control").focusin(function_forcus_in);
+    $("select#move_1_1_.form-control").focusin(function_forcus_in);
+    $("select#move_1_2_.form-control").focusin(function_forcus_in);
+    $("select#move_1_3_.form-control").focusin(function_forcus_in);
+
+    $("select#move_2_0_.form-control").focusin(function_forcus_in);
+    $("select#move_2_1_.form-control").focusin(function_forcus_in);
+    $("select#move_2_2_.form-control").focusin(function_forcus_in);
+    $("select#move_2_3_.form-control").focusin(function_forcus_in);
+
+    $("select#move_3_0_.form-control").focusin(function_forcus_in);
+    $("select#move_3_1.form-control").focusin(function_forcus_in);
+    $("select#move_3_2_.form-control").focusin(function_forcus_in);
+    $("select#move_3_3_.form-control").focusin(function_forcus_in);
+</script>
 <%= render partial: "/layouts/tiramon_nav" %>

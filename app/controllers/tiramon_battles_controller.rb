@@ -9,8 +9,9 @@ class TiramonBattlesController < ApplicationController
       @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
       @my_tiramons = Tiramon.where(tiramon_trainer_id: @tiramon_trainer)
       @negotiations_tiramons = Tiramon.where(right: @tiramon_trainer.id).where("get_limit > ?", Time.current)
-      my_battles_red = TiramonBattle.where(red_tiramon_id: @my_tiramons)
-      my_battles_blue = TiramonBattle.where(blue_tiramon_id: @my_tiramons)
+      my_battles_red = TiramonBattle.where(red_tiramon_id: @my_tiramons.pluck(:id))
+      my_battles_blue = TiramonBattle.where(blue_tiramon_id: @my_tiramons.pluck(:id))
+      #@my_battles = TiramonBattle.none.or(my_battles_red).or(my_battles_blue).where.not(rank: -1).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
       @my_battles = TiramonBattle.none.or(my_battles_red).or(my_battles_blue).where.not(rank: -1).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
 
       @my_free_tiramos_count = @my_tiramons.to_a.select { |t| t.can_act? }.size

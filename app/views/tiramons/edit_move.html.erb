@@ -73,6 +73,58 @@
       <p>最強の戦い方をあみだしましょう！</p>
     </div>
 
+    <div class="m-2">
+      <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        フィルタ表示/非表示
+      </a>
+      <div id="collapseExample" class="collapse">
+        <div id="moveFilter" class=" alert alert-primary m-2">
+          <div class="form-group">
+            <label for="skillName">技カテゴリー</label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox_NONE" class="form-check-input"> <label for="checkbox_NONE" class="form-check-label">無</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox_DAGEKI" class="form-check-input"> <label for="checkbox_DAGEKI" class="form-check-label">打</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox_NAGE" class="form-check-input"> <label for="checkbox_NAGE" class="form-check-label">投</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox_KANSETU" class="form-check-input"> <label for="checkbox_KANSETU" class="form-check-label">極</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="skillName">技パワー</label>
+            <div class="row">
+              <div class="col">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span  class="input-group-text">下限</span>
+                  </div>
+                  <input type="number" id="powerMin" class="form-control">
+                </div>
+              </div>
+              <div class="col">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">上限</span>
+                  </div>
+                  <input type="number" id="powerMax" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="skillName">技の名前</label>
+            <input type="text" id="skillName" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <% if params[:mode] == "easy" %>
 
       <%= form_with url: tiramon_set_move_path(id: @tiramon), method: :post, local: true do %>
@@ -85,7 +137,7 @@
               <div>
                 <% 6.times do |i| %>
                 <div class="input-group my-1">
-                  <%= select_tag "move[0][#{e}][]", options_for_select(@select, selected: @moves[0][e][i]), class: "form-control" %>
+                  <%= select_tag "move[0][#{e}][]", options_for_select(@select, selected: @moves[0][e][i]), class: "form-control moves" %>
                 </div>
                 <% end %>
               </div>
@@ -116,7 +168,7 @@
                   <div>
                     <% 6.times do |i| %>
                     <div class="input-group my-1">
-                      <%= select_tag "move[#{s}][#{e}][]", options_for_select(@select, selected: @moves[s][e][i]), class: "form-control" %>
+                      <%= select_tag "move[#{s}][#{e}][]", options_for_select(@select, selected: @moves[s][e][i]), class: "form-control moves" %>
                     </div>
                     <% end %>
                   </div>
@@ -153,4 +205,117 @@
   </div>
 
 </div>
+<script type="text/javascript">
+   //===============================================================================
+    // メソッド定義
+    //-------------------------------------------------------------------------------
+    // フィルターONメソッド
+    var change_filter = function() {
+        // フィルター条件取得
+        var isNONE = $("#checkbox_NONE").prop('checked');
+        var isDAGEKI = $("#checkbox_DAGEKI").prop('checked');
+        var isNAGE = $("#checkbox_NAGE").prop('checked');
+        var isKANSETU = $("#checkbox_KANSETU").prop('checked');
+
+        var powerMin = $("#powerMin").val();
+        var powerMax = $("#powerMax").val();
+
+        var iPowerMin = parseInt(powerMin, 10);
+        var iPowerMax = parseInt(powerMax, 10);
+
+        var skillName = $("#skillName").val();
+
+        // セレクトボックスからoptionを取得してフィルタリング処理をする
+        $(".moves").find("option").each(function(index, element){
+            // フィルタフラグ
+            var filterOn = false;
+
+            // 技データ取得
+            var result=$(element).text().split(/\[|\]/);
+
+            // 技属性取得
+            var type=result[1];
+
+            // 技威力取得
+            var power=result[3];
+            // 数値変換
+            var iPower = parseInt(power, 10);
+
+            // 技名取得
+            var name=result[4];
+
+            //====================================================================
+            // 属性によるフィルタ
+            //--------------------------------------------------------------------
+            // いずれかのフィルタにチェックが入っている場合属性のフィルタ
+            if(isNONE || isDAGEKI || isNAGE || isKANSETU) {
+                switch(type) {
+                    case '無':
+                        // noneにチェックが入っていない場合、フィルタ対象
+                        filterOn = !isNONE;
+                        break;
+
+                    case '打':
+                        filterOn = !isDAGEKI;
+                        break;
+
+                    case '投':
+                        filterOn = !isNAGE;
+                        break;
+
+                    case '極':
+                        filterOn = !isKANSETU;
+                        break;
+                }
+            }
+
+            //====================================================================
+            // 威力によるフィルタ
+            //--------------------------------------------------------------------
+            // 最小攻撃力によるフィルタ
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                // 最小攻撃力が入力されている
+                if(!isNaN(iPowerMin)) {
+                    // minより低い場合フィルタ対象
+                    filterOn = !(iPowerMin <= iPower);
+                }
+            }
+
+            // 最大攻撃力によるフィルタ
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                if(!isNaN(iPowerMax)) {
+                    // maxより高い場合フィルタ
+                    filterOn = !(iPowerMax >= iPower);
+                }
+            }
+
+            //====================================================================
+            // 名称によるフィルタ
+            //--------------------------------------------------------------------
+            // すでにフィルター対象になっている場合はskip
+            if(!filterOn) {
+                if (skillName) {
+                    filterOn=!(name.indexOf(skillName) >= 0);
+                }
+            }
+
+            // フィルタ条件に引っかかった技を隠し、引っかからなかった技を表示する
+            if(filterOn) {
+                $(element).hide();
+            }
+            else {
+                $(element).show();
+            }
+
+
+        });
+    }
+
+    $("#moveFilter").find("input").change(function() {
+      change_filter();
+    });
+
+</script>
 <%= render partial: "/layouts/tiramon_nav" %>

@@ -1,89 +1,156 @@
 <div class="title">チラモン情報</div>
 <%= render partial: "/layouts/tiramon_nav" %>
-
-<div class="tweet-container list">
+<div class="tweet-container">
   <div class="hukidasi width-full word-break">
-    <h1>チラモン情報</h1>
-    <% if !@my_tiramon %>
-      <% if @right %>
-        <div>ゲット前のチラモンの情報は大まかな値です</div>
-      <% else %>
-        <div>他人のチラモンの情報は大まかな値です</div>
-        <% end %>
-    <% end %>
+    <h3>チラモン情報</h3>
 
     <div class="d-flex flex-row flex-wrap">
 
-      <div class="hukidasi m-2">基本情報:
-        <ul>
-          <li>名前: <%= @disp_data[:name] %></li>
-          <li>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></li>
-          <li>ランク: <%= @tiramon.auto_rank ? @tiramon.auto_rank : "なし" %></li>
-          <li>Lv: <%= @disp_data[:level].to_i %></li>
-          <li>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</li>
-          <li>体重: <%= (@disp_data[:weight]).to_i %>kg</li>
-        </ul>
-      </div>
-
-      <div class="hukidasi m-2">基礎能力:
-        <ul>
-          <li>体力: <%= Tiramon.about((@disp_data[:hp]), @about).to_i %></li>
-          <li>精神力: <%= Tiramon.about((@disp_data[:mp]), @about).to_i %></li>
-          <li>スタミナ: <%= Tiramon.about((@disp_data[:sp]), @about).to_i %></li>
-          <li>スピード: <%= Tiramon.about((@disp_data[:speed]), @about).to_i %></li>
-        </ul>
-      </div>
-
-      <div class="hukidasi m-2">回復力:
-        <ul>
-          <li>体力: <%= Tiramon.about((@disp_data[:recovery_hp]), @about).to_i %></li>
-          <li>精神力: <%= Tiramon.about((@disp_data[:recovery_mp]), @about).to_i %></li>
-          <li>スタミナ: <%= Tiramon.about((@disp_data[:recovery_sp]), @about).to_i %></li>
-        </ul>
-      </div>
-
-      <div class="hukidasi m-2 d-flex flex-row flex-wrap">
-        <div class="hukidasi m-2">技術力-攻撃:
-          <ul>
-            <li>打: <%= Tiramon.about((@disp_data[:attack][0] * 100), @about).to_i %></li>
-            <li>投: <%= Tiramon.about((@disp_data[:attack][1] * 100), @about).to_i %></li>
-            <li>極: <%= Tiramon.about((@disp_data[:attack][2] * 100), @about).to_i %></li>
-          </ul>
+      <div class="hukidasi w-100 m-2" style="max-width:600px">
+        <h1 class="text-center"><%= @disp_data[:name] %></h1>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="m-2">
+            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+          </div>
+          <div class="m-2">
+            <div class="text-big">Lv: <%= @disp_data[:level].to_i %></div>
+            <div>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</div>
+            <div>体重: <%= (@disp_data[:weight]).to_i %>kg</div>
+          </div>
         </div>
-        <div class="hukidasi m-2">技術力-防御:
-          <ul>
-            <li>打: <%= Tiramon.about((@disp_data[:defense][0] * 100), @about).to_i %></li>
-            <li>投: <%= Tiramon.about((@disp_data[:defense][1] * 100), @about).to_i %></li>
-            <li>極: <%= Tiramon.about((@disp_data[:defense][2] * 100), @about).to_i %></li>
-          </ul>
-        </div>
-      </div>
 
-      <% if @my_tiramon %>
-        <div class="hukidasi m-2">遺伝:
-          <ul>
-            <% if 20 <= @disp_data[:level] %>
-              <li>因子: [<%= @tiramon.getFactorName %>]</li>
-            <% else %>
-              <li>因子はレベル20で判明します</li>
-            <% end %>
-            <li>血統</li>
-            <% p = @tiramon.getPedigree %>
-            <ul>
-              <li>[<%= p[0][0][0] %>] <%= p[0][0][1] %></li>
-              <ul>
-                <li>[<%= p[0][1][0][0] %>] <%= p[0][1][0][1] %></li>
-                <li>[<%= p[0][1][1][0] %>] <%= p[0][1][1][1] %></li>
-              </ul>
-                <li>[<%= p[1][0][0] %>] <%= p[1][0][1] %></li>
-                <ul>
-                  <li>[<%= p[1][1][0][0] %>] <%= p[1][1][0][1] %></li>
-                  <li>[<%= p[1][1][1][0] %>] <%= p[1][1][1][1] %></li>
-                </ul>
-            </ul>
-          </ul>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="m-2">
+            <div><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (@disp_data[:quality]))) %></div>
+            <div>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></div>
+            <div>ランク: <%= @tiramon.auto_rank ? @tiramon.auto_rank : "なし" %></div>
+          </div>
         </div>
-      <% end %>
+
+        <div class="w-100">
+
+          <div class="d-flex hukidasi p-0 m-2">
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:hp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:hp].to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神力</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:mp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:mp].to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:sp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:sp].to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>スピード</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:speed]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:speed].to_i %></div><% end %>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="d-flex hukidasi p-0 m-2">
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力回復</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_hp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_hp].to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神回復</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_mp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_mp].to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ回復</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_sp]))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_sp].to_i %></div><% end %>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="d-flex hukidasi p-0 m-2">
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-打</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][0] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][0] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-投</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][1] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][1] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-極</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][2] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][2] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+          </div>
+          <div class="d-flex hukidasi p-0 m-2">
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-打</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][0] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][0] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-投</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][1] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][1] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+            <div class="border-right flex-grow-1">
+              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-極</b></div>
+              <div class="d-flex justify-content-center align-items-center m-1">
+                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][2] * 100))) %></div>
+                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][2] * 100).to_i %></div><% end %>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -494,6 +561,34 @@
         <div class="">defense_2 = <%= (f.dot(TiramonFactor.find_by(key: "defense_2").getFactor) * 100).to_i %>%</div>
 
       </div>
+    </div>
+  </div>
+<% end %>
+
+<% if user_signed_in? && current_user.id == 1 %>
+  <div class="tweet-container list">
+    <div class="hukidasi m-2">遺伝:
+      <ul>
+        <% if 20 <= @disp_data[:level] %>
+          <li>因子: [<%= @tiramon.getFactorName %>]</li>
+        <% else %>
+          <li>因子はレベル20で判明します</li>
+        <% end %>
+        <li>血統</li>
+        <% p = @tiramon.getPedigree %>
+        <ul>
+          <li>[<%= p[0][0][0] %>] <%= p[0][0][1] %></li>
+          <ul>
+            <li>[<%= p[0][1][0][0] %>] <%= p[0][1][0][1] %></li>
+            <li>[<%= p[0][1][1][0] %>] <%= p[0][1][1][1] %></li>
+          </ul>
+            <li>[<%= p[1][0][0] %>] <%= p[1][0][1] %></li>
+            <ul>
+              <li>[<%= p[1][1][0][0] %>] <%= p[1][1][0][1] %></li>
+              <li>[<%= p[1][1][1][0] %>] <%= p[1][1][1][1] %></li>
+            </ul>
+        </ul>
+      </ul>
     </div>
   </div>
 <% end %>

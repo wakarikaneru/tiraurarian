@@ -51,7 +51,7 @@ module Constants
   CARD_HOF_COUNT = 30
 
   CARD_RULE = [300, 200, 100]
-  CARD_RULE_NAME = ["スーパーヘビー級", "ヘビー級", "ジュニア級"]
+  CARD_RULE_NAME = ["スーパーヘビー級", "ヘビー級", "ジュニアヘビー級"]
   CARD_ELEMENTS = ["無", "木", "火", "土", "金", "水", "光", "闇", "全", "？", "虚", "神"]
   CARD_ELEMENTALS = ["カオス", "青龍", "朱雀", "麒麟", "白虎", "玄武", "アマテラス", "ツクヨミ", "コスモス", "正体不明", "真理", "宣言"]
 
@@ -81,16 +81,17 @@ module Constants
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ]
 
-  TIRAMON_RULE_NAME = ["チラモンマニア", "チャンピオンシップ", "ヘビー級", "ジュニア級", "ノーマルマッチ", "アンダーマッチ", "欠場"]
-  TIRAMON_KING_RULE = [false, true, true, true, false, false, false]
+  TIRAMON_RULE_NAME = ["チラモンマニア", "チャンピオンシップ", "スーパーヘビー級", "ヘビー級", "ジュニアヘビー級", "ノーマルマッチ", "アンダーマッチ", "欠場"]
+  TIRAMON_KING_RULE = [false, true, true, true, true, false, false, false]
   TIRAMON_FIGHT_TERM = [24.hour, 5.hour, 1.hour, 1.hour, 10.minute, 5.minute, 0.minute]
-  TIRAMON_FIGHT_VARTH = [1000000, 100000, 15000, 10000, 500, 100, 0]
+  TIRAMON_FIGHT_VARTH = [1000000, 100000, 100000, 15000, 10000, 500, 100, 0]
   TIRAMON_ENTRANCE_TIME = 5.minute
   TIRAMON_PAYMENT_SITE = 1.hour
 
   TIRAMON_NAME = "野生のチラモン"
   TIRAMON_RENAME_PRICE = 1000
   TIRAMON_CLASS_CHANGE_PRICE = 1000
+  TIRAMON_STATUS_RANK = ["G", "G+", "F", "F+", "E", "E+", "D", "D+", "C", "C+", "B", "B+", "A", "A+", "S", "S+", "SS", "SS+"]
   TIRAMON_TRAINING_TERM = 3.hour
   TIRAMON_TRAINING_BONUS_TIME = 30.minute
   TIRAMON_TRAINING_BONUS_TERM = 3.minute

@@ -1,13 +1,50 @@
-<div class="title">チラウラリア公営チラモン闘技場「P.W.D.」</div>
+<div class="title">チラウラリア公営チラモン闘技場「N.T.W.」</div>
 
-<div class="tweet-container list">
-  <div class="hukidasi width-full">
-    <h1>遊び方</h1>
-    <p>チラウラリアモンスター(通称チラモン)を育て、あいてのチラモンと闘わせるゲームです。</p>
-    <p>チラモンを育て、技を教え、戦術を練ると、チラモンは自分で考え、闘います。</p>
-    <p>最強のチラモンを育て上げ、「チラモンマスター」を目指しましょう！</p>
+<% if user_signed_in? %>
+  <div class="tweet-container">
+
+    <div class="hukidasi">
+      <h1>トレーナー情報</h1>
+      <div class="m-2">
+        <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
+        <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
+        <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
+      </div>
+      <div class="m-2">
+        <div>チラモン: <%= @my_tiramons.count %>匹</div>
+        <div>ヒマなチラモン: <%= @my_free_tiramos_count %>/<%= @my_tiramons.count %>匹</div>
+        <div>交渉中のチラモン: <%= @negotiations_tiramons.count %>匹</div>
+      </div>
+
+      <div class="m-2">
+        <%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>
+          チラモン&トレーナー情報
+          <% if @negotiations_tiramons.present? %>
+            <br />チラモンをゲットしましょう！
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="hukidasi">
+      <h1>チラモンショップ</h1>
+      <h3>所持VARTH <%= @user_points %>va</h3>
+      <div class="m-2">
+        <%= link_to tiramon_trainer_get_ball_path(id: @tiramon_trainer), method: :post, class: "btn btn-danger w-100", data: { confirm: "チラモンボールを購入しますか？" } do %>
+          チラモンボールを購入<br />
+          <%= Constants::TIRAMON_TRAINER_BALL_PRICE %>va
+        <% end %>
+      </div>
+      <div class="m-2">
+        <%= link_to tiramon_trainer_move_recovery_path(id: @tiramon_trainer), method: :post, class: "btn btn-warning w-100", data: { confirm: "行動ポイントを回復しますか？" } do %>
+          行動ポイントを回復<br />
+          <%= Constants::TIRAMON_TRAINER_MOVE_RECOVERY_PRICE %>va
+        <% end %>
+      </div>
+    </div>
+
   </div>
-</div>
+<% end %>
 
 <% if @mania_battle.present? and @in_match %>
   <div class="tweet-container">
@@ -256,88 +293,53 @@
 <div class="tweet-container">
 
   <div class="hukidasi">
-    <h1>試合結果</h1>
-    <div class="m-2">
-      <%= link_to tiramon_battle_results_path, class: "btn btn-primary w-100" do %>
-        試合結果を見る
+    <h3>試合結果(最新<%= @battles.count %>件)</h3>
+    <% if @battles.present? %>
+      <% @battles.map do |battle| %>
+          <div class="content d-flex justify-content-center">
+            <div class="content-content text-center word-break">
+              <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="flex-shrink-0 mx-1">
+                  <%= Constants::TIRAMON_RULE_NAME[battle.rank] %><br />
+                  <%= battle.datetime.strftime("%m月%d日 %H:%M") %>
+                </div>
+                <div class="flex-shrink-1 mx-1 text-center">
+                  <div>
+                    <%= link_to battle, class: "d-flex flex-row flex-wrap justify-content-center" do %>
+                      <div><%= battle.blue_tiramon_name %></div>
+                      <div>&ensp;vs&ensp;</div>
+                      <div><%= battle.red_tiramon_name %></div><% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
       <% end %>
-    </div>
-    <div class="m-2">
-      <%= link_to tiramon_battle_rank_results_path, class: "btn btn-primary w-100" do %>
-        ランクマッチ結果
-      <% end %>
+    <% else %>
+      <div class="content d-flex flex-wrap justify-content-center m-2">
+        <div class="text-center">
+          まだありません。
+        </div>
+      </div>
+    <% end %>
+    <hr />
+    <div class="d-flex flex-row justify-content-around">
+      <div class="m-1">
+        <%= link_to tiramon_battle_results_path, class: "btn btn-primary" do %>
+          以前の試合結果
+        <% end %>
+      </div>
+      <div class="m-1">
+        <%= link_to tiramon_battle_rank_results_path, class: "btn btn-primary" do %>
+          ランクマッチ
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="hukidasi">
-    <h1>出場選手一覧</h1>
-    <div class="m-2">
-      <%= link_to tiramons_path, class: "btn btn-primary w-100" do %>
-        出場選手一覧を見る
-      <% end %>
-    </div>
-    <div class="m-2">
-      <%= link_to tiramon_ranks_path, class: "btn btn-primary w-100" do %>
-        ランキングを見る
-      <% end %>
-    </div>
-  </div>
-
-</div>
-
-<% if user_signed_in? %>
-  <div class="tweet-container">
-
+  <% if user_signed_in? %>
     <div class="hukidasi">
-      <h1>トレーナー情報</h1>
-      <h3>所持VARTH <%= @user_points %>va</h3>
-      <div class="m-2">
-        <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
-        <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
-        <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
-      </div>
-      <div class="m-2">
-        <div>チラモン: <%= @my_tiramons.count %>匹</div>
-        <div>ヒマなチラモン: <%= @my_free_tiramos_count %>/<%= @my_tiramons.count %>匹</div>
-        <div>交渉中のチラモン: <%= @negotiations_tiramons.count %>匹</div>
-      </div>
-
-      <div class="m-2">
-        <%= link_to tiramon_trainer_path, class: "btn btn-primary w-100" do %>
-          チラモン&トレーナー情報
-          <% if @negotiations_tiramons.present? %>
-            <br />チラモンをゲットしましょう！
-          <% end %>
-        <% end %>
-      </div>
-
-      <div class="m-2">
-        <%= link_to tiramon_scout_path, method: :post, class: "btn btn-warning w-100", data: { confirm: "チラモンを探索しますか？"}  do %>
-          チラモンを探索する！<br />
-          (行動ポイント: 残り<%= @tiramon_trainer.move %>)
-        <% end %>
-      </div>
-    </div>
-
-    <div class="hukidasi">
-      <h1>チラモンショップ</h1>
-      <div class="m-2">
-        <%= link_to tiramon_trainer_get_ball_path(id: @tiramon_trainer), method: :post, class: "btn btn-danger w-100", data: { confirm: "チラモンボールを購入しますか？" } do %>
-          チラモンボールを購入<br />
-          <%= Constants::TIRAMON_TRAINER_BALL_PRICE %>va
-        <% end %>
-      </div>
-      <div class="m-2">
-        <%= link_to tiramon_trainer_move_recovery_path(id: @tiramon_trainer), method: :post, class: "btn btn-warning w-100", data: { confirm: "行動ポイントを回復しますか？" } do %>
-          行動ポイントを回復<br />
-          <%= Constants::TIRAMON_TRAINER_MOVE_RECOVERY_PRICE %>va
-        <% end %>
-      </div>
-    </div>
-
-    <div class="hukidasi">
-      <h1>マイチラモンの活躍</h1>
-      <h3>試合結果(最新<%= @my_battles.count %>件)</h3>
+      <h3>マイチラモンの試合結果(最新<%= @my_battles.count %>件)</h3>
       <% if @my_battles.present? %>
         <% @my_battles.map do |battle| %>
             <div class="content d-flex justify-content-center">
@@ -367,13 +369,36 @@
         </div>
       <% end %>
     </div>
+  <% end %>
 
+  <div class="hukidasi">
+    <h3>出場選手一覧</h3>
+    <div class="m-2">
+      <%= link_to tiramons_path, class: "btn btn-primary w-100" do %>
+        出場選手一覧を見る
+      <% end %>
+    </div>
+    <div class="m-2">
+      <%= link_to tiramon_ranks_path, class: "btn btn-primary w-100" do %>
+        ランキングを見る
+      <% end %>
+    </div>
   </div>
-<% end %>
+
+</div>
 
 <div class="tweet-container">
   <div class="hukidasi">
     <h1>遊び方</h1>
+    <p>チラウラリアモンスター(通称チラモン)を育て、あいてのチラモンと闘わせるゲームです。</p>
+    <p>チラモンを育て、技を教え、戦術を練ると、チラモンは自分で考え、闘います。</p>
+    <p>最強のチラモンを育て上げ、「チラモンマスター」を目指しましょう！</p>
+  </div>
+</div>
+
+<div class="tweet-container">
+  <div class="hukidasi">
+    <h1>あいさつ</h1>
     <p>はじめまして！<br />チラウラリア モンスターの せかいへ<br />ようこそ！</p>
     <p>わたしの なまえは <%= Gimei.last %><br />みんなからは チラモン はかせと<br />したわれて おるよ</p>
     <p>この せかいには<br />チラウラリア モンスターと よばれる</p>

@@ -17,13 +17,12 @@ class TiramonBattlesController < ApplicationController
       @my_free_tiramos_count = @my_tiramons.to_a.select { |t| t.can_act? }.size
     end
 
+    @battles = TiramonBattle.where.not(rank: -1).where("datetime < ?", Time.current).order(datetime: :desc).limit(5)
     @next_battles_present = TiramonBattle.where("datetime > ?", Time.current).order(datetime: :asc).present?
     @next_battles = []
-    @battles = []
 
     (0..5).each do |rank|
       @next_battles[rank] = TiramonBattle.where(rank: rank).where("datetime > ?", Time.current).order(datetime: :asc)
-      @battles[rank] = TiramonBattle.where(rank: rank).where("datetime < ?", Time.current).order(datetime: :desc).limit(20)
     end
 
     @mania_battle = TiramonBattle.where(rank: 0).where("datetime < ?", Time.current).order(datetime: :desc).first

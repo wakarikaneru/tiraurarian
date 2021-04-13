@@ -282,6 +282,21 @@ class Tiramon < ApplicationRecord
     return (a.sum(0.0) / a.length) * 100 - 50
   end
 
+  def self.getQuality(data)
+    a = []
+    a.concat(data[:abilities][:vital])
+    a.concat(data[:abilities][:recovery])
+    a << data[:abilities][:speed]
+    a << data[:skills][:attack][0] * 100
+    a << data[:skills][:attack][1] * 100
+    a << data[:skills][:attack][2] * 100
+    a << data[:skills][:defense][0] * 100
+    a << data[:skills][:defense][1] * 100
+    a << data[:skills][:defense][2] * 100
+
+    return ((a.sum(0.0) / a.length) - 50) / 100
+  end
+
   def getData
     if data.present?
       return eval(data)
@@ -377,6 +392,7 @@ class Tiramon < ApplicationRecord
     }
 
     t[:level] = Tiramon.getLevel(d)
+    t[:quality] = Tiramon.getQuality(d)
     t[:bmi] = t[:weight] / (t[:height] ** 2)
     t[:attack] = [d[:skills][:attack][0] * d[:train][:skills][:attack][0], d[:skills][:attack][1] * d[:train][:skills][:attack][1], d[:skills][:attack][2] * d[:train][:skills][:attack][2]]
     t[:defense] = [d[:skills][:defense][0] * d[:train][:skills][:defense][0], d[:skills][:defense][1] * d[:train][:skills][:defense][1], d[:skills][:defense][2] * d[:train][:skills][:defense][2]]
@@ -446,7 +462,7 @@ class Tiramon < ApplicationRecord
 
     draw = false
     turn = 0
-    last_attack = 0
+    last_turn = 0
     combo = 1
     turn_count = 0
     time_count = 0.second
@@ -520,6 +536,8 @@ class Tiramon < ApplicationRecord
       end
 
       if turn == 0
+
+        last_turn = turn
 
         ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_DOUBLE_DOWN, rand())])
 
@@ -689,12 +707,12 @@ class Tiramon < ApplicationRecord
 
         else
 
-          if last_attack == turn
+          if last_turn == turn
             combo += 1
           else
             combo = 1
           end
-          last_attack = turn
+          last_turn = turn
 
           ret[:log].push([turn, move_data[:name] + Tiramon.get_message(Constants::TIRAMON_SUCCESS_ATTACK, rand())])
 
@@ -702,7 +720,7 @@ class Tiramon < ApplicationRecord
           # 体重補正
           #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
 
-          combo_damage = [1.0 + (combo - 1.0) * 0.2, 2].min
+          combo_damage = Math.sqrt(combo)
           #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
 
           kiai_rand = Tiramon.power_rand(2)
@@ -1343,4 +1361,8 @@ class Tiramon < ApplicationRecord
     tiramons.destroy_all
   end
 
+  def self.leap(min, max, f)
+    diff = max.to_f - min.to_f
+    return [(f - min.to_f) / diff, 0.0, 1.0].sort.second
+  end
 end

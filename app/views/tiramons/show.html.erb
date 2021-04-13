@@ -21,7 +21,6 @@
 
         <div class="d-flex justify-content-center align-items-center">
           <div class="m-2">
-            <div><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (@disp_data[:quality]))) %></div>
             <div>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></div>
             <div>ランク: <%= @tiramon.auto_rank ? @tiramon.auto_rank : "なし" %></div>
           </div>

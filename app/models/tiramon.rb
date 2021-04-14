@@ -1323,6 +1323,10 @@ class Tiramon < ApplicationRecord
   end
 
   def set_act
+    if self.act.nil?
+      self.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
+    end
+
     if self.act < Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
       self.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
     end

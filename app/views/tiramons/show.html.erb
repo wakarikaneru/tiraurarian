@@ -1,411 +1,248 @@
 <div class="title">チラモン情報</div>
 <%= render partial: "/layouts/tiramon_nav" %>
-<div class="tweet-container">
-  <div class="hukidasi w-100" style="max-width:600px">
-    <h3>チラモン情報</h3>
 
-    <div class="d-flex flex-row flex-wrap">
-
-      <div class="hukidasi w-100 m-2">
-        <h1 class="text-center"><%= @disp_data[:name] %></h1>
-        <div class="d-flex justify-content-center align-items-center">
-          <div class="tiramon-icon m-2">
-            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img image_x64" %>
-            <div class="badge badge-pill badge-primary badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (@disp_data[:quality]))) %></div>
-          </div>
-          <div class="m-2">
-            <div class="text-big">Lv: <%= @disp_data[:level].to_i %></div>
-            <div>身長: <%= (@disp_data[:height] * 100).to_i  %>cm</div>
-            <div>体重: <%= (@disp_data[:weight]).to_i %>kg</div>
-          </div>
-        </div>
-
-        <div class="d-flex justify-content-center align-items-center">
-          <div class="m-2">
-            <div>階級: <%= Constants::TIRAMON_RULE_NAME[@tiramon.rank] %></div>
-            <div>ランク: <%= @tiramon.auto_rank ? @tiramon.auto_rank : "なし" %></div>
-          </div>
-        </div>
-
-        <div class="w-100">
-
-          <div class="d-flex hukidasi p-0 m-2">
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:hp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:hp].to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神力</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:mp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:mp].to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:sp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:sp].to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スピード</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:speed]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:speed].to_i %></div><% end %>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="d-flex hukidasi p-0 m-2">
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力回復</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_hp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_hp].to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神回復</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_mp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_mp].to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ回復</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:recovery_sp]))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= @disp_data[:recovery_sp].to_i %></div><% end %>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="d-flex hukidasi p-0 m-2">
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-打</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][0] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][0] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-投</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][1] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][1] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-極</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:attack][2] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:attack][2] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-          </div>
-          <div class="d-flex hukidasi p-0 m-2">
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-打</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][0] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][0] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-投</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][1] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][1] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-            <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-極</b></div>
-              <div class="d-flex justify-content-center align-items-center m-1">
-                <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (@disp_data[:defense][2] * 100))) %></div>
-                <% if @my_tiramon %><div class="p-1"><%= (@disp_data[:defense][2] * 100).to_i %></div><% end %>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <% if @getable %>
-      <div class="text-center">
-        <%= link_to tiramon_get_path(id: @tiramon), method: :post, class: "btn btn-primary m-2", data: { confirm: "本当にゲットしますか？" } do %>
-          ゲットする！(チラモンボール: 残り<%= @tiramon_trainer.tiramon_ball %>)
-        <% end %>
-      </div>
-    <% end %>
-
-  </div>
-
+<%= render partial: "/tiramons/tiramon_status", locals: { tiramon: @tiramon, disp_data: @disp_data, tiramon_trainer: @tiramon_trainer, my_tiramon: @my_tiramon, getable: @getable, backable: false } %>
 
 <% if @my_tiramon %>
   <% disabled = @can_act ? "" : " disabled" %>
   <% disabled_2 = !@adjust ? "" : " disabled" %>
 
-    <div class="hukidasi word-break">
-      <h1>チラモントレーニング</h1>
-      <h5>元気を消費して、チラモンをトレーニングすることができます。</h5>
-      <% if @if_bonus %>
-        <h5>スタートダッシュボーナス！！あと<%= distance_of_time_in_words_to_now(@tiramon.bonus_time) %>間だけ、トレーニングで消費する元気が三分の一になります！！</h5>
-      <% end %>
-      <h5>試合が決定すると、試合後までトレーニングできません。</h5>
-      <div class="d-flex flex-row flex-wrap justify-content-center ">
+  <div class="hukidasi word-break">
+    <h1>チラモントレーニング</h1>
+    <h5>元気を消費して、チラモンをトレーニングすることができます。</h5>
+    <% if @if_bonus %>
+      <h5>スタートダッシュボーナス！！あと<%= distance_of_time_in_words_to_now(@tiramon.bonus_time) %>間だけ、トレーニングで消費する元気が三分の一になります！！</h5>
+    <% end %>
+    <h5>試合が決定すると、試合後までトレーニングできません。</h5>
+    <div class="d-flex flex-row flex-wrap justify-content-center">
 
-        <div class="hukidasi d-flex flex-column m-2">
-          <h2 class="text-center">トレーニング状況</h2>
+      <div class="hukidasi d-flex flex-column m-2" style="max-width:400px">
+        <h2 class="text-center">トレーニング状況</h2>
 
-          <div class="text-center" style="min-width: 200px">
-            <div>
-              元気
-            </div>
-            <div>
-              <% if @can_act %>
-                <div class="progress border border-primary">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
+        <div class="text-center" style="min-width: 200px">
+          <div>
+            元気
+          </div>
+          <div>
+            <% if @can_act %>
+              <div class="progress border border-primary">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
+              </div>
+            <% else %>
+              <% if @tiramon.adjust? %>
+                <div class="progress border border-secondary">
+                  <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
                 </div>
               <% else %>
-                <% if @tiramon.adjust? %>
-                  <div class="progress border border-secondary">
-                    <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
-                  </div>
-                <% else %>
-                  <div class="progress border border-danger">
-                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="text-center m-1">
-          <% if @can_act %>
-            トレーニングできます！
-          <% else %>
-            <% if @tiramon.adjust? %>
-              試合に向けて調整中…
-            <% else %>
-              元気回復中: <%= distance_of_time_in_words(@tiramon.act_next) %>
-            <% end %>
-          <% end %>
-          </div>
-
-          <h5 class="text-center">元気回復メニュー</h5>
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_refresh_path(id: @tiramon, level: 0), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
-                <div>牛丼（並盛）</div>
-                <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[0].to_i.to_s %>va</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_refresh_path(id: @tiramon, level: 1), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
-                <div>うな丼（並盛）</div>
-                <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[1].to_i.to_s %>va</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_refresh_path(id: @tiramon, level: 2), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
-                <div>うな重（並）</div>
-                <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[2].to_i.to_s %>va</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_refresh_path(id: @tiramon, level: 3), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
-                <div>うな重（上）</div>
-                <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[3].to_i.to_s %>va</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_refresh_path(id: @tiramon, level: 4), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
-                <div>うな重（特上）</div>
-                <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[4].to_i.to_s %>va</div>
-              <% end %>
-            </div>
-          </div>
-          <% if @training.present? %>
-            <div class="content d-flex flex-column">
-              <h5 class="text-center">最近のトレーニング</h5>
-              <div><%= @training[:name] %></div>
-              <div><%= @training[:effect] %></div>
-              <% if @training[:level_up].present? %>
-                <div><%= @training[:level_up] %></div>
-              <% end %>
-            </div>
-          <% end %>
-
-        </div>
-
-        <div class="hukidasi m-2">
-          <h2 class="text-center">トレーニング</h2>
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 0), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                増量
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 1), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                減量
-              <% end %>
-            </div>
-          </div>
-          <hr />
-
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 10), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>体力</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 11), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>精神力</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 12), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>スタミナ</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 13), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>スピード</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 14), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>直感</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-          </div>
-          <hr />
-
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 20), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>体力回復</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 21), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>精神回復</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 22), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>スタミナ回復</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-          </div>
-          <hr />
-
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 40), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>攻撃-打</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 41), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>攻撃-投</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 42), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>攻撃-極</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-          </div>
-          <hr />
-
-          <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 40), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>防御-打</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 41), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>防御-投</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-            <div class="m-1">
-              <%= link_to tiramon_training_path(id: @tiramon, training: 42), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
-                <div>防御-極</div>
-                <div class="text-small">トレーニング</div>
-              <% end %>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="hukidasi m-2">
-          <h2 class="text-center">技を覚える</h2>
-          <div class="m-2">
-            <p>技をひらめくと、覚えられる技リストが更新されます。</p>
-            <p>技を選択し、習得ボタンを押すと、技を覚えます。</p>
-            <p>技は「戦い方設定画面」で装備できます。</p>
-          </div>
-          <div class="m-2">
-            <%= form_with url: tiramon_get_move_path(id: @tiramon), method: :post, local: true do %>
-              <div class="input-group">
-                <%= select_tag :get_move, options_for_select(@select), class: "form-control" %>
-                <div class="input-group-append">
-                  <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "技を覚えますか？\nチラモントレーニングには元気を消費します！" } do %>
-                    習得
-                  <% end %>
+                <div class="progress border border-danger">
+                  <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: <%= @tiramon.act_gauge * 100 %>%" aria-valuemin="0" aria-valuemax="100"><%= (@tiramon.act_gauge * 100).to_i %>%</div>
                 </div>
-              </div>
+              <% end %>
             <% end %>
           </div>
-          <div class="m-2">
-            <%= link_to tiramon_inspire_move_path(id: @tiramon), method: :post, class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "ひらめきますか？\nチラモントレーニングには元気を消費します！" } do %>
-              技をひらめく
+        </div>
+
+        <div class="text-center m-1">
+        <% if @can_act %>
+          トレーニングできます！
+        <% else %>
+          <% if @tiramon.adjust? %>
+            試合に向けて調整中…
+          <% else %>
+            元気回復中: <%= distance_of_time_in_words(@tiramon.act_next) %>
+          <% end %>
+        <% end %>
+        </div>
+
+        <h5 class="text-center">元気回復メニュー</h5>
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_refresh_path(id: @tiramon, level: 0), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
+              <div>牛丼（並盛）</div>
+              <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[0].to_i.to_s %>va</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_refresh_path(id: @tiramon, level: 1), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
+              <div>うな丼（並盛）</div>
+              <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[1].to_i.to_s %>va</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_refresh_path(id: @tiramon, level: 2), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
+              <div>うな重（並）</div>
+              <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[2].to_i.to_s %>va</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_refresh_path(id: @tiramon, level: 3), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
+              <div>うな重（上）</div>
+              <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[3].to_i.to_s %>va</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_refresh_path(id: @tiramon, level: 4), method: :post, class: "btn btn-danger w-100", data: { confirm: "リフレッシュしますか？" } do %>
+              <div>うな重（特上）</div>
+              <div class="text-small"><%= Constants::TIRAMON_REFRESH_PRICE[4].to_i.to_s %>va</div>
+            <% end %>
+          </div>
+        </div>
+        <% if @training.present? %>
+          <div class="content d-flex flex-column">
+            <h5 class="text-center">最近のトレーニング</h5>
+            <div><%= @training[:name] %></div>
+            <div><%= @training[:effect] %></div>
+            <% if @training[:level_up].present? %>
+              <div><%= @training[:level_up] %></div>
+            <% end %>
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="hukidasi m-2" style="max-width:400px">
+        <h2 class="text-center">トレーニング</h2>
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 0), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              増量
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 1), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              減量
+            <% end %>
+          </div>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 10), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>体力</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 11), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>精神力</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 12), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>スタミナ</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 13), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>スピード</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 14), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>直感</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 20), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>体力回復</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 21), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>精神回復</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 22), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>スタミナ回復</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 30), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>攻撃-打</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 31), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>攻撃-投</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 32), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>攻撃-極</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 40), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>防御-打</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 41), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>防御-投</div>
+              <div class="text-small">トレーニング</div>
+            <% end %>
+          </div>
+          <div class="m-1">
+            <%= link_to tiramon_training_path(id: @tiramon, training: 42), method: :post, class: "btn btn-primary"+disabled, data: { confirm: "トレーニングしますか？\nチラモントレーニングには元気を消費します！" } do %>
+              <div>防御-極</div>
+              <div class="text-small">トレーニング</div>
             <% end %>
           </div>
         </div>
 
       </div>
+
+      <div class="hukidasi m-2" style="max-width:400px">
+        <h2 class="text-center">技を覚える</h2>
+        <div class="m-2">
+          <p>技をひらめくと、覚えられる技リストが更新されます。</p>
+          <p>技を選択し、習得ボタンを押すと、技を覚えます。</p>
+          <p>技は「戦い方設定画面」で装備できます。</p>
+        </div>
+        <div class="m-2">
+          <%= form_with url: tiramon_get_move_path(id: @tiramon), method: :post, local: true do %>
+            <div class="input-group">
+              <%= select_tag :get_move, options_for_select(@select), class: "form-control" %>
+              <div class="input-group-append">
+                <%= button_tag type: "submit", class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "技を覚えますか？\nチラモントレーニングには元気を消費します！" } do %>
+                  習得
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="m-2">
+          <%= link_to tiramon_inspire_move_path(id: @tiramon), method: :post, class: "btn btn-primary w-100"+disabled, disabled: !@can_act, data: { confirm: "ひらめきますか？\nチラモントレーニングには元気を消費します！" } do %>
+            技をひらめく
+          <% end %>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -537,14 +374,14 @@
         </div>
 
         <div class="hukidasi m-2">
-          <h2 class="text-center">階級変更</h2>
+          <h2 class="text-center">出場/欠場変更</h2>
           <div class="m-2">
-            <%= form_with url: tiramon_set_rank_path(id: @tiramon), method: :post, local: true do %>
+            <%= form_with url: tiramon_set_entry_path(id: @tiramon), method: :post, local: true do %>
               <div class="input-group mt-2">
-                <%= select_tag :rank, options_for_select(@ranks, selected: @tiramon.rank), class: "form-control" %>
+                <%= select_tag :entry, options_for_select([["欠場", false], ["出場", true]], selected: @tiramon.entry), class: "form-control" %>
               </div>
-              <%= button_tag type: "submit", class: "btn btn-warning w-100 mt-2"+disabled_2, disabled: @adjust, data: { confirm: "階級を変更しますか？\n階級変更には#{Constants::TIRAMON_CLASS_CHANGE_PRICE}vaかかります！" } do %>
-                階級変更<br />
+              <%= button_tag type: "submit", class: "btn btn-warning w-100 mt-2"+disabled_2, disabled: @adjust, data: { confirm: "出場/欠場を変更しますか？\n階級変更には#{Constants::TIRAMON_CLASS_CHANGE_PRICE}vaかかります！" } do %>
+                出場/欠場変更<br />
                 <%= Constants::TIRAMON_CLASS_CHANGE_PRICE %>va
               <% end %>
             <% end %>

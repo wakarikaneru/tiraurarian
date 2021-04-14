@@ -84,7 +84,7 @@ Rails.application.routes.draw do
   post 'tiramon/inspire_move', to: 'tiramons#inspire_move'
   post 'tiramon/refresh', to: 'tiramons#refresh'
   post 'tiramon/rename', to: 'tiramons#rename'
-  post 'tiramon/set_rank', to: 'tiramons#set_rank'
+  post 'tiramon/set_entry', to: 'tiramons#set_entry'
   post 'tiramon/release', to: 'tiramons#release'
   get 'tiramon/edit_move', to: 'tiramons#edit_move'
 

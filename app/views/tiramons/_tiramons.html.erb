@@ -3,7 +3,7 @@
     <div class="nothing">チラモンがいません</div>
   <% end %>
 
-  <div class="d-flex flex-row flex-wrap">
+  <div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
     <% tiramons.map do |tiramon| %>
       <% data = Tiramon.getBattleData(tiramon.getData) %>
 
@@ -12,12 +12,12 @@
           <h3><%= data[:name] %></h3>
           <div class="d-flex flex-row justify-content-center align-items-center">
             <div class="tiramon-icon">
-              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img image_x64" %>
-              <div class="badge badge-pill badge-primary badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality]))) %></div>
+              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img image_x48" %>
+              <div class="badge badge-pill badge-primary badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality]))) %></div>
             </div>
 
             <div class="users-info">
-              <div class="users-desc">Lv: <%= data[:level].to_i %></div>
+              <div class="users-desc text-big">Lv: <%= data[:level].to_i %></div>
               <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
               <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
             </div>

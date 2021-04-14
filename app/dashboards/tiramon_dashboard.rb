@@ -29,6 +29,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     factor: Field::Text,
     factor_name: Field::String,
     pedigree: Field::Text,
+    entry: Field::Boolean,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -67,6 +68,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     factor
     factor_name
     pedigree
+    entry
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -91,6 +93,7 @@ class TiramonDashboard < Administrate::BaseDashboard
     factor
     factor_name
     pedigree
+    entry
   ].freeze
 
   # COLLECTION_FILTERS

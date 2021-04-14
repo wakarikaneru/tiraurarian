@@ -11,7 +11,7 @@ class Tiramon < ApplicationRecord
 
     tiramon.rank = 5
     tiramon.experience = 0
-    tiramon.act = nil
+    tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
     tiramon.get_limit = 30.minute.since
     tiramon.right = trainer.id
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
@@ -1159,12 +1159,12 @@ class Tiramon < ApplicationRecord
     return false
   end
 
-  def set_rank?(trainer, rank)
+  def set_entry?(trainer, entry)
     if self.tiramon_trainer_id == trainer.id
       if !self.adjust?
         if trainer.user.sub_points?(Constants::TIRAMON_CLASS_CHANGE_PRICE)
 
-          self.rank = rank
+          self.entry = entry
           self.save!
 
           return true
@@ -1323,6 +1323,10 @@ class Tiramon < ApplicationRecord
   end
 
   def set_act
+    if self.act.nil?
+      self.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
+    end
+
     if self.act < Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
       self.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
     end

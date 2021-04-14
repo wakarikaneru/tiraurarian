@@ -20,7 +20,7 @@
 
         <div class="d-flex justify-content-center align-items-center">
           <div class="m-2">
-            <div>階級: <%= Constants::TIRAMON_RULE_NAME[tiramon.rank] %></div>
+            <div>階級: <%= tiramon.entry ? Constants::TIRAMON_RULE_NAME[tiramon.rank] : "欠場" %></div>
             <div>ランク: <%= tiramon.auto_rank ? tiramon.auto_rank : "なし" %></div>
           </div>
         </div>

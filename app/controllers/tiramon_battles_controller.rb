@@ -21,7 +21,7 @@ class TiramonBattlesController < ApplicationController
     @next_battles_present = TiramonBattle.where("datetime > ?", Time.current).order(datetime: :asc).present?
     @next_battles = []
 
-    (0..5).each do |rank|
+    (0..6).each do |rank|
       @next_battles[rank] = TiramonBattle.where(rank: rank).where("datetime > ?", Time.current).order(datetime: :asc)
     end
 

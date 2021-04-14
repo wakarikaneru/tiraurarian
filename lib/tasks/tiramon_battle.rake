@@ -15,4 +15,7 @@ namespace :tiramon_battle do
     Tiramon.set_miss
     Tiramon.leave
   end
+  task rank: :environment do
+    TiramonBattle.rank
+  end
 end

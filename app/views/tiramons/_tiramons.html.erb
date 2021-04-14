@@ -23,6 +23,13 @@
             </div>
           </div>
 
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="m-2">
+              <div>階級: <%= tiramon.entry ? Constants::TIRAMON_RULE_NAME[tiramon.rank] : "欠場" %></div>
+              <div>ランク: <%= tiramon.auto_rank ? tiramon.auto_rank : "なし" %></div>
+            </div>
+          </div>
+
           <div class="text-center m-1">
             <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
               <div class="text-center m-1">元気: <%= (tiramon.act_gauge * 100).to_i %>%</div>

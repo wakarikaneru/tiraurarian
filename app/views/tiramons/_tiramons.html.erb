@@ -5,38 +5,41 @@
 
   <div class="d-flex flex-row flex-wrap">
     <% tiramons.map do |tiramon| %>
-      <% data = tiramon.getData %>
+      <% data = Tiramon.getBattleData(tiramon.getData) %>
 
       <%= link_to tiramon, class: "link-item-hukidasi" do %>
-        <div class="users m-2">
-          <div>
-            <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+        <div class="tiramon">
+          <h3><%= data[:name] %></h3>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <div class="tiramon-icon">
+              <%= image_tag "/images/tiramon/tiramon.png", class: "user-img image_x64" %>
+              <div class="badge badge-pill badge-primary badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality]))) %></div>
+            </div>
+
+            <div class="users-info">
+              <div class="users-desc">Lv: <%= data[:level].to_i %></div>
+              <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
+              <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
+            </div>
           </div>
 
-          <div class="users-info">
-            <div class="users-name"><%= data[:name] %></div>
-            <div class="users-desc">階級: <%= Constants::TIRAMON_RULE_NAME[tiramon.rank] %></div>
-            <div class="users-desc">ランク: <%= tiramon.auto_rank ? tiramon.auto_rank : "なし" %></div>
-            <div class="users-desc">Lv: <%= data[:train][:level].to_i %></div>
-            <div class="users-desc">身長: <%= (data[:height] * 100).to_i %> cm</div>
-            <div class="users-desc">体重: <%= data[:weight].to_i %> kg</div>
-
+          <div class="text-center m-1">
             <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
+              <div class="text-center m-1">元気: <%= (tiramon.act_gauge * 100).to_i %>%</div>
               <% if tiramon.can_act? %>
-                <div class="users-desc m-2">育成できます！</div>
+                <div class="text-center m-1">育成できます！</div>
               <% else %>
                 <% if tiramon.adjust? %>
-                  <div class="users-desc m-2">試合に向けて調整中…</div>
+                  <div class="text-center m-1">試合に向けて調整中…</div>
                 <% else %>
-                  <div class="users-desc m-2">育成中: <%= distance_of_time_in_words_to_now(tiramon.act) %></div>
+                  <div class="text-center m-1">元気回復中: <%= distance_of_time_in_words(tiramon.act_next) %></div>
                 <% end %>
               <% end %>
             <% end %>
 
             <% if inNegotiation %>
-              <div class="users-desc m-2">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
+              <div class="text-center m-1">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
             <% end %>
-
           </div>
         </div>
       <% end %>

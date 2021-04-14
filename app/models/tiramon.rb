@@ -11,7 +11,7 @@ class Tiramon < ApplicationRecord
 
     tiramon.rank = 5
     tiramon.experience = 0
-    tiramon.act = Time.current
+    tiramon.act = nil
     tiramon.get_limit = 30.minute.since
     tiramon.right = trainer.id
     tiramon.bonus_time = Constants::TIRAMON_TRAINING_BONUS_TIME.since
@@ -287,6 +287,7 @@ class Tiramon < ApplicationRecord
     a.concat(data[:abilities][:vital])
     a.concat(data[:abilities][:recovery])
     a << data[:abilities][:speed]
+    a << data[:abilities][:intuition] * 100 + 50
     a << data[:skills][:attack][0] * 100
     a << data[:skills][:attack][1] * 100
     a << data[:skills][:attack][2] * 100
@@ -889,28 +890,36 @@ class Tiramon < ApplicationRecord
           d[:train][:abilities][:vital][0] += e
           amount = d[:abilities][:vital][0] * e
 
-          t = {name: "体力トレーニング", effect: "基礎能力-体力 +" + amount.floor(2).to_s }
+          t = {name: "体力トレーニング", effect: "体力 +" + amount.floor(2).to_s }
         when 11 then
           v = d[:train][:abilities][:vital][1]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:vital][1] += e
           amount = d[:abilities][:vital][1] * e
 
-          t = {name: "メンタルトレーニング", effect: "基礎能力-精神力 +" + amount.floor(2).to_s }
+          t = {name: "精神力トレーニング", effect: "精神力 +" + amount.floor(2).to_s }
         when 12 then
           v = d[:train][:abilities][:vital][2]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:vital][2] += e
           amount = d[:abilities][:vital][2] * e
 
-          t = {name: "スタミナトレーニング", effect: "基礎能力-スタミナ +" + amount.floor(2).to_s }
+          t = {name: "スタミナトレーニング", effect: "スタミナ +" + amount.floor(2).to_s }
         when 13 then
           v = d[:train][:abilities][:speed]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:speed] += e
           amount = d[:abilities][:speed] * e
 
-          t = {name: "スピードトレーニング", effect: "基礎能力-スピード +" + amount.floor(2).to_s }
+          t = {name: "スピードトレーニング", effect: "スピード +" + amount.floor(2).to_s }
+
+        when 14 then
+          v = d[:train][:abilities][:speed]
+          e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
+          d[:train][:abilities][:intuition] += e
+          amount = d[:abilities][:intuition] * e
+
+          t = {name: "直感トレーニング", effect: "勘が鋭くなった気がする…" }
 
         when 20 then
           v = d[:train][:abilities][:recovery][0]
@@ -918,63 +927,63 @@ class Tiramon < ApplicationRecord
           d[:train][:abilities][:recovery][0] += e
           amount = d[:abilities][:recovery][0] * e
 
-          t = {name: "体力トレーニング", effect: "回復力-体力 +" + amount.floor(2).to_s }
+          t = {name: "体力回復トレーニング", effect: "体力回復 +" + amount.floor(2).to_s }
         when 21 then
           v = d[:train][:abilities][:recovery][1]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:recovery][1] += e
           amount = d[:abilities][:recovery][1] * e
 
-          t = {name: "メンタルトレーニング", effect: "回復力-精神力 +" + amount.floor(2).to_s }
+          t = {name: "精神回復トレーニング", effect: "精神回復 +" + amount.floor(2).to_s }
         when 22 then
           v = d[:train][:abilities][:recovery][2]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:abilities][:recovery][2] += e
           amount = d[:abilities][:recovery][2] * e
 
-          t = {name: "スタミナトレーニング", effect: "回復力-スタミナ +" + amount.floor(2).to_s }
+          t = {name: "スタミナ回復トレーニング", effect: "スタミナ回復 +" + amount.floor(2).to_s }
         when 30 then
           v = d[:train][:skills][:attack][0]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][0] += e
           amount = d[:skills][:attack][0] * e
 
-          t = {name: "打撃トレーニング", effect: "技術力-攻撃-打 +" + (amount * 100).floor(2).to_s }
+          t = {name: "攻撃-打トレーニング", effect: "攻撃-打 +" + (amount * 100).floor(2).to_s }
         when 31 then
           v = d[:train][:skills][:attack][1]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][1] += e
           amount = d[:skills][:attack][1] * e
 
-          t = {name: "レスリングトレーニング", effect: "技術力-攻撃-投 +" + (amount * 100).floor(2).to_s }
+          t = {name: "攻撃-投トレーニング", effect: "攻撃-投 +" + (amount * 100).floor(2).to_s }
         when 32 then
           v = d[:train][:skills][:attack][2]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:attack][2] += e
           amount = d[:skills][:attack][2] * e
 
-          t = {name: "寝技トレーニング", effect: "技術力-攻撃-極 +" + (amount * 100).floor(2).to_s }
+          t = {name: "攻撃-極トレーニング", effect: "攻撃-極 +" + (amount * 100).floor(2).to_s }
         when 40 then
           v = d[:train][:skills][:defense][0]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][0] += e
           amount = d[:skills][:defense][0] * e
 
-          t = {name: "打撃スパーリング", effect: "技術力-防御-打 +" + (amount * 100).floor(2).to_s }
+          t = {name: "防御-打トレーニング", effect: "防御-打 +" + (amount * 100).floor(2).to_s }
         when 41 then
           v = d[:train][:skills][:defense][1]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][1] += e
           amount = d[:skills][:defense][1] * e
 
-          t = {name: "レスリングスパーリング", effect: "技術力-防御-投 +" + (amount * 100).floor(2).to_s }
+          t = {name: "防御-投トレーニング", effect: "防御-投 +" + (amount * 100).floor(2).to_s }
         when 42 then
           v = d[:train][:skills][:defense][2]
           e = [2.0 - v, 0.0].max * (1 + Tiramon.dist_rand(2)) * 0.05 * efficiency
           d[:train][:skills][:defense][2] += e
           amount = d[:skills][:defense][2] * e
 
-          t = {name: "寝技スパーリング", effect: "技術力-防御-極 +" + (amount * 100).floor(2).to_s }
+          t = {name: "防御-極トレーニング", effect: "防御-極 +" + (amount * 100).floor(2).to_s }
         else
         end
 
@@ -1113,15 +1122,14 @@ class Tiramon < ApplicationRecord
     return false
   end
 
-  def refresh?(trainer)
+  def refresh?(trainer, level = 0)
     if self.tiramon_trainer_id == trainer.id
-      if Time.current < act
-        if trainer.user.sub_points?(Constants::TIRAMON_REFRESH_PRICE)
+      refresh_time = Constants::TIRAMON_REFRESH_TERM[level]
 
-        update(act: Time.current)
-        return true
+        if trainer.user.sub_points?(Constants::TIRAMON_REFRESH_PRICE[level])
+          update(act: self.act - refresh_time)
+          return true
         end
-      end
     end
     return false
   end
@@ -1257,7 +1265,49 @@ class Tiramon < ApplicationRecord
   end
 
   def can_act?()
-    return ((act.nil? or act < Time.current) and !adjust?)
+    can_act = false
+
+    if self.act.nil?
+      can_act = true
+    else
+      if self.if_bonus?
+        can_act = self.act < Time.current - Constants::TIRAMON_TRAINING_BONUS_TERM
+      else
+        can_act = self.act < Time.current - Constants::TIRAMON_TRAINING_TERM
+      end
+    end
+
+    return (can_act and !adjust?)
+  end
+
+  def act_next
+    diff = 0
+
+    if self.act.nil?
+      diff = 0
+    else
+      if self.if_bonus?
+        diff = self.act - (Time.current - Constants::TIRAMON_TRAINING_BONUS_TERM)
+      else
+        diff = self.act - (Time.current - Constants::TIRAMON_TRAINING_TERM)
+      end
+    end
+    diff = [diff, 0].max
+
+    return diff
+  end
+
+  def act_gauge
+    g = 0.0
+
+    if self.act.nil?
+      g = 1.0
+    else
+      g = (Time.current - self.act) / Constants::TIRAMON_TRAINING_TERM_MAX
+    end
+    g = [g, 0.0, 1.0].sort.second
+
+    return g
   end
 
   # 試合が組まれたら調整のため育成できなくなる
@@ -1273,10 +1323,14 @@ class Tiramon < ApplicationRecord
   end
 
   def set_act
+    if self.act < Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
+      self.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
+    end
+
     if if_bonus?
-      update(act: Time.current + Constants::TIRAMON_TRAINING_BONUS_TERM)
+      update(act: self.act + Constants::TIRAMON_TRAINING_BONUS_TERM)
     else
-      update(act: Time.current + Constants::TIRAMON_TRAINING_TERM)
+      update(act: self.act + Constants::TIRAMON_TRAINING_TERM)
     end
   end
 

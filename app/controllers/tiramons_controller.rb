@@ -239,8 +239,9 @@ class TiramonsController < ApplicationController
 
   def refresh
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+    level = params[:level].to_i
 
-    if @tiramon.refresh?(@tiramon_trainer)
+    if @tiramon.refresh?(@tiramon_trainer, level)
       respond_to do |format|
         format.html { redirect_back(fallback_location: root_path, notice: "リフレッシュしました！" )}
         format.json { head :no_content }

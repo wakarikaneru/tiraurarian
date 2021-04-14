@@ -1,3 +1,28 @@
 // Place all the styles related to the Tiramons controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.tiramon{
+  max-width: 100%;
+  margin: 8px;
+  padding: 16px;
+
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.tiramon-icon{
+  position: relative;
+}
+
+.tiramon-icon .badge_float{
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  right: 0;
+  transform: translate(10%, 0%);
+  font-size: 1rem;
+}

@@ -1,18 +1,18 @@
 class TiramonsController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
-  before_action :complete_battles, only: [:show, :adventure, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
-  before_action :set_tiramon, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_rank, :release, :edit_move]
+  before_action :authenticate_user!, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_entry, :release, :edit_move]
+  before_action :complete_battles, only: [:show, :adventure, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_entry, :release, :edit_move]
+  before_action :set_tiramon, only: [:show, :adventure, :get, :training, :set_style, :set_wary, :set_move, :get_move, :inspire_move, :refresh, :rename, :set_entry, :release, :edit_move]
 
   def index
     @tiramons = []
 
-    (1..5).each do |rank|
-      @tiramons[rank] = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).order(id: :desc)
+    (1..6).each do |rank|
+      @tiramons[rank] = Tiramon.where(entry: true).where(rank: rank).where.not(tiramon_trainer: nil).order(id: :desc)
     end
   end
 
   def ranks
-    @tiramons = Tiramon.where.not(auto_rank: nil).where.not(tiramon_trainer: nil).order(auto_rank: :asc)
+    @tiramons = Tiramon.where(entry: true).where.not(auto_rank: nil).where.not(tiramon_trainer: nil).order(auto_rank: :asc)
 
   end
 
@@ -272,19 +272,19 @@ class TiramonsController < ApplicationController
     end
   end
 
-  def set_rank
+  def set_entry
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
 
-    rank = [params[:rank].to_i, 1, 6].sort.second
+    entry = "true" == params[:entry]
 
-    if @tiramon.set_rank?(@tiramon_trainer, rank)
+    if @tiramon.set_entry?(@tiramon_trainer, entry)
       respond_to do |format|
-        format.html { redirect_back(fallback_location: root_path, notice: "階級を変更しました！" )}
+        format.html { redirect_back(fallback_location: root_path, notice: "出場/欠場を変更しました！" )}
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_back(fallback_location: root_path, alert: "階級を変更できませんでした。" )}
+        format.html { redirect_back(fallback_location: root_path, alert: "出場/欠場を変更できませんでした。" )}
         format.json { head :no_content }
       end
     end
@@ -349,6 +349,13 @@ class TiramonsController < ApplicationController
 
   def edit_move
     @tiramon_trainer = TiramonTrainer.find_or_create_by(user_id: current_user.id)
+
+    if @tiramon.tiramon_trainer != @tiramon_trainer
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path)}
+        format.json { head :no_content }
+      end
+    end
 
     @data = @tiramon.getData
     @disp_data = Tiramon.getBattleData(@data)

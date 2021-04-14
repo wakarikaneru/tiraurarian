@@ -82,10 +82,10 @@ module Constants
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ]
 
   TIRAMON_RULE_NAME = ["チラモンマニア", "チャンピオンシップ", "スーパーヘビー級", "ヘビー級", "ジュニアヘビー級", "ノーマルマッチ", "アンダーマッチ"]
-  TIRAMON_RULE_CAPACITY = ["0", "1", "4", "6", "8", "16", "99999"]
-  TIRAMON_KING_RULE = [false, true, true, true, true, false, false, false]
-  TIRAMON_FIGHT_TERM = [24.hour, 5.hour, 1.hour, 1.hour, 10.minute, 5.minute, 0.minute]
-  TIRAMON_FIGHT_VARTH = [1000000, 100000, 100000, 15000, 10000, 500, 100, 0]
+  TIRAMON_RULE_CAPACITY = [0, 2, 4, 6, 8, 16, 999999]
+  TIRAMON_KING_RULE = [false, true, true, true, true, false, false]
+  TIRAMON_FIGHT_TERM = [24.hour, 5.hour, 1.hour, 1.hour, 1.hour, 1.hour, 10.minute]
+  TIRAMON_FIGHT_VARTH = [1000000, 100000, 25000, 15000, 12500, 8000, 100]
   TIRAMON_ENTRANCE_TIME = 5.minute
   TIRAMON_PAYMENT_SITE = 1.hour
 

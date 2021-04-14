@@ -68,23 +68,23 @@ class TiramonBattle < ApplicationRecord
         end
 
         champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
-        if champion.rank != rank or champion.tiramon_trainer.blank?
+        if champion.rank != rank or champion.tiramon_trainer.blank? or !champion.entry
           # 王者が階級変更、もしくは引退した場合ランダムで抽選
-          champion = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).sample()
+          champion = Tiramon.where(entry: true).where(rank: rank).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         end
 
         # 前回挑戦者は除外
         looser = last_battle.result == 1 ? nil : last_battle.blue_tiramon
 
         if looser.present?
-          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+          tiramon = Tiramon.where(entry: true).where(rank: rank).where.not(id: champion.id).where.not(id: looser.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         else
-          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+          tiramon = Tiramon.where(entry: true).where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         end
 
-        # 挑戦者がいない場合のみ前回挑戦者はも許可
+        # 挑戦者がいない場合のみ前回挑戦者も許可
         if tiramon.blank?
-          tiramon = Tiramon.where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
+          tiramon = Tiramon.where(entry: true).where(rank: rank).where.not(id: champion.id).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         end
 
         TiramonBattle.generate(rank, tiramon, champion, Constants::TIRAMON_FIGHT_TERM[rank].since)
@@ -134,57 +134,17 @@ class TiramonBattle < ApplicationRecord
       # 参加資格者
       winners = mania_winners + championship_winners
 
-      winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
+      #winner_tiramons = Tiramon.where(entry: true).where(id: winners).where.not(tiramon_trainer: nil)
       #tiramons = Tiramon.none.or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
       #tiramons = Tiramon.none.or(winner_tiramons).where.not(tiramon_trainer: nil).sample(2)
 
       tiramons = []
-      tiramons[1] = Tiramon.where(id: championship_winners).where.not(tiramon_trainer: nil).sample()
-      tiramons[0] = Tiramon.where(id: winners).where.not(id: tiramons[1].id).where.not(tiramon_trainer: nil).sample()
+      tiramons[1] = Tiramon.where(entry: true).where(id: championship_winners).where.not(tiramon_trainer: nil).sample()
+      tiramons[0] = Tiramon.where(entry: true).where(id: winners).where.not(id: tiramons[1].id).where.not(tiramon_trainer: nil).sample()
 
-    elsif rank == 4
-      # ノーマルマッチの場合、アンダーで過去3時間で勝利した選手も含める
-      recent_battle = TiramonBattle.where(rank: 5).where(datetime: 3.hour.ago..Time.current)
-      winners = []
-      recent_battle.map do |battle|
-        if battle.result.blank?
-          battle.set_result
-        end
-
-        if battle.result == 1
-          winners << battle.blue_tiramon_id
-        elsif battle.result == -1
-          winners << battle.red_tiramon_id
-        else
-        end
-      end
-      winners = winners.uniq.sort
-
-      winner_tiramons = Tiramon.where(id: winners).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.where(rank: rank).or(winner_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
-    elsif rank == 5
-      # アンダーマッチの場合、ノーマルで過去3時間で敗北した選手も含める
-      recent_battle = TiramonBattle.where(rank: 4).where(datetime: 3.hour.ago..Time.current)
-      loosers = []
-      recent_battle.map do |battle|
-        if battle.result.blank?
-          battle.set_result
-        end
-
-        if battle.result == 1
-          loosers << battle.red_tiramon_id
-        elsif battle.result == -1
-          loosers << battle.blue_tiramon_id
-        else
-        end
-      end
-      loosers = loosers.uniq.sort
-
-      looser_tiramons = Tiramon.where(id: loosers).where.not(tiramon_trainer: nil)
-      tiramons = Tiramon.where(rank: rank).or(looser_tiramons).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
     else
       # それ以外の場合、ランダムに抽選
-      tiramons = Tiramon.where(rank: rank).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
+      tiramons = Tiramon.where(entry: true).where(rank: rank).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample(2)
     end
 
     champion = tiramons[0]
@@ -194,7 +154,7 @@ class TiramonBattle < ApplicationRecord
     if champion.present? and tiramon.present?
       battle = TiramonBattle.generate(rank, tiramon, champion, datetime)
 
-      if rank.in?([0, 1, 2])
+      if rank.in?([0, 1, 2, 3, 4])
         News.generate(1, datetime, "【チラモン】#{Constants::TIRAMON_RULE_NAME[rank]}のカードが決定。#{battle.red_tiramon_name} vs #{battle.blue_tiramon_name}。")
       end
     end
@@ -202,11 +162,11 @@ class TiramonBattle < ApplicationRecord
 
   def self.ranked_match()
     # 参加資格のあるチラモン
-    tiramons = Tiramon.where.not(rank: 6).where.not(tiramon_trainer: nil)
+    tiramons = Tiramon.where(entry: true).where.not(tiramon_trainer: nil)
     tiramons_count = tiramons.count
 
     # 欠場しているチラモンからランクを剥奪する
-    miss_tiramons = Tiramon.where(rank: 6).where.not(tiramon_trainer: nil)
+    miss_tiramons = Tiramon.where(entry: false).where.not(tiramon_trainer: nil)
 
     miss_tiramons.find_each do |tiramon|
       tiramon.update(auto_rank: nil)
@@ -259,6 +219,55 @@ class TiramonBattle < ApplicationRecord
       end
 
     end
+  end
+
+  def self.rank
+    # 完了したはずの試合の精算
+    incomplete_battles = TiramonBattle.where(result: nil).where("datetime < ?", Time.current)
+    incomplete_battles.find_each do |battle|
+      battle.set_result
+    end
+
+    tiramons = Tiramon.where(entry: true).where.not(tiramon_trainer: nil)
+    arr = []
+
+    tiramons.each do |tiramon|
+      blue = TiramonBattle.where(blue_tiramon: tiramon)
+      red = TiramonBattle.where(red_tiramon: tiramon)
+      today_battles = TiramonBattle.none.or(blue).or(red).where(datetime: Time.current.all_day).where("datetime < ?", Time.current)
+
+      win_blue = today_battles.where(blue_tiramon: tiramon).where(result: 1)
+      win_red = today_battles.where(red_tiramon: tiramon).where(result: -1)
+      draw = today_battles.where(result: 0)
+
+      score = ((win_blue.count + win_red.count) * 2) + (draw.count) - (today_battles.count)
+
+      arr << [tiramon.id, tiramon.rank, score]
+    end
+
+    arr = arr.sort_by {|x| [x[1], -x[2]]}
+
+    (1..6).each do |rank|
+      i = arr.rindex{|x| x[1] == rank}
+      if !i.nil?
+        arr[i][1] = rank + 1
+        arr[i][2] = 0
+      end
+    end
+
+    arr = arr.sort_by {|x| [x[1], -x[2]]}
+
+    (1..6).each do |rank|
+      Constants::TIRAMON_RULE_CAPACITY[rank].times do
+        a = arr.pop
+        if a.nil?
+          break
+        end
+        t = Tiramon.find(a[0])
+        t.update(rank: rank)
+      end
+    end
+
   end
 
   def self.prize()

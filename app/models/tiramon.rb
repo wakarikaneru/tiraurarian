@@ -9,7 +9,7 @@ class Tiramon < ApplicationRecord
     tiramon.move = Tiramon.get_moves(tiramon.getData)
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
-    tiramon.rank = 5
+    tiramon.rank = 6
     tiramon.experience = 0
     tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
     tiramon.get_limit = 30.minute.since
@@ -1165,6 +1165,11 @@ class Tiramon < ApplicationRecord
         if trainer.user.sub_points?(Constants::TIRAMON_CLASS_CHANGE_PRICE)
 
           self.entry = entry
+
+          if !entry
+            self.rank = 6
+          end
+
           self.save!
 
           return true
@@ -1408,6 +1413,7 @@ class Tiramon < ApplicationRecord
 
     tiramons.each do |tiramon|
       if tiramon.act < 7.days.ago
+        tiramon.entry = false
         tiramon.rank = 6
         tiramon.save!
       end

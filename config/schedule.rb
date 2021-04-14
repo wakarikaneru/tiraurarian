@@ -53,7 +53,35 @@ every 1.days, at: '00:05' do
   rake 'get_trial:get_trial'
 end
 
+every '0 19 * * 6' do
+  rake 'tiramon_battle_match_make:mania'
+end
+every 1.days, at: '12:00' do
+  rake 'tiramon_battle_match_make:championship'
+end
+every '0 5,11,17,23 * * *' do
+  rake 'tiramon_battle_match_make:superheavy'
+end
+every '0 3,7,11,15,19,23 * * *' do
+  rake 'tiramon_battle_match_make:heavy'
+end
+every '0 2,5,8,11,14,17,20,23 * * *' do
+  rake 'tiramon_battle_match_make:junior'
+end
+every '0 1,3,5,7,9,11,13,15,17,19,21,23 * * *' do
+  rake 'tiramon_battle_match_make:normal_match'
+end
+every 20.minutes do
+  rake 'tiramon_battle_match_make:under_match'
+end
 
+every 10.minutes do
+  rake 'tiramon_battle_match_make:ranked_match'
+end
+
+every 1.days, at: '22:30' do
+  rake 'tiramon_battle:rank'
+end
 
 every 1.days, at: '00:05' do
   rake 'tiramon_battle:daily_task'

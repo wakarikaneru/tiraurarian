@@ -441,6 +441,83 @@
     </div>
   </div>
 
+
+  <div class="tweet-container">
+    <div class="hukidasi word-break">
+      <h1>遺伝情報</h1>
+
+      <div class="hukidasi word-break m-2">
+        <h2 class="text-center">継承</h2>
+        <% star = ["☆☆☆", "★☆☆", "★★☆", "★★★"] %>
+        <% color = ["badge-primary", "badge-secondary", "badge-warning", "badge-danger"] %>
+        <div class="d-flex flex-row flex-wrap">
+        <% @inherit.each do |e| %>
+          <div class="badge badge-pill <%= color[e[1]] %> text-big m-1"><%= e[0] %> <%= star[e[1]] %></div>
+        <% end %>
+        </div>
+      </div>
+
+
+      <div class="hukidasi word-break m-2">
+        <h2 class="text-center">血統</h2>
+        <% p = @tiramon.getPedigree %>
+        <div class="d-flex flex-row justify-content-center align-items-center">
+          <div class="">
+            <div class="d-flex align-items-center">
+              <div class="m-1">[<%= @tiramon.factor_name %>]</div>
+              <div class="m-1"><%= @disp_data[:name] %></div>
+            </div>
+          </div>
+          <div class="">
+            <div class="d-flex flex-column w-100">
+              <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="">
+                  <div class="d-flex align-items-center">
+                    <div class="m-1">[<%= p[0][0][0] %>]</div>
+                    <div class="m-1"><%= p[0][0][1] %></div>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                      <div class="m-1">[<%= p[0][1][0][0] %>]</div>
+                      <div class="m-1"><%= p[0][1][0][1] %></div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="m-1">[<%= p[0][1][1][0] %>]</div>
+                      <div class="m-1"><%= p[0][1][1][1] %></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="">
+                  <div class="d-flex align-items-center">
+                    <div class="m-1">[<%= p[1][0][0] %>]</div>
+                    <div class="m-1"><%= p[1][0][1] %></div>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                      <div class="m-1">[<%= p[1][1][0][0] %>]</div>
+                      <div class="m-1"><%= p[1][1][0][1] %></div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="m-1">[<%= p[1][1][1][0] %>]</div>
+                      <div class="m-1"><%= p[1][1][1][1] %></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 <% end %>
 
 <% if user_signed_in? && current_user.id == 1 %>

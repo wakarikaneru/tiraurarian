@@ -19,7 +19,7 @@ class TiramonBattleMatchMakeJob < ApplicationJob
       TiramonBattle.match_make(rank)
     when 6 then
       # 一般試合
-      roster = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).count
+      roster = Tiramon.where(entry: true).where(rank: rank).where.not(tiramon_trainer: nil).count
       match_num = [(roster.to_f / 16.0).ceil, 1.0].max.to_i
       match_num.times do
         TiramonBattle.match_make(rank)

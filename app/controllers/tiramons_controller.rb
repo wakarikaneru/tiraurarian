@@ -338,13 +338,23 @@ class TiramonsController < ApplicationController
       @select << ["[" + Constants::TIRAMON_ELEMENTS[move_data[:element]]+ "][" + move_data[:move_value_attack].to_i.to_s + "] " + move_data[:name], move]
     end
 
-    @ranks = []
-    (1..6).each do |rank|
-      roster = Tiramon.where(rank: rank).where.not(tiramon_trainer: nil).count
-      @ranks << ["[" + roster.to_i.to_s + "] " + Constants::TIRAMON_RULE_NAME[rank], rank]
-    end
+    inherit_list = [
+        ["level","レベル"], ["physique","体格"], ["height","身長"], ["vital_hp","体力"], ["vital_mp","精神力"], ["vital_sp","スタミナ"],
+        ["speed","スピード"], ["intuition","直感"], ["recovery_hp","体力回復"], ["recovery_mp","精神回復"], ["recovery_sp","スタミナ回復"],
+        ["attack_0","攻撃-打"], ["attack_1","攻撃-投"], ["attack_2","攻撃-極"], ["defense_0","防御-打"], ["defense_1","防御-投"], ["defense_2","防御-極"],
+      ]
+    @inherit = []
 
-    @enemy_tiramons = TiramonEnemy.all
+    f = @tiramon.getFactor
+    inherit_list.each do |i|
+      percent = f.dot(TiramonFactor.find_by(key: i[0]).getFactor) * 100
+      level = [(percent / 10).floor.to_i + 1, 0, 3].sort.second
+      if 0 < level
+        @inherit << [i[1], level]
+      end
+    end
+    @inherit = @inherit.sort_by {|x| [-x[1]] }
+
   end
 
   def edit_move

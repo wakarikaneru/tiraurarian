@@ -263,7 +263,7 @@ class TiramonBattle < ApplicationRecord
 
     (1..6).each do |rank|
       Constants::TIRAMON_RULE_CAPACITY[rank].times do
-        a = arr.pop
+        a = arr.shift
         if a.nil?
           break
         end

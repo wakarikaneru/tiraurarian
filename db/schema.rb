@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_025613) do
+ActiveRecord::Schema.define(version: 2021_04_15_131828) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_025613) do
     t.string "factor_name"
     t.text "pedigree"
     t.boolean "entry", default: false, null: false
+    t.integer "icon"
     t.index ["act"], name: "index_tiramons_on_act"
     t.index ["auto_rank"], name: "index_tiramons_on_auto_rank"
     t.index ["get_limit"], name: "index_tiramons_on_get_limit"

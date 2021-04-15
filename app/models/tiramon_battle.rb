@@ -240,22 +240,26 @@ class TiramonBattle < ApplicationRecord
       win_red = today_battles.where(red_tiramon: tiramon).where(result: -1)
       draw = today_battles.where(result: 0)
 
-      score = ((win_blue.count + win_red.count) * 2) + (draw.count) - (today_battles.count)
+      if today_battles.count == 0
+        score = 0.5
+      else
+        score = ((win_blue.count + win_red.count) + (draw.count * 0.5)) / (today_battles.count)
+      end
 
-      arr << [tiramon.id, tiramon.rank, score]
+      arr << [tiramon.id, tiramon.rank, score, rand()]
     end
 
-    arr = arr.sort_by {|x| [x[1], -x[2]]}
+    arr = arr.sort_by {|x| [x[1], -x[2], x[3]]}
 
     (1..6).each do |rank|
       i = arr.rindex{|x| x[1] == rank}
       if !i.nil?
         arr[i][1] = rank + 1
-        arr[i][2] = 0
+        arr[i][2] = 0.5
       end
     end
 
-    arr = arr.sort_by {|x| [x[1], -x[2]]}
+    arr = arr.sort_by {|x| [x[1], -x[2], x[3]]}
 
     (1..6).each do |rank|
       Constants::TIRAMON_RULE_CAPACITY[rank].times do

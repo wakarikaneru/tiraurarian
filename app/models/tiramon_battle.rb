@@ -234,7 +234,7 @@ class TiramonBattle < ApplicationRecord
     tiramons.each do |tiramon|
       blue = TiramonBattle.where(blue_tiramon: tiramon)
       red = TiramonBattle.where(red_tiramon: tiramon)
-      today_battles = TiramonBattle.none.or(blue).or(red).where(datetime: Time.current.all_day).where("datetime < ?", Time.current)
+      today_battles = TiramonBattle.none.or(blue).or(red).where.not(rank: -1).where(datetime: Time.current.all_day)
 
       win_blue = today_battles.where(blue_tiramon: tiramon).where(result: 1)
       win_red = today_battles.where(red_tiramon: tiramon).where(result: -1)

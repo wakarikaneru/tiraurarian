@@ -9,7 +9,9 @@ class TiramonTrainersController < ApplicationController
     @select = []
     @tiramons.each do |t|
       d = t.getData
-      @select << ["[" + t.getFactorName + "] " + d[:name], t.id]
+      if 20 <= d[:train][:level]
+        @select << ["[" + t.getFactorName + "] " + d[:name], t.id]
+      end
     end
   end
 

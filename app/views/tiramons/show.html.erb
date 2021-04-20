@@ -542,11 +542,11 @@
         <div class="">vital_hp = <%= (f.dot(TiramonFactor.find_by(key: "vital_hp").getFactor) * 100).to_i %>%</div>
         <div class="">vital_mp = <%= (f.dot(TiramonFactor.find_by(key: "vital_mp").getFactor) * 100).to_i %>%</div>
         <div class="">vital_sp = <%= (f.dot(TiramonFactor.find_by(key: "vital_sp").getFactor) * 100).to_i %>%</div>
+        <div class="">speed = <%= (f.dot(TiramonFactor.find_by(key: "speed").getFactor) * 100).to_i %>%</div>
+        <div class="">intuition = <%= (f.dot(TiramonFactor.find_by(key: "intuition").getFactor) * 100).to_i %>%</div>
         <div class="">recovery_hp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_hp").getFactor) * 100).to_i %>%</div>
         <div class="">recovery_mp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_mp").getFactor) * 100).to_i %>%</div>
         <div class="">recovery_sp = <%= (f.dot(TiramonFactor.find_by(key: "recovery_sp").getFactor) * 100).to_i %>%</div>
-        <div class="">speed = <%= (f.dot(TiramonFactor.find_by(key: "speed").getFactor) * 100).to_i %>%</div>
-        <div class="">intuition = <%= (f.dot(TiramonFactor.find_by(key: "intuition").getFactor) * 100).to_i %>%</div>
         <div class="">attack_0 = <%= (f.dot(TiramonFactor.find_by(key: "attack_0").getFactor) * 100).to_i %>%</div>
         <div class="">attack_1 = <%= (f.dot(TiramonFactor.find_by(key: "attack_1").getFactor) * 100).to_i %>%</div>
         <div class="">attack_2 = <%= (f.dot(TiramonFactor.find_by(key: "attack_2").getFactor) * 100).to_i %>%</div>
@@ -557,29 +557,25 @@
       </div>
     </div>
 
-    <div class="tweet-container">
-      <div class="hukidasi m-2">遺伝:
-        <ul>
-          <% if 20 <= @disp_data[:level] %>
-            <li>因子: [<%= @tiramon.getFactorName %>]</li>
-          <% else %>
-            <li>因子はレベル20で判明します</li>
-          <% end %>
-          <li>血統</li>
-          <% p = @tiramon.getPedigree %>
-          <ul>
-            <li>[<%= p[0][0][0] %>] <%= p[0][0][1] %></li>
-            <ul>
-              <li>[<%= p[0][1][0][0] %>] <%= p[0][1][0][1] %></li>
-              <li>[<%= p[0][1][1][0] %>] <%= p[0][1][1][1] %></li>
-            </ul>
-              <li>[<%= p[1][0][0] %>] <%= p[1][0][1] %></li>
-              <ul>
-                <li>[<%= p[1][1][0][0] %>] <%= p[1][1][0][1] %></li>
-                <li>[<%= p[1][1][1][0] %>] <%= p[1][1][1][1] %></li>
-              </ul>
-          </ul>
-        </ul>
+    <div class="hukidasi">素質ビューア:
+      <div class="m-2">
+        <% d = @tiramon.getData %>
+        <div class="">physique = <%= (d[:physique]*100).to_i %></div>
+        <div class="">vital_hp = <%= d[:abilities][:vital][0].to_i %></div>
+        <div class="">vital_mp = <%= d[:abilities][:vital][1].to_i %></div>
+        <div class="">vital_sp = <%= d[:abilities][:vital][2].to_i %></div>
+        <div class="">speed = <%= d[:abilities][:speed].to_i %></div>
+        <div class="">intuition = <%= (d[:abilities][:intuition]*100).to_i %></div>
+        <div class="">recovery_hp = <%= d[:abilities][:recovery][0].to_i %></div>
+        <div class="">recovery_mp = <%= d[:abilities][:recovery][1].to_i %></div>
+        <div class="">recovery_sp = <%= d[:abilities][:recovery][2].to_i %></div>
+        <div class="">attack_0 = <%= (d[:skills][:attack][0]*100).to_i %></div>
+        <div class="">attack_1 = <%= (d[:skills][:attack][1]*100).to_i %></div>
+        <div class="">attack_2 = <%= (d[:skills][:attack][2]*100).to_i %></div>
+        <div class="">defense_0 = <%= (d[:skills][:defense][0]*100).to_i %></div>
+        <div class="">defense_1 = <%= (d[:skills][:defense][1]*100).to_i %></div>
+        <div class="">defense_2 = <%= (d[:skills][:defense][2]*100).to_i %></div>
+
       </div>
     </div>
 

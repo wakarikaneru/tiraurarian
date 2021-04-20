@@ -2,12 +2,20 @@
 <%= render partial: "/layouts/tiramon_nav" %>
 
 <div class="tweet-container">
-  <div class="hukidasi width-full">
-    <h1>トレーナー情報</h1>
+  <div class="hukidasi">
+    <h1>通信販売</h1>
+    <h3>所持VARTH <%= @user_points %>va</h3>
     <div class="m-2">
-      <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
-      <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
-      <div>行動ポイント: <%= @tiramon_trainer.move %></div>
+      <%= link_to tiramon_trainer_get_ball_path(id: @tiramon_trainer), method: :post, class: "btn btn-danger w-100", data: { confirm: "チラモンボールを購入しますか？" } do %>
+        チラモンボールを購入<br />
+        <%= Constants::TIRAMON_TRAINER_BALL_PRICE %>va
+      <% end %>
+    </div>
+    <div class="m-2">
+      <%= link_to tiramon_trainer_move_recovery_path(id: @tiramon_trainer), method: :post, class: "btn btn-warning w-100", data: { confirm: "行動ポイントを回復しますか？" } do %>
+        行動ポイントを回復<br />
+        <%= Constants::TIRAMON_TRAINER_MOVE_RECOVERY_PRICE %>va
+      <% end %>
     </div>
   </div>
 </div>
@@ -70,6 +78,17 @@
           <% end %>
         </div>
       <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="tweet-container">
+  <div class="hukidasi width-full">
+    <h1>トレーナー情報</h1>
+    <div class="m-2">
+      <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
+      <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
+      <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
     </div>
   </div>
 </div>

@@ -53,6 +53,13 @@ class Stock < ApplicationRecord
     price = Control.find_or_create_by(key: "stock_price")
     price_f = price.value.to_f
 
+    stock_namber = Control.find_or_create_by(key: "stock_stock_namber")
+    stock_namber_i = stock_namber.value.to_i
+
+    total_stock = Stock.all.sum(:number)
+
+    ratio = [total_stock.to_f / stock_namber_i.to_f, 0, 1].sort.second
+
     economy = Control.find_or_create_by(key: "stock_economy")
     economy_f = economy.value.to_f
 
@@ -63,9 +70,9 @@ class Stock < ApplicationRecord
       economy_f = dist_rand(1) * 200.0
       appearance_economy_f = dist_rand(1) * 200.0
     else
-      economy_f = economy_f + (dist_rand(2) * 10.0)
+      economy_f = economy_f + (dist_rand(5) * 10.0)
       economy_f = economy_f - (economy_f * 0.01)
-      appearance_economy_f = appearance_economy_f + (dist_rand(2) * 10.0)
+      appearance_economy_f = appearance_economy_f + (dist_rand(5) * 10.0)
       appearance_economy_f = appearance_economy_f - (appearance_economy_f * 0.01)
     end
 
@@ -79,7 +86,8 @@ class Stock < ApplicationRecord
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0
     price_f = price_f + ((price_target_f - price_f) * 0.05)
-    price_f = price_f + dist_rand(5) * (price_target_f / 5.0)
+    price_f = price_f + dist_rand(10) * (price_target_f / 2.0)
+    price_f = price_f - (price_target_f * ratio * 0.1)
 
     economy.update(value: economy_f.to_s)
     appearance_economy.update(value: appearance_economy_f.to_s)
@@ -114,6 +122,10 @@ class Stock < ApplicationRecord
     price_target = Control.find_or_create_by(key: "stock_price_target")
     price_target_f = (Random.rand(1000..10000))
     price_target.update(value: price_target_f.to_s)
+
+    stock_namber = Control.find_or_create_by(key: "stock_stock_namber")
+    stock_namber_i = (Random.rand(1000..10000))
+    stock_namber.update(value: stock_namber_i.to_s)
 
     price = Control.find_or_create_by(key: "stock_price")
     price_f = price_target_f + ((price_target_f * dist_rand(2)) / 2.0)

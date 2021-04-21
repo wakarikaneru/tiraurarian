@@ -21,6 +21,9 @@
 /public/system/*
 storage/
 
+# Ignore tiramon icon files.
+/public/images/tiramon/icons*
+
 # Ignore all asset files
 /public/assets/
 /public/assets/*

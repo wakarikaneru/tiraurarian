@@ -9,7 +9,8 @@ class Tiramon < ApplicationRecord
     tiramon.move = Tiramon.get_moves(tiramon.getData)
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
-    tiramon.icon = rand(1..Control.find_or_create_by(key: "tiramon_icons"))
+    icons = Control.find_or_create_by(key: "tiramon_icons").value.to_i
+    tiramon.icon = rand(1..icons)
     tiramon.rank = 6
     tiramon.experience = 0
     tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
@@ -38,7 +39,8 @@ class Tiramon < ApplicationRecord
     tiramon.move = (Tiramon.get_moves(tiramon.getData) + t_1.getMove + t_2.getMove).uniq.sort
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
-    tiramon.icon = rand(1..Control.find_or_create_by(key: "tiramon_icons"))
+    icons = Control.find_or_create_by(key: "tiramon_icons").value.to_i
+    tiramon.icon = rand(1..icons)
     tiramon.rank = 6
     tiramon.experience = 0
     tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX

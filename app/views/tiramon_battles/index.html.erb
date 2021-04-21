@@ -59,7 +59,9 @@
           <div class="content d-flex justify-content-center m-2">
             <div class="content-image">
               <%= link_to @mania_battle.red_tiramon, class: "link-item-image" do %>
-                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                <div class="tiramon-icon">
+                  <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{@mania_battle.red_tiramon.icon}).png", class: "image_x64 #{tiramon[:icon] == 0 ? nil : "zoom"}" %></div>
+                </div>
               <% end %>
 
               <% if Constants::TIRAMON_KING_RULE[0] %>
@@ -89,7 +91,9 @@
           <div class="content d-flex justify-content-center m-2">
             <div class="content-image">
               <%= link_to @mania_battle.blue_tiramon, class: "link-item-image" do %>
-                <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                <div class="tiramon-icon">
+                  <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{@mania_battle.blue_tiramon.icon}).png", class: "image_x64 #{tiramon[:icon] == 0 ? nil : "zoom"}" %></div>
+                </div>
               <% end %>
             </div>
             <div class="content-content word-break">
@@ -160,7 +164,9 @@
                     <div class="content d-flex justify-content-center m-2">
                       <div class="content-image">
                         <%= link_to next_battle.red_tiramon, class: "link-item-image" do %>
-                          <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                          <div class="tiramon-icon">
+                            <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{next_battle.red_tiramon.icon}).png", class: "image_x64 #{tiramon[:icon] == 0 ? nil : "zoom"}" %></div>
+                          </div>
                         <% end %>
 
                         <% if Constants::TIRAMON_KING_RULE[rank] %>
@@ -190,7 +196,9 @@
                     <div class="content d-flex justify-content-center m-2">
                       <div class="content-image">
                         <%= link_to next_battle.blue_tiramon, class: "link-item-image" do %>
-                          <%= image_tag "/images/tiramon/tiramon.png", class: "user-img" %>
+                          <div class="tiramon-icon">
+                            <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{next_battle.red_tiramon.icon}).png", class: "image_x64 #{tiramon[:icon] == 0 ? nil : "zoom"}" %></div>
+                          </div>
                         <% end %>
                       </div>
                       <div class="content-content word-break">

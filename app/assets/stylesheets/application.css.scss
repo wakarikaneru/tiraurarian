@@ -461,6 +461,7 @@ img.thumb{
 }
 
 .image_x16{
+  object-fit: contain;
   width: 16px;
   height: 16px;
   max-width: 16px;
@@ -468,6 +469,7 @@ img.thumb{
 }
 
 .image_x24{
+  object-fit: contain;
   width: 24px;
   height: 24px;
   max-width: 24px;
@@ -475,6 +477,7 @@ img.thumb{
 }
 
 .image_x32{
+  object-fit: contain;
   width: 32px;
   height: 32px;
   max-width: 32px;
@@ -482,6 +485,7 @@ img.thumb{
 }
 
 .image_x48{
+  object-fit: contain;
   width: 48px;
   height: 48px;
   max-width: 48px;
@@ -489,6 +493,7 @@ img.thumb{
 }
 
 .image_x64{
+  object-fit: contain;
   width: 64px;
   height: 64px;
   max-width: 64px;
@@ -496,6 +501,7 @@ img.thumb{
 }
 
 .image_x92{
+  object-fit: contain;
   width: 92px;
   height: 92px;
   max-width: 92px;
@@ -503,10 +509,15 @@ img.thumb{
 }
 
 .image_x128{
+  object-fit: contain;
   width: 128px;
   height: 128px;
   max-width: 128px;
   max-height: 128px;
+}
+
+.zoom{
+  transform: scale(1.5);
 }
 
 .tools{

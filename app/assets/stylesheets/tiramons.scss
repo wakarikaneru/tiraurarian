@@ -16,6 +16,8 @@
 
 .tiramon-icon{
   position: relative;
+  margin: 8px;
+  padding: 0px;
 }
 
 .tiramon-icon .badge_float{
@@ -24,4 +26,15 @@
   bottom: 0;
   right: 0;
   transform: translate(0%, 0%);
+}
+
+.tiramon-icon .tiramon-icon-img{
+  overflow: hidden;
+  object-fit: cover;
+
+  margin: 0px;
+  padding: 0px;
+
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
 }

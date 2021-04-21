@@ -9,6 +9,7 @@ class Tiramon < ApplicationRecord
     tiramon.move = Tiramon.get_moves(tiramon.getData)
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
+    tiramon.icon = rand(1..Control.find_or_create_by(key: "tiramon_icons"))
     tiramon.rank = 6
     tiramon.experience = 0
     tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
@@ -37,7 +38,8 @@ class Tiramon < ApplicationRecord
     tiramon.move = (Tiramon.get_moves(tiramon.getData) + t_1.getMove + t_2.getMove).uniq.sort
     tiramon.get_move = move_list.pluck(:id).sample(rand(3..6)).sort.difference(Tiramon.get_moves(tiramon.getData))
 
-    tiramon.rank = 5
+    tiramon.icon = rand(1..Control.find_or_create_by(key: "tiramon_icons"))
+    tiramon.rank = 6
     tiramon.experience = 0
     tiramon.act = Time.current - Constants::TIRAMON_TRAINING_TERM_MAX
     tiramon.get_limit = 30.minute.since
@@ -286,7 +288,9 @@ class Tiramon < ApplicationRecord
 
   def getData
     if data.present?
-      return eval(data)
+      d = eval(data)
+      d[:icon] = self.icon
+      return d
     else
       return {}
     end
@@ -376,6 +380,7 @@ class Tiramon < ApplicationRecord
       wary: d[:style][:wary],
       moves: d[:moves],
       ko: false,
+      icon: d[:icon] ? d[:icon] : 0,
     }
 
     t[:level] = Tiramon.getLevel(d)

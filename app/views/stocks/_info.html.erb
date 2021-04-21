@@ -7,5 +7,5 @@
   <h3>所持株数 <%= @stock.number %>株</h3>
   <h3>所持VARTH <%= @user_points %>va</h3>
   <p>最大で<%= @user_points / @price %>株買うことができます。</p>
-  <p><%= @stock.number %>株売却すると<%= @stock.number * @price %>VARTHになります。</p>
+  <p><%= @stock.number %>株売却すると<%= (@stock.number * @price * (1.0 - Constants::STOCK_TAX)).to_i %>VARTHになります。</p>
 <% end %>

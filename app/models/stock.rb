@@ -35,7 +35,8 @@ class Stock < ApplicationRecord
       price = Control.find_or_create_by(key: "stock_price")
       price_i = price.value.to_i
       total = price_i * num
-      user.add_points(total)
+      tax = (total.to_f * Constants::STOCK_TAX.to_f).to_i
+      user.add_points(total - tax)
       return true
     else
       return false

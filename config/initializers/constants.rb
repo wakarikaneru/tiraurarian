@@ -25,6 +25,7 @@ module Constants
   PREMIUM_PRICE = 50000
   PREMIUM_LIMIT = 1.days
 
+  STOCK_TAX = 0.1
   STOCK_UPDATE_SECOND = 5
   STOCK_COMPANY_NAME_ELEMENTS = ["", "ニュース", "サービス", "スクラッチ", "テクノロジー", "ナビ", "オープン", "ロボティクス", "ネットワーク",
     "ネットワークス", "ヒューマン", "インタラクティブ", "マーケット", "マーケティング", "プラネット", "コネクテッド", "メディア", "オプト",

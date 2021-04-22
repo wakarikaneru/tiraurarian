@@ -6,7 +6,7 @@ module Constants
 
   DISTRIBUTE_RATIO = 0.001
   DISTRIBUTE_MIN = 1000
-  TAX_RATIO = 0.1
+  TAX_RATIO = 0.05
   TAX_MIN = 1
 
   TAX_MOTTO = [
@@ -25,7 +25,7 @@ module Constants
   PREMIUM_PRICE = 50000
   PREMIUM_LIMIT = 1.days
 
-  STOCK_TAX = 0.1
+  STOCK_TAX = 0.05
   STOCK_UPDATE_SECOND = 5
   STOCK_COMPANY_NAME_ELEMENTS = ["", "ニュース", "サービス", "スクラッチ", "テクノロジー", "ナビ", "オープン", "ロボティクス", "ネットワーク",
     "ネットワークス", "ヒューマン", "インタラクティブ", "マーケット", "マーケティング", "プラネット", "コネクテッド", "メディア", "オプト",
@@ -86,7 +86,7 @@ module Constants
   TIRAMON_RULE_CAPACITY = [0, 2, 4, 6, 8, 16, 999999]
   TIRAMON_KING_RULE = [false, true, true, true, true, false, false]
   TIRAMON_FIGHT_TERM = [24.hour, 5.hour, 1.hour, 1.hour, 1.hour, 1.hour, 10.minute]
-  TIRAMON_FIGHT_VARTH = [1000000, 100000, 25000, 15000, 12500, 8000, 100]
+  TIRAMON_FIGHT_VARTH = [1000000, 120000, 25000, 15000, 10000, 5000, 1000]
   TIRAMON_ENTRANCE_TIME = 5.minute
   TIRAMON_PAYMENT_SITE = 1.hour
 

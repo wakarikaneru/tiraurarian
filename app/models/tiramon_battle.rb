@@ -246,7 +246,7 @@ class TiramonBattle < ApplicationRecord
         score = ((win_blue.count + win_red.count) + (draw.count * 0.5)) / (today_battles.count)
       end
 
-      arr << [tiramon.id, tiramon.rank, score, rand()]
+      arr << [tiramon.id, tiramon.rank, score, tiramon.auto_rank]
     end
 
     arr = arr.sort_by {|x| [x[1], -x[2], x[3]]}

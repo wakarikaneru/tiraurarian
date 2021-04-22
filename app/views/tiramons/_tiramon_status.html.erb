@@ -8,8 +8,11 @@
         <h1 class="text-center"><%= disp_data[:name] %></h1>
         <div class="d-flex justify-content-center align-items-center">
           <div class="tiramon-icon m-2">
-            <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{tiramon.icon}).png", class: "image_x128 zoom" %></div>
-            <div class="badge badge-pill badge-primary badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (disp_data[:quality]))) %></div>
+            <div class="tiramon-icon-img">
+              <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (disp_data[:quality])))[0]}" %>
+              <%= image_tag "/images/tiramon/icons/tiramon (#{tiramon.icon}).png", class: "image_x128 zoom" %>
+            </div>
+            <div class="badge badge-pill badge-dark badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (disp_data[:quality]))) %></div>
           </div>
           <div class="m-2">
             <div class="text-big">Lv: <%= disp_data[:level].to_i %></div>

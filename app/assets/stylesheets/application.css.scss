@@ -519,6 +519,9 @@ img.thumb{
 .zoom{
   transform: scale(1.5);
 }
+.not-zoom{
+  transform: scale(1.0);
+}
 
 .tools{
   margin: 0px;

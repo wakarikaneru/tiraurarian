@@ -12,8 +12,11 @@
           <h3><%= data[:name] %></h3>
           <div class="d-flex flex-row justify-content-center align-items-center">
             <div class="tiramon-icon">
-              <div class="tiramon-icon-img"><%= image_tag "/images/tiramon/icons/tiramon (#{tiramon.icon}).png", class: "image_x64 zoom" %></div>
-              <div class="badge badge-pill badge-primary badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality]))) %></div>
+              <div class="tiramon-icon-img">
+                <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality])))[0]}" %>
+                <%= image_tag "/images/tiramon/icons/tiramon (#{tiramon.icon}).png", class: "image_x64 zoom" %>
+              </div>
+              <div class="badge badge-pill badge-dark badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (data[:quality]))) %></div>
             </div>
 
             <div class="users-info">

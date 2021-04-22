@@ -54,7 +54,7 @@
 
       <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
 
-        <% t = @mania_battle.red_tiramon.getData %>
+        <% t = Tiramon.getBattleData(@mania_battle.red_tiramon.getData) %>
         <div class="content d-flex flex-column justify-content-center">
           <div class="content d-flex justify-content-center m-2">
             <div class="content-image">
@@ -64,7 +64,7 @@
                     <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality])))[0]}" %>
                     <%= image_tag "/images/tiramon/icons/tiramon (#{@mania_battle.red_tiramon.icon}).png", class: "image_x64 zoom" %>
                   </div>
-                  <div class="badge badge-pill badge-dark badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
+                  <div class="badge badge-pill badge-dark badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
                 </div>
               <% end %>
 
@@ -77,7 +77,7 @@
             <div class="content-content word-break">
               <div><%= t[:name] %></div>
               <div></div>
-              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= t[:level].to_i %> Lv</div>
               <div><%= (t[:height]*100).to_i %> cm</div>
               <div><%= t[:weight].to_i %> kg</div>
             </div>
@@ -90,7 +90,7 @@
           </div>
         </div>
 
-        <% t = @mania_battle.blue_tiramon.getData %>
+        <% t = Tiramon.getBattleData(@mania_battle.blue_tiramon.getData) %>
         <div class="content d-flex flex-column justify-content-center">
           <div class="content d-flex justify-content-center m-2">
             <div class="content-image">
@@ -100,14 +100,14 @@
                     <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality])))[0]}" %>
                     <%= image_tag "/images/tiramon/icons/tiramon (#{@mania_battle.blue_tiramon.icon}).png", class: "image_x64 zoom" %>
                   </div>
-                  <div class="badge badge-pill badge-dark badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
+                  <div class="badge badge-pill badge-dark badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
                 </div>
               <% end %>
             </div>
             <div class="content-content word-break">
               <div><%= t[:name] %></div>
               <div class="m-1"></div>
-              <div><%= t[:train][:level].to_i %> Lv</div>
+              <div><%= t[:level].to_i %> Lv</div>
               <div><%= (t[:height]*100).to_i %> cm</div>
               <div><%= t[:weight].to_i %> kg</div>
             </div>
@@ -167,7 +167,7 @@
 
                 <div class="d-flex flex-column flex-sm-row-reverse flex-wrap justify-content-center">
 
-                  <% t = next_battle.red_tiramon.getData %>
+                  <% t = Tiramon.getBattleData(next_battle.red_tiramon.getData) %>
                   <div class="content d-flex flex-column justify-content-center">
                     <div class="content d-flex justify-content-center m-2">
                       <div class="content-image">
@@ -177,7 +177,7 @@
                               <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality])))[0]}" %>
                               <%= image_tag "/images/tiramon/icons/tiramon (#{next_battle.red_tiramon.icon}).png", class: "image_x64 zoom" %>
                             </div>
-                            <div class="badge badge-pill badge-dark badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
+                            <div class="badge badge-pill badge-dark badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
                           </div>
                         <% end %>
 
@@ -190,7 +190,7 @@
                       <div class="content-content word-break">
                         <div><%= t[:name] %></div>
                         <div></div>
-                        <div><%= t[:train][:level].to_i %> Lv</div>
+                        <div><%= t[:level].to_i %> Lv</div>
                         <div><%= (t[:height]*100).to_i %> cm</div>
                         <div><%= t[:weight].to_i %> kg</div>
                       </div>
@@ -203,7 +203,7 @@
                     </div>
                   </div>
 
-                  <% t = next_battle.blue_tiramon.getData %>
+                  <% t = Tiramon.getBattleData(next_battle.blue_tiramon.getData) %>
                   <div class="content d-flex flex-column justify-content-center">
                     <div class="content d-flex justify-content-center m-2">
                       <div class="content-image">
@@ -213,14 +213,14 @@
                               <%= image_tag "/images/tiramon/tiramon_back.png", class: "tiramon-icon-back c-#{Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality])))[0]}" %>
                               <%= image_tag "/images/tiramon/icons/tiramon (#{next_battle.blue_tiramon.icon}).png", class: "image_x64 zoom" %>
                             </div>
-                            <div class="badge badge-pill badge-dark badge_float text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
+                            <div class="badge badge-pill badge-dark badge_float"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(0, 1, (t[:quality]))) %></div>
                           </div>
                         <% end %>
                       </div>
                       <div class="content-content word-break">
                         <div><%= t[:name] %></div>
                         <div class="m-1"></div>
-                        <div><%= t[:train][:level].to_i %> Lv</div>
+                        <div><%= t[:level].to_i %> Lv</div>
                         <div><%= (t[:height]*100).to_i %> cm</div>
                         <div><%= t[:weight].to_i %> kg</div>
                       </div>

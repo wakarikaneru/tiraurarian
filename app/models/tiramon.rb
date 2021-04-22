@@ -1425,6 +1425,6 @@ class Tiramon < ApplicationRecord
 
   def self.leap(min, max, f)
     diff = max.to_f - min.to_f
-    return [(f - min.to_f) / diff, 0.0, 1.0].sort.second
+    return [(f.to_f - min.to_f) / diff, 0.0, 1.0].sort.second
   end
 end

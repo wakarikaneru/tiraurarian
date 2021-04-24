@@ -448,11 +448,10 @@
 
       <div class="hukidasi word-break m-2">
         <h2 class="text-center">因子</h2>
-        <% star = ["☆☆☆", "★☆☆", "★★☆", "★★★"] %>
-        <% color = ["badge-primary", "badge-secondary", "badge-warning", "badge-danger"] %>
+        <% color = ["badge-primary", "badge-secondary", "badge-info", "badge-danger", "badge-warning"] %>
         <div class="d-flex flex-row flex-wrap">
         <% @inherit.each do |e| %>
-          <div class="badge badge-pill <%= color[e[1]] %> text-big m-1"><%= e[0] %> <%= star[e[1]] %></div>
+          <div class="badge badge-pill <%= color[e[1]] %> text-big m-1"><%= e[0] %></div>
         <% end %>
         </div>
       </div>

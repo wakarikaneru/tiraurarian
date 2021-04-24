@@ -339,21 +339,28 @@ class TiramonsController < ApplicationController
     end
 
     inherit_list = [
-        ["level","レベル"], ["physique","体格"], ["height","身長"], ["vital_hp","体力"], ["vital_mp","精神力"], ["vital_sp","スタミナ"],
-        ["speed","スピード"], ["intuition","直感"], ["recovery_hp","体力回復"], ["recovery_mp","精神回復"], ["recovery_sp","スタミナ回復"],
-        ["attack_0","攻撃-打"], ["attack_1","攻撃-投"], ["attack_2","攻撃-極"], ["defense_0","防御-打"], ["defense_1","防御-投"], ["defense_2","防御-極"],
+        ["level", "レベル", "天賦の才"], ["physique", "体格", "超重量級"], ["height", "身長", "巨人族"],
+        ["vital_hp", "体力", "鋼の肉体"], ["vital_mp", "精神力", "王者の魂"], ["vital_sp","スタミナ", "精力絶倫"],
+        ["speed","スピード", "疾風迅雷"], ["intuition","直感", "ラプラスの魔"],
+        ["recovery_hp","体力回復", "リジェネレーター"], ["recovery_mp","精神回復", "燃える闘魂"], ["recovery_sp","スタミナ回復", "永久機関"],
+        ["attack_0","攻撃-打", "ストライカー"], ["attack_1","攻撃-投", "レスラー"], ["attack_2","攻撃-極", "グラップラー"],
+        ["defense_0","防御-打", "鉄壁のディフェンス"], ["defense_1","防御-投", "受け身の天才"], ["defense_2","防御-極", "インビジブル"],
       ]
+    star = ["☆☆☆", "★☆☆", "★★☆", "★★★"]
     @inherit = []
 
     f = @tiramon.getFactor
     inherit_list.each do |i|
       percent = f.dot(TiramonFactor.find_by(key: i[0]).getFactor) * 100
-      level = [(percent / 10).floor.to_i + 1, 0, 3].sort.second
-      if 0 < level
-        @inherit << [i[1], level]
+      level = [(percent / 10).floor.to_i + 1, 0, 4].sort.second
+      if 4 <= level
+        @inherit << [i[2], level]
+      elsif 0 < level
+        @inherit << [i[1] + " " + star[level], level]
       end
     end
     @inherit = @inherit.sort_by {|x| [-x[1]] }
+
 
   end
 

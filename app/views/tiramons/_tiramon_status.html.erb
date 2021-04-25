@@ -33,7 +33,7 @@
           <div class="d-flex hukidasi p-0 m-2">
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>体力</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:hp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:hp].to_i %></div><% end %>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神力</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>精神力</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:mp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:mp].to_i %></div><% end %>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>スタミナ</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:sp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:sp].to_i %></div><% end %>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スピード</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>スピード</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:speed]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:speed].to_i %></div><% end %>
@@ -69,7 +69,7 @@
           <div class="d-flex hukidasi p-0 m-2">
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>体力回復</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>体力回復</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:recovery_hp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:recovery_hp].to_i %></div><% end %>
@@ -77,7 +77,7 @@
             </div>
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>精神回復</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>精神回復</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:recovery_mp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:recovery_mp].to_i %></div><% end %>
@@ -85,7 +85,7 @@
             </div>
 
             <div class="flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>スタミナ回復</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>スタミナ回復</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:recovery_sp]))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= disp_data[:recovery_sp].to_i %></div><% end %>
@@ -97,7 +97,7 @@
           <div class="d-flex hukidasi p-0 m-2">
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-打</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>攻撃-打</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:attack][0] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:attack][0] * 100).to_i %></div><% end %>
@@ -105,7 +105,7 @@
             </div>
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-投</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>攻撃-投</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:attack][1] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:attack][1] * 100).to_i %></div><% end %>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>攻撃-極</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>攻撃-極</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:attack][2] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:attack][2] * 100).to_i %></div><% end %>
@@ -124,7 +124,7 @@
           <div class="d-flex hukidasi p-0 m-2">
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-打</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>防御-打</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:defense][0] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:defense][0] * 100).to_i %></div><% end %>
@@ -132,7 +132,7 @@
             </div>
 
             <div class="border-right flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-投</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>防御-投</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:defense][1] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:defense][1] * 100).to_i %></div><% end %>
@@ -140,7 +140,7 @@
             </div>
 
             <div class="flex-grow-1">
-              <div class="bg-info text-white p-2 text-center text-shadow"><b>防御-極</b></div>
+              <div class="bg-info text-white p-2 text-center text-shadow nowrap"><b>防御-極</b></div>
               <div class="d-flex justify-content-center align-items-center m-1">
                 <div class="p-1 text-big"><%= Tiramon.get_message(Constants::TIRAMON_STATUS_RANK, Tiramon.leap(25, 300, (disp_data[:defense][2] * 100))) %></div>
                 <% if my_tiramon %><div class="p-1"><%= (disp_data[:defense][2] * 100).to_i %></div><% end %>

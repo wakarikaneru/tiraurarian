@@ -85,11 +85,11 @@ class Stock < ApplicationRecord
 
     price_target_f = price_target_f + (economy_f * coefficient_f * 0.1)
 
-    diff = price_target_f - price_f
+    diff = price_f + price_target_f
     diff_n = [diff / price_target_f , -1, 1].sort.second
 
     price_f = price_f + (economy_f * coefficient_f) * 1.0
-    price_f = price_f - ((diff_n) * (price_target_f) * 0.01)
+    price_f = price_f + ((diff_n) * (price_target_f) * 0.001)
     price_f = price_f - ((diff_n ** 3) * (price_target_f) * 0.05)
     price_f = price_f + dist_rand(10) * (price_target_f / 2.0)
 

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "users/registrations", sessions: "users/sessions" }
 
+  get 'tests/tests'
+  get 'tests/test1'
+
   root to: "tweets#index"
 
   get 'notification', to: 'application#notification'

@@ -89,8 +89,8 @@ class Stock < ApplicationRecord
     price_f = price_f + ((price_target_f - price_f) * 0.05)
     price_f = price_f + dist_rand(10) * (price_target_f / 10.0)
 
-    price_f = price_f + ((ratio - 0.25) * price_target_f * 0.01)
-    price_f = price_f - ((ratio ** 4) * price_target_f * 0.01)
+    price_f = price_f + ((ratio - 0.25) * price_target_f * 0.05)
+    price_f = price_f - ((ratio ** 4) * price_target_f * 0.05)
 
     economy.update(value: economy_f.to_s)
     appearance_economy.update(value: appearance_economy_f.to_s)

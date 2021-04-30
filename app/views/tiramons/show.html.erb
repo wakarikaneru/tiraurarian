@@ -460,58 +460,66 @@
       <div class="hukidasi word-break m-2">
         <h2 class="text-center">血統</h2>
         <% p = @tiramon.getPedigree %>
-        <div class="d-flex flex-row justify-content-center align-items-center">
+        <div class="d-flex flex-column align-items-center">
           <div class="hukidasi m-1">
             <div class="d-flex flex-column align-items-center">
-              <div class="text-big m-1">[<%= @tiramon.getFactorName %>]</div>
+              <div class="badge badge-pill badge-primary text-big m-1"><%= @tiramon.getFactorName %></div>
               <div class="m-1"><%= @disp_data[:name] %></div>
             </div>
           </div>
-          <div class="">
-            <div class="d-flex flex-column w-100">
-              <div class="d-flex flex-row justify-content-center align-items-center">
-                <div class="hukidasi m-1">
-                  <div class="d-flex flex-column align-items-center">
-                    <div class="text-big m-1">[<%= p[0][0][0] %>]</div>
-                    <div class="m-1"><%= p[0][0][1] %></div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="d-flex flex-column">
-                    <div class="hukidasi m-1">
-                      <div class="d-flex flex-column align-items-center">
-                        <div class="text-big m-1">[<%= p[0][1][0][0] %>]</div>
-                        <div class="m-1"><%= p[0][1][0][1] %></div>
-                      </div>
-                    </div>
-                    <div class="hukidasi m-1">
-                      <div class="d-flex flex-column align-items-center">
-                        <div class="text-big m-1">[<%= p[0][1][1][0] %>]</div>
-                        <div class="m-1"><%= p[0][1][1][1] %></div>
-                      </div>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <div class="">
+              <div class="d-flex flex-column">
+                <div class="d-flex flex-row flex-wrap justify-content-center align-items-center hukidasi m-1">
+                  <div class="hukidasi m-1">
+                    <div class="d-flex flex-column align-items-center">
+                      <div>素材1</div>
+                      <div class="badge badge-pill badge-primary text-big m-1"><%= p[0][0][0] %></div>
+                      <div class=""><%= p[0][0][1] %></div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="d-flex flex-row justify-content-center align-items-center">
-                <div class="hukidasi">
-                  <div class="d-flex flex-column align-items-center">
-                    <div class="text-big m-1">[<%= p[1][0][0] %>]</div>
-                    <div class="m-1"><%= p[1][0][1] %></div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="d-flex flex-column">
-                    <div class="hukidasi m-1">
-                      <div class="d-flex flex-column align-items-center">
-                        <div class="text-big m-1">[<%= p[1][1][0][0] %>]</div>
-                        <div class="m-1"><%= p[1][1][0][1] %></div>
+                  <div class="">
+                    <div class="d-flex flex-column">
+                      <div class="hukidasi m-1">
+                        <div class="d-flex flex-column align-items-center">
+                          <div>素材1-素材1</div>
+                          <div class="badge badge-pill badge-primary text-big m-1"><%= p[0][1][0][0] %></div>
+                          <div class=""><%= p[0][1][0][1] %></div>
+                        </div>
+                      </div>
+                      <div class="hukidasi m-1">
+                        <div class="d-flex flex-column align-items-center">
+                          <div>素材1-素材2</div>
+                          <div class="badge badge-pill badge-primary text-big m-1"><%= p[0][1][1][0] %></div>
+                          <div class=""><%= p[0][1][1][1] %></div>
+                        </div>
                       </div>
                     </div>
-                    <div class="hukidasi m-1">
-                      <div class="d-flex flex-column align-items-center">
-                        <div class="text-big m-1">[<%= p[1][1][1][0] %>]</div>
-                        <div class="m-1"><%= p[1][1][1][1] %></div>
+                  </div>
+                </div>
+                <div class="d-flex flex-row flex-wrap justify-content-center align-items-center hukidasi m-1">
+                  <div class="hukidasi">
+                    <div class="d-flex flex-column align-items-center">
+                      <div>素材2</div>
+                      <div class="badge badge-pill badge-primary text-big m-1"><%= p[1][0][0] %></div>
+                      <div class=""><%= p[1][0][1] %></div>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="d-flex flex-column">
+                      <div class="hukidasi m-1">
+                        <div class="d-flex flex-column align-items-center">
+                          <div>素材2-素材1</div>
+                          <div class="badge badge-pill badge-primary text-big m-1"><%= p[1][1][0][0] %></div>
+                          <div class=""><%= p[1][1][0][1] %></div>
+                        </div>
+                      </div>
+                      <div class="hukidasi m-1">
+                        <div class="d-flex flex-column align-items-center">
+                          <div>素材2-素材2</div>
+                          <div class="badge badge-pill badge-primary text-big m-1"><%= p[1][1][1][0] %></div>
+                          <div class=""><%= p[1][1][1][1] %></div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -2,6 +2,16 @@
 <%= render partial: "/layouts/tiramon_nav" %>
 
 <div class="tweet-container">
+
+  <div class="hukidasi">
+    <h1>トレーナー情報</h1>
+    <div class="m-2">
+      <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
+      <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
+      <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
+    </div>
+  </div>
+
   <div class="hukidasi">
     <h1>通信販売</h1>
     <h3>所持VARTH <%= @user_points %>va</h3>
@@ -18,6 +28,7 @@
       <% end %>
     </div>
   </div>
+
 </div>
 
 <div class="tweet-container">
@@ -78,17 +89,6 @@
           <% end %>
         </div>
       <% end %>
-    </div>
-  </div>
-</div>
-
-<div class="tweet-container">
-  <div class="hukidasi width-full">
-    <h1>トレーナー情報</h1>
-    <div class="m-2">
-      <div>トレーナーレベル: <%= @tiramon_trainer.level %></div>
-      <div>チラモンボール: <%= @tiramon_trainer.tiramon_ball %></div>
-      <div>行動ポイント: <%= @tiramon_trainer.move %>/<%= @tiramon_trainer.move_max %></div>
     </div>
   </div>
 </div>

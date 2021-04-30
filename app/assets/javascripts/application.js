@@ -31,7 +31,7 @@ document.addEventListener("tweet-loaded", function(event) {
 
 // 未読通知
 unread = 0;
-const getNotice = function(){
+var getNotice = function(){
   $.getJSON(
     '/notification',
     function(data) {
@@ -54,7 +54,7 @@ const getNotice = function(){
 }
 
 // 言語選択
-const setLocaleSelect = function(){
+var setLocaleSelect = function(){
   $("#set_locale_select").change(function(){
     locale = $("#set_locale_select").val();
     $.post("/set_locale", {locale: locale}).done(function() {
@@ -64,7 +64,7 @@ const setLocaleSelect = function(){
 };
 
 // ニュース
-const setNews = function () {
+var setNews = function () {
   $('.carousel-inner').prepend(createNews("0", "チラウラリアで起こった出来事のニュースが表示されます！"));
   $.getJSON('/news', function (data) {
 
@@ -102,18 +102,6 @@ var createNews = function(id, str){
   return '<div id="'+id+'" class="carousel-item"><div class="news-content-wrapper"><div class="news-content"><div class="news-content-inner">'+str+'</div></div></div></div>'
 };
 
-const checkTime = function() {
-   let previousMinutes;
-   return function() {
-       const currentTime = new Date();
-       const minutes = currentTime.getMinutes();
-       if (previousMinutes !== minutes && minutes % 1 === 0) {
-           previousMinutes = minutes;
-           const notification = new Notification("Check!");
-       }
-   }
-}();
-
 $(function(){
   getNotice();
   setInterval(getNotice, 20000);
@@ -122,7 +110,4 @@ $(function(){
 
   setNews();
   setInterval(getNews, 60000);
-
-  Notification.requestPermission();
-  setInterval(checkTime, 1000);
 });

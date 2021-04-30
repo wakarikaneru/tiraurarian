@@ -88,7 +88,8 @@ class Tiramon < ApplicationRecord
 
     list = TiramonFactorName.first.getFactorNameList
     match = list.max_by { |x| f.dot(x[1]) }
-    return match[0]
+    level = [(f.dot(match[1]) * 10.0).to_i, 1, 10].sort.second
+    return match[0] + " Lv." + level.to_s
   end
 
   def get?(trainer = TiramonTrainer.none)

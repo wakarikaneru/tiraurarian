@@ -14,10 +14,10 @@ class TiramonBattleMatchMakeJob < ApplicationJob
       battle = TiramonBattle.where(rank: 0).order(datetime: :desc).first
       TiramonBet.generate(battle, nil, 1, 10000)
       TiramonBet.generate(battle, nil, -1, 10000)
-    when 1,2,3,4,5 then
+    when 1,2,3,4 then
       # 王座戦
       TiramonBattle.match_make(rank)
-    when 6 then
+    when 5,6 then
       # 一般試合
       roster = Tiramon.where(entry: true).where(rank: rank).where.not(tiramon_trainer: nil).count
       match_num = [(roster.to_f / 16.0).ceil, 1.0].max.to_i

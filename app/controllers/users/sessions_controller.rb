@@ -4,7 +4,7 @@ class Users::SessionsController < Devise::SessionsController
   private
     def check_captcha
       unless Rails.env == 'development'
-        unless verify_recaptcha(action: 'login', minimum_score: 0.5)
+        unless verify_recaptcha(action: 'login', minimum_score: 0.0)
           self.resource = resource_class.new sign_in_params
           respond_with_navigational(resource) { render :new }
         end

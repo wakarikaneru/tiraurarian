@@ -1,4 +1,4 @@
-<%= form_with model: tweet, class: "form-horizontal", local: true do |f| %>
+<%= form_with model: tweet, class: "form-horizontal" do |f| %>
   <% if tweet.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(tweet.errors.count, "error") %>
@@ -45,14 +45,14 @@
 
   <div class="">
     <a class="tweet-addition btn btn-primary btn-sm w-100" data-toggle="collapse" href="#text" aria-expanded="false">
-      <i class="fas fa-angle-double-down"></i>
-      <i class="fas fa-angle-double-up"></i>
+      <i class="fas fa-angle-double-down"> つぶやき詳細</i>
+      <i class="fas fa-angle-double-up"> つぶやき詳細</i>
     </a>
   </div>
   <div class="collapse" id="text">
     <%= f.fields_for :text do |t| %>
       <div class="form-group mt-3">
-        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "テキストを入力してください", autocomplete: "off" %>
+        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "追加の長文を入力できます", autocomplete: "off" %>
       </div>
     <% end %>
   </div>

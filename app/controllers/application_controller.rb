@@ -64,15 +64,10 @@ class ApplicationController < ActionController::Base
       else
         @load_str = "未知の領域"
     end
-    render partial: "layouts/load"
-  end
 
-  def active_users
-    @active_users = User.none
-    @active_anonyms_count = 0
-    @active_users_count = @active_users.count
-    @active_total_count = @active_users_count + @active_anonyms_count
-    render partial: "layouts/active_users"
+    @users = stat.users
+    
+    render partial: "layouts/load"
   end
 
   protected

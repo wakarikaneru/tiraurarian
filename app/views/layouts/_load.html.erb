@@ -5,4 +5,11 @@
   <span>
     <%= @load_str %>
   </span>
+
+  <% if user_signed_in? && current_user.id == 1 %>
+    |
+    <span class="active-user-count">
+      <i class="fas fa-user"></i> <%= @users %>
+    </span>
+  <% end %>
 </div>

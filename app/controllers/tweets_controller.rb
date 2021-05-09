@@ -344,6 +344,10 @@ class TweetsController < ApplicationController
         tags = Tweet.none.or(tweets).where("create_datetime > ?", 1.day.ago)
     end
 
+    if params[:limit].present?
+      @tweets = @tweets.where("id > ?", params[:limit])
+    end
+
     @show_nsfw = false
     if params[:mode] == "image_adult"
         @show_nsfw = true
@@ -357,6 +361,7 @@ class TweetsController < ApplicationController
     if @tweets.present?
       session[:last_check_tweet] = [session[:last_check_tweet].to_i, @tweets.first.id].max.to_s
     end
+
     render partial: "layouts/tweets_async"
   end
 

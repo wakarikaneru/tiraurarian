@@ -1,6 +1,8 @@
-<div id="tweet-container-async" class="tweet-container<%= if @list then ' list' end %><%= if @reverse then ' reverse' end %> infinite_scroll">
+<% if params[:page].to_i == 1 %>
+  <%= render_async tweets_async_path(mode: params[:mode], id: params[:id], page: 0, limit: @tweets.first.id, list: "false", reverse: "false", show_parent: "true", infinite_scroll: "true"), interval: 60000 %>
+<% end %>
 
-  <div class="nothing">データがありません</div>
+<div id="tweet-container-async" class="tweet-container<%= if @list then ' list' end %><%= if @reverse then ' reverse' end %> infinite_scroll">
 
   <% @tweets.map do |tweet| %>
     <%= render partial: "/layouts/tweet", locals: { tweet: tweet, show_parent: @show_parent } %>
@@ -11,3 +13,5 @@
 <% if (params[:page].to_i) < @tweets.total_pages %>
   <div class="d-none"><%= link_to "next", tweets_async_path(mode: params[:mode], id: params[:id], page: 1 + params[:page].to_i, list: "false", reverse: "false", show_parent: "true", infinite_scroll: "true"), class: "next" %></div>
 <% end %>
+
+<%= content_for :render_async %>

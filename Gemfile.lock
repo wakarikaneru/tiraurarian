@@ -265,7 +265,7 @@ GEM
       terrapin (~> 0.6.0)
     popper_js (1.16.0)
     public_suffix (4.0.6)
-    puma (5.2.2)
+    puma (5.3.1)
       nio4r (~> 2.0)
     puma_worker_killer (0.3.1)
       get_process_mem (~> 0.2)
@@ -413,7 +413,7 @@ DEPENDENCIES
   mini_magick
   mysql2 (~> 0.5.3)
   paperclip
-  puma (~> 5.2)
+  puma (~> 5.3)
   puma_worker_killer
   rack-attack
   rack-mini-profiler

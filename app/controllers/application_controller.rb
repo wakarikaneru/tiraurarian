@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  rescue_from Exception, with: :rescue500
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_rack_mini_profiler
@@ -66,7 +67,7 @@ class ApplicationController < ActionController::Base
     end
 
     @users = stat.users
-    
+
     render partial: "layouts/load"
   end
 
@@ -174,4 +175,13 @@ class ApplicationController < ActionController::Base
     def get_news
       @news = News.where("expiration > ?", Time.current).order(priority: :desc).order(id: :desc)
     end
+
+    private
+      def rescue500(e)
+        @exception = e
+        @key = SecureRandom.hex(16)
+        ErrorLog.create(key: @key, exception_log: @exception.message, exception_trace: @exception.backtrace.join("\n"))
+
+        render 'errors/internal_server_error', status: 500
+      end
 end

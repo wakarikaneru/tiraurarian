@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_131828) do
+ActiveRecord::Schema.define(version: 2021_05_21_031219) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -140,6 +140,15 @@ ActiveRecord::Schema.define(version: 2021_04_15_131828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_controls_on_key"
+  end
+
+  create_table "error_logs", charset: "utf8mb4", force: :cascade do |t|
+    t.string "key"
+    t.string "exception_log"
+    t.text "exception_trace"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_error_logs_on_key"
   end
 
   create_table "follows", id: :integer, charset: "utf8mb4", force: :cascade do |t|

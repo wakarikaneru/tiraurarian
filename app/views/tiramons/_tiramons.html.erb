@@ -34,21 +34,23 @@
           </div>
 
           <div class="text-center m-1">
-            <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
-              <div class="text-center m-1">元気: <%= (tiramon.act_gauge * 100).to_i %>%</div>
-              <% if tiramon.can_act? %>
-                <div class="text-center m-1">育成できます！</div>
-              <% else %>
-                <% if tiramon.adjust? %>
-                  <div class="text-center m-1">試合に向けて調整中…</div>
+            <% if user_signed_in? %>
+              <% if tiramon.tiramon_trainer.present? and tiramon.tiramon_trainer.user_id == current_user.id and myTiramon %>
+                <div class="text-center m-1">元気: <%= (tiramon.act_gauge * 100).to_i %>%</div>
+                <% if tiramon.can_act? %>
+                  <div class="text-center m-1">育成できます！</div>
                 <% else %>
-                  <div class="text-center m-1">元気回復中: <%= distance_of_time_in_words(tiramon.act_next) %></div>
+                  <% if tiramon.adjust? %>
+                    <div class="text-center m-1">試合に向けて調整中…</div>
+                  <% else %>
+                    <div class="text-center m-1">元気回復中: <%= distance_of_time_in_words(tiramon.act_next) %></div>
+                  <% end %>
                 <% end %>
               <% end %>
-            <% end %>
 
-            <% if inNegotiation %>
-              <div class="text-center m-1">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
+              <% if inNegotiation %>
+                <div class="text-center m-1">残り: <%= distance_of_time_in_words_to_now(tiramon.get_limit) %></div>
+              <% end %>
             <% end %>
           </div>
         </div>

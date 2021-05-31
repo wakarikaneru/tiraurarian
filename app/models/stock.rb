@@ -16,6 +16,14 @@ class Stock < ApplicationRecord
       stock = Stock.find_or_create_by(user_id: user.id)
       stock.number = stock.number + num
       stock.save!
+
+      tradeLog = StockTradeLog.new
+      tradeLog.user_id = user.id
+      tradeLog.price = price_i
+      tradeLog.amount = num
+      tradeLog.create_datetime = Time.current
+      tradeLog.save!
+
       return true
     else
       return false
@@ -34,9 +42,17 @@ class Stock < ApplicationRecord
       stock.save!
       price = Control.find_or_create_by(key: "stock_price")
       price_i = price.value.to_i
-      total = price_i * num
-      tax = (total.to_f * Constants::STOCK_TAX.to_f).to_i
-      user.add_points(total - tax)
+      price_f = price_i.to_f * (1.0 - Constants::STOCK_TAX.to_f)
+      total = price_f.to_i * num
+
+      tradeLog = StockTradeLog.new
+      tradeLog.user_id = user.id
+      tradeLog.price = price_f.to_i
+      tradeLog.amount = -num
+      tradeLog.create_datetime = Time.current
+      tradeLog.save!
+
+      user.add_points(total)
       return true
     else
       return false
@@ -153,6 +169,7 @@ class Stock < ApplicationRecord
 
     Stock.delete_all
     StockLog.delete_all
+    StockTradeLog.delete_all
   end
 
   # ニュース

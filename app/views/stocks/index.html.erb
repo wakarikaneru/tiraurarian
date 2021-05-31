@@ -50,7 +50,29 @@
                 <% end %>
               </div>
             </div>
-            <div class="text-center">売却時に<%= (Constants::STOCK_TAX * 100).to_i %>%の税金が引かれます</div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <div class="m-2">
+        <h5>購入履歴</h5>
+        <div>
+          <% @stock_trade_log.map do |log| %>
+            <div class="d-flex flex-row m-2">
+              <div class="mx-2"><%= log.create_datetime.strftime("%Y年%m月%d日 %H:%M:%S") %></div>
+              <div class="mx-2"><%= log.price %>va</div>
+              <% if 0 < log.amount %>
+                <div class="mx-2">購入</div>
+                <div class="mx-2"><%= log.amount %>株</div>
+                <div class="mx-2"><%= log.price * log.amount %>va</div>
+              <% else %>
+                <div class="mx-2">売却</div>
+                <div class="mx-2"><%= -log.amount %>株</div>
+                <div class="mx-2"><%= log.price * -log.amount %>va</div>
+              <% end %>
+            </div>
           <% end %>
         </div>
       </div>

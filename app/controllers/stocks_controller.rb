@@ -1,9 +1,10 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!, only: [:purchase, :sale]
-  
+
   def index
     if user_signed_in?
       @stock = Stock.find_or_create_by(user_id: current_user.id)
+      @stock_trade_log = StockTradeLog.where(user_id: current_user.id).order(create_datetime: :desc)
     end
     @name = Control.find_by(key: "company_name").value
   end
@@ -14,7 +15,8 @@ class StocksController < ApplicationController
     end
     @name = Control.find_by(key: "company_name").value
     @number = Control.find_by(key: "company_count").value
-    @price = Control.find_by(key: "stock_price").value.to_i
+    @price_buy = Control.find_by(key: "stock_price").value.to_i
+    @price_sell = (Control.find_by(key: "stock_price").value.to_f * (1.0 - Constants::STOCK_TAX.to_f)).to_i
 
     economy_f = Control.find_by(key: "stock_economy").value.to_f
     economy_f += Control.find_by(key: "stock_appearance_economy").value.to_f

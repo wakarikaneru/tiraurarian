@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_031219) do
+ActiveRecord::Schema.define(version: 2021_05_31_084728) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -280,6 +280,17 @@ ActiveRecord::Schema.define(version: 2021_05_21_031219) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["datetime"], name: "index_stock_logs_on_datetime"
+  end
+
+  create_table "stock_trade_logs", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "price"
+    t.integer "amount"
+    t.datetime "create_datetime"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["create_datetime"], name: "index_stock_trade_logs_on_create_datetime"
+    t.index ["user_id"], name: "index_stock_trade_logs_on_user_id"
   end
 
   create_table "stocks", charset: "utf8mb4", force: :cascade do |t|

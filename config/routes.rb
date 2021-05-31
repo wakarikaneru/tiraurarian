@@ -144,6 +144,7 @@ Rails.application.routes.draw do
     resources :card_decks
 
     resources :stocks
+    resources :stock_trade_logs
     resources :stock_logs
     resources :gambling_results
 

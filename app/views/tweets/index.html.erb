@@ -14,17 +14,19 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: default_value } %>
 </div>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- メイン広告 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5849163684087391"
-     data-ad-slot="1720426885"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- メイン広告 -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-5849163684087391"
+       data-ad-slot="1720426885"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 <%= render_async tweets_async_path(mode: params[:mode], page: 1, list: "false", reverse: "false", show_parent: "true", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
   <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>

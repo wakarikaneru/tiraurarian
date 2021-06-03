@@ -21,6 +21,11 @@ body{
   background-color: var(--color-4);
 }
 
+*{
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
 p{
   margin: 0;
 }

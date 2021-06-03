@@ -181,22 +181,6 @@
   <%= render partial: "/layouts/form", locals: { tweet: @new_tweet, value: "" } %>
 </div>
 
-<div class="overflow-hidden w-100">
-  <div align="center">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- つぶやき画面広告 -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5849163684087391"
-         data-ad-slot="6995630833"
-         data-ad-format="horizontal"
-         data-full-width-responsive="false"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-</div>
-
 <%= render_async tweets_async_path(mode: "tweet", id: @tweet.id,  page: 1, list: "false", reverse: "false", show_parent: "false", infinite_scroll: "true"), event_name: "tweet-loaded" do %>
   <div class="tweet-loading"><i class="fa fa-spinner fa-pulse"></i> Loading...</div>
 <% end %>

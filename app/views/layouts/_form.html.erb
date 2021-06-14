@@ -26,22 +26,22 @@
     </div>
   </div>
 
-  <div class="form-group row">
-    <div class="col">
-      <div class="input-group">
+  <div class="form-group">
+    <div class="input-group">
 
-        <%= f.text_field :content, id:"tweet-content-form", class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください", autocomplete: "off" %>
+      <%= f.text_field :content, id:"tweet-content-form", class: "form-control", maxlength: 140, value: value, placeholder: "つぶやきを入力してください", autocomplete: "off" %>
 
-        <div class="input-group-append">
-          <%= f.button type: "submit", class: "change-disabled-button btn btn-accent", data: { disable: true } do %>
-            <span>つぶやく</span>
-            <i class="fa fa-spinner fa-pulse"></i>
-          <% end %>
-        </div>
-
+      <div class="input-group-append">
+        <%= f.button type: "submit", class: "change-disabled-button btn btn-accent", data: { disable: true } do %>
+          <span>つぶやく</span>
+          <i class="fa fa-spinner fa-pulse"></i>
+        <% end %>
       </div>
+
     </div>
+    <small id="tweet-content-help" class="form-text text-right">0 / 140</small>
   </div>
+
 
   <div class="">
     <a class="tweet-addition btn btn-primary btn-sm w-100" data-toggle="collapse" href="#text" aria-expanded="false">
@@ -52,7 +52,8 @@
   <div class="collapse" id="text">
     <%= f.fields_for :text do |t| %>
       <div class="form-group mt-3">
-        <%= t.text_area :content, class: "form-control", maxlength: 10000, placeholder: "追加の長文を入力できます", autocomplete: "off" %>
+        <%= t.text_area :content, id:"text-content-form", class: "form-control", maxlength: 10000, placeholder: "追加の長文を入力できます", autocomplete: "off" %>
+        <small id="text-content-help" class="form-text text-right">0 / 10000</small>
       </div>
     <% end %>
   </div>
@@ -60,3 +61,12 @@
   <%= recaptcha_v3(action: 'tweet') %>
 
 <% end %>
+
+<script type="text/javascript">
+  function showLength(str, max, resultid) {
+    document.getElementById(resultid).innerHTML = str.length + " / " + max;
+  }
+
+  document.getElementById('tweet-content-form').oninput = function(){ showLength(document.getElementById('tweet-content-form').value, 140, 'tweet-content-help')};
+  document.getElementById('text-content-form').oninput = function(){ showLength(document.getElementById('text-content-form').value, 10000, 'text-content-help')};
+</script>

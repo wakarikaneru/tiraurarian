@@ -1,4 +1,11 @@
 <div class="active-user">
+
+  <span class="active-user-count">
+    <i class="fas fa-user"></i> <%= @users %>
+  </span>
+
+  <span> | </span>
+
   <span class="active-user-count">
     <span class="badge badge-pill badge-light"><%= @load %></span>
   </span>
@@ -6,10 +13,4 @@
     <%= @load_str %>
   </span>
 
-  <% if user_signed_in? && current_user.id == 1 %>
-    |
-    <span class="active-user-count">
-      <i class="fas fa-user"></i> <%= @users %>
-    </span>
-  <% end %>
 </div>

@@ -48,6 +48,7 @@ class TweetDashboard < Administrate::BaseDashboard
     language: Field::String,
     language_confidence: Field::Number.with_options(decimals: 2),
     content_ru: Field::String,
+    content_ko: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -105,6 +106,7 @@ class TweetDashboard < Administrate::BaseDashboard
     language
     language_confidence
     content_ru
+    content_ko
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -148,6 +150,7 @@ class TweetDashboard < Administrate::BaseDashboard
     language
     language_confidence
     content_ru
+    content_ko
   ].freeze
 
   # COLLECTION_FILTERS

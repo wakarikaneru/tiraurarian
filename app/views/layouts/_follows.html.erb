@@ -12,42 +12,44 @@
         <% target_id = follow.user_id %>
     <% end %>
 
-    <% user = User.find(target_id) %>
-
-    <div class="users">
-      <div>
-        <%= link_to user, class: "link-item-imge" do %>
-          <% if user.present? %>
-            <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+    <% user = User.find_by(id: target_id) %>
+    
+    <% if user.nil? %>
+      <div class="users">
+        <div>
+          <%= link_to user, class: "link-item-imge" do %>
+            <% if user.present? %>
+              <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
 
-      <div class="users-info">
-        <div class="users-name"><%= user.name %></div>
-        <div class="users-desc"><%= user.description %></div>
-      </div>
+        <div class="users-info">
+          <div class="users-name"><%= user.name %></div>
+          <div class="users-desc"><%= user.description %></div>
+        </div>
 
-      <div class="follow-control">
-        <% follow = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
-        <% if follow.present? %>
-          <%= link_to follow, method: :delete do %>
-            <button class="change-hover-button btn btn-primary rounded-pill">
-              <i class="fas fa-user-check"> フォロー中</i>
-              <i class="fas fa-user-minus"> フォロー解除</i>
-            </button>
+        <div class="follow-control">
+          <% follow = Follow.find_by(user_id: current_user.id, target_id: user.id) %>
+          <% if follow.present? %>
+            <%= link_to follow, method: :delete do %>
+              <button class="change-hover-button btn btn-primary rounded-pill">
+                <i class="fas fa-user-check"> フォロー中</i>
+                <i class="fas fa-user-minus"> フォロー解除</i>
+              </button>
+            <% end %>
+          <% else %>
+            <%= link_to follows_path(follow: {target_id: user.id}), method: :post do %>
+              <button class="change-hover-button btn btn-outline-primary rounded-pill">
+                <i class="fas fa-user-plus"> フォロー</i>
+                <i class="fas fa-user-plus"> フォロー</i>
+              </button>
+            <% end %>
           <% end %>
-        <% else %>
-          <%= link_to follows_path(follow: {target_id: user.id}), method: :post do %>
-            <button class="change-hover-button btn btn-outline-primary rounded-pill">
-              <i class="fas fa-user-plus"> フォロー</i>
-              <i class="fas fa-user-plus"> フォロー</i>
-            </button>
-          <% end %>
-        <% end %>
 
+        </div>
       </div>
-    </div>
+    <% end %>
 
   <% end %>
 

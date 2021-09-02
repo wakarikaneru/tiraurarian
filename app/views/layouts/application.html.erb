@@ -154,7 +154,7 @@
           <ul class="navbar-nav">
             <%= form_with url: set_locale_path, id: "set_locale", method: :post, class: "form-inline", local: false do %>
               <div class="input-group m-1">
-                <%= select_tag :locale, options_for_select([["ja", "ja"], ["en", "en"], ["zh", "zh-CN"], ["ru", "ru"]], @locale), id:"set_locale_select", class: "form-control" %>
+                <%= select_tag :locale, options_for_select([["ja", "ja"], ["en", "en"], ["ko", "ko"], ["zh", "zh-CN"], ["ru", "ru"]], @locale), id:"set_locale_select", class: "form-control" %>
               </div>
             <% end %>
           </ul>

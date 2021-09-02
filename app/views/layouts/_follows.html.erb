@@ -13,8 +13,8 @@
     <% end %>
 
     <% user = User.find_by(id: target_id) %>
-    
-    <% if user.nil? %>
+
+    <% if user.present? %>
       <div class="users">
         <div>
           <%= link_to user, class: "link-item-imge" do %>

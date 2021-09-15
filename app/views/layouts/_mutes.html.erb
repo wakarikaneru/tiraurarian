@@ -7,31 +7,33 @@
 
     <% target_id = mute.target_id %>
 
-    <% user = User.find(target_id) %>
+    <% user = User.find_by(id: target_id) %>
 
-    <div class="users">
-      <div>
-        <%= link_to user, class: "link-item-image" do %>
-          <% if user.present? %>
-            <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+    <% if user.present? %>
+      <div class="users">
+        <div>
+          <%= link_to user, class: "link-item-image" do %>
+            <% if user.present? %>
+              <%= image_tag user.avatar.url(:thumb), class: "user-img" %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
 
-      <div class="users-info">
-        <div class="users-name"><%= user.name %></div>
-        <div class="users-desc"><%= user.description %></div>
-      </div>
+        <div class="users-info">
+          <div class="users-name"><%= user.name %></div>
+          <div class="users-desc"><%= user.description %></div>
+        </div>
 
-      <div class="mute-control">
-        <%= link_to mute, method: :delete do %>
-          <button class="change-hover-button btn btn-outline-primary rounded-pill">
-            <i class="fas fa-eye"> ミュート解除</i>
-            <i class="fas fa-eye"> ミュート解除</i>
-          </button>
-        <% end %>
+        <div class="mute-control">
+          <%= link_to mute, method: :delete do %>
+            <button class="change-hover-button btn btn-outline-primary rounded-pill">
+              <i class="fas fa-eye"> ミュート解除</i>
+              <i class="fas fa-eye"> ミュート解除</i>
+            </button>
+          <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
   <% end %>
 

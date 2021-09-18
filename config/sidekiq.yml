@@ -1,6 +1,6 @@
 :verbose: false
-:concurrency: 10
-:timeout: 10
+:concurrency: 128
+:timeout: 30
 
 :queues:
   - access_log

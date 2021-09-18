@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   before_action :notification_counts
   before_action :get_news
   before_action :user_point
-  before_action :create_thumb
   before_action :check_premium
 
   def detect_locale

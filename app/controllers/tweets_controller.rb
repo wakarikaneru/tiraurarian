@@ -116,8 +116,8 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
 
-    @tweet.host = request.host
-    @tweet.ip = request.ip
+    @tweet.host = request.remote_host
+    @tweet.ip = request.remote_ip
 
     current_user_id = 0
     if user_signed_in?

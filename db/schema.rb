@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_26_100015) do
+ActiveRecord::Schema.define(version: 2021_09_19_021703) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -516,6 +516,8 @@ ActiveRecord::Schema.define(version: 2021_06_26_100015) do
     t.integer "wakaru_count", default: 0
     t.integer "view_count", default: 0
     t.string "content_ko"
+    t.string "host"
+    t.string "ip"
     t.index ["parent_id"], name: "index_tweets_on_parent_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end

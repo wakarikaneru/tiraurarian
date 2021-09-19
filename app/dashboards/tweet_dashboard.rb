@@ -8,6 +8,8 @@ class TweetDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    host: Field::String,
+    ip: Field::String,
     user: Field::BelongsTo,
     parent: Field::BelongsTo,
     tweets: Field::HasMany,
@@ -66,6 +68,8 @@ class TweetDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
+    host
+    ip
     user
     parent
     tweets
@@ -113,6 +117,8 @@ class TweetDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    host
+    ip
     user
     parent
     tweets

@@ -1,0 +1,2 @@
+class Ban < ApplicationRecord
+end

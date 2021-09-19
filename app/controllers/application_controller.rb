@@ -74,6 +74,18 @@ class ApplicationController < ActionController::Base
   protected
 
     def access_control
+      require 'resolv'
+
+      host=""
+      begin
+        host = Resolv.getname(request.remote_ip)
+      rescue Resolv::ResolvError
+        host = "local"
+      end
+
+      if Ban.where("period >= ?", Time.current).where(host: host).present?
+        redirect_to '/ban.html'
+      end
     end
 
     def configure_permitted_parameters

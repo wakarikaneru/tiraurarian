@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_19_021703) do
+ActiveRecord::Schema.define(version: 2021_09_19_030906) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -70,6 +70,14 @@ ActiveRecord::Schema.define(version: 2021_09_19_021703) do
     t.index ["create_datetime"], name: "index_bads_on_create_datetime"
     t.index ["tweet_id"], name: "index_bads_on_tweet_id"
     t.index ["user_id"], name: "index_bads_on_user_id"
+  end
+
+  create_table "bans", charset: "utf8mb4", force: :cascade do |t|
+    t.string "host"
+    t.datetime "period"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "reason"
   end
 
   create_table "bookmarks", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -233,6 +241,13 @@ ActiveRecord::Schema.define(version: 2021_09_19_021703) do
     t.index ["read_flag"], name: "index_notices_on_read_flag"
     t.index ["sender_id"], name: "index_notices_on_sender_id"
     t.index ["user_id"], name: "index_notices_on_user_id"
+  end
+
+  create_table "permissions", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "level"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "points", id: :integer, charset: "utf8mb4", force: :cascade do |t|

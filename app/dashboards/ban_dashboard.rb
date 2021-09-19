@@ -11,6 +11,7 @@ class BanDashboard < Administrate::BaseDashboard
     id: Field::Number,
     host: Field::String,
     period: Field::DateTime,
+    creator: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -24,6 +25,7 @@ class BanDashboard < Administrate::BaseDashboard
     id
     host
     period
+    creator
     created_at
   ].freeze
 
@@ -33,6 +35,7 @@ class BanDashboard < Administrate::BaseDashboard
     id
     host
     period
+    creator
     created_at
     updated_at
   ].freeze
@@ -43,6 +46,7 @@ class BanDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     host
     period
+    creator
   ].freeze
 
   # COLLECTION_FILTERS

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_19_124130) do
+ActiveRecord::Schema.define(version: 2021_09_19_132207) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -111,6 +111,12 @@ ActiveRecord::Schema.define(version: 2021_09_19_124130) do
     t.datetime "create_datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_1_id"], name: "index_card_decks_on_card_1_id"
+    t.index ["card_2_id"], name: "index_card_decks_on_card_2_id"
+    t.index ["card_3_id"], name: "index_card_decks_on_card_3_id"
+    t.index ["card_box_id"], name: "index_card_decks_on_card_box_id"
+    t.index ["create_datetime"], name: "index_card_decks_on_create_datetime"
+    t.index ["rule"], name: "index_card_decks_on_rule"
   end
 
   create_table "card_get_results", charset: "utf8mb4", force: :cascade do |t|
@@ -118,6 +124,8 @@ ActiveRecord::Schema.define(version: 2021_09_19_124130) do
     t.integer "card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_card_get_results_on_card_id"
+    t.index ["user_id"], name: "index_card_get_results_on_user_id"
   end
 
   create_table "card_kings", charset: "utf8mb4", force: :cascade do |t|
@@ -128,6 +136,10 @@ ActiveRecord::Schema.define(version: 2021_09_19_124130) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "last_challenger_id"
+    t.index ["card_deck_id"], name: "index_card_kings_on_card_deck_id"
+    t.index ["defense"], name: "index_card_kings_on_defense"
+    t.index ["rule"], name: "index_card_kings_on_rule"
+    t.index ["user_id"], name: "index_card_kings_on_user_id"
   end
 
   create_table "cards", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -141,6 +153,12 @@ ActiveRecord::Schema.define(version: 2021_09_19_124130) do
     t.boolean "rare", default: false, null: false
     t.boolean "new", default: false, null: false
     t.integer "sub_element", default: 0
+    t.index ["card_box_id"], name: "index_cards_on_card_box_id"
+    t.index ["create_datetime"], name: "index_cards_on_create_datetime"
+    t.index ["element"], name: "index_cards_on_element"
+    t.index ["model_id"], name: "index_cards_on_model_id"
+    t.index ["new"], name: "index_cards_on_new"
+    t.index ["power"], name: "index_cards_on_power"
   end
 
   create_table "controls", id: :integer, charset: "utf8mb4", force: :cascade do |t|

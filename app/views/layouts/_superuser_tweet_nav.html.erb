@@ -1,0 +1,39 @@
+<% if user_signed_in? %>
+  <% if Permission.find_by(user_id: current_user.id).present? %>
+    <% level = Permission.find_by(user_id: current_user.id).level %>
+    <div class="users-mode-changer-container">
+      <div class="w-100 m-2">
+        <a class="tweet-addition btn btn-primary btn-sm w-100" data-toggle="collapse" href="#superuser_tweet" aria-expanded="false">
+          <i class="fas fa-angle-double-down"> あなたの権限: レベル<%= level %></i>
+          <i class="fas fa-angle-double-up"> あなたの権限: レベル<%= level %></i>
+        </a>
+
+        <div class="collapse" id="superuser_tweet">
+          <% if 1 <= level %>
+            <%= link_to superuser_delete_tweet_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+              つぶやき削除
+            <% end %>
+            <%= link_to superuser_ban_1h_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+              アク禁(1時間)
+            <% end %>
+          <% end %>
+          <% if 2 <= level %>
+            <%= link_to superuser_ban_1d_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+              アク禁(1日)
+            <% end %>
+          <% end %>
+          <% if 10 <= level %>
+            <%= link_to superuser_ban_1w_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+              アク禁(1週間)
+            <% end %>
+            <%= link_to superuser_ban_1m_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+              アク禁(1ヶ月)
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+<% end %>

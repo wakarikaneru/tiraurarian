@@ -166,10 +166,17 @@
 
         <div class='login-user-info'>
           <% if user_signed_in? %>
+
             <% if @is_premium %>
-              <i class="fas fa-unlock"></i>
+              <span class="mx-1"><i class="fas fa-unlock"></i></span>
             <% end %>
+
+            <% if Permission.find_by(user_id: current_user.id).present? %>
+              <span class="mx-1"><i class="fas fa-user-cog"></i></span>
+            <% end %>
+
             <%= image_tag current_user.avatar.url(:thumb), class: "login-user-info-img image_x24" %>
+
             <span> | </span>
             <span><%= @user_points %> va</span>
             <span> | </span>

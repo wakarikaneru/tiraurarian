@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
       end
 
       if Ban.where("period >= ?", Time.current).where(host: host).present?
-        redirect_to '/ban.html'
+        redirect_to '/403.html'
       end
     end
 

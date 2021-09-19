@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   resources :tweets
   get 'tweets_async', to: 'tweets#async'
   get 'leaning/study', to: 'tweets#study'
+  post 'superuser/delete_tweet', to: 'superuser#delete_tweet'
+  post 'superuser/ban_1h', to: 'superuser#ban_1h'
+  post 'superuser/ban_1d', to: 'superuser#ban_1d'
+  post 'superuser/ban_1w', to: 'superuser#ban_1w'
+  post 'superuser/ban_1m', to: 'superuser#ban_1m'
   resources :texts
   resources :tags
   resources :bookmarks

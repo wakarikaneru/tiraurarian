@@ -2,6 +2,8 @@
   <%= render partial: "/layouts/tweets_sync", locals: { tweets: @root_tweets, list: true, reverse: false, show_parent: false } %>
 <% end %>
 
+<%= render partial: "/layouts/superuser_tweet_nav", locals: { tweet: @tweet } %>
+
 <div class="tweet-container">
 
   <div class="tweet-large">
@@ -138,7 +140,7 @@
 
       <div class="content-desc clearfix">
         <% if @tweet.user.present? %>
-          <div class="content-desc-left"><%= @tweet.user.name %></div>
+          <div class="content-desc-left"><%= @tweet.user.name %> #<%= @tweet.user.id %></div>
         <% else %>
           <div class="content-desc-left">削除されたユーザー</div>
         <% end %>

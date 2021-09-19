@@ -115,6 +115,10 @@ class TweetsController < ApplicationController
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
+
+    @tweet.host = request.host
+    @tweet.ip = request.ip
+
     current_user_id = 0
     if user_signed_in?
       current_user_id = current_user.id

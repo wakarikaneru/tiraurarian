@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   rescue_from Exception, with: :rescue500
 
+  before_action :access_control
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_rack_mini_profiler
   before_action :access_log
@@ -51,15 +52,15 @@ class ApplicationController < ActionController::Base
     stat = Stat.order(id: :desc).first
     @load = stat.load
     case @load
-    when 0..500
+    when 0..1000
         @load_str = "低負荷"
-      when 501..1000
+      when 1001..2000
         @load_str = "中負荷"
-      when 1001..1500
+      when 2001..3000
         @load_str = "高負荷"
-      when 1501..2000
+      when 3001..4000
         @load_str = "超負荷"
-      when 2001..2500
+      when 4001..5000
         @load_str = "やばい"
       else
         @load_str = "未知の領域"
@@ -71,6 +72,10 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+    def access_control
+    end
+
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:login_id, :name, :avatar, :description])
       devise_parameter_sanitizer.permit(:account_update, keys: [:login_id, :name, :avatar, :description])

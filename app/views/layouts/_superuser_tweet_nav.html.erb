@@ -3,7 +3,7 @@
     <% level = Permission.find_by(user_id: current_user.id).level %>
     <div class="users-mode-changer-container">
       <div class="w-100 m-2">
-        <a class="tweet-addition btn btn-primary btn-sm w-100" data-toggle="collapse" href="#superuser_tweet" aria-expanded="false">
+        <a class="tweet-addition btn btn-secondary btn-sm w-100" data-toggle="collapse" href="#superuser_tweet" aria-expanded="false">
           <i class="fas fa-angle-double-down"> あなたの権限: レベル<%= level %></i>
           <i class="fas fa-angle-double-up"> あなたの権限: レベル<%= level %></i>
         </a>

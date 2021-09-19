@@ -116,7 +116,16 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
 
-    @tweet.host = request.remote_host
+    require 'resolv'
+
+    host=""
+    begin
+      host = Resolv.getname(request.remote_ip)
+    rescue Resolv::ResolvError
+      host = "local"
+    end
+
+    @tweet.host = host
     @tweet.ip = request.remote_ip
 
     current_user_id = 0

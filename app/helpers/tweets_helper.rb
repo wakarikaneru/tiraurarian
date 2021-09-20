@@ -6,7 +6,7 @@ module TweetsHelper
 
   def uri_extract(str)
     require 'uri'
-    return URI.extract(str)
+    return URI.extract(str, ["http", "https"])
   end
 
   # URL から 動画ID を取得するための正規表現（時刻指定は除去）

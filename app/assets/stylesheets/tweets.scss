@@ -216,6 +216,45 @@
   background-color: var(--color-5);
 }
 
+.content-link-title{
+  flex: 1 1 auto;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+}
+
+.content-link-description{
+  flex: 1 1 auto;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+
+  font-size: 75%;
+  opacity: 0.75;
+}
+
+.content-link-uri{
+  flex: 1 1 auto;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: var(--color-5r);
+  background-color: var(--color-5);
+
+  font-size: 50%;
+  opacity: 0.75;
+}
+
 .content-image{
   margin: 8px;
 

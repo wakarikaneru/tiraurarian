@@ -149,7 +149,22 @@
         <div class="content-uris">
           <% uris.map do |uri| %>
             <div class="my-2">
-              <%= link_to uri, target: :_blank, class: "link-item" %>
+              <%= link_to uri, target: :_blank, class: "link-item" do %>
+                <div class="hukidasi">
+                  <% html = open(uri) %>
+                  <% page = Nokogiri::HTML.parse(html, nil, html.charset) %>
+
+                  <div class="content-link-title">
+                    <%= page.title %>
+                  </div>
+                  <div class="content-link-description">
+                    <%= page.xpath('/html/head/meta[@name="description"]/@content') %>
+                  </div>
+                  <div class="content-link-uri">
+                    <%= uri %>
+                  </div>
+                </div>
+              <% end %>
             </div>
           <% end %>
         </div>

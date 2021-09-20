@@ -76,6 +76,10 @@ class ApplicationController < ActionController::Base
     def access_control
       require 'resolv'
 
+      if current_user && current_user.id == 1
+        return
+      end
+
       host=""
       begin
         host = Resolv.getname(request.remote_ip)

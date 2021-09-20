@@ -1,5 +1,28 @@
 class SuperuserController < ApplicationController
 
+  def nsfw_tweet
+    tweet_id = params[:tweet_id]
+
+    if user_signed_in?
+      if Permission.find_by(user_id: current_user.id).present?
+        level = Permission.find_by(user_id: current_user.id).level
+        if 1 <= level
+
+          tweet = Tweet.find(tweet_id)
+          tweet.nsfw = true
+
+          if tweet.save
+            redirect_back(fallback_location: root_path, notice: "つぶやき##{tweet_id}をNSFWにしました" )
+          else
+            redirect_back(fallback_location: root_path, alert: "つぶやき##{tweet_id}をNSFWにできませんでした" )
+          end
+          return
+        end
+      end
+    end
+    redirect_to root_path
+  end
+
   def delete_tweet
     tweet_id = params[:tweet_id]
 

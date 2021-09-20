@@ -1,6 +1,8 @@
 module TweetsHelper
   include Twitter::TwitterText::Autolink
   include Twitter::TwitterText::Extractor
+  require "nokogiri"
+  require "open-uri"
 
   def uri_extract(str)
     require 'uri'

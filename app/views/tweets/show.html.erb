@@ -110,15 +110,46 @@
 
       <div class="content">
         <div class="content-content word-break">
-          <%= auto_link_hashtags(auto_link_urls(html_escape(@tweet.content_selected_language(I18n.locale.to_s)), target_blank: true), hashtag_url_base: "/tweets?mode=tag&tag=", class: "link-item").html_safe %>
+          <%= auto_link_hashtags(html_escape(@tweet.content_selected_language(I18n.locale.to_s)), hashtag_url_base: "/tweets?mode=tag&tag=", class: "link-item").html_safe %>
         </div>
       </div>
 
-      <div class="content-desc">
+      <div class="content content-desc">
         <div class="content-content word-break">
           <%= @tweet.content %>
         </div>
       </div>
+
+      <% uris = uri_extract(@tweet.content) %>
+      <% if uris.present? %>
+        <div class="content-image">
+          <% uris.map do |uri| %>
+            <% embed_uri_youtube = embed_youtube(uri) %>
+            <% if embed_uri_youtube.present? %>
+              <iframe width="640" height="360" src="<%= embed_uri_youtube %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <% break %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @tweet.image? %>
+        <div class="content-image">
+          <a data-toggle="modal" data-target="#imageModal">
+            <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
+          </a>
+        </div>
+      <% end %>
+
+      <% if uris.present? %>
+        <div class="content-uris">
+          <% uris.map do |uri| %>
+            <div class="my-2">
+              <%= link_to uri, target: :_blank, class: "link-item" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
 
       <% if @tweet.text.present? %>
         <%= link_to @tweet.text, target: :_blank, class: "link-item-hukidasi" do %>
@@ -126,12 +157,6 @@
             <i class="fas fa-file"></i> <%= @tweet.text.content %>
           </div>
         <% end %>
-      <% end %>
-
-      <% if @tweet.image? %>
-        <a data-toggle="modal" data-target="#imageModal">
-          <%= image_tag @tweet.image.url(:thumb_large), class: "fit" %>
-        </a>
       <% end %>
 
       <div class="content-desc">

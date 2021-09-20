@@ -53,7 +53,7 @@ before_fork do
   PumaWorkerKiller.config do |config|
     config.ram           = 2048 # mb
     config.frequency     = 10   # seconds
-    config.percent_usage = 0.75
+    config.percent_usage = 0.50
     config.rolling_restart_frequency = 1 * 3600 # 1 hour in seconds, or 1.hours if using Rails
   end
   PumaWorkerKiller.start

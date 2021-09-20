@@ -10,6 +10,9 @@
 
         <div class="collapse" id="superuser_tweet">
           <% if 1 <= level %>
+            <%= link_to superuser_nsfw_tweet_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当にNSFWにしますか？" } do %>
+              NSFW
+            <% end %>
             <%= link_to superuser_delete_tweet_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
               つぶやき削除
             <% end %>

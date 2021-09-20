@@ -399,27 +399,27 @@ a.link-item-hukidasi:active div{
   opacity: 0.5;
 }
 
-.content-content a{
+.content-uris a{
   margin: 0 0.1em;
   padding: 0.1em;
 }
-.content-content a:link{
+.content-uris a:link{
   color: var(--color-4r);
   background-color: var(--color-4);
   text-decoration: underline;
 }
-.content-content a:visited{
+.content-uris a:visited{
   color: var(--color-4r);
   background-color: var(--color-4);
   text-decoration: underline;
 }
-.content-content a:hover{
+.content-uris a:hover{
   color: var(--color-4r);
   background-color: var(--color-4);
   text-decoration: underline;
   opacity: 0.75;
 }
-.content-content a:active{
+.content-uris a:active{
   color: var(--color-4r);
   background-color: var(--color-4);
   text-decoration: underline;

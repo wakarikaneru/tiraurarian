@@ -121,8 +121,11 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :access_logs
     resources :error_logs
+    
     resources :permissions
     resources :bans
+    resources :delete_logs
+
     resources :stats
     resources :controls
 

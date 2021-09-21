@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class BanDashboard < Administrate::BaseDashboard
+class DeleteLogDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,15 +8,15 @@ class BanDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    creator: Field::BelongsTo,
     id: Field::Number,
-    ip: Field::String,
-    host: Field::String,
-    period: Field::DateTime,
+    tweet_id: Field::Number,
+    tweet_content: Field::String,
+    tweet_user_id: Field::Number,
+    tweet_ip: Field::String,
+    tweet_host: Field::String,
+    delete_user_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    reason: Field::String,
-    create_user_id: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,36 +25,36 @@ class BanDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    creator
     id
-    ip
-    period
+    tweet_id
+    tweet_content
+    tweet_user_id
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    creator
     id
-    ip
-    host
-    period
+    tweet_id
+    tweet_content
+    tweet_user_id
+    tweet_ip
+    tweet_host
+    delete_user_id
     created_at
     updated_at
-    reason
-    create_user_id
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    creator
-    ip
-    host
-    period
-    reason
-    create_user_id
+    tweet_id
+    tweet_content
+    tweet_user_id
+    tweet_ip
+    tweet_host
+    delete_user_id
   ].freeze
 
   # COLLECTION_FILTERS
@@ -69,10 +69,10 @@ class BanDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how bans are displayed
+  # Overwrite this method to customize how delete logs are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(ban)
-  #   "Ban ##{ban.id}"
+  # def display_resource(delete_log)
+  #   "DeleteLog ##{delete_log.id}"
   # end
 end

@@ -8,15 +8,15 @@ class BanDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    creator: Field::BelongsTo,
     id: Field::Number,
+    creator: Field::BelongsTo,
     ip: Field::String,
     host: Field::String,
     period: Field::DateTime,
+    create_user_id: Field::Number,
+    reason: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    reason: Field::String,
-    create_user_id: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,8 +25,8 @@ class BanDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    creator
     id
+    creator
     ip
     period
   ].freeze
@@ -34,8 +34,8 @@ class BanDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    creator
     id
+    creator
     ip
     host
     period

@@ -26,9 +26,9 @@ class DeleteLogDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
-    tweet_id
     tweet_content
     tweet_user_id
+    delete_user_id
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

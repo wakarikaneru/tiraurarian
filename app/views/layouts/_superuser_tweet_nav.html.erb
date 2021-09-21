@@ -16,20 +16,20 @@
             <%= link_to superuser_delete_tweet_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
               つぶやき削除
             <% end %>
-            <%= link_to superuser_ban_1h_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+            <%= link_to superuser_ban_1h_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当にアク禁しますか？" } do %>
               アク禁(1時間)
             <% end %>
           <% end %>
           <% if 2 <= level %>
-            <%= link_to superuser_ban_1d_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+            <%= link_to superuser_ban_1d_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当にアク禁しますか？" } do %>
               アク禁(1日)
             <% end %>
           <% end %>
           <% if 10 <= level %>
-            <%= link_to superuser_ban_1w_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+            <%= link_to superuser_ban_1w_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当にアク禁しますか？" } do %>
               アク禁(1週間)
             <% end %>
-            <%= link_to superuser_ban_1m_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当に削除しますか？" } do %>
+            <%= link_to superuser_ban_1m_path(tweet_id: tweet.id), method: :post, class: "btn btn-danger btn-sm m-1", data: { confirm: "本当にアク禁しますか？" } do %>
               アク禁(1ヶ月)
             <% end %>
           <% end %>

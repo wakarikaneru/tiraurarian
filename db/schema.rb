@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_19_132207) do
+ActiveRecord::Schema.define(version: 2021_09_21_105854) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_09_19_132207) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "reason"
     t.integer "create_user_id"
+    t.string "ip"
   end
 
   create_table "bookmarks", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -167,6 +168,17 @@ ActiveRecord::Schema.define(version: 2021_09_19_132207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_controls_on_key"
+  end
+
+  create_table "delete_logs", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "tweet_id"
+    t.string "tweet_content"
+    t.integer "tweet_user_id"
+    t.string "tweet_ip"
+    t.string "tweet_host"
+    t.integer "delete_user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "error_logs", charset: "utf8mb4", force: :cascade do |t|

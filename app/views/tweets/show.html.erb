@@ -148,10 +148,14 @@
       <% if uris.present? %>
         <div class="content-uris">
           <% uris.map do |uri| %>
+            <% begin %>
+              <% html = open(uri) %>
+            <% rescue %>
+              <% next %>
+            <% end %>
             <div class="my-2">
               <%= link_to uri, target: :_blank, class: "link-item" do %>
                 <div class="hukidasi">
-                  <% html = open(uri) %>
                   <% page = Nokogiri::HTML.parse(html, nil, html.charset) %>
 
                   <div class="content-link-title">

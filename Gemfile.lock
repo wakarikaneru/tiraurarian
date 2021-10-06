@@ -98,7 +98,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.8)
-    connection_pool (2.2.3)
+    connection_pool (2.2.5)
     crass (1.0.6)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
@@ -314,7 +314,7 @@ GEM
       ffi (~> 1.0)
     recaptcha (5.5.0)
       json
-    redis (4.2.5)
+    redis (4.4.0)
     render_async (2.1.10)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -333,7 +333,7 @@ GEM
       sprockets-rails
       tilt
     selectize-rails (0.12.6)
-    sidekiq (6.2.0)
+    sidekiq (6.2.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)

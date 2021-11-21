@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_105854) do
+ActiveRecord::Schema.define(version: 2021_11_21_010233) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -553,15 +553,15 @@ ActiveRecord::Schema.define(version: 2021_09_21_105854) do
     t.integer "medical", default: 0
     t.integer "violence", default: 0
     t.integer "racy", default: 0
-    t.string "content_ja"
-    t.string "content_en"
-    t.string "content_zh"
+    t.text "content_ja"
+    t.text "content_en"
+    t.text "content_zh"
     t.string "language"
     t.float "language_confidence", default: 0.0
-    t.string "content_ru"
+    t.text "content_ru"
     t.integer "wakaru_count", default: 0
     t.integer "view_count", default: 0
-    t.string "content_ko"
+    t.text "content_ko"
     t.string "host"
     t.string "ip"
     t.index ["parent_id"], name: "index_tweets_on_parent_id"

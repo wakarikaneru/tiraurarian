@@ -14,7 +14,7 @@ class Tweet < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :tags, dependent: :destroy
 
-  validates :content, {presence: true, lengh: {maximum: 140}}
+  validates :content, {presence: true, length: {maximum: 140}}
 
   accepts_nested_attributes_for :text
 

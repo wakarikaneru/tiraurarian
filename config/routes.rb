@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'tests/tests'
   get 'tests/test1'
+  get 'index2', to: 'tweets#index2'
 
   root to: "tweets#index"
 
@@ -121,7 +122,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :access_logs
     resources :error_logs
-    
+
     resources :permissions
     resources :bans
     resources :delete_logs

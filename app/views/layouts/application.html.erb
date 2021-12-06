@@ -209,21 +209,24 @@
 
       </div>
 
-      <div class="overflow-hidden w-100 m-2">
-        <div align="center">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <!-- メイン広告 -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-5849163684087391"
-               data-ad-slot="1720426885"
-               data-ad-format="horizontal"
-               data-full-width-responsive="false"></ins>
-          <script>
-               (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+      <% if user_signed_in? && (current_user.id == 1 || @is_premium) %>
+      <% else %>
+        <div class="overflow-hidden w-100 m-2">
+          <div align="center">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- メイン広告 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5849163684087391"
+                 data-ad-slot="1720426885"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="false"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <% if Rails.env == 'development' %>
         <div id="development" class="notice alert alert-info">

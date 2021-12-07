@@ -71,6 +71,18 @@ class ApplicationController < ActionController::Base
     render partial: "layouts/load"
   end
 
+  def load_color
+    stat = Stat.order(id: :desc).first
+    @load = stat.load
+
+    red = [0, (@load / 3000) * 255, 255].sort.second
+    red_hex = red.to_s(16).rjust(2, "0")
+
+    @load_color = "#" + red_hex + "00" + "00"
+
+    render partial: "layouts/load_color"
+  end
+
   protected
 
     def access_control

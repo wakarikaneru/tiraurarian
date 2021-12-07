@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'notification', to: 'application#notification'
   get 'news', to: 'application#news'
   get 'load', to: 'application#load'
+  get 'load_color', to: 'application#load_color'
   get 'stat', to: 'application#stat'
   post 'set_locale', to: 'application#set_locale'
   get 'offline', to: 'application#offline'

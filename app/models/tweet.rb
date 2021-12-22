@@ -1,7 +1,7 @@
 class Tweet < ApplicationRecord
   include Twitter::TwitterText::Extractor
 
-  before_create :format_content, :set_context, :set_translate, :set_sensitivity
+  before_create :format_content, :set_context, :set_translate, :set_sensitivity, :set_sentiment
   after_create :tweet_after
 
   belongs_to :user
@@ -190,6 +190,22 @@ class Tweet < ApplicationRecord
 
       end
 
+    end
+
+    def set_sentiment
+      require "google/cloud/language"
+
+      language = Google::Cloud::Language.language_service
+
+      content = self.content
+
+      document = { type: :PLAIN_TEXT, content: content }
+      response = language.analyze_sentiment document: document
+
+      sentiment = response.document_sentiment
+
+      self.sentiment_score = sentiment.score
+      self.sentiment_magnitude = sentiment.magnitude
     end
 
     def tweet_after

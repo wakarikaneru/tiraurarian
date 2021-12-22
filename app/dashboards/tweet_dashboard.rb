@@ -47,10 +47,12 @@ class TweetDashboard < Administrate::BaseDashboard
     content_ja: Field::String,
     content_en: Field::String,
     content_zh: Field::String,
-    language: Field::String,
-    language_confidence: Field::Number.with_options(decimals: 2),
     content_ru: Field::String,
     content_ko: Field::String,
+    language: Field::String,
+    language_confidence: Field::Number.with_options(decimals: 2),
+    sentiment_score: Field::Number.with_options(decimals: 2),
+    sentiment_magnitude: Field::Number.with_options(decimals: 2),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -107,10 +109,12 @@ class TweetDashboard < Administrate::BaseDashboard
     content_ja
     content_en
     content_zh
-    language
-    language_confidence
     content_ru
     content_ko
+    language
+    language_confidence
+    sentiment_score
+    sentiment_magnitude
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -153,10 +157,12 @@ class TweetDashboard < Administrate::BaseDashboard
     content_ja
     content_en
     content_zh
-    language
-    language_confidence
     content_ru
     content_ko
+    language
+    language_confidence
+    sentiment_score
+    sentiment_magnitude
   ].freeze
 
   # COLLECTION_FILTERS

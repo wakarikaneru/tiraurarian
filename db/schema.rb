@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_22_021347) do
+ActiveRecord::Schema.define(version: 2022_01_30_104523) do
 
   create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_datetime"
@@ -567,6 +567,8 @@ ActiveRecord::Schema.define(version: 2021_12_22_021347) do
     t.float "sentiment_score", default: 0.0
     t.float "sentiment_magnitude", default: 0.0
     t.index ["parent_id"], name: "index_tweets_on_parent_id"
+    t.index ["sentiment_magnitude"], name: "index_tweets_on_sentiment_magnitude"
+    t.index ["sentiment_score"], name: "index_tweets_on_sentiment_score"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 

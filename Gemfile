@@ -60,8 +60,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # for security
 gem 'rack-attack'
 
-# import
+# activerecord拡張
 gem 'activerecord-import'
+gem 'active_record_union', '~> 1.3'
 
 # for Google
 gem 'google-cloud-language', '~> 1.3'
@@ -87,13 +88,14 @@ gem 'stackprof' # ruby 2.1+ only
 gem 'bundler-leak'
 gem 'puma_worker_killer'
 
-#
+# スケジュール実行
 gem 'whenever'
 
-#
+# 画像投稿
 gem 'paperclip'
 gem 'mini_magick'
 
+# 検索
 gem 'ransack'
 gem "kaminari", ">= 1.2.1"
 gem 'render_async'

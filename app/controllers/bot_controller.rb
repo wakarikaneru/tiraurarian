@@ -102,7 +102,7 @@ class BotController < ApplicationController
       "Authorization" => "Bearer " + api_key
     }
 
-    prompt = "\"チラウラリア\"の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。\n"
+    prompt = "\"チラウラリア\"の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。\n\n"
 
     root_tweets.map do |tweet|
       if tweet.user_id == -1
@@ -114,7 +114,7 @@ class BotController < ApplicationController
 
     # リクエストパラメータを設定
     post_data = {
-      "prompt" => prompt + "Human: #{res_tweet.content}\nAI: ",
+      "prompt" => prompt + "Human: #{res_tweet.content}\nAI:",
       "temperature" => 0.9,
       "max_tokens" => 140,
       "top_p" => 1,

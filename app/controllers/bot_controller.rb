@@ -83,6 +83,14 @@ class BotController < ApplicationController
 
   def self.openai_talk(res_tweet)
 
+    root_tweets = []
+    t = res_tweet
+    while t.present? && t.parent_id.present? && t.id != 0 do
+      root_tweets.push(t)
+      t = Tweet.find_by(id: t.parent_id)
+    end
+    root_tweets.reverse!
+
     api_key = ENV["OPENAI_API_KEY"]
 
     # APIのURL
@@ -94,18 +102,25 @@ class BotController < ApplicationController
       "Authorization" => "Bearer " + api_key
     }
 
+    prompt = "\"チラウラリア\"の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。\n"
+
+    root_tweets.map do |tweet|
+      if tweet.user_id == -1
+        prompt += "AI:" + tweet.content_ja + "\n"
+      else
+        prompt += "Human:" + tweet.content_ja + "\n"
+      end
+    end
+
     # リクエストパラメータを設定
     post_data = {
-      "prompt" => "『チラウラリア』の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。
-
-User: #{res_tweet.content}
-AI:",
+      "prompt" => prompt + "Human: #{res_tweet.content}\nAI: ",
       "temperature" => 0.9,
       "max_tokens" => 140,
       "top_p" => 1,
       "frequency_penalty" => 0,
       "presence_penalty" => 0.6,
-      "stop" => ["User:", "AI:"]
+      "stop" => ["Human:", "AI:"]
     }.to_json
 
     # postリクエスト送信

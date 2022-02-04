@@ -117,9 +117,7 @@ AI:",
     # JSON文字列をパースし、結果を返却
     result = JSON.parse(res.body)
 
-    return nil if result['status'] != 0
-
-    return result['results'][0]['reply']
+    return result['choices'][0]['text']
 
   end
 

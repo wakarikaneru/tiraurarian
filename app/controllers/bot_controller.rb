@@ -96,7 +96,7 @@ class BotController < ApplicationController
 
     # リクエストパラメータを設定
     post_data = {
-      "prompt" => "チラウラリアの管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。
+      "prompt" => "『チラウラリア』の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。
 
 User: #{res_tweet.content}
 AI:",

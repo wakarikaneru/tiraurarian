@@ -9,6 +9,7 @@ class Rack::Attack
   end
 
   throttle('request dist', :limit => 15000, :period => 10.minutes) do |req|
+    # IPを問わない
   end
 
 end

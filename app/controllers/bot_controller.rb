@@ -106,15 +106,15 @@ class BotController < ApplicationController
 
     root_tweets.map do |tweet|
       if tweet.user_id == -1
-        prompt += "AI:" + tweet.content_ja + "\n"
+        prompt += "\n" + "AI:" + tweet.content_ja
       else
-        prompt += "Human:" + tweet.content_ja + "\n"
+        prompt += "\n" + "Human:" + tweet.content_ja
       end
     end
 
     # リクエストパラメータを設定
     post_data = {
-      "prompt" => prompt + "Human: #{res_tweet.content}\nAI: ",
+      "prompt" => prompt + "Human: #{res_tweet.content}\nAI:",
       "temperature" => 0.9,
       "max_tokens" => 140,
       "top_p" => 1,

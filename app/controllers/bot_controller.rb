@@ -102,13 +102,13 @@ class BotController < ApplicationController
       "Authorization" => "Bearer " + api_key
     }
 
-    prompt = "\"チラウラリア\"の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。\n\n"
+    prompt = "\"チラウラリア\"の管理人代理AIです。丁寧に、ユーモアを交えて、ユーザーからのチャットに返事をします。\n"
 
     root_tweets.map do |tweet|
       if tweet.user_id == -1
-        prompt += "AI:" + tweet.content_ja + "\n"
+        prompt += "\n" + "AI:" + tweet.content_ja
       else
-        prompt += "Human:" + tweet.content_ja + "\n"
+        prompt += "\n" + "Human:" + tweet.content_ja
       end
     end
 

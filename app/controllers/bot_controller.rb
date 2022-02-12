@@ -16,7 +16,7 @@ class BotController < ApplicationController
     if res_tweets.present?
       res_tweets.each do |r|
         reply = nil
-        reply = reply.blank? ? BotController.dialogflow_talk(r) : reply
+        #reply = reply.blank? ? BotController.dialogflow_talk(r) : reply
         reply = reply.blank? ? BotController.openai_talk(r) : reply
         reply = reply.blank? ? BotController.a3rt_talk(r) : reply
 

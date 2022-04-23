@@ -12,7 +12,8 @@ namespace :tiramon_battle do
 
     TiramonTrainer.recovery
 
-    Tiramon.set_miss
+    #Tiramon.set_miss
+    Tiramon.decay(0.01)
     Tiramon.leave
   end
   task rank: :environment do

@@ -78,7 +78,7 @@ class Tiramon < ApplicationRecord
     #arr = Array.new(100){|index| [a_1[index], a_2[index]].sample }
     arr = Array.new(100){|index| a_1[index] + a_2[index] }
     base_factor = Vector.elements(arr)
-    base_factor += TiramonFactor.find_by(key: "god").getFactor * 0.1
+    base_factor += TiramonFactor.find_by(key: "god").getFactor * 0.01
 
     self.factor = base_factor.normalize.to_json
   end
@@ -278,7 +278,7 @@ class Tiramon < ApplicationRecord
     a.concat(data[:abilities][:vital])
     a.concat(data[:abilities][:recovery])
     a << data[:abilities][:speed]
-    a << data[:abilities][:intuition] * 100 + 50
+    a << (data[:abilities][:intuition] + 0.5) * 100
     a << data[:skills][:attack][0] * 100
     a << data[:skills][:attack][1] * 100
     a << data[:skills][:attack][2] * 100
@@ -490,14 +490,6 @@ class Tiramon < ApplicationRecord
       #ret[:log].push([1, t_1_weight_balance])
       #ret[:log].push([-1, t_2_weight_balance])
 
-      t_1_height = t_1[:height]
-      t_2_height = t_2[:height]
-
-      t_1_height_balance = [t_2_height / t_1_height, 2.0, 0.5].sort.second
-      t_2_height_balance = [t_1_height / t_2_height, 2.0, 0.5].sort.second
-      #ret[:log].push([1, t_1_height_balance])
-      #ret[:log].push([-1, t_2_height_balance])
-
       t_1_pride = Tiramon.get_pride(t_1)
       t_2_pride = Tiramon.get_pride(t_2)
 
@@ -510,11 +502,11 @@ class Tiramon < ApplicationRecord
       ret[:log].push([-1, Tiramon.get_message(Constants::TIRAMON_MOTIVATION, t_2_motivation / 2)])
 
 
-      t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_weight_balance * t_1_height_balance * t_1_motivation, 0.0].max
-      t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_weight_balance * t_2_height_balance * t_2_motivation, 0.0].max
+      t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_weight_balance * t_1_motivation, 0.0].max
+      t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_weight_balance * t_2_motivation, 0.0].max
 
-      #ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
-      #ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])
+      ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
+      ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])
 
       if t_1_move_power <= 0 and t_2_move_power <= 0
         turn = 0
@@ -538,8 +530,8 @@ class Tiramon < ApplicationRecord
 
         # お互い寝っ転がりっぱなしはしょっぱいのでスタミナ回復
         # BMIが異常なほどスタミナ回復が遅い
-        t_1_bmi_damage = [((22.0 - t_1[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
-        t_2_bmi_damage = [((22.0 - t_2[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
+        t_1_bmi_damage = [((22.0 - t_1[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
+        t_2_bmi_damage = [((22.0 - t_2[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
         t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp] * (1 - t_1_bmi_damage)
         t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp] * (1 - t_2_bmi_damage)
 
@@ -578,7 +570,7 @@ class Tiramon < ApplicationRecord
         move_data = TiramonMove.getMoveData(move_list.find{|m| m[:id] == move})
         last_move = move_data[:name]
 
-        #ret[:log].push([turn, move_data[:name] + "を狙っている！"])
+        ret[:log].push([turn, move_data[:name] + "を狙っている！"])
 
         damage = {hp: 0.0, thp: 0.0, mp: 0.0, tmp: 0.0, sp: 0.0, tsp: 0.0}
 
@@ -591,7 +583,7 @@ class Tiramon < ApplicationRecord
         	damage[:sp] += move_data[:damage][:sp][element].to_f * skill_effect * weight_effect
         	damage[:tsp] += move_data[:damage][:tsp][element].to_f * skill_effect * weight_effect
         }
-        #ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
+        ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
 
         damage_physical = damage[:hp] + damage[:thp]
         if 0 < damage_physical
@@ -622,12 +614,12 @@ class Tiramon < ApplicationRecord
 
           # プロレス的なところ
           pride = Tiramon.get_pride(defender) / 5
-          #ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
-          #ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
+          ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
+          ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
           fear = [damage_risk / pride, 2.0, 0.0].sort.second
           #ret[:log].push([-turn, "回避率(恐怖)" + ((fear) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
-          avoid_puroresu = [fear * avoid_hp, 0.90, 0.10].sort.second
+          avoid_puroresu = [fear * avoid_hp, 0.90, 0.00].sort.second
 
           # シュート
           # 勘
@@ -695,7 +687,7 @@ class Tiramon < ApplicationRecord
           ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_FAIL_ATTACK, rand())])
 
           # SP消費
-          attacker[:sp] -= attacker[:sp] / 40.0
+          #attacker[:sp] -= attacker[:sp] / 40.0
           attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
           # SP回復
           # defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
@@ -716,7 +708,11 @@ class Tiramon < ApplicationRecord
           #ret[:log].push([turn, weight_damage.to_s + "体重補正！"])
 
           combo_damage = Math.sqrt(combo)
-          #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
+          #combo_damage = combo
+          if 1 < combo
+            #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
+            ret[:log].push([turn, combo.to_s + "コンボ！！ダメージ増加！！"])
+          end
 
           kiai_rand = Tiramon.power_rand(2)
           kiai = (attacker[:temp_sp] + (attacker[:sp] - attacker[:temp_sp]) * kiai_rand * 2.0) / attacker[:max_sp]
@@ -733,7 +729,6 @@ class Tiramon < ApplicationRecord
             if 1 < weight_effect
               ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_WEIGHT_DAMAGE, [(weight_effect - 1) * 2.0, 1.0, 0.0].sort.second)])
             end
-            #ret[:log].push([turn, combo.to_s + "コンボ！！ " + combo_damage.to_s + "倍のダメージ！！"])
             ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_KIAI_DAMAGE, kiai / 2.0)])
             if 1 < random_damage
               ret[:log].push([turn, Tiramon.get_message(Constants::TIRAMON_RANDOM_DAMAGE, (random_damage - 1.0) * 2.0)])
@@ -789,9 +784,7 @@ class Tiramon < ApplicationRecord
         mp_damage_by_hp = 0
         if t[:temp_hp] < 0
           mp_damage_by_hp = -t[:temp_hp] / 5
-
-          t[:temp_mp] -= mp_damage_by_hp * 2
-          t[:mp] -= mp_damage_by_hp
+          t[:temp_mp] -= mp_damage_by_hp
         end
 
         t[:hp] = [t[:max_hp] / 8, [t[:hp], t[:max_hp]].min, t[:max_hp]].sort.second
@@ -799,7 +792,7 @@ class Tiramon < ApplicationRecord
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
 
         # BMIが異常なほどスタミナ回復が遅い
-        bmi_damage = [((22.0 - t[:bmi]).abs / 18.0) * 0.5, -0.5, 0.0].sort.second
+        bmi_damage = [((22.0 - t[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
 
         t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
@@ -864,7 +857,7 @@ class Tiramon < ApplicationRecord
           v = d[:weight]
           p = d[:physique]
 
-          e = [(d[:height] ** 2 * 30) * p - v, 0.0].max * 0.10 * random_efficiency
+          e = [(d[:height] ** 2 * 22 * 1.75) * p - v, 0.0].max * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
@@ -873,7 +866,7 @@ class Tiramon < ApplicationRecord
           v = d[:weight]
           p = d[:physique]
 
-          e = [(d[:height] ** 2 * 20) * p - v, 0.0].min * 0.10 * random_efficiency
+          e = [(d[:height] ** 2 * 22 * 0.75) * p - v, 0.0].min * 0.10 * random_efficiency
           d[:weight] += e
           amount = e.abs
 
@@ -999,6 +992,36 @@ class Tiramon < ApplicationRecord
       end
     end
     return false
+  end
+
+
+  def decay(p = 0.01)
+    d = getData()
+
+    d[:train][:abilities][:vital][0] -= (d[:train][:abilities][:vital][0] - 0.5) * p
+    d[:train][:abilities][:vital][1] -= (d[:train][:abilities][:vital][1] - 0.5) * p
+    d[:train][:abilities][:vital][2] -= (d[:train][:abilities][:vital][2] - 0.5) * p
+
+    d[:train][:abilities][:recovery][0] -= (d[:train][:abilities][:recovery][0] - 0.5) * p
+    d[:train][:abilities][:recovery][1] -= (d[:train][:abilities][:recovery][1] - 0.5) * p
+    d[:train][:abilities][:recovery][2] -= (d[:train][:abilities][:recovery][2] - 0.5) * p
+
+    d[:train][:abilities][:speed] -= (d[:train][:abilities][:speed] - 0.5) * p
+    d[:train][:abilities][:intuition] -= (d[:train][:abilities][:intuition] - 0.5) * p
+
+    d[:train][:skills][:attack][0] -= (d[:train][:skills][:attack][0] - 0.5) * p
+    d[:train][:skills][:attack][1] -= (d[:train][:skills][:attack][1] - 0.5) * p
+    d[:train][:skills][:attack][2] -= (d[:train][:skills][:attack][2] - 0.5) * p
+
+    d[:train][:skills][:defense][0] -= (d[:train][:skills][:defense][0] - 0.5) * p
+    d[:train][:skills][:defense][1] -= (d[:train][:skills][:defense][1] - 0.5) * p
+    d[:train][:skills][:defense][2] -= (d[:train][:skills][:defense][2] - 0.5) * p
+
+    level = Tiramon.getLevel(d)
+    d[:train][:level] = level
+
+    self.data = d.to_json
+    self.save!
   end
 
   def set_style?(trainer, style)
@@ -1416,6 +1439,14 @@ class Tiramon < ApplicationRecord
         tiramon.rank = 6
         tiramon.save!
       end
+    end
+  end
+
+  def self.decay(p = 0.01)
+    tiramons = Tiramon.where.not(tiramon_trainer: nil)
+
+    tiramons.each do |tiramon|
+      tiramon.decay(p)
     end
   end
 

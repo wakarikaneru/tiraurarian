@@ -505,8 +505,8 @@ class Tiramon < ApplicationRecord
       t_1_move_power = [t_1[:speed] * t_1_move_power_sp * t_1_weight_balance * t_1_motivation, 0.0].max
       t_2_move_power = [t_2[:speed] * t_2_move_power_sp * t_2_weight_balance * t_2_motivation, 0.0].max
 
-      ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
-      ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])
+      #ret[:log].push([1, t_1_move_power.to_s + "行動力！"])
+      #ret[:log].push([-1, t_2_move_power.to_s + "行動力！"])
 
       if t_1_move_power <= 0 and t_2_move_power <= 0
         turn = 0
@@ -583,12 +583,12 @@ class Tiramon < ApplicationRecord
         	damage[:sp] += move_data[:damage][:sp][element].to_f * skill_effect * weight_effect
         	damage[:tsp] += move_data[:damage][:tsp][element].to_f * skill_effect * weight_effect
         }
-        ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
+        #ret[:log].push([turn, "攻撃の威力は" + damage.to_s ])
 
         damage_physical = damage[:hp] + damage[:thp]
         if 0 < damage_physical
 
-          ret[:log].push([turn, "[" + Constants::TIRAMON_ELEMENTS[move_data[:element]] + "]属性の行動のようだ！"])
+          #ret[:log].push([turn, "[" + Constants::TIRAMON_ELEMENTS[move_data[:element]] + "]属性の行動のようだ！"])
 
           damage_pride = Tiramon.get_pride(defender) / 5
           damage_risk = Tiramon.get_risk(damage)
@@ -614,8 +614,8 @@ class Tiramon < ApplicationRecord
 
           # プロレス的なところ
           pride = Tiramon.get_pride(defender) / 5
-          ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
-          ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
+          #ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
+          #ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
           fear = [damage_risk / pride, 2.0, 0.0].sort.second
           #ret[:log].push([-turn, "回避率(恐怖)" + ((fear) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])

@@ -61,10 +61,13 @@ class TiramonTrainer < ApplicationRecord
 
     all_trainer = TiramonTrainer.all
     all_trainer.find_each do |trainer|
+      now_move = trainer.move
       trainer.move = 3 + (trainer.level / 10)
       trainer.save!
       if trainer.user.present?
-        Notice.generate(trainer.user_id, 0, "チラモン闘技場", "行動ポイントが回復しました。")
+        if now_move < trainer.move
+          Notice.generate(trainer.user_id, 0, "チラモン闘技場", "行動ポイントが回復しました。")
+        end
       end
     end
   end

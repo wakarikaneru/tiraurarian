@@ -590,7 +590,7 @@ class Tiramon < ApplicationRecord
 
           #ret[:log].push([turn, "[" + Constants::TIRAMON_ELEMENTS[move_data[:element]] + "]属性の行動のようだ！"])
 
-          damage_pride = Tiramon.get_pride(defender) / 5
+          damage_pride = Tiramon.get_pride(defender) / 20
           damage_risk = Tiramon.get_risk(damage)
 
           # 攻撃の要素を分類
@@ -613,7 +613,7 @@ class Tiramon < ApplicationRecord
           avoid_sp = [defender[:temp_sp] / defender[:max_sp], 1.0, 0.0].sort.second
 
           # プロレス的なところ
-          pride = Tiramon.get_pride(defender) / 5
+          pride = Tiramon.get_pride(defender) / 20
           #ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
           #ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
           fear = [damage_risk / pride, 2.0, 0.0].sort.second
@@ -688,9 +688,13 @@ class Tiramon < ApplicationRecord
 
           # SP消費
           #attacker[:sp] -= attacker[:sp] / 40.0
-          attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
+          #attacker[:temp_sp] -= attacker[:temp_sp] / 2.0
           # SP回復
-          # defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
+          #defender[:temp_sp] += (defender[:sp] - [defender[:temp_sp], 0.0].max) / 2.0
+
+          self_damage = move_data[:self_damage]
+          attacker[:sp] -= (self_damage[:sp])
+          attacker[:temp_sp] -= (self_damage[:tsp] + self_damage[:sp])
 
         else
 
@@ -787,6 +791,14 @@ class Tiramon < ApplicationRecord
           t[:temp_mp] -= mp_damage_by_hp
         end
 
+        # 肉体ダメージ由来の大きな精神ダメージを受けた場合、KOになる可能性がある
+        if t[:temp_mp] < 0
+          ko_chance = (mp_damage_by_hp / t[:mp])
+          t[:ko] = rand() < ko_chance
+
+          t[:mp] -= (-t[:temp_mp]) / 5
+        end
+
         t[:hp] = [t[:max_hp] / 8, [t[:hp], t[:max_hp]].min, t[:max_hp]].sort.second
         t[:mp] = [t[:max_mp] / 16, [t[:mp], t[:max_mp]].min, t[:max_mp]].sort.second
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
@@ -797,12 +809,6 @@ class Tiramon < ApplicationRecord
         t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]
         t[:temp_sp] += (t[:sp] / t[:max_sp]) * t[:recovery_sp] * Constants::TIRAMON_RECOVER_RATIO[2] * (1 - bmi_damage)
-
-        # 肉体ダメージ由来の大きな精神ダメージを受けた場合、KOになる可能性がある
-        if t[:temp_mp] < 0
-          ko_chance = (mp_damage_by_hp / t[:mp])
-          t[:ko] = rand() < ko_chance
-        end
 
         t[:temp_hp] = [0, [t[:temp_hp], t[:hp]].min].max
         t[:temp_mp] = [0, [t[:temp_mp], t[:mp]].min].max
@@ -1388,7 +1394,7 @@ class Tiramon < ApplicationRecord
 
   def self.get_risk(d = {})
     v = Constants::TIRAMON_MOVE_VALUE
-    return [d[:hp] * v[0], d[:thp] * v[1], d[:mp] * v[2], d[:tmp] * v[3], d[:sp] * v[4], d[:tsp] * v[5]].sum
+    return [d[:hp] * v[0], d[:thp] * v[1], d[:mp] * v[2], d[:tmp] * v[3], d[:sp] * v[4], d[:tsp] * v[5]].sum.to_f
   end
 
   def self.get_message(a = [], n = 0.0)

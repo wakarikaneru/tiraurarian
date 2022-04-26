@@ -68,7 +68,7 @@ class TiramonBattle < ApplicationRecord
         end
 
         champion = last_battle.result == 1 ? last_battle.blue_tiramon : last_battle.red_tiramon
-        if champion.rank != rank or champion.tiramon_trainer.blank? or !champion.entry
+        if champion.blank? or champion.rank != rank or champion.tiramon_trainer.blank? or !champion.entry
           # 王者が階級変更、もしくは引退した場合ランダムで抽選
           champion = Tiramon.where(entry: true).where(rank: rank).where.not(id: scheduled_tiramon_list).where.not(tiramon_trainer: nil).sample()
         end

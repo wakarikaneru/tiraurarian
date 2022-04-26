@@ -36,11 +36,15 @@ class TiramonBattle < ApplicationRecord
 
       if self.rank != -1
         if self.result == 1
-          user = self.blue_tiramon.tiramon_trainer.user
-          TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+          if self.blue_tiramon.present? && self.blue_tiramon.tiramon_trainer.present?
+            user = self.blue_tiramon.tiramon_trainer.user
+            TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+          end
         else
-          user = self.red_tiramon.tiramon_trainer.user
-          TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+          if self.red_tiramon.present? && self.red_tiramon.tiramon_trainer.present?
+            user = self.red_tiramon.tiramon_trainer.user
+            TiramonBattlePrize.generate(user, Constants::TIRAMON_FIGHT_VARTH[self.rank], self.datetime + Constants::TIRAMON_PAYMENT_SITE - 5.minute)
+          end
         end
       end
     end

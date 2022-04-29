@@ -530,8 +530,8 @@ class Tiramon < ApplicationRecord
 
         # お互い寝っ転がりっぱなしはしょっぱいのでスタミナ回復
         # BMIが異常なほどスタミナ回復が遅い
-        t_1_bmi_damage = [((22.0 - t_1[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
-        t_2_bmi_damage = [((22.0 - t_2[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
+        t_1_bmi_damage = [((22.0 - t_1[:bmi]).abs / 22.0) * 1.0, 0.0, 0.75].sort.second
+        t_2_bmi_damage = [((22.0 - t_2[:bmi]).abs / 22.0) * 1.0, 0.0, 0.75].sort.second
         t_1_recovery_power = (t_1[:sp] / t_1[:max_sp]) * t_1[:recovery_sp] * (1 - t_1_bmi_damage)
         t_2_recovery_power = (t_2[:sp] / t_2[:max_sp]) * t_2[:recovery_sp] * (1 - t_2_bmi_damage)
 
@@ -804,7 +804,7 @@ class Tiramon < ApplicationRecord
         t[:sp] = [t[:max_sp] / 4, [t[:sp], t[:max_sp]].min, t[:max_sp]].sort.second
 
         # BMIが異常なほどスタミナ回復が遅い
-        bmi_damage = [((22.0 - t[:bmi]).abs / 22.0) * 1.0, 0.0, 0.5].sort.second
+        bmi_damage = [((22.0 - t[:bmi]).abs / 22.0) * 1.0, 0.0, 0.75].sort.second
 
         t[:temp_hp] += (t[:hp] / t[:max_hp]) * t[:recovery_hp] * Constants::TIRAMON_RECOVER_RATIO[0]
         t[:temp_mp] += (t[:mp] / t[:max_mp]) * t[:recovery_mp] * Constants::TIRAMON_RECOVER_RATIO[1]

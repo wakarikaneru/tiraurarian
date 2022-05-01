@@ -787,7 +787,7 @@ class Tiramon < ApplicationRecord
         # 肉体的ダメージが限界の場合、精神に影響する
         mp_damage_by_hp = 0
         if t[:temp_hp] < 0
-          mp_damage_by_hp = -t[:temp_hp] / 5
+          mp_damage_by_hp = -t[:temp_hp] / 2
           t[:temp_mp] -= mp_damage_by_hp
         end
 
@@ -796,7 +796,7 @@ class Tiramon < ApplicationRecord
           ko_chance = (mp_damage_by_hp / t[:mp])
           t[:ko] = rand() < ko_chance
 
-          t[:mp] -= (-t[:temp_mp]) / 5
+          t[:mp] -= (-t[:temp_mp]) / 2
         end
 
         t[:hp] = [t[:max_hp] / 8, [t[:hp], t[:max_hp]].min, t[:max_hp]].sort.second

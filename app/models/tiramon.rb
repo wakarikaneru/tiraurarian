@@ -590,7 +590,7 @@ class Tiramon < ApplicationRecord
 
           #ret[:log].push([turn, "[" + Constants::TIRAMON_ELEMENTS[move_data[:element]] + "]属性の行動のようだ！"])
 
-          damage_pride = Tiramon.get_pride(defender) / 20
+          damage_pride = Tiramon.get_pride(defender) / 16
           damage_risk = Tiramon.get_risk(damage)
 
           # 攻撃の要素を分類
@@ -611,15 +611,18 @@ class Tiramon < ApplicationRecord
           # 体力に応じて回避力が下がる
           avoid_hp = [defender[:temp_hp] / defender[:max_hp], 1.0, 0.0].sort.second
           avoid_sp = [defender[:temp_sp] / defender[:max_sp], 1.0, 0.0].sort.second
+          avoid_mp = [defender[:temp_mp] / defender[:max_mp], 1.0, 0.0].sort.second
 
           # プロレス的なところ
-          pride = Tiramon.get_pride(defender) / 20
+          pride = Tiramon.get_pride(defender) / 16
           #ret[:log].push([-turn, "慢心度は" + pride.to_i.to_s ])
           #ret[:log].push([-turn, "恐怖度は" + damage_risk.to_i.to_s ])
           fear = [damage_risk / pride, 2.0, 0.0].sort.second
           #ret[:log].push([-turn, "回避率(恐怖)" + ((fear) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
-          avoid_puroresu = [fear * avoid_hp, 0.90, 0.00].sort.second
+          #ret[:log].push([-turn, "回避率倍率(気力)" + ((avoid_mp) * 100).to_i.to_s + "%" ])
+          #ret[:log].push([-turn, "回避率" + ((fear * (avoid_hp * avoid_mp)) * 100).to_i.to_s + "%" ])
+          avoid_puroresu = [fear * (avoid_hp * avoid_mp), 0.90, 0.00].sort.second
 
           # シュート
           # 勘
@@ -653,12 +656,12 @@ class Tiramon < ApplicationRecord
           wariness = attack_vector.dot(defence_vector)
 
           # 臨機応変に対応する
-          defender[:flexible] = (flexible_vector + damage_vector).normalize * defender[:max_hp]
+          defender[:flexible] = (flexible_vector + damage_vector).normalize
 
           #ret[:log].push([-turn, "回避率(読み合い)" + ((wariness) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(体力)" + ((avoid_hp) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率倍率(スタミナ)" + ((avoid_sp) * 100).to_i.to_s + "%" ])
-          avoid_shoot = [wariness * avoid_sp, 0.99, 0.01].sort.second
+          avoid_shoot = [wariness * avoid_sp, 0.99, 0.00].sort.second
 
           #ret[:log].push([-turn, "回避率(プロレス)" + ((avoid_puroresu) * 100).to_i.to_s + "%" ])
           #ret[:log].push([-turn, "回避率(シュート)" + ((avoid_shoot) * 100).to_i.to_s + "%" ])

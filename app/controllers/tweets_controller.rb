@@ -116,14 +116,15 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
 
-    @tweet.ip = request.env["HTTP_X_REAL_IP"]
+    ip = request.env["HTTP_X_REAL_IP"] || request.remote_id
+    @tweet.ip = ip
     host=""
 
     #
     #require 'resolv'
     #
     #begin
-    #  host = Resolv.getname(@tweet.ip)
+    #  host = Resolv.getname(ip)
     #rescue Resolv::ResolvError
     #  host = "local"
     #end
@@ -136,7 +137,7 @@ class TweetsController < ApplicationController
     else
       current_user_id = 2
 
-      key = Date.today.to_s + ":" + @tweet.ip
+      key = Date.today.to_s + ":" + ip
       thumb = Thumb.find_by(key: key)
       if thumb.present?
         @tweet.avatar = thumb.thumb

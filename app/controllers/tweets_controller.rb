@@ -116,8 +116,19 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
 
-    @tweet.host = request.env['HTTP_X_FORWARDED_HOST']
-    @tweet.ip = request.env['HTTP_X_FORWARDED_FOR']
+    @tweet.ip = request.env["HTTP_X_REAL_IP"]
+    host=""
+
+    #
+    #require 'resolv'
+    #
+    #begin
+    #  host = Resolv.getname(@tweet.ip)
+    #rescue Resolv::ResolvError
+    #  host = "local"
+    #end
+
+    @tweet.host = host
 
     current_user_id = 0
     if user_signed_in?
@@ -125,13 +136,18 @@ class TweetsController < ApplicationController
     else
       current_user_id = 2
 
-      key = Date.today.to_s + ":" + request.remote_ip
+      key = Date.today.to_s + ":" + @tweet.ip
       thumb = Thumb.find_by(key: key)
       if thumb.present?
         @tweet.avatar = thumb.thumb
       else
+        thumb = Thumb.new
+        thumb.key = key
         hash = Digest::MD5.hexdigest(key)
-        @tweet.avatar_from_url("https://www.gravatar.com/avatar/#{hash}?rating=g&default=retro")
+        thumb.thumb_from_url("https://www.gravatar.com/avatar/#{hash}?rating=g&default=retro")
+        thumb.save!
+
+        @tweet.avatar = thumb.thumb
       end
     end
 

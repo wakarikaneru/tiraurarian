@@ -92,14 +92,15 @@ class ApplicationController < ActionController::Base
         return
       end
 
-      host=""
-      begin
-        host = Resolv.getname(request.remote_ip)
-      rescue Resolv::ResolvError
-        host = "local"
-      end
+      ##
+      #host=""
+      #begin
+      #  host = Resolv.getname(request.env["HTTP_X_REAL_IP"])
+      #rescue Resolv::ResolvError
+      #  host = "local"
+      #end
 
-      if Ban.where("period >= ?", Time.current).where(ip: request.remote_ip).present?
+      if Ban.where("period >= ?", Time.current).where(ip: request.env["HTTP_X_REAL_IP"]).present?
         redirect_to '/403.html'
       end
     end
@@ -120,13 +121,13 @@ class ApplicationController < ActionController::Base
 
     def access_log
       user_id = user_signed_in? ? current_user.id : 0
-      AccessLogJob.perform_later(Time.current.to_s, request.remote_ip, request.url, request.method, request.referer, user_id)
+      AccessLogJob.perform_later(Time.current.to_s, request.env["HTTP_X_REAL_IP"], request.url, request.method, request.referer, user_id)
     end
 
     def create_thumb
       if Rails.env == 'development'
       else
-        key = Date.today.to_s + ":" + request.remote_ip
+        key = Date.today.to_s + ":" + request.env["HTTP_X_REAL_IP"]
         if Thumb.find_by(key: key).present?
         else
           CreateThumbJob.perform_later(key)

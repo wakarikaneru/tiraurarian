@@ -99,7 +99,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     connection_pool (2.2.5)
     crass (1.0.6)
     datetime_picker_rails (0.0.7)
@@ -156,7 +156,7 @@ GEM
       ffi (~> 1.0)
     gimei (1.0.1)
       romaji
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     google-cloud-core (1.6.0)
       google-cloud-env (~> 1.0)
@@ -220,7 +220,7 @@ GEM
     grpc (1.43.1)
       google-protobuf (~> 3.18)
       googleapis-common-protos-types (~> 1.0)
-    i18n (1.9.1)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.4)
     jbuilder (2.11.5)
@@ -266,7 +266,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.7.1)
-    minitest (5.15.0)
+    minitest (5.17.0)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
     multi_json (1.15.0)
@@ -382,7 +382,7 @@ GEM
     twitter-text (3.1.0)
       idn-ruby
       unf (~> 0.1.0)
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -401,7 +401,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   ruby

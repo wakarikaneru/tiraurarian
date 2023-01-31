@@ -94,7 +94,7 @@ class BotController < ApplicationController
     api_key = ENV["OPENAI_API_KEY"]
 
     # APIのURL
-    url = URI.parse("https://api.openai.com/v1/engines/text-davinci-001/completions")
+    url = URI.parse("https://api.openai.com/v1/completions")
 
     # ヘッダを設定
     headers = {
@@ -114,6 +114,7 @@ class BotController < ApplicationController
 
     # リクエストパラメータを設定
     post_data = {
+      "model": "text-davinci-003",
       "prompt" => prompt + "Human: #{res_tweet.content}\nAI:",
       "temperature" => 0.9,
       "max_tokens" => 140,

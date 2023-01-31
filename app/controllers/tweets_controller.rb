@@ -116,7 +116,7 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
 
-    ip = request.env["HTTP_X_REAL_IP"] || request.remote_id
+    ip = request.env["HTTP_X_REAL_IP"] || request.remote_ip
     @tweet.ip = ip
     host=""
 

@@ -155,11 +155,14 @@ class TweetsController < ApplicationController
     @tweet.user_id = current_user_id
     @tweet.create_datetime = Time.current
 
-    if verify_recaptcha(action: 'tweet', minimum_score: 0.5)
-      @tweet.humanity =  1.0
-    else
-      @tweet.humanity =  0.0
-    end
+    #
+    #if verify_recaptcha(action: 'tweet', minimum_score: 0.5)
+    #  @tweet.humanity =  1.0
+    #else
+    #  @tweet.humanity =  0.0
+    #end
+
+    @tweet.humanity =  1.0
 
     if @tweet.text.content.blank?
       @tweet.text = nil

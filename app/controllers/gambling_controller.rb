@@ -17,6 +17,7 @@ class GamblingController < ApplicationController
 
         unless 0 < bet
           redirect_to gambling_gambling_path, notice: "入力が不正です"
+          return
         end
 
         if current_user.sub_points?(bet)
@@ -47,6 +48,7 @@ class GamblingController < ApplicationController
 
         else
           redirect_to gambling_gambling_path, notice: "VARTHが足りません"
+          return
         end
 
       else
